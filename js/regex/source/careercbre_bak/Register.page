@@ -1,0 +1,93 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('wizard') }}
+    {{ wizard('21') }}
+    {{ wizardMode('create') }}
+    {{ relateFormsToJob(false) }}
+    {{ forceRelateFormsToJob(false) }}
+    {% if URL_QUERY[jobLabel ~ 'Id'] %}
+        {{ setJobId(URL_QUERY[jobLabel ~ 'Id']) }}
+
+        {% set country = URL_QUERY['country'] %}
+        {# set applyRedirect = buildUrl(applicationFormPage, URL_QUERY) #}
+        {% set applyRedirect = buildUrl((country in ['Japan','China','Hong Kong', 'Singapore']) ? registerCountryPage : applicationFormPage, URL_QUERY, {'country': country }) %}
+        {% set socialApplyRedirect = applyRedirect %}
+        {{ addPortalPersistentData('sessionJobId', URL_QUERY[jobLabel ~ 'Id']) }}
+    {% else %}
+        {{ setJobId(null) }}
+        {% if config_optionalRegistration %}
+            {% set applyRedirect = successfulRegistrationPage %}
+        {% else %}
+            {% set applyRedirect = buildUrl(profilePage, {'Registration': 'Successful'}) %}
+        {% endif %}
+        {% set socialApplyRedirect = buildUrl(profilePage, {'Registration': 'Successful'}) %}
+        {{ removePortalPersistentData('sessionJobId') }}
+    {% endif %}
+    {{ setWizardRedirect( applyRedirect ) }}
+    {{ addPortalPersistentData('sessionApplyRedirect', socialApplyRedirect) }}
+{% endblock %}
+
+{% block extraHeadData %}
+    {% if (USER or CONTACT_CREATED) and (STEP_INDEX == 0) %}
+        {% include 'tpt/userPageRedirect.tpt' %}
+    {% endif %}
+    {% if config_useUploadResume and config_mandatoryUploadResume %}
+        {% if hasResumeUploaded() %}
+        {% else %}
+            <script type="text/javascript">
+                window.location = '{{ buildUrl(registerMethodPage, URL_QUERY) }}';
+            </script>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>Home</a><span class="navlabel">Register</span>
+{% endblock %}
+
+{% block navigation %}{% endblock %}
+
+{% block content %}
+    {% if config_canRegisterBeforeApplying or URL_QUERY[jobLabel ~ 'Id'] or job %}
+        <form method="post" enctype="multipart/form-data" autocomplete="off" id="Register" class="wizard wizardStep{{ STEP_INDEX + 1 }} autoClearer generalForm">
+            <h2 class="pageTitle1">{% if job %} Registration for **Web Developer** {{ job.jobname|raw }} {% else %} Registration  {% endif %}</h2>
+            {% if config_useRegistrationStepsCounting %}
+                {% include 'tpt/registrationSteps.tpt' with {'currentRegistrationStep': (config_useUploadResume or config_useSocialRegistration) ? STEP_INDEX + 2 : STEP_INDEX + 1} %}
+            {% endif %}
+            {{ WIZARD|raw }}
+        </form>
+        <script type="text/javascript" src="js/cancelEvent.js"></script>
+        <script type="text/javascript" src="js/disableSubmitButtons.js"></script>
+        <script type="text/javascript">
+            var cancelButton;
+            if (document.getElementsByName('cancel')) {
+                cancelButton = document.getElementsByName('cancel')[0];
+            };
+            if (cancelButton) {
+                cancelButton.onclick = function(event) {
+                    cancelEvent(event);
+                    {% if (URL_QUERY[jobLabel ~ 'Id']) %}window.location = '{{ buildJobDetailUrl(PORTAL_URL, job) }}';{% endif %}
+                    {% if not (URL_QUERY[jobLabel ~ 'Id']) %}history.back(-1);{% endif %}
+                };
+            };
+            {% if STEP_INDEX == 0 %}
+                var previousButton;
+                if (document.getElementsByName('previous')) {
+                    previousButton = document.getElementsByName('previous')[0];
+                };
+                if (previousButton) {
+                    previousButton.onclick = function(event) {
+                        cancelEvent(event);
+                        history.back(-1);
+                    };
+                };
+            {% endif %}
+        </script>
+    {% else %}
+        <div class="tPad1">
+            <a href="{{ BASE_PORTAL_URL }}" class="buttonLike">Home</a>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('searchAgent') }}
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>Home</a><span class="navlabel">Delete Agent</span>
+{% endblock %}
+
+{% block content %}
+    {% if config_useJobAlerts and (USER or CONTACT_CREATED) %}
+        {% if deleted %}
+            <h2 class="pageTitle1">Job alert deleted!</h2>
+            <a href="{{ profilePage }}" class="buttonLike">Back to profile</a>
+        {% else %}
+            <h2 class="pageTitle1">Delete job alert</h2>
+            <form class="generalForm">
+                <div>
+                    <input type="hidden" name="action" value="delete" />
+                    <input type="hidden" name="id" value="{{ URL_QUERY.id }}" />
+                </div>
+                <div class="tPad1 btnGroup-2">
+                    <button type="submit" value="delete">Delete</button>
+                    <a href="{{ profilePage }}" title="Cancel" id="cancelButton" class='linkLike'>Cancel</a>
+                </div>
+            </form>
+        {% endif %}
+    {% else %}
+        {% include 'tpt/forcedBackHome.tpt' %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('sendToFriend') }}
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>Home</a><span class="navlabel">Send to Friend</span>
+{% endblock %}
+
+{% block navigation %}
+    <div class="mainNavigation autoClearer">
+        {% include 'tpt/navigation.tpt' %}
+        <p class="mainNavigationStatusAdditional">&lt; Back to:
+            <a href="{{ getPortalPersistentData('sessionLastJobSearch') ? getPortalPersistentData('sessionLastJobSearch') : searchJobsPage }}">job list</a> |
+            <a href="{{ buildJobDetailUrl(PORTAL_URL, job) }}">job detail</a>
+        </p>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if config_useSendToAFriend %}
+
+        {% set jobCustomFields = customFields(job, [128,110], false) %}
+        {% set jobCity = jobCustomFields[128] %}
+        {% set jobCountry = jobCustomFields[110] %}
+
+        <h2 class="pageTitle1">{% if not sent %}Send to a friend{% else %}Mail sent successfully{% endif %}</h2>
+        {% if job.jobname %}
+            <p class="tPad05"><strong>Position:</strong> {{ job.jobname }}</p>
+        {% endif %}
+        {% if jobCity or jobCountry %}
+            <p><strong>Location:</strong>  {{ jobCity }} {{ jobCountry ? ',' }} {{ jobCountry }}</p>
+        {% endif %}
+        {% if job.req %}
+            <p><strong>Ref#:</strong> {{ job.req }}</p>
+        {% endif %}
+        {% if not sent %}
+            <form method="post" autocomplete="off" class="generalForm">
+                <div>
+                    <input type="hidden" name="id" value="{{ job.jobId }}" />
+                    <input type="hidden" name="send" />
+                    <input type="hidden" name="jobview" value="jobDetail" />
+                </div>
+                <p class="tPad1">
+                    <label for="yourName">
+                        Your name:
+                        {% if ERROR.yourName %}<span class="errorText">{{ ERROR.yourName }}</span>{% endif %}
+                    </label>
+                </p>
+                <div><input
+                        type="text"
+                        name="yourName"
+                        id="yourName"
+                        value="{% if data.yourName %}{{ data.yourName }}{% elseif USER %}{{ USER.personInfo.firstName ~ ' ' ~ USER.personInfo.lastName }}{% endif %}"
+                        required="required"
+                        {% if not ISMOBILE %}autofocus="autofocus"{% endif %} /></div>
+                <p class="tPad1">
+                    <label for="yourEmail">
+                        Your email:
+                        {% if ERROR.yourEmail %}<span class="errorText">{{ ERROR.yourEmail }}</span>{% endif %}
+                    </label>
+                </p>
+                <div><input
+                        type="email"
+                        name="yourEmail"
+                        id="yourEmail"
+                        value="{% if data.yourEmail %}{{ data.yourEmail }}{% elseif USER %}{{ USER.contactInfo['emails'][0]['emailAddress'] }}{% endif %}"
+                        required="required" /></div>
+                <p class="tPad1">
+                    <label for="friendEmail">
+                        Your friend's email:
+                        {% if ERROR.friendEmail %}<span class="errorText">{{ ERROR.friendEmail }}</span>{% endif %}
+                    </label>
+                </p>
+                <div><input type="email" name="friendEmail" id="friendEmail" value="{{ data.friendEmail }}" required="required" /></div>
+                <p class="tPad1">
+                    <label for="subject">
+                        Subject:
+                        {% if ERROR.subject %}<span class="errorText">{{ ERROR.subject }}</span>{% endif %}
+                    </label>
+                </p>
+                <div class="bPad05">
+                    <input type="text" name="subject" id="subject" value="{{ data.subject }}" required="required" />
+                </div>
+                <div class="bPad1">
+                    <textarea rows="5" name="comment" id="comment" required="required" class="dBlock" placeholder="Mail content">{{ data.comment }}</textarea>
+                </div>
+                <div>
+                    <button type="submit" value="Send">Send</button>
+                    <a href="{{ BASE_PORTAL_URL }}" onclick="history.back(-1); return false;" class='linkLike'>Cancel</a>
+                </div>
+            </form>
+        {% else %}
+            <p class="tPad1">Thanks for recommending **"Web deveoper"** to a friend. <a href="{{ buildJobDetailUrl(PORTAL_URL, job) }}" title="More details about {{ job.jobname }}">{{ job.jobname }}</a></p>
+            <div class="tPad1">
+                <a href="{{ getPortalPersistentData('sessionLastJobSearch') ? getPortalPersistentData('sessionLastJobSearch') : searchJobsPage }}" class="buttonLike">Continue to job list</a>
+            </div>
+        {% endif %}
+    {% else %}
+        {% include 'tpt/forcedBackHome.tpt' %}
+    {% endif %}
+{% endblock %}

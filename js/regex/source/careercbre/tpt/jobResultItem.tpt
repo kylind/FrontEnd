@@ -1,0 +1,34 @@
+{% set extraParams = {(jobLabel ~ 'Id'): job.jobId, 'tags': URL_QUERY.tags, 'source': URL_QUERY.source} %}
+{% set jobCustomFields = customFields(job, [1,128,110], false) %}
+{% set jobDescription = jobCustomFields[1] %}
+{% set jobCity = jobCustomFields[128] %}
+{% set jobCountry = jobCustomFields[110] %}
+{% set jobUrl = buildJobDetailUrl(PORTAL_URL, job) %}
+{% set jobApplicationUrl = buildUrl(applicationUrl, extraParams) %}
+{% set jobLocation = getLocationText(job.city, job.state, job.country) %}
+
+
+<li class="jobResultItem">
+    <h3>
+        <a class="font-b18 font-darkgreen" href="{{ jobUrl }}"  class="tColor1">
+            {{ job.jobname }} {{ (jobCity or jobCountry) ? '-' }} {{ jobCity }} {{ (jobCountry and jobCity) ? ',' }} {{ jobCountry }}</a>
+    </h3>
+    <p class="tmargin-10">
+        {% if job.req %}Ref#: {{ job.req }}{% endif %} |
+        {% if job.postedDate %}Posted: {{ job.postedDate|localize('en_US', '%e-%b-%Y') }}{% endif %}</p>
+    <div class="tmargin-10 jobResultItemDescription">{{ jobDescription|striptags|limit(300)|raw }}</div>
+    <div class="tmargin-10 autoClearer jobResultItemAction">
+        <div class="fl">
+            <a href="{{ config_applyFromJobList ? jobApplicationUrl : jobUrl }}" title="Apply" class="buttonLike">Apply</a>
+        </div>
+        {% if config_useSocialSharing %}
+            <div class="fl">
+                <p class="socialShare">
+                    <span class="font-b18 uppercase vaMiddle">Share with:</span>
+                    {% include 'tpt/socialShare.tpt' with {'jobUrl': jobUrl, 'jobDescription': jobDescription} %}
+
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</li>

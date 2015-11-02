@@ -1,0 +1,63 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('searchAgent') }}
+    {{ pageParameters(config_jobAlertsFields) }}
+    {{ listId(78) }}
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>Home</a><span class="navlabel">Edit Agent</span>
+{% endblock %}
+
+{% block content %}
+    {% if config_useJobAlerts and (USER or CONTACT_CREATED) %}
+        {% if not saved %}
+            <h2 class="pageTitle1">Edit job alert</h2>
+            <form method="post" class="generalForm">
+                <div>
+                    <input type="hidden" name="save" />
+                    <input type="hidden" name="submit" />
+                    <input type="hidden" name="searchAgent-check" value="check" />
+                </div>
+
+                    <p><label for="searchAgent-keywords"  class="font-b18">Keywords:</label></p>
+                    <div><input type="text" name="searchAgent-keywords" id="searchAgent-keywords" value="{{ agent.searchCriteria }}" /></div>
+
+                    {% autoescape false %}
+                    <div class="searchAgentFields">
+                        {{ CUSTOM_FIELDS }}
+                    </div>
+                    {% endautoescape %}
+
+                    <p class="tPad1"><label for="searchAgent-frequency"  class="font-b18">Frequency:</label></p>
+                    <div>
+                        <select name="searchAgent-frequency" id="searchAgent-frequency" />
+                            <option value="1" {% if agent.portalSearchAgentFrequencyId == 1 %} selected="selected" {% endif %}>Weekly</option>
+                            <option value="2" {% if agent.portalSearchAgentFrequencyId == 2 %} selected="selected" {% endif %}>Monthly</option>
+                        </select>
+                    </div>
+
+                <p class="tPad1 btnGroup-2">
+                    <button type="submit" value="send">Save</button>
+                    <a href="{{ profilePage }}" title="Cancel" id="cancelButton" class='linkLike'>Cancel</a>
+                </p>
+            </form>
+        {% else %}
+            <h2 class="pageTitle1">Job alert updated!</h2>
+            <a href="{{ profilePage }}" class="buttonLike">Back to profile</a>
+        {% endif %}
+    {% else %}
+        {% include 'tpt/forcedBackHome.tpt' %}
+    {% endif %}
+        <script>
+            var labels=['Locations I am interested in','Roles I would like to receive alerts via email'];
+            setAgentFields(labels);
+            function setAgentFields(labels) {
+                $('.searchAgentFields>label').each(function(i) {
+                    $(this).text(labels[i]);
+                });
+            }
+        </script>
+{% endblock %}

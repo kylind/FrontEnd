@@ -1,0 +1,50 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('wizard') }}
+    {{ wizard('50') }}
+    {{ wizardMode('edit') }}
+    {{ relateFormsToJob(true) }}
+    {{ forceRelateFormsToJob(true) }}
+    {% set formRedirect = buildUrl(PORTAL_URL ~ 'SuccessfulRegistration', URL_QUERY) %}
+    {{ setWizardRedirect(formRedirect) }}
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>Home</a><span class="navlabel">Application Form</span>
+{% endblock %}
+{% block navigation %}{% endblock %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data" autocomplete="off" class="wizard wizardStep{{ STEP_INDEX + 1 }} autoClearer generalForm">
+        <h2 class="pageTitle1">{% if job %}Job application form for **Web Developer** {{ job.jobname|raw }} {% else %} Job application form {% endif %}</h2>
+        {{ WIZARD|raw }}
+    </form>
+    <script type="text/javascript" src="js/cancelEvent.js"></script>
+    <script type="text/javascript" src="js/disableSubmitButtons.js"></script>
+    <script type="text/javascript">
+        var cancelButton;
+        if (document.getElementsByName('cancel')) {
+            cancelButton = document.getElementsByName('cancel')[0];
+        };
+        if (cancelButton) {
+            cancelButton.onclick = function(event) {
+                cancelEvent(event);
+                window.location = '{{ buildJobDetailUrl(PORTAL_URL, job) }}';
+            };
+        };
+        {% if STEP_INDEX == 0 %}
+            var previousButton;
+            if (document.getElementsByName('previous')) {
+                previousButton = document.getElementsByName('previous')[0];
+            };
+            if (previousButton) {
+                previousButton.onclick = function(event) {
+                    cancelEvent(event);
+                    window.location = '{{ buildJobDetailUrl(PORTAL_URL, job) }}';
+                };
+            };
+        {% endif %}
+    </script>
+{% endblock %}

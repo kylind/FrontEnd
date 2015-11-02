@@ -1,0 +1,23 @@
+{% set stepLabelA = 'How to apply' %}
+{% set stepLabelB = 'Review your data' %}
+{% set stepLabelC = 'Complete your profile' %}
+
+<span>How to apply</span><span>Review your data</span><span>Complete your profile</span>
+
+{% if config_registrationStepsAmount > 1 %}
+    <p class="registrationSteps autoClearer {{ 'registrationStepsAmount_' ~ config_registrationStepsAmount }}">
+        {% if currentRegistrationStep == 1 %}
+            <strong class="registrationStepItem text1_116"><span class="tColor2">1</span>. {{ (config_useUploadResume or config_useSocialRegistration) ? stepLabelA : stepLabelB }}</strong>
+            <span class="registrationStepItem text1_116">2. {{ (config_useUploadResume or config_useSocialRegistration) ? stepLabelB : stepLabelC }}</span>
+            {% if config_registrationStepsAmount > 2 and (config_useUploadResume or config_useSocialRegistration) %}<span class="registrationStepItem text1_116">3. {{ stepLabelC }}</span>{% endif %}
+        {% elseif currentRegistrationStep == 2 %}
+            <span class="registrationStepItem text1_116">1. {{ (config_useUploadResume or config_useSocialRegistration) ? stepLabelA : stepLabelB }}</span>
+            <strong class="registrationStepItem text1_116"><span class="tColor2">2</span>. {{ (config_useUploadResume or config_useSocialRegistration) ? stepLabelB : stepLabelC }}</strong>
+            {% if config_registrationStepsAmount > 2 and (config_useUploadResume or config_useSocialRegistration) %}<span class="registrationStepItem text1_116">3. {{ stepLabelC }}</span>{% endif %}
+        {% elseif currentRegistrationStep == 3 %}
+            <span class="registrationStepItem text1_116">1. {{ stepLabelA }}</span>
+            <span class="registrationStepItem text1_116">2. {{ stepLabelB }}</span>
+            {% if config_registrationStepsAmount > 2 and (config_useUploadResume or config_useSocialRegistration) %}<strong class="registrationStepItem text1_116"><span class="tColor2">3</span>. {{ stepLabelC }}</strong>{% endif %}
+        {% endif %}
+    </p>
+{% endif %}

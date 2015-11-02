@@ -1,0 +1,37 @@
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{% set  = "" %}{#  #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set  = "" %}{#  #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{% set  = "" %}{#  #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{% set  = "" %}{#  #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{% set  = "" %}{#  #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+

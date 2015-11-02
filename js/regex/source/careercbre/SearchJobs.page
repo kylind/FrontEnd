@@ -1,0 +1,60 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('jobList') }}
+    {{ listId(78) }}
+    {{ recordsPerPage(config_jobRecordsAmount) }}
+    {{ jobView('JobDetail') }}
+    {{ setJobId(null) }}
+    {{ removePortalPersistentData('sessionJobId') }}
+    {{ removePortalPersistentData('sessionApplyRedirect') }}
+    {{ addPortalPersistentData('sessionLastJobSearch', CURRENT_PAGE_FULL_URL) }}
+{% endblock %}
+
+{% block content %}
+    {% if USER or CONTACT_CREATED %}
+        {% set applicationUrl = config_useApplyConfirmation ? applyConfirmationPage : applicationFormPage %}
+    {% else %}
+        {% set applicationUrl = config_goToLoginBeforeRegister ? loginPage : ((config_useUploadResume or config_useSocialRegistration) ? registerMethodPage : registerPage ) %}
+    {% endif %}
+
+    <form method="post" action="{{ PORTAL_URL ~ CURRENT_PAGE }}" autocomplete="on" class="generalForm">
+        <div class="searchField autoClearer">
+            <label for="search"><strong>Keywords:</strong></label>
+            <input type="search" name="search" id="search" {% if not ISMOBILE %}autofocus="autofocus"{% endif %} value="{{ searchText }}" />
+        </div>
+        <div class="searchField autoClearer">
+            <label for="location"><strong>Location:</strong></label>
+            <select name="location" id="location" class="autoResize" size="1">
+                {% for location in locations %}
+                    {% if location.id == searchLocation %}
+                        <option value="{{ location.id }}" selected="selected">{{ location.name }}</option>
+                    {% else %}
+                        <option value="{{ location.id }}">{{ location.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="searchField">
+            <button type="submit" name="action" value="search">Search</button>
+            <a href="{{ PORTAL_URL ~ CURRENT_PAGE }}">Reset</a>
+        </div>
+    </form>
+
+    {% include 'tpt/jobPagination.tpt' with {'recordsAmount': config_jobRecordsAmount, 'minPag': '5', 'maxPag': '5', 'displayLegend': true} %}
+
+    <ul class="jobList cleanList">
+        {% for job in jobs %}
+            {% include 'tpt/jobResultItem.tpt' %}
+        {% else %}
+            <li class="jobResultItem">No jobs found
+                {% if config_useJobAlerts and (USER or CONTACT_CREATED) %}
+                - <a href="{{ createAgentPage }}">Create job alert</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% include 'tpt/jobPagination.tpt' with {'recordsAmount': config_jobRecordsAmount, 'minPag': '5', 'maxPag': '5'} %}
+{% endblock %}

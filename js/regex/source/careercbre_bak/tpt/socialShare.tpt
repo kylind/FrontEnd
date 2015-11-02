@@ -1,0 +1,45 @@
+<a
+    class="icon32 iconFacebook16"
+    title="Facebook"
+    rel="nofollow"
+    target="_blank"
+    onclick="return openSocialSharePopup(this.href, 'Facebook');"
+    href="http://www.facebook.com/sharer.php?s=100&p[title]={{ job.jobname }}&p[url]={{ jobUrl }}&p[summary]={{ jobDescription|striptags|limit(300)|raw }}"
+    >Facebook</a>
+<a
+    class="icon32 iconLinkedin16"
+    title="LinkedIn"
+    rel="nofollow"
+    target="_blank"
+    onclick="return openSocialSharePopup(this.href, 'LinkedIn');"
+    href="http://www.linkedin.com/shareArticle?mini=true&url={{ jobUrl }}&title={{ job.jobname }}&summary={{ jobDescription|striptags|limit(300)|raw }}"
+    >LinkedIn</a>
+<a
+    class="icon32 iconTwitter16"
+    title="Twitter"
+    rel="nofollow"
+    target="_blank"
+    onclick="return openSocialSharePopup(this.href, 'Twitter');"
+    href="http://twitter.com/intent/tweet?text={{ job.jobname ~ ' ' ~ jobUrl }}"
+    >Twitter</a>
+<a
+    class="icon32 iconGoogleplus16"
+    title="Google Plus"
+    rel="nofollow"
+    target="_blank"
+    onclick="return openSocialSharePopup(this.href, 'GooglePlus');"
+    href=" https://plusone.google.com/_/+1/confirm?hl=en&url={{ jobUrl }}"
+    >Google Plus</a>
+{% if config_useSendToAFriend %}
+    <a
+        class="icon32 iconEmail16"
+        title="Recommend this job to a friend"
+        href="{{ buildUrl(sendToAFriendPage, {(jobLabel ~ 'Id'): job.jobId}) }}"
+        >Send to a friend</a>
+{% endif %}
+<script type="text/javascript">
+    function openSocialSharePopup(url, socialSite) {
+        window.open(url, 'popup_id' + socialSite, 'scrollbars,resizable,width=700,height=400');
+        return false;
+    }
+</script>

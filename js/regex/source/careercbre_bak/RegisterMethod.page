@@ -1,0 +1,168 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('resumeRegistration') }}
+    {{ setWizardPage(buildUrl('Register', URL_QUERY)) }}
+{% endblock %}
+
+{% block extraHeadData %}
+    {% if USER or CONTACT_CREATED %}
+        {% include 'tpt/userPageRedirect.tpt' %}
+    {% endif %}
+    {# FIXME - HACK #}
+    <script type="text/javascript" src="/ASSET/portal/jquery/jquery.min.js"></script>
+    <script type="text/javascript">var avajQuery=jQuery.noConflict(true);</script>
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>Home</a><span class="navlabel">Register</span>
+{% endblock %}
+{% block navigation %}{% endblock %}
+
+{% block content %}
+    {% if config_useUploadResume or config_useSocialRegistration %}
+        <form method="post" enctype="multipart/form-data" autocomplete="off" id="RegisterMethod" class="generalForm">
+            <input type="hidden" name="radio" id="resumeRegistrationFileMode" />
+
+            <h2 class="pageTitle1">{% if URL_QUERY[jobLabel ~ 'Id'] %} How do you want to apply{% else %} How do you want to register{% endif %}?</h2>
+
+
+            <p class="bPad1"><a href="{{ buildUrl(loginPage, URL_QUERY) }}"></a> **Login** if you are already registered.</p>
+
+            {% if config_useRegistrationStepsCounting %}
+                {% include 'tpt/registrationSteps.tpt' with {'currentRegistrationStep': 1} %}
+            {% endif %}
+
+            <div class="uploadResumeItemsContainer autoClearer">
+                <div class="uploadResumeField">
+                    <a class="uploadResumeFieldTrigger uploadResumeFieldTriggerUploadResumeFile" id="uploadResumeTriggerFile" tabindex="1">Upload a file</a>
+                </div>
+
+                {% if config_useCopyPasteResume %}
+                    <div class="uploadResumeField">
+                        <a class="uploadResumeFieldTrigger uploadResumeFieldTriggerUploadResumePaste" id="uploadResumeTriggerPaste" tabindex="1">Copy and paste resume</a>
+                    </div>
+                {% endif %}
+
+                {% if config_useUploadResumeDropbox and config_uploadResumeDropboxAppKey %}
+                    <div class="uploadResumeField">
+                        <a class="uploadResumeFieldTrigger uploadResumeFieldTriggerDropbox" id="uploadResumeTriggerDropbox" tabindex="1">Dropbox</a>
+                        <div id="dropBoxLinkContainer" class="dNone"></div>
+                        <input type="hidden" name="dropboxFileName" id="dropboxFileName" />
+                        <input type="hidden" name="dropboxLink" id="dropboxLink" />
+                    </div>
+                {% endif %}
+
+                {% if config_useUploadResumeGoogleDrive and config_uploadResumeGoogleDriveApiKey and config_uploadResumeGoogleDriveClientId %}
+                    <div class="uploadResumeField">
+                        <a id="uploadResumeTriggerDrive" class="uploadResumeFieldTrigger uploadResumeFieldTriggerGoogledrive" href="javascript:initPicker('uploadResumeTriggerDrive');" tabindex="1">Google Drive</a>
+                        <input type="hidden" name="driveFileName" id="driveFileName" />
+                        <input type="hidden" name="driveLink" id="driveLink" />
+                    </div>
+                {% endif %}
+
+
+                {% if not config_mandatoryUploadResume %}
+                    <div class="uploadResumeField ">
+                        <a href="{{ buildUrl(registerPage, URL_QUERY) }}" id="uploadResumeTriggerLater" class="uploadResumeFieldTrigger uploadResumeFieldTriggerUploadResumeLater" tabindex="1">I'll post my resume later</a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div id="resumeFileField" class="uploadResumeFieldContainer">
+                <p class="bPad05"><label class="pointer" for="resumeFile">Selected file:</label></p>
+                <input name="resumeFile" id="resumeFile" type="file" />
+            </div>
+
+            {% if config_useCopyPasteResume %}
+                <div id="resumePasteField" class="uploadResumeFieldContainer">
+                    <p class="bPad05">Copy and paste resume:</p>
+                    <div>
+                        <textarea name="resumePaste" id="resumePaste"></textarea>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if config_useUploadResumeDropbox and config_uploadResumeDropboxAppKey %}
+                <div id="resumeDropboxField" class="uploadResumeFieldContainer">
+                    <p class="bPad05"><label class="pointer">Selected file from Dropbox:</label> <span id="dropboxLinkNameContainer">no file selected.</span></p>
+                    <div><a class="buttonLike smallButtonLike" href="javascript:openDropboxFileDialog();" tabindex="1">choose another file</a></div>
+                </div>
+            {% endif %}
+
+            {% if config_useUploadResumeGoogleDrive and config_uploadResumeGoogleDriveApiKey and config_uploadResumeGoogleDriveClientId %}
+                <div id="resumeDriveField" class="uploadResumeFieldContainer">
+                    <p class="bPad05"><label class="pointer">Selected file from Google Drive:</label> <span id="driveLinkNameContainer">no file selected.</span></p>
+                    <div><a id="drivePickerAnother" class="buttonLike smallButtonLike" href="javascript:initPicker('drivePickerAnother');" tabindex="1">choose another file</a></div>
+                </div>
+            {% endif %}
+
+            <p id="UploadResumeError" class="errorText dNone clearer">This field is required.</p>
+
+            <div class="uploadResumeButtonBar">
+                <a class="linkLike" href="{{ BASE_PORTAL_URL }}" onclick="history.back(-1); return false;">&lt; Back</a>
+                <button type="submit" value="Continue" id="uploadResumenextButton">Next &gt;</button>
+            </div>
+        </form>
+
+        <script type="text/javascript">
+            var templateBrowserName = '{{ BROWSER.name|lower }}';
+        </script>
+
+        <script type="text/javascript" src="js/uploadResume.js"></script>
+
+        {% if config_useUploadResumeDropbox and config_uploadResumeDropboxAppKey %}
+            <script type="text/javascript" src="//www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="{{ config_uploadResumeDropboxAppKey|raw }}"></script>
+            <script type="text/javascript">
+                var dropboxOptions = {
+                    success: function(files) {
+                        document.getElementById('dropboxFileName').value = files[0].name;
+                        document.getElementById('dropboxLink').value = files[0].link;
+                        document.getElementById('dropboxLinkNameContainer').innerHTML = files[0].name;
+                        if (uploadResumeFormValidation()) {
+                            uploadResumeFormValidation();
+                        }
+                    },
+                    linkType: "direct",
+                    extensions: ['.pdf', '.doc', '.docx', '.txt', '.html', '.rtf']
+                };
+                var dropboxUploadButton = Dropbox.createChooseButton(dropboxOptions);
+                document.getElementById('dropBoxLinkContainer').appendChild(dropboxUploadButton);
+            </script>
+        {% endif %}
+
+        {% if config_useUploadResumeGoogleDrive and config_uploadResumeGoogleDriveApiKey and config_uploadResumeGoogleDriveClientId %}
+            <script type="text/javascript" src="//www.google.com/jsapi?key={{ config_uploadResumeGoogleDriveApiKey|raw }}"></script>
+            <script type="text/javascript" src="//apis.google.com/js/client.js?onload=initPicker"></script>
+            <script type="text/javascript" src="/ASSET/portal/drive/filepicker.js"></script>
+            <script type="text/javascript">
+                function initPicker(sourceElementId) {
+                    {% if (BROWSER.name == 'IE') and ((BROWSER.majorVersion == '6') or (BROWSER.majorVersion == '7') or (BROWSER.majorVersion == '8')) %}
+                        alert('Your browser does not support Google Drive.');
+                    {% else %}
+                        var picker = new FilePicker({
+                            apiKey: '{{ config_uploadResumeGoogleDriveApiKey|raw }}',
+                            clientId: '{{ config_uploadResumeGoogleDriveClientId|raw }}',
+                            buttonEl: document.getElementById(sourceElementId),
+                            onSelect: function(file) {
+                                document.getElementById('uploadResumeTriggerDrive').removeAttribute('href');
+                                document.getElementById('driveFileName').value = file.title;
+                                document.getElementById('driveLink').value = ((file.downloadUrl) ? file.downloadUrl : file.exportLinks['application/pdf']) + '&access_token=' + gapi.auth.getToken()['access_token'];
+                                document.getElementById('driveLinkNameContainer').innerHTML = file.title;
+                                if (uploadResumeFormValidation()) {
+                                    uploadResumeFormValidation();
+                                }
+                            },
+                            extensions: 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain'
+                        });
+                    {% endif %}
+                }
+            </script>
+        {% endif %}
+    {% else %}
+        <div class="tPad1">
+            <a href="{{ BASE_PORTAL_URL }}" class="buttonLike">Home</a>
+        </div>
+    {% endif %}
+{% endblock %}

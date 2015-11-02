@@ -1,0 +1,6 @@
+<span> {{ example1 }}</span>
+
+{{  }}  <span>
+    {{ __example1 }}</span>
+{{  }}      <span>
+    {{ _example1_ }}</span>

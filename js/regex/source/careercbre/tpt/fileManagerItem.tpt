@@ -1,0 +1,14 @@
+<strong><a href="{{ attachment.downloadUrl }}" title="Download {{ attachment.userSetFileName }}" target="_blank">{{ attachment.userSetFileName }}</a></strong>
+{% if attachment.url %}
+    |
+    <a href="{{ attachment.url }}" title="Preview {{ attachment.userSetFileName }}" onclick="showPreview(this); return false;">Preview</a> |
+    <a href="{{ attachment.url }}" title="Open {{ attachment.userSetFileName }} in a new window" target="_blank">Open in a new window</a>
+{% endif %}
+{% if config_canDeleteOwnAttachments and not isJobAttachment %}
+    <form method="post" class="dInline" onsubmit="return confirm('Are you sure you want to delete {{ attachment.userSetFileName }}?');" autocomplete="off" >
+        <input type="hidden" name="fileName" value="{{ attachment.fileName }}" />
+        <input type="hidden" name="deleteFile" value="deleteFile" />
+        |
+        <button type="submit" class="linkLike deleteFile">Delete</button>
+    </form>
+{% endif %}

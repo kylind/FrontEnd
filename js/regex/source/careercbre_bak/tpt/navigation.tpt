@@ -1,0 +1,18 @@
+<p class="mainNavigationStatus">
+{% if USER %}
+    Welcome,
+    {{ USER.personInfo.firstName ~ ' ' ~ USER.personInfo.lastName }}
+    {% if not isProfile %}
+    <a
+        href="{{ profilePage }}"
+        title="My profile"
+    >My profile</a>
+    {% endif %}
+
+{% elseif not USER and CONTACT_CREATED %}
+    <a
+        href="{{ choosePasswordPage }}"
+        title="Create account"
+    >Create account</a>
+{% endif %}
+</p>

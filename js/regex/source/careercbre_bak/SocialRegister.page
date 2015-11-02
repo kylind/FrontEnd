@@ -1,0 +1,80 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('wizard') }}
+    {{ wizard('52') }}
+    {{ wizardMode('create') }}
+    {{ relateFormsToJob(false) }}
+    {{ forceRelateFormsToJob(false) }}
+    {% if getPortalPersistentData('sessionApplyRedirect') %}
+        {{ setJobId(getPortalPersistentData('sessionJobId')) }}
+        {% set applyRedirect = getPortalPersistentData('sessionApplyRedirect') %}
+    {% else %}
+        {% set applyRedirect = buildUrl(profilePage, {'Registration': 'Successful'}) %}
+    {% endif %}
+    {{ setWizardRedirect( applyRedirect ) }}
+{% endblock %}
+
+{% block extraHeadData %}
+    {% if USER and (STEP_INDEX == 0) %}
+        {% include 'tpt/userPageRedirect.tpt' %}
+    {% endif %}
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>Home</a><span class="navlabel">Social Register</span>
+{% endblock %}
+
+{% block navigation %}{% endblock %}
+
+{% block content %}
+    {% if config_useSocialRegistration and (config_canRegisterBeforeApplying or URL_QUERY[jobLabel ~ 'Id'] or job or getPortalPersistentData('sessionJobId')) %}
+        <form method="post" enctype="multipart/form-data" autocomplete="off" id="Register" class="wizard wizardStep{{ STEP_INDEX + 1 }} autoClearer generalForm">
+            <h2 class="pageTitle1">{% if job %} Registration for **Web Developer** {{ job.jobname|raw }} {% else %} Registration {% endif %}</h2>
+            {% if config_useRegistrationStepsCounting %}
+                {% include 'tpt/registrationSteps.tpt' with {'currentRegistrationStep': (config_useUploadResume or config_useSocialRegistration) ? STEP_INDEX + 2 : STEP_INDEX + 1} %}
+            {% endif %}
+            {{ WIZARD|raw }}
+        </form>
+        <script type="text/javascript" src="js/cancelEvent.js"></script>
+        <script type="text/javascript" src="js/disableSubmitButtons.js"></script>
+        <script type="text/javascript">
+            var cancelButton;
+            if (document.getElementsByName('cancel')) {
+                cancelButton = document.getElementsByName('cancel')[0];
+            };
+            if (cancelButton) {
+                cancelButton.onclick = function(event) {
+                    cancelEvent(event);
+                    {% if job %}
+                        window.location = '{{ buildJobDetailUrl(PORTAL_URL, job) }}';
+                    {% else %}
+                        window.location = '{{ getPortalPersistentData('sessionLastJobSearch') ? getPortalPersistentData('sessionLastJobSearch') : searchJobsPage }}';
+                    {% endif %}
+                };
+            };
+            {% if STEP_INDEX == 0 %}
+                var previousButton;
+                if (document.getElementsByName('previous')) {
+                    previousButton = document.getElementsByName('previous')[0];
+                };
+                if (previousButton) {
+                    previousButton.onclick = function(event) {
+                        cancelEvent(event);
+                        {% if job %}
+                            window.location = '{{ buildJobDetailUrl(PORTAL_URL, job) }}';
+                        {% else %}
+                            window.location = '{{ getPortalPersistentData('sessionLastJobSearch') ? getPortalPersistentData('sessionLastJobSearch') : searchJobsPage }}';
+                        {% endif %}
+                    };
+                };
+            {% endif %}
+        </script>
+    {% else %}
+        <div class="tPad1 bPad1 clearer">
+            <p class="bPad05">Please select a job before registering with a social network.</p>
+            <a href="{{ searchJobsPage }}" class="buttonLike">Search jobs</a>
+        </div>
+    {% endif %}
+{% endblock %}
