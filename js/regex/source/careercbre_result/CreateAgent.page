@@ -1,0 +1,69 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('searchAgent') }}
+    {{ pageParameters(config_jobAlertsFields) }}
+    {{ listId(78) }}
+    {{ setJobId(null) }}
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>{{ Home|raw }}</a><span class="navlabel">{{ Create_Agent|raw }}</span>
+{% endblock %}
+
+{% block content %}
+    {% if config_useJobAlerts %}
+        {% if not saved %}
+            <h2 class="pageTitle1">{{ Use_the_options_below_to_customize_your_job_alerts|raw }}</h2>
+            <form method="post" enctype="multipart/form-data" autocomplete="off" id="CreateAgent" class="generalForm">
+                <div><input type="hidden" name="searchAgent-check" id="searchAgent-check" value="check" /></div>
+                <p><label for="searchAgent-keywords"  class="font-b18">Keywords:</label></p>
+                <div><input type="text" name="searchAgent-keywords" id="searchAgent-keywords" /></div>
+                {% autoescape false %}
+                    <div class="searchAgentFields">
+                        {{ CUSTOM_FIELDS }}
+                    </div>
+                {% endautoescape %}
+                <p class="tPad1"><label for="searchAgent-frequency"  class="font-b18">Frequency:</label></p>
+                <div>
+                    <select name="searchAgent-frequency" id="searchAgent-frequency">
+                        <option value="1">{{ Weekly|raw }}</option>
+                        <option value="2">{{ Monthly|raw }}</option>
+                    </select>
+                </div>
+
+                <div class="tPad1 btnGroup-2">
+                    <button class="saveButton" tabindex="0" type="submit" value="send" name="save">{{ Save_Job_Notification|raw }}</button>
+                    {% if USER %}
+                        <a  class="buttonLike" href="{{ profilePage }}">{{ Back_to_Profile|raw }}</a>
+                    {% else %}
+                        <a  class="buttonLike" href="{{ BASE_PORTAL_URL }}">{{ Back_to_Home|raw }}</a>
+                    {% endif %}
+                </div>
+            </form>
+        {% else %}
+            <h2 class="pageTitle1">{{ Job_notification_saved_|raw }}</h2>
+            <div class="tPad1 btnGroup-2">
+                {% if USER %}
+                    <a href="{{ profilePage }}" class="buttonLike">{{ Back_to_Profile|raw }}</a>
+                {% else %}
+                    <a href="{{ BASE_PORTAL_URL }}" class="buttonLike">{{ Back_to_Home|raw }}</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% else %}
+        {% include 'tpt/forcedBackHome.tpt' %}
+    {% endif %}
+
+    <script>
+        var labels=['Locations I am interested in','Roles I would like to receive alerts via email'];
+        setAgentFields(labels);
+        function setAgentFields(labels) {
+            $('.searchAgentFields>label').each(function(i) {
+                $(this).text(labels[i]);
+            });
+        }
+    </script>
+
+{% endblock %}

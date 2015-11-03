@@ -1,0 +1,23 @@
+{% set stepLabelA = 'How to apply' %}
+{% set stepLabelB = 'Review your data' %}
+{% set stepLabelC = 'Complete your profile' %}
+
+<span>{{ How_to_apply|raw }}</span><span>{{ Review_your_data|raw }}</span><span>{{ Complete_your_profile|raw }}</span>
+
+{% if config_registrationStepsAmount > 1 %}
+    <p class="registrationSteps autoClearer {{ 'registrationStepsAmount_' ~ config_registrationStepsAmount }}">
+        {% if currentRegistrationStep == 1 %}
+            <strong class="registrationStepItem text1_116"><span class="tColor2">1</span>. {{ (config_useUploadResume or config_useSocialRegistration) ? stepLabelA : stepLabelB }}</strong>
+            <span class="registrationStepItem text1_116">{{ _2_|raw }} {{ (config_useUploadResume or config_useSocialRegistration) ? stepLabelB : stepLabelC }}</span>
+            {% if config_registrationStepsAmount > 2 and (config_useUploadResume or config_useSocialRegistration) %}<span class="registrationStepItem text1_116">{{ _3_|raw }} {{ stepLabelC }}</span>{% endif %}
+        {% elseif currentRegistrationStep == 2 %}
+            <span class="registrationStepItem text1_116">{{ _1_|raw }} {{ (config_useUploadResume or config_useSocialRegistration) ? stepLabelA : stepLabelB }}</span>
+            <strong class="registrationStepItem text1_116"><span class="tColor2">2</span>. {{ (config_useUploadResume or config_useSocialRegistration) ? stepLabelB : stepLabelC }}</strong>
+            {% if config_registrationStepsAmount > 2 and (config_useUploadResume or config_useSocialRegistration) %}<span class="registrationStepItem text1_116">{{ _3_|raw }} {{ stepLabelC }}</span>{% endif %}
+        {% elseif currentRegistrationStep == 3 %}
+            <span class="registrationStepItem text1_116">{{ _1_|raw }} {{ stepLabelA }}</span>
+            <span class="registrationStepItem text1_116">{{ _2_|raw }} {{ stepLabelB }}</span>
+            {% if config_registrationStepsAmount > 2 and (config_useUploadResume or config_useSocialRegistration) %}<strong class="registrationStepItem text1_116"><span class="tColor2">3</span>. {{ stepLabelC }}</strong>{% endif %}
+        {% endif %}
+    </p>
+{% endif %}

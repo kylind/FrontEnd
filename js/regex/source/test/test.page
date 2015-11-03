@@ -1,10 +1,35 @@
-<span> example1 </span>
+  <input placeholder="i love you" />
+ <span> example3 "example2"
+ example3
+
+ </span>
+<span> 1example1 </span>
+
+<span> example2 example2 example3
+
+ </span>
+ <span> example3 example2
+ example3
+
+ </span>
+ <span> example4 example2 example3 <br>
+ example4
+
+ </span>
+<span>
+
+  example5 example2 example3</span>
 
     <span>
     , example1
 
     </span>
+
         <span>
     &example1;
 
     </span>
+
+  <input placeholder="i love you" />
+
+  {% if user %} i am in if condition. {% else %} i am in else condition ! {% endif %} i am applying to {{ confirmed }} successfully </div>

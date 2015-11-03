@@ -1,0 +1,3 @@
+{# ------------ successfulApplicationMessage.tpt ------------ #}
+{% set Congratulations_ = "" %}{# Congratulations! #}
+

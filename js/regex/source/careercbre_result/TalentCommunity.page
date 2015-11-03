@@ -1,0 +1,98 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ setSocialRedirect('TalentCommunityWithSocial') }}
+    {{ pageType('wizard') }}
+    {{ wizard('10') }}
+    {{ wizardMode('create') }}
+    {{ relateFormsToJob(false) }}
+    {{ forceRelateFormsToJob(false) }}
+    {% if URL_QUERY[jobLabel ~ 'Id'] %}
+        {{ setJobId(URL_QUERY[jobLabel ~ 'Id']) }}
+        {% set applyRedirect = buildUrl(applicationFormPage, URL_QUERY) %}
+        {% set socialApplyRedirect = applyRedirect %}
+        {{ addPortalPersistentData('sessionJobId', URL_QUERY[jobLabel ~ 'Id']) }}
+    {% else %}
+        {{ setJobId(null) }}
+        {% if config_optionalRegistration %}
+            {% set applyRedirect = successfulRegistrationPage %}
+        {% else %}
+            {% set applyRedirect = buildUrl(profilePage, {'Registration': 'Successful'}) %}
+        {% endif %}
+        {% set socialApplyRedirect = buildUrl(profilePage, {'Registration': 'Successful'}) %}
+        {{ removePortalPersistentData('sessionJobId') }}
+    {% endif %}
+    {{ setWizardRedirect( applyRedirect ) }}
+    {{ addPortalPersistentData('sessionApplyRedirect', socialApplyRedirect) }}
+{% endblock %}
+
+{% block banner %}
+    <div class="banner banner-talent">
+        <h1 class="banner-title heading-largest">{{ Talent_Community|raw }}</h1>
+    </div>
+{% endblock %}
+
+
+{% block  navLabel %}
+
+        <a href='{{ BASE_PORTAL_URL }}'>{{ Home|raw }}</a><span class="navlabel">{{ Talent_Community|raw }}</span>
+
+{% endblock %}
+
+
+
+{% block content %}
+    {% if config_canRegisterBeforeApplying or URL_QUERY[jobLabel ~ 'Id'] or job %}
+
+        <div class="l-850">
+            <p class="font-b18 taCenter">{{ Join_our_Talent_Community_to_keep_up_to_date_with_|raw }}</p>
+
+            <p class="tmargin-20 taCenter">{{ Please_fill_out_your_details_below_and_indicate_yo|raw }} </p>
+
+             {% if config_useSocialRegistrationLinkedIn %}
+                <div class="font-darkgreen tmargin-10 taCenter font-b18 ">Apply with Linkedin
+                    <a class="icon32 iconLinkedin32" href="{{ LOGINWITHLINKEDIN }}">{{ Connect_with_LinkedIn|raw }}</a>
+                </div>
+              {% endif %}
+        </div>
+        <form method="post" enctype="multipart/form-data" autocomplete="off" id="Register" class="wizard wizardStep{{ STEP_INDEX + 1 }} autoClearer generalForm tmargin-50">
+            {{ WIZARD|raw }}
+            <p class="tmargin-30 taCenter w98">
+                * By joining our Talent Community you agree to your personal information being collected,
+                    <br> held used and disclosed by us in accordance with our **Privacy Policy**<a href="http://www.cbre.com.au/Pages/privacypolicy.aspx" target="_blank" class="font-darkgreen"></a>
+            </p>
+        </form>
+        <script type="text/javascript" src="js/cancelEvent.js"></script>
+        <script type="text/javascript" src="js/disableSubmitButtons.js"></script>
+        <script type="text/javascript">
+            var cancelButton;
+            if (document.getElementsByName('cancel')) {
+                cancelButton = document.getElementsByName('cancel')[0];
+            };
+            if (cancelButton) {
+                cancelButton.onclick = function(event) {
+                    cancelEvent(event);
+                    {% if (URL_QUERY[jobLabel ~ 'Id']) %}window.location = '{{ buildJobDetailUrl(PORTAL_URL, job) }}';{% endif %}
+                    {% if not (URL_QUERY[jobLabel ~ 'Id']) %}{{ history_back__1__|raw }}{% endif %}
+                };
+            };
+            {% if STEP_INDEX == 0 %}
+                var previousButton;
+                if (document.getElementsByName('previous')) {
+                    previousButton = document.getElementsByName('previous')[0];
+                };
+                if (previousButton) {
+                    previousButton.onclick = function(event) {
+                        cancelEvent(event);
+                        history.back(-1);
+                    };
+                };
+            {% endif %}
+        </script>
+    {% else %}
+        <div class="tPad1">
+            <a href="{{ BASE_PORTAL_URL }}" class="buttonLike">{{ Home|raw }}</a>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,6 +1,32 @@
-<span> {{ example1 }}</span>
+  <input placeholder="{{ i_love_you|raw }}" />
+ <span> {{ example3__example2___example3|raw }}
 
-{{  }}  <span>
-    {{ __example1 }}</span>
-{{  }}      <span>
-    {{ _example1_ }}</span>
+ </span>
+<span> {{ _1example1|raw }} </span>
+
+<span> {{ example2_example2_example3|raw }}
+
+ </span>
+ <span> {{ example3_example2__example3|raw }}
+
+ </span>
+ <span> {{ example4_example2_example3__br___example4|raw }}
+
+ </span>
+<span>
+
+  {{ example5_example2_example3|raw }}</span>
+
+    <span>
+    {{ __example1|raw }}
+
+    </span>
+
+        <span>
+    {{ _example1_|raw }}
+
+    </span>
+
+  <input placeholder="{{ i_love_you|raw }}" />
+
+  {% if user %} {{ i_am_in_if_condition_|raw }} {% else %} {{ i_am_in_else_condition__|raw }} {% endif %} {{ i_am_applying_to|raw }} {{ confirmed }} {{ successfully|raw }} </div>

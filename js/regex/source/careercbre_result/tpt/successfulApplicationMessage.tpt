@@ -1,0 +1,4 @@
+<h2 class="pageTitle1">{{ Congratulations_|raw }}</h2>
+<p class="tPad1">You've successfully applied for this job:</p>
+{% if APPLIED_JOB_DATA.jobname %}<p class="tPad1"><strong>Position:</strong> <a href="{{ buildJobDetailUrl(PORTAL_URL, APPLIED_JOB_DATA) }}">{{ APPLIED_JOB_DATA.jobname }}</a></p>{% endif %}
+{% if getLocationText(APPLIED_JOB_DATA.city, APPLIED_JOB_DATA.state, APPLIED_JOB_DATA.country) %}<p><strong>Location:</strong> {{ getLocationText(APPLIED_JOB_DATA.city, APPLIED_JOB_DATA.state, APPLIED_JOB_DATA.country) }}</p>{% endif %}

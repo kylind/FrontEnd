@@ -17,30 +17,30 @@
 {% endblock %}
 
 {% block  navLabel %}
-    <a href='{{ BASE_PORTAL_URL }}'>Home</a><span class="navlabel">My Profile</span>
+    <a href='{{ BASE_PORTAL_URL }}'>{{ Home|raw }}</a><span class="navlabel">{{ My_Profile|raw }}</span>
 {% endblock %}
 
 {% block navigation %}
     <div class="mainNavigation autoClearer">
         {% include 'tpt/navigation.tpt' %}
-        <p class="mainNavigationStatusAdditional"><strong><a href="{{ searchJobsPage }}">Search for jobs</a></strong>
-            {% if config_useJobAlerts %}| <a href="{{ createAgentPage }}">Create job alert</a>{% endif %}
+        <p class="mainNavigationStatusAdditional"><strong><a href="{{ searchJobsPage }}">{{ Search_for_jobs|raw }}</a></strong>
+            {% if config_useJobAlerts %}| <a href="{{ createAgentPage }}">{{ Create_job_alert|raw }}</a>{% endif %}
         </p>
     </div>
 {% endblock %}
 
 {% block content %}
     <div class="profileMain clearer autoClearer">
-        <h2 class="pageTitle1">{{ USER.personInfo.firstName ~ ' ' ~ USER.personInfo.lastName }}{% if URL_QUERY.Registration == 'Successful' %}, your registration has been completed!{% endif %}</h2>
+        <h2 class="pageTitle1">{{ USER.personInfo.firstName ~ ' ' ~ USER.personInfo.lastName }}{% if URL_QUERY.Registration == 'Successful' %}{{ __your_registration_has_been_completed_|raw }}{% endif %}</h2>
         {% if URL_QUERY.Registration == 'Successful' %}
-            <p class="bPad1">Take a moment to review all sections of your profile.</p>
+            <p class="bPad1">{{ Take_a_moment_to_review_all_sections_of_your_profi|raw }}</p>
         {% endif %}
-        <p class="bPad05"><strong><a href="{{ editProfilePage }}" class="tColor2">Edit profile</a></strong></p>
+        <p class="bPad05"><strong><a href="{{ editProfilePage }}" class="tColor2">{{ Edit_profile|raw }}</a></strong></p>
 
         {% if config_showProfilePicture %}
             <div class="profilePictureContainer">
                 <img class="profilePicture autoResize dBlock" src="{{ USER.photoAttachmentDownloadUrl ? USER.photoAttachmentDownloadUrl : 'images/defaultPhotoPerson.jpg' }}" alt="Profile Picture" />
-                <a class="profilePictureLink tColor2" href="{{ editProfilePage }}">Edit profile</a>
+                <a class="profilePictureLink tColor2" href="{{ editProfilePage }}">{{ Edit_profile|raw }}</a>
             </div>
         {% endif %}
 
@@ -48,7 +48,7 @@
             <p>
                 {{ USER.personInfo.jobTitle }}
                 {% if USER.personInfo.jobTitle and USER.personInfo.company %}
-                    at
+                    {{ at|raw }}
                 {% endif %}
                 {{ USER.personInfo.company }}
             </p>
@@ -56,19 +56,19 @@
 
         {% if USER.contactInfo.emails %}
             {% for email in USER.contactInfo.emails %}
-                <p>Email {{ '(' ~ email.emailTypeName|replace({'--': 'other'}) ~ '):'}} {{ email.emailAddress }}</p>
+                <p>{{ Email|raw }} {{ '(' ~ email.emailTypeName|replace({'--': 'other'}) ~ '):'}} {{ email.emailAddress }}</p>
             {% endfor %}
         {% endif %}
 
         {% if USER.contactInfo.phoneNumbers %}
             {% for phone in USER.contactInfo.phoneNumbers %}
-                <p>Phone {{ '(' ~  phone.phoneTypeName ~ '):'}} {{ phone.phoneNumber }}</p>
+                <p>{{ Phone|raw }} {{ '(' ~  phone.phoneTypeName ~ '):'}} {{ phone.phoneNumber }}</p>
             {% endfor %}
         {% endif %}
 
         {% if USER.contactInfo.websites %}
             {% for website in USER.contactInfo.websites %}
-                <p>Website {{ '(' ~ website.websiteTypeName  ~ '):'}} {{ website.url|raw }}</p>
+                <p>{{ Website|raw }} {{ '(' ~ website.websiteTypeName  ~ '):'}} {{ website.url|raw }}</p>
             {% endfor %}
         {% endif %}
 
@@ -86,8 +86,8 @@
         {% include 'tpt/socialAccountLegend.tpt' %}
     </div>
 
-    <h3 class="sectionTitle1">Resume</h3>
-    <p class="bPad05" id="UploadFileCaption"><strong><a href="#" onclick="showElement('UploadFile'); hideElement('UploadFileCaption'); return false;" class="tColor2">Upload new resume</a></strong></p>
+    <h3 class="sectionTitle1">{{ Resume|raw }}</h3>
+    <p class="bPad05" id="UploadFileCaption"><strong><a href="#" onclick="showElement('UploadFile'); hideElement('UploadFileCaption'); return false;" class="tColor2">{{ Upload_new_resume|raw }}</a></strong></p>
     <form method="post" enctype="multipart/form-data" autocomplete="off" class="dNone bPad05 autoClearer generalForm" id="UploadFile">
         {{ WIZARD|raw }}
     </form>
@@ -109,33 +109,33 @@
     </script>
 
     {% if attachments %}
-        <h3 class="sectionTitle1">Attachments</h3>
+        <h3 class="sectionTitle1">{{ Attachments|raw }}</h3>
         {% for attachment in attachments %}
             <div class="fileItem">
-                <strong>File{% if attachment.attachmentTypeName or attachment.isPreferred %} ({{ attachment.attachmentTypeName }}{% if attachment.attachmentTypeName and attachment.isPreferred %} - {% endif %}{% if attachment.isPreferred %}preferred{% endif %}){% endif %}:</strong>
+                <strong>{{ File|raw }}{% if attachment.attachmentTypeName or attachment.isPreferred %} ({{ attachment.attachmentTypeName }}{% if attachment.attachmentTypeName and attachment.isPreferred %} - {% endif %}{% if attachment.isPreferred %}{{ preferred|raw }}{% endif %}){% endif %}:</strong>
                 {% include 'tpt/fileManagerItem.tpt' %}
             </div>
         {% endfor %}
 
         <div id="filePreview">
-            <p class="filePreviewBar"><strong><a href="#" onclick="hidePreview(); return false;">Close preview</a></strong></p>
+            <p class="filePreviewBar"><strong><a href="#" onclick="hidePreview(); return false;">{{ Close_preview|raw }}</a></strong></p>
             <iframe src="about:blank" frameborder="0"></iframe>
         </div>
         <script type="text/javascript" src="js/showAttachmentPreview.js"></script>
     {% endif %}
 
     {% if JOB_DATA %}
-        <h3 class="sectionTitle1">Positions I have applied to</h3>
-        <p class="bPad05"><strong><a class="tColor2" href="{{ searchJobsPage }}">Search for jobs</a></strong></p>
+        <h3 class="sectionTitle1">{{ Positions_I_have_applied_to|raw }}</h3>
+        <p class="bPad05"><strong><a class="tColor2" href="{{ searchJobsPage }}">{{ Search_for_jobs|raw }}</a></strong></p>
         <table class="tableList">
             <thead>
                 <tr>
-                    <th>Position</th>
+                    <th>{{ Position|raw }}</th>
                     {% if config_enableJobDataWithWorkflowStep %}
-                        <th>Status</th>
+                        <th>{{ Status|raw }}</th>
                     {% endif %}
-                    <th>Location</th>
-                    <th>Application date</th>
+                    <th>{{ Location|raw }}</th>
+                    <th>{{ Application_date|raw }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -158,16 +158,16 @@
 
     {% if config_useJobAlerts %}
         {% if agents %}
-            <h3 class="sectionTitle1">Job alerts</h3>
-            <p class="bPad05"><strong><a class="tColor2" href="{{ createAgentPage }}">Create job alert</a></strong></p>
+            <h3 class="sectionTitle1">{{ Job_alerts|raw }}</h3>
+            <p class="bPad05"><strong><a class="tColor2" href="{{ createAgentPage }}">{{ Create_job_alert|raw }}</a></strong></p>
             <table class="tableList">
                 <thead>
                     <tr>
-                        <th>Keyword</th>
-                        <th>Location</th>
-                        <th>Role</th>
-                        <th>Frequency</th>
-                        <th>Actions</th>
+                        <th>{{ Keyword|raw }}</th>
+                        <th>{{ Location|raw }}</th>
+                        <th>{{ Role|raw }}</th>
+                        <th>{{ Frequency|raw }}</th>
+                        <th>{{ Actions|raw }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -178,18 +178,18 @@
                             <td>{{ agent.customFields["3_142_3"].value }}</td>
                             <td>
                                 {% if agent.portalSearchAgentFrequencyId == 1 %}
-                                    Weekly
+                                    {{ Weekly|raw }}
                                 {% elseif agent.portalSearchAgentFrequencyId == 2 %}
-                                    Monthly
+                                    {{ Monthly|raw }}
                                 {% endif %}
                             </td>
                             <td>
-                                <a class="bold" href="{{ buildUrl(editAgentPage, {'action': 'edit', 'id': agent.id}) }}">Edit</a> |
-                                <a class="bold" href="{{ buildUrl(deleteAgentPage, {'id': agent.id}) }}">Delete</a>
+                                <a class="bold" href="{{ buildUrl(editAgentPage, {'action': 'edit', 'id': agent.id}) }}">{{ Edit|raw }}</a> |
+                                <a class="bold" href="{{ buildUrl(deleteAgentPage, {'id': agent.id}) }}">{{ Delete|raw }}</a>
                             </td>
                         </tr>
                     {% else %}
-                        <tr><td colspan="5">You don't have any job alerts setup yet.</td></tr>
+                        <tr><td colspan="5">{{ You_don_t_have_any_job_alerts_setup_yet_|raw }}</td></tr>
                     {% endfor %}
                 </tbody>
             </table>

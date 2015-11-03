@@ -2,19 +2,17 @@ var fs = require('fs');
 var path = require('path');
 
 var toDoFolder = process.argv[2];
-var rsFile = process.argv[3];
-var detailFile = process.argv[4];
+var rsFile = toDoFolder + '_result/lang.page'; //process.argv[3];
+var detailFile = toDoFolder + '_result/detail.page';//process.argv[4];
 
+if(!path.existsSync(path.dirname(rsFile))){
+    fs.mkdirSync(path.dirname(rsFile));
+}
 
 var fileList = fetchPageFiles(toDoFolder);
 var regexs = []
 
-//var regex1 = new RegExp(">[\\s,\"#:.]*([^><\\}\\{%/\\=]+\\w+)[\\s,\"#:.!\\?\\+\\*]*<[/]?(?!script)", 'igm');//<div>abc</div> google+
-/*var regex2 = new RegExp(">[\\s,\"#:.]*([^><\\}\\{%/\\=]+\\w+)[\\s,\"#:.!\\?\\+\\*]*\\{[\\{%]", 'igm'); //<div>abc {{ abc }} | <div>abc {% abc %}
-var regex3 = new RegExp("[%\\}]\\}[\\s,\"#.]*([^><\\}\\{%/\\=]+\\w+)[\\s,\"#:.!\\?\\+\\*]*<[/]?(?!script)", 'igm'); //{{ abc }}abc</div> | {% abc %}abc</div>
-var regex4 = new RegExp("[%\\}]\\}[\\s,\"#.]*([^><\\}\\{%/\\=\\n\\r]+\\w+)[\\s,\"&#:.!\\?\\+\\*]*\\{[\\{%]", 'igm'); //{{ abc }}abc{{ abc }}
-var regex5 = new RegExp("placeholder[ ]*=[ ]*\"([^\\s><\\}\\{%]+[\\w ]{2,})\"", 'igm'); //placeholder
-*/
+
 var regex1 = { regex:/(>|\}\}|%\})[\s]*([^><\}\{%=\/]*\w+\s*(<br>)?\s*[^><\}\{%=\/]*[\w;\.!,#])[\s]*(<\/|\{\{|\{%)(?!script)/igm, index: 2};//<div>abc</div> google+
 var regex2 = { regex: /placeholder[ ]*=[ ]*['"]([\w ]{2,})['"]/igm, index:1}; //placeholder
 
@@ -22,19 +20,19 @@ var test=/\w/igm;
 
 regexs.push(regex1);
 regexs.push(regex2);
-/*regexs.push(regex3);
-regexs.push(regex4);
-regexs.push(regex5);*/
+
 
 var allVariableDeclaims="";
 
 fileList.forEach(function(val) {
 
-     var newFilename = path.dirname(val) + "/" + path.basename(val, path.extname(val)) + ".newpage";
-    //var newFilename = val;
-    if (fs.existsSync(newFilename)) {
-        fs.unlinkSync(newFilename);
-    }
+     //var newFilename = path.dirname(val) + "" + path.basename(val, path.extname(val)) + ".newpage";
+    var newFilename = val.replace(toDoFolder, toDoFolder + '_result');
+
+/*    if(!path.existsSync(path.dirname(newFilename))){
+       fs.mkdirSync(path.dirname(newFilename));
+    }*/
+
 
     var data = fs.readFileSync(val, {
         encoding: 'utf8'
@@ -48,11 +46,12 @@ fileList.forEach(function(val) {
     allVariableDeclaims = rs.allVariableDeclaims;
 
     if (rs.variableDeclaims != "") {
-        fs.appendFileSync(rsFile, "{# ------------ " + path.basename(val) + " ------------ #}\n" + rs.variableDeclaims);
+
+        fs.writeFileSync(rsFile, "{# ------------ " + path.basename(val) + " ------------ #}\n" + rs.variableDeclaims);
     }
 
     if (rs.variableDetails != "") {
-        fs.appendFileSync(detailFile, "{# ------------ " + path.basename(val) + " ------------ #}\n" + rs.variableDetails);
+        fs.writeFileSync(detailFile, "{# ------------ " + path.basename(val) + " ------------ #}\n" + rs.variableDetails);
     }
 
     if (rs.newData != "") {
@@ -132,6 +131,8 @@ function fetchPageFiles(dir) {
 
         var stats = fs.statSync(filePath);
         if (stats.isDirectory()) {
+
+
             var filesInDir = fetchPageFiles(filePath);
             fileList = fileList.concat(filesInDir);
 

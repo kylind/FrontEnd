@@ -1,0 +1,116 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('viewJob') }}
+    {{ joblist('78') }}
+    {{ setJobId(job.jobId) }}
+    {% set socialApplyRedirect = buildUrl(applicationFormPage, {(jobLabel ~ 'Id'): job.jobId}) %}
+    {{ addPortalPersistentData('sessionJobId', job.jobId) }}
+    {{ addPortalPersistentData('sessionApplyRedirect', socialApplyRedirect) }}
+{% endblock %}
+
+{% set jobCustomFields = customFields(job, [1,128,110], false) %}
+{% set jobDescription = jobCustomFields[1] %}
+{% set jobCity = jobCustomFields[128] %}
+{% set jobCountry = jobCustomFields[110] %}
+{% set jobUrl = buildJobDetailUrl(PORTAL_URL, job) %}
+
+{% block metaTags %}
+    <meta property="og:url" content="{{ jobUrl }}" />
+    <meta property="og:title" content="{{ job.jobname }}" />
+    <meta property="og:description" content="{{ jobDescription|striptags|limit(200) }}" />
+    <meta name="Description" content="{{ META_DESCRIPTION }}" />
+{% endblock %}
+
+{% block bannerName %}{{ Job_Detail|raw }}{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>{{ Home|raw }}</a><span class="navlabel">{{ Job_Detail|raw }}</span>
+{% endblock %}
+
+{% block navigation %}
+    <div class="mainNavigation autoClearer">
+        {% include 'tpt/navigation.tpt' %}
+        <p class="mainNavigationStatusAdditional"><a href="{{ getPortalPersistentData('sessionLastJobSearch') ? getPortalPersistentData('sessionLastJobSearch') : searchJobsPage }}">{{ _lt__Back_to_job_list|raw }}</a></p>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if USER or CONTACT_CREATED %}
+
+        {% set applicationUrl = buildUrl(config_useApplyConfirmation ? applyConfirmationPage : registerJobPage) %}
+        {# set applicationUrl = config_useApplyConfirmation ? applyConfirmationPage : applicationFormPage #}
+        {% set extraParams = {(jobLabel ~ 'Id'): job.jobId, 'status': '1', 'country': jobCountry } %}
+    {% else %}
+        {% set applicationUrl = config_goToLoginBeforeRegister ? loginPage : ((config_useUploadResume or config_useSocialRegistration) ? registerMethodPage : registerPage ) %}
+        {% set extraParams = {(jobLabel ~ 'Id'): job.jobId, 'country': jobCountry} %}
+    {% endif %}
+
+    {% set jobApplicationUrl = buildUrl(applicationUrl, URL_QUERY, extraParams) %}
+    {% set hasAlreadyAppliedToJob = false %}
+    {% if JOB_DATA %}
+        {% set noMatchYet = true %}
+        {% for appliedJob in JOB_DATA if noMatchYet %}
+            {% if job.jobId == appliedJob.jobId %}
+                {% set noMatchYet = false %}
+                {% set hasAlreadyAppliedToJob = true %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <div class="jobDetail clearer" itemscope itemtype="http://schema.org/JobPosting">
+        <h2 itemprop="title" class="pageTitle1">{{ job.jobname }}</h2>
+
+        <p class="tPad05" itemprop="jobLocation" itemscope itemtype="http://schema.org/Place"> {{ jobCity }} {{ (jobCountry and jobCity) ? ',' }} {{ jobCountry }}</p>
+
+        {% if job.req %}
+            <p><span class="tGrey font-bold">Ref#:</span> {{ job.req }}</p>
+        {% endif %}
+        {% if job.postedDate %}
+            <p><span class="tGrey font-bold">Date published:</span> <span itemprop="datePosted">{{ job.postedDate|localize('en_US', '%e-%b-%Y') }}</span></p>
+        {% endif %}
+        {% if config_useSocialSharing %}
+            <p class="tGrey font-bold">Share with: {% include 'tpt/socialShare.tpt' with {'jobUrl': jobUrl, 'jobDescription': jobDescription} %}</p>
+        {% endif %}
+        {% if jobDescription %}
+            <div itemprop="description" class="jobDetailDescription">{{ jobDescription|raw }}</div>
+        {% endif %}
+
+        {% if config_showJobAttachments %}
+            {% if attachments %}
+                <h3 class="sectionTitle1">{{ Attachments|raw }}</h3>
+                {% for attachment in attachments %}
+                    <div class="fileItem">
+                        <strong>{{ File|raw }}{% if attachment.attachmentTypeName or attachment.isPreferred %} ({{ attachment.attachmentTypeName }}{% if attachment.attachmentTypeName and attachment.isPreferred %} - {% endif %}{% if attachment.isPreferred %}{{ preferred|raw }}{% endif %}){% endif %}:</strong>
+                        {% include 'tpt/fileManagerItem.tpt' with {'isJobAttachment': true} %}
+                    </div>
+                {% endfor %}
+
+                <div id="filePreview">
+                    <p class="filePreviewBar"><strong><a href="#" onclick="hidePreview(); return false;">{{ Close_preview|raw }}</a></strong></p>
+                    <iframe src="about:blank" frameborder="0"></iframe>
+                </div>
+                <script type="text/javascript" src="js/showAttachmentPreview.js"></script>
+            {% endif %}
+        {% endif %}
+
+        <div class="tPad1 btnGroup-2">
+            {% if hasAlreadyAppliedToJob %}
+                <p class="font-bold">{{ You_have_previously_applied_for_this_job_|raw }}</p>
+            {% else %}
+                <a href="{{ jobApplicationUrl|raw }}" class="buttonLike">{{ Apply_Now|raw }}</a>
+
+                {% if config_useSendToAFriend %}
+                    <a class="buttonLike {{ hasAlreadyAppliedToJob ? 'tmargin-10'}}" href="{{ buildUrl(sendToAFriendPage, extraParams) }}" title="Recommend this job to a friend">{{ Send_to_a_friend|raw }}</a>
+                {% endif %}
+
+            {% endif %}
+
+            {% if config_useSendToAFriend %}
+                <a class="buttonLike {{ hasAlreadyAppliedToJob ? 'tmargin-10'}}" href="{{ buildUrl(sendToAFriendPage, extraParams) }}" title="Recommend this job to a friend">{{ Send_to_a_friend|raw }}</a>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

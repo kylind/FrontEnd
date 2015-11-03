@@ -35,3 +35,331 @@
 
 {% set _example1_ = "&example1;" %}{# &example1; #}
 
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{% set example1_example2_example3 = "example1 example2 example3" %}{# example1 example2 example3 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{% set example1_example2_example3 = "example1 example2 example3" %}{# example1 example2 example3 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{% set example1_example2_example3 = "example1 example2 example3" %}{# example1 example2 example3 #}
+
+{% set example1_example2_example3_br___example4 = "example1 example2 example3<br>
+ example4" %}{# example1 example2 example3<br>
+ example4 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{% set example1_example2_example3 = "example1 example2 example3" %}{# example1 example2 example3 #}
+
+{% set example4 = "example4" %}{# example4 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{% set example2_example2_example3 = "example2 example2 example3" %}{# example2 example2 example3 #}
+
+{% set example3_example2__example3 = "example3 example2
+ example3" %}{# example3 example2
+ example3 #}
+
+{% set example4_example2_example3 = "example4 example2 example3" %}{# example4 example2 example3 #}
+
+{% set example4 = "example4" %}{# example4 #}
+
+{% set example5_example2_example3 = "example5 example2 example3" %}{# example5 example2 example3 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set example1 = "example1" %}{# example1 #}
+
+{% set example2_example2_example3 = "example2 example2 example3" %}{# example2 example2 example3 #}
+
+{% set example3_example2__example3 = "example3 example2
+ example3" %}{# example3 example2
+ example3 #}
+
+{% set example4_example2_example3__br___example4 = "example4 example2 example3 <br>
+ example4" %}{# example4 example2 example3 <br>
+ example4 #}
+
+{% set example5_example2_example3 = "example5 example2 example3" %}{# example5 example2 example3 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set _1example1 = "1example1" %}{# 1example1 #}
+
+{% set example2_example2_example3 = "example2 example2 example3" %}{# example2 example2 example3 #}
+
+{% set example3_example2__example3 = "example3 example2
+ example3" %}{# example3 example2
+ example3 #}
+
+{% set example4_example2_example3__br___example4 = "example4 example2 example3 <br>
+ example4" %}{# example4 example2 example3 <br>
+ example4 #}
+
+{% set example5_example2_example3 = "example5 example2 example3" %}{# example5 example2 example3 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{# ------------ test.page ------------ #}
+{% set __ = "%}" %}{# %} #}
+
+{% set __ = "}}" %}{# }} #}
+
+{# ------------ test.page ------------ #}
+{% set __ = "%}" %}{# %} #}
+
+{% set __ = "}}" %}{# }} #}
+
+{# ------------ test.page ------------ #}
+{% set __ = "%}" %}{# %} #}
+
+{% set __ = "}}" %}{# }} #}
+
+{# ------------ test.page ------------ #}
+{% set _ = ">" %}{# > #}
+
+{% set __ = "%}" %}{# %} #}
+
+{% set __ = "}}" %}{# }} #}
+
+{# ------------ test.page ------------ #}
+{% set _1example1 = "1example1" %}{# 1example1 #}
+
+{% set example2_example2_example3 = "example2 example2 example3" %}{# example2 example2 example3 #}
+
+{% set example3_example2__example3 = "example3 example2
+ example3" %}{# example3 example2
+ example3 #}
+
+{% set example4_example2_example3__br___example4 = "example4 example2 example3 <br>
+ example4" %}{# example4 example2 example3 <br>
+ example4 #}
+
+{% set example5_example2_example3 = "example5 example2 example3" %}{# example5 example2 example3 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{% set i_am_in_if_condition_ = "i am in if condition." %}{# i am in if condition. #}
+
+{% set i_am_in_else_condition__ = "i am in else condition !" %}{# i am in else condition ! #}
+
+{% set i_am_applying_to = "i am applying to" %}{# i am applying to #}
+
+{% set successfully = "successfully" %}{# successfully #}
+
+{# ------------ test.page ------------ #}
+{% set _1example1 = "1example1" %}{# 1example1 #}
+
+{% set example2_example2_example3 = "example2 example2 example3" %}{# example2 example2 example3 #}
+
+{% set example3_example2__example3 = "example3 example2  example3" %}{# example3 example2
+ example3 #}
+
+{% set example4_example2_example3__br___example4 = "example4 example2 example3 <br>  example4" %}{# example4 example2 example3 <br>
+ example4 #}
+
+{% set example5_example2_example3 = "example5 example2 example3" %}{# example5 example2 example3 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{% set i_am_in_if_condition_ = "i am in if condition." %}{# i am in if condition. #}
+
+{% set i_am_in_else_condition__ = "i am in else condition !" %}{# i am in else condition ! #}
+
+{% set i_am_applying_to = "i am applying to" %}{# i am applying to #}
+
+{% set successfully = "successfully" %}{# successfully #}
+
+{# ------------ test.page ------------ #}
+{% set _1example1 = "1example1" %}{# 1example1 #}
+
+{% set example2_example2_example3 = "example2 example2 example3" %}{# example2 example2 example3 #}
+
+{% set example3_example2__example3 = "example3 example2  example3" %}{# example3 example2
+ example3 #}
+
+{% set example4_example2_example3__br___example4 = "example4 example2 example3 <br>  example4" %}{# example4 example2 example3 <br>
+ example4 #}
+
+{% set example5_example2_example3 = "example5 example2 example3" %}{# example5 example2 example3 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{% set i_am_in_if_condition_ = "i am in if condition." %}{# i am in if condition. #}
+
+{% set i_am_in_else_condition__ = "i am in else condition !" %}{# i am in else condition ! #}
+
+{% set i_am_applying_to = "i am applying to" %}{# i am applying to #}
+
+{% set successfully = "successfully" %}{# successfully #}
+
+{# ------------ test.page ------------ #}
+{% set example3__example2___example3 = "example3 \"example2\"  example3" %}{# example3 "example2"
+ example3 #}
+
+{% set _1example1 = "1example1" %}{# 1example1 #}
+
+{% set example2_example2_example3 = "example2 example2 example3" %}{# example2 example2 example3 #}
+
+{% set example3_example2__example3 = "example3 example2  example3" %}{# example3 example2
+ example3 #}
+
+{% set example4_example2_example3__br___example4 = "example4 example2 example3 <br>  example4" %}{# example4 example2 example3 <br>
+ example4 #}
+
+{% set example5_example2_example3 = "example5 example2 example3" %}{# example5 example2 example3 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{% set i_am_in_if_condition_ = "i am in if condition." %}{# i am in if condition. #}
+
+{% set i_am_in_else_condition__ = "i am in else condition !" %}{# i am in else condition ! #}
+
+{% set i_am_applying_to = "i am applying to" %}{# i am applying to #}
+
+{% set successfully = "successfully" %}{# successfully #}
+
+{# ------------ test.page ------------ #}
+{% set example3__example2___example3 = "example3 \"example2\"  example3" %}{# example3 \"example2\"  example3 #}
+
+{% set _1example1 = "1example1" %}{# 1example1 #}
+
+{% set example2_example2_example3 = "example2 example2 example3" %}{# example2 example2 example3 #}
+
+{% set example3_example2__example3 = "example3 example2  example3" %}{# example3 example2  example3 #}
+
+{% set example4_example2_example3__br___example4 = "example4 example2 example3 <br>  example4" %}{# example4 example2 example3 <br>  example4 #}
+
+{% set example5_example2_example3 = "example5 example2 example3" %}{# example5 example2 example3 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{% set i_am_in_if_condition_ = "i am in if condition." %}{# i am in if condition. #}
+
+{% set i_am_in_else_condition__ = "i am in else condition !" %}{# i am in else condition ! #}
+
+{% set i_am_applying_to = "i am applying to" %}{# i am applying to #}
+
+{% set successfully = "successfully" %}{# successfully #}
+
+{# ------------ test.page ------------ #}
+{% set example3__example2___example3 = "example3 \"example2\"  example3" %}{# example3 \"example2\"  example3 #}
+
+{% set _1example1 = "1example1" %}{# 1example1 #}
+
+{% set example2_example2_example3 = "example2 example2 example3" %}{# example2 example2 example3 #}
+
+{% set example3_example2__example3 = "example3 example2  example3" %}{# example3 example2  example3 #}
+
+{% set example4_example2_example3__br___example4 = "example4 example2 example3 <br>  example4" %}{# example4 example2 example3 <br>  example4 #}
+
+{% set example5_example2_example3 = "example5 example2 example3" %}{# example5 example2 example3 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{% set i_am_in_if_condition_ = "i am in if condition." %}{# i am in if condition. #}
+
+{% set i_am_in_else_condition__ = "i am in else condition !" %}{# i am in else condition ! #}
+
+{% set i_am_applying_to = "i am applying to" %}{# i am applying to #}
+
+{% set successfully = "successfully" %}{# successfully #}
+
+{% set i_love_you = "i love you" %}{# i love you #}
+
+{# ------------ test.page ------------ #}
+{% set i_love_you = "i love you" %}{# i love you #}
+
+{# ------------ test.page ------------ #}
+{% set i_love_you = "i love you" %}{# i love you #}
+
+{# ------------ test.page ------------ #}
+{% set example3__example2___example3 = "example3 \"example2\"  example3" %}{# example3 \"example2\"  example3 #}
+
+{% set _1example1 = "1example1" %}{# 1example1 #}
+
+{% set example2_example2_example3 = "example2 example2 example3" %}{# example2 example2 example3 #}
+
+{% set example3_example2__example3 = "example3 example2  example3" %}{# example3 example2  example3 #}
+
+{% set example4_example2_example3__br___example4 = "example4 example2 example3 <br>  example4" %}{# example4 example2 example3 <br>  example4 #}
+
+{% set example5_example2_example3 = "example5 example2 example3" %}{# example5 example2 example3 #}
+
+{% set __example1 = ", example1" %}{# , example1 #}
+
+{% set _example1_ = "&example1;" %}{# &example1; #}
+
+{% set i_am_in_if_condition_ = "i am in if condition." %}{# i am in if condition. #}
+
+{% set i_am_in_else_condition__ = "i am in else condition !" %}{# i am in else condition ! #}
+
+{% set i_am_applying_to = "i am applying to" %}{# i am applying to #}
+
+{% set successfully = "successfully" %}{# successfully #}
+
+{% set i_love_you = "i love you" %}{# i love you #}
+
