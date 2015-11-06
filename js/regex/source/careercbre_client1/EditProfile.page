@@ -1,0 +1,46 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('wizard') }}
+    {{ wizard('49') }}
+    {{ wizardMode('edit') }}
+    {{ setLoginRequired(true) }}
+    {{ setJobId(null) }}
+    {{ relateFormsToJob(false) }}
+    {{ forceRelateFormsToJob(false) }}
+    {{ setWizardRedirect(profilePage) }}
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>{{ Home }}</a><span class="navlabel">{{ Edit_Profile }}</span>
+{% endblock %}
+
+{% block navigation %}
+    <div class="mainNavigation autoClearer">
+        {% include 'tpt/navigation.tpt' %}
+        {% if not (USER.facebookId or USER.linkedinId or USER.googleplusId or USER.googleplusId or USER.viadeoId or USER.xingId) or config_canDeleteOwnProfile %}
+            <p class="mainNavigationStatusAdditional">
+                {% if not (USER.facebookId or USER.linkedinId or USER.googleplusId or USER.googleplusId or USER.viadeoId or USER.xingId) %}
+                    <a href="{{ resetPasswordPage }}">{{ Reset_password }}</a>
+                {% endif %}
+                {% if not (USER.facebookId or USER.linkedinId or USER.googleplusId or USER.googleplusId or USER.viadeoId or USER.xingId) and config_canDeleteOwnProfile %}
+                    |
+                {% endif %}
+                {% if config_canDeleteOwnProfile %}
+                    <a href="{{ deleteProfilePage }}">{{ Delete_profile }}</a>
+                {% endif %}
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if USER %}
+        <h2 class="pageTitle1">{{ Edit_profile }}</h2>
+        <form method="post" enctype="multipart/form-data" autocomplete="off" class="wizard wizardStep{{ STEP_INDEX + 1 }} generalForm autoClearer">
+            {{ WIZARD|raw }}
+        </form>
+        {% include 'tpt/commonWizardScripts.tpt' %}
+    {% endif %}
+{% endblock %}

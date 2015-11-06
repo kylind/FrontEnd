@@ -1,0 +1,19 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('error') }}
+{% endblock %}
+
+{% block content %}
+    <h2 class="pageTitle1">{{ An_error_has_occurred }}</h2>
+    {% if not EXTRA %}
+        <p>{{ ERROR }}</p>
+    {% else %}
+        <p>{{ ERROR ~ ': ' ~ EXTRA }}</p>
+    {% endif %}
+    {% if ERROR_CODE and ERROR_CODE == 'cantChoosePassword' %}
+        <p class="tPad1"><a href="{{ resetPasswordPage }}">{{ Recover_your_password }}</a></p>
+    {% endif %}
+    <div class="tPad1"><a href="{{ BASE_PORTAL_URL }}" class="buttonLike">{{ Return_to_home_page }}</a></div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('login') }}
+    {% if URL_QUERY[jobLabel ~ 'Id'] %}
+        {{ setJobId(URL_QUERY[jobLabel ~ 'Id']) }}
+        {# set socialApplyRedirect = buildUrl(config_useApplyConfirmation ? applyConfirmationPage : applicationFormPage, URL_QUERY) #}
+        {% set socialApplyRedirect = buildUrl(config_useApplyConfirmation ? applyConfirmationPage : registerJobPage, URL_QUERY, { 'status': '0'}) %}
+        {{ addPortalPersistentData('sessionJobId', URL_QUERY[jobLabel ~ 'Id']) }}
+    {% else %}
+        {{ setJobId(null) }}
+        {% set socialApplyRedirect = buildUrl(profilePage, {'Registration': 'Successful'}) %}
+        {{ removePortalPersistentData('sessionJobId') }}
+    {% endif %}
+    {{ addPortalPersistentData('sessionApplyRedirect', socialApplyRedirect) }}
+{% endblock %}
+
+{% block loginConfiguration %}
+    {% if URL_QUERY[jobLabel ~ 'Id'] %}
+        {# set loginTo = buildUrl(config_useApplyConfirmation ? applyConfirmationPage : applicationFormPage, URL_QUERY) #}
+        {% set loginTo = buildUrl(config_useApplyConfirmation ? applyConfirmationPage : registerJobPage, URL_QUERY, { 'status': '1'}) %}
+    {% else %}
+        {% set loginTo = profilePage %}
+    {% endif %}
+    {{ setApplyPage(loginTo) }}
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>{{ Home }}</a><span class="navlabel">{{ Login }}</span>
+{% endblock %}
+
+{% block navigation %}{% endblock %}
+
+{% block content %}
+    <div class="Login autoClearer">
+        <h2 class="pageTitle1">{{ Sign_in_or_register_your_account_below_ }}</h2>
+        <div class="loginSignBox">
+            <form action="{{ buildUrl(loginPage, URL_QUERY) }}" autocomplete="on" method="post" id="Login" class="generalForm">
+                <h3 class="sectionTitle2">{{ Sign_in }}</h3>
+                <p class="tPad1">
+                    <label for="username">
+                        {{ User_ }}
+                        {% if ERROR.username %}<span class="errorText">{{ ERROR.username }}</span>{% endif %}
+                    </label>
+                </p>
+                <div><input type="email" name="username" id="username" value="{{ username }}" required="required" {% if not ISMOBILE %}autofocus="autofocus"{% endif %} /></div>
+                <p class="tPad1">
+                    <label for="password">
+                        {{ Password_ }}
+                        {% if ERROR.password %}<span class="errorText">{{ ERROR.password }}</span>{% endif %}
+                    </label>
+                </p>
+                <div><input type="password" name="password" id="password" required="required" /></div>
+                {% if ERROR.login %}<p class="errorText tPad1">{{ ERROR.login }}</p>{% endif %}
+                <p class="tPad1"><a href="{{ buildUrl(resetPasswordPage, {'forgotpassword': 'true'}) }}">Forgot your password?</a></p>
+                <div class="tPad1">
+                    <button name="login" type="submit">{{ Sign_in }}</button>
+                    <a href="{{ BASE_PORTAL_URL }}" onclick="history.back(-1); return false;" class='linkLike'>{{ Cancel }}</a>
+                </div>
+            </form>
+
+        </div>
+        {% if URL_QUERY[jobLabel ~ 'Id'] or config_canRegisterBeforeApplying %}
+            <div class="loginRegisterBox">
+                <h3 class="sectionTitle2">New user?</h3>
+                <p class="tPad1">{{ If_you_are_not_registered_yet__get_your_account_in }}
+                </p>
+                <p class="tPad1"><a href="{{ buildUrl((config_useUploadResume or config_useSocialRegistration) ? registerMethodPage : registerPage, URL_QUERY) }}" class="buttonLike">{{ Register_Now_ }}</a></p>
+                {% if config_useSocialRegistration and not USER and (URL_QUERY[jobLabel ~ 'Id'] or config_canRegisterBeforeApplying) %}
+                    <h3 class="sectionTitle1">
+                        {% if  URL_QUERY[jobLabel ~ 'Id'] %}
+
+                            {{ Apply_with_Social_Networks }}
+
+                        {% else %}
+                            {{ Login_with_Social_Networks }}
+
+                        {% endif %}
+                    </h3>
+                    <p class="tPad05">
+                        {% if config_useSocialRegistrationFacebook %}
+                            <a class="icon32 iconFacebook32" href="{# LOGINWITHFACEBOOK #}">{{ Connect_with_Facebook }}</a>
+                        {% endif %}
+                        {% if config_useSocialRegistrationLinkedIn %}
+                            <a class="icon32 iconLinkedin32" href="{{ LOGINWITHLINKEDIN }}">{{ Connect_with_LinkedIn }}</a>
+                        {% endif %}
+                        {% if config_useSocialRegistrationGooglePlus %}
+                            <a class="icon32 iconGoogleplus32" href="{# LOGINWITHGOOGLEPLUS #}">Connect with Google+</a>
+                        {% endif %}
+                        {% if config_useSocialRegistrationXing %}
+                            <a class="icon32 iconXing32" href="{# LOGINWITHXING #}">{{ Connect_with_Xing }}</a>
+                        {% endif %}
+                        {% if config_useSocialRegistrationViadeo %}
+                            <a class="icon32 iconViadeo32" href="{# LOGINWITHVIADEO #}">{{ Connect_with_Viadeo }}</a>
+                        {% endif %}
+                    </p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

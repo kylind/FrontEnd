@@ -95,20 +95,22 @@
             {% endif %}
         {% endif %}
 
-        <div class="tPad1 btnGroup-2">
+        <div class="tPad1">
             {% if hasAlreadyAppliedToJob %}
                 <p class="font-bold">You have previously applied for this job.</p>
-            {% else %}
-                <a href="{{ jobApplicationUrl|raw }}" class="buttonLike">Apply Now</a>
 
                 {% if config_useSendToAFriend %}
                     <a class="buttonLike {{ hasAlreadyAppliedToJob ? 'tmargin-10'}}" href="{{ buildUrl(sendToAFriendPage, extraParams) }}" title="Recommend this job to a friend">Send to a friend</a>
                 {% endif %}
+            {% else %}
+                <div class="tPad1 btnGroup-2">
+                    <a href="{{ jobApplicationUrl|raw }}" class="buttonLike">Apply Now</a>
 
-            {% endif %}
+                    {% if config_useSendToAFriend %}
+                        <a class="buttonLike {{ hasAlreadyAppliedToJob ? 'tmargin-10'}}" href="{{ buildUrl(sendToAFriendPage, extraParams) }}" title="Recommend this job to a friend">Send to a friend</a>
+                    {% endif %}
+                </div>
 
-            {% if config_useSendToAFriend %}
-                <a class="buttonLike {{ hasAlreadyAppliedToJob ? 'tmargin-10'}}" href="{{ buildUrl(sendToAFriendPage, extraParams) }}" title="Recommend this job to a friend">Send to a friend</a>
             {% endif %}
 
         </div>

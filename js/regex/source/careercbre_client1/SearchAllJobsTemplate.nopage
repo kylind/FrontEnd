@@ -1,0 +1,107 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('jobList') }}
+    {% block jobList %}
+
+    {% endblock %}
+    {{ recordsPerPage(config_jobRecordsAmount) }}
+    {{ jobView('JobDetail') }}
+    {{ setJobId(null) }}
+    {{ removePortalPersistentData('sessionJobId') }}
+    {{ removePortalPersistentData('sessionApplyRedirect') }}
+    {{ addPortalPersistentData('sessionLastJobSearch', CURRENT_PAGE_FULL_URL) }}
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>{{ Home }}</a>
+    <a class="navlabel" href="{{ PORTAL_URL ~ 'SearchAllJobs'}}">{{ Search_All_Jobs }}</a>
+    <span class="navlabel">{{ Advanced_Search }}</span>
+{% endblock %}
+
+{% block content %}
+    {% if USER or CONTACT_CREATED %}
+        {% set applicationUrl = config_useApplyConfirmation ? applyConfirmationPage : applicationFormPage %}
+    {% else %}
+        {% set applicationUrl = config_goToLoginBeforeRegister ? loginPage : ((config_useUploadResume or config_useSocialRegistration) ? registerMethodPage : registerPage ) %}
+    {% endif %}
+
+    <form method="post" action="{{ PORTAL_URL ~ CURRENT_PAGE }}" autocomplete="on" class="generalForm">
+        <h3 class="heading-24 taCenter">{{ Filter_By }}</h3>
+
+        <input class="dNone inputsearch-hidden" placeholder="{{ Keyword_or_search_term }}" type="search" name="search" id="search" autofocus="autofocus" value="">
+
+        <section class="filters tmargin-30">
+            {% autoescape false %}
+                {% if entityListField('3_110_3', false, 3) %}
+                    <section class="filter">
+                        <h4 class="font-b18 uppercase">{{ Country }}</h4>
+                        <div class="tmargin-10">
+                            {{ jobListFieldWithCustomFormat('3_110_3', '{2}')|raw }}
+                            {{ setOperatorFor('3_110_3', 'any') }}
+                        </div>
+                    </section>
+                {% endif %}
+            {% endautoescape %}
+
+            {% autoescape false %}
+                {% if entityListField('3_128_3', false, 3) %}
+                    <section class="filter">
+                        <h4 class="font-b18 uppercase">{{ CITY }}</h4>
+                        <div class="tmargin-10">
+                            {{ jobListFieldWithCustomFormat('3_128_3', '{2}')|raw }}
+                            {{ setOperatorFor('3_128_3', 'any') }}
+                        </div>
+                    </section>
+                {% endif %}
+            {% endautoescape %}
+            {% autoescape false %}
+                {% if entityListField('3_113_3', false, 3) %}
+                    <section class="filter">
+                        <h4 class="font-b18 uppercase">{{ TEAM }}</h4>
+                        <div class="tmargin-10">
+                            {{ jobListFieldWithCustomFormat('3_113_3', '{2}')|raw }}
+                            {{ setOperatorFor('3_113_3', 'any') }}
+                        </div>
+                    </section>
+                {% endif %}
+            {% endautoescape %}
+
+             <section class="filter">
+                <h4 class="font-b18 uppercase">{{ _nbsp_|raw }}</h4>
+                <div class="tmargin-10">
+                    <button type="submit" name="action" value="search">{{ Update_Search }}</button>
+                </div>
+            </section>
+        </section>
+    </form>
+    <div class="tmargin-30">
+        {% include 'tpt/jobPagination.tpt' with {'recordsAmount': config_jobRecordsAmount, 'minPag': '5', 'maxPag': '5', 'displayLegend': true} %}
+    </div>
+    <ul class="jobList cleanList">
+        {% for job in jobs %}
+            {% include 'tpt/jobResultItem.tpt' %}
+        {% else %}
+            <li class="jobResultItem">{{ No_jobs_found }}
+                {% if config_useJobAlerts and (USER or CONTACT_CREATED) %}
+                - <a href="{{ createAgentPage }}">{{ Create_job_alert }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="tmargin-20">
+        {% include 'tpt/jobPagination.tpt' with {'recordsAmount': config_jobRecordsAmount, 'minPag': '5', 'maxPag': '5'} %}
+    </div>
+
+    <script>
+
+        $('.inputsearch-hidden').val($('.inputsearch').val());
+        $('.inputsearch').on('change', function(){
+            $('.inputsearch-hidden').val($(this).val());
+        })
+
+    </script>
+
+{% endblock %}

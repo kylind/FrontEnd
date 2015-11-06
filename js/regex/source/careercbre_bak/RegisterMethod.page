@@ -28,7 +28,7 @@
             <h2 class="pageTitle1">{% if URL_QUERY[jobLabel ~ 'Id'] %} How do you want to apply{% else %} How do you want to register{% endif %}?</h2>
 
 
-            <p class="bPad1"><a href="{{ buildUrl(loginPage, URL_QUERY) }}"></a> **Login** if you are already registered.</p>
+            <p class="bPad1"><a name="loginLink" href="{{ buildUrl(loginPage, URL_QUERY) }}"></a> **loginLink*Login** if you are already registered.</p>
 
             {% if config_useRegistrationStepsCounting %}
                 {% include 'tpt/registrationSteps.tpt' with {'currentRegistrationStep': 1} %}

@@ -1,0 +1,304 @@
+{% extends 'Config.nopage' %}
+
+{% block main %}
+
+<!DOCTYPE html>
+<html>
+    {% block head %}
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=1" />
+        {% block metaTags %}
+            <meta name="Description" content="{{ META_DESCRIPTION }}" />
+        {% endblock %}
+        {% block title %}
+            <title>{{ DEFAULT_TITLE }}</title>
+        {% endblock %}
+        {% autoescape false %}
+            {{ FAVICON }}
+            {{ CSS }}
+            {{ SCRIPTS }}
+        {% endautoescape %}
+        <link type="text/css" rel="stylesheet" media="all" href="all.css" />
+        <link type="text/css" rel="stylesheet" media="all" href="css/CommonStyles.css" />
+        {% include 'tpt/browserSpecificCSS.tpt' %}
+        <link type="text/css" rel="stylesheet" media="all" href="css/BaseTemplate.css" />
+          <link type="text/css" rel="stylesheet" media="all" href="css/slicknav.css" />
+         <script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+         <script src="js/jRespond.js" type="text/javascript"></script>
+         <script src="js/fieldAlignment.js" type="text/javascript"></script>
+         <script src="js/jquery.slicknav.min.js" type="text/javascript"></script>
+        {% if RSS_LINK %}
+            <link rel="alternate" type="application/rss+xml" title="{{ DEFAULT_TITLE }} - RSS" href="{{ RSS_LINK }}" />
+        {% endif %}
+
+        {% block extraHeadData %}
+        {% endblock %}
+    </head>
+    {% endblock %}
+    <body class="{{ 'body_' ~ BROWSER.name ~ ' body_' ~ BROWSER.name ~ BROWSER.majorVersion }} {% block extraBodyClass %}{% endblock %}">
+        <svg display="none" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <defs>
+                <symbol id="icon-logo" viewBox="0 0 4304 1024">
+                    <title>{{ logo }}</title>
+                    <path class="path1" d="M1784.178 783.855h-355.145v-170.808h363.6c45.661 4.228 79.908 41.011 79.908 84.558 0.423 47.353-38.474 86.249-88.363 86.249zM1429.457 225.348h376.707c41.011 6.342 73.566 41.011 73.566 82.444s-32.555 79.908-75.68 84.558h-370.365l-4.228-167.002zM1957.523 495.934c136.562-43.125 160.238-151.359 160.238-240.145 0-136.562-99.779-253.252-396.155-253.252h-554.279v1017.235h552.165c298.913 0 409.262-147.131 409.262-292.149-0.423-175.458-171.23-231.69-171.23-231.69v0z"></path>
+                    <path class="path2" d="M3368.799 4.651h935.214v220.697h-675.197v164.466h608.396v222.811h-608.396v177.572h675.197v233.803h-935.214v-1019.349z"></path>
+                    <path class="path3" d="M2966.302 320.476c-4.228 32.555-38.897 69.338-84.558 69.338h-365.714v-162.352h365.714c43.125 0 77.794 30.441 84.558 71.452v21.562zM2823.399 4.651h-564.849v1019.772h259.594v-411.376h285.807c82.444 2.114 145.017 65.11 145.017 145.017v266.358h255.366v-328.931c0-151.359-153.896-197.021-153.896-197.021s158.124-45.661 158.124-224.925c-2.114-223.656-199.135-268.895-385.163-268.895z"></path>
+                    <path class="path4" d="M998.633 777.090c-4.228 0-355.145 6.342-476.063-4.228-194.907-17.334-264.244-156.010-264.244-268.472 0-140.789 99.779-244.796 255.366-264.244 73.566-8.456 478.6-4.228 482.827-4.228h8.456v-231.267h-467.607c-52.003 2.114-136.562 8.456-222.811 41.011-79.908 36.783-153.896 93.014-208.013 162.352-67.224 88.786-104.007 192.793-104.007 303.141 0 34.669 2.114 69.338 8.456 101.893 32.555 153.896 138.675 281.579 290.035 350.494 52.003 21.562 129.797 47.775 290.035 56.231l86.672 2.114h328.931v-244.796h-8.033z"></path>
+                </symbol>
+                <symbol id="icon-facebook" viewBox="0 0 1024 1024">
+                    <title>{{ facebook }}</title>
+                    <path class="path1" d="M378.88 198.328c0 25.8 0 139.592 0 139.592h-107.52v174.080h107.52v512h209.92v-512h142.111c0 0 13.332-81.92 19.789-174.080-18.534 0-161.9 0-161.9 0s0-99.558 0-117.13c0-17.613 23.665-41.59 46.536-41.59 22.82 0 71.224 0 117.304 0 0-25.6 0-104.3 0-179.2-61.44 0-129.004 0-158.884 0-222.648 0-214.876 172.559-214.876 198.328z"></path>
+                </symbol>
+                <symbol id="icon-linkedin" viewBox="0 0 1024 1024">
+                    <title>{{ linkedin }}</title>
+                    <path class="path1" d="M1024 622.664v380.856h-220.16v-355.502c0-88.73-31.411-149.289-110.848-149.289-60.652 0-96.563 40.822-112.456 80.287-5.775 14.116-7.096 33.761-7.096 53.514v370.99h-219.53c0 0 2.959-599.040 0-660.48h219.53v91.561c0 0.691-1.019 0.599-1.439 0.599h1.439v-0.599c30.72-44.908 81.249-109.092 197.821-109.092 144.471 0 252.739 94.356 252.739 297.155zM124.247 22.753c-75.116 0-124.247 49.244-124.247 114.022 0 63.375 47.708 114.104 121.334 114.104h1.469c76.554 0 124.175-50.729 124.175-114.104-1.444-64.778-47.621-114.022-122.732-114.022zM15.36 1003.52h215.040v-660.48h-215.040v660.48z"></path>
+                </symbol>
+            </defs>
+        </svg>
+        <div class="wrapper">
+            <header id="header" class="header">
+                <div class="wrapper header-first">
+                    <div class="l-content">
+                        <div class="portalbox">
+                            {{ Asia_Pacific_Careers_Portal__ }} <a href="http://www.cbre.com/EN/Pages/Home.aspx" target="_blank" class="link-bold font-green">{{ CBRE_Global }}</a>
+                        </div>
+                        <div class="loginbox">
+                            <div class="dropdown dropdown--language">
+                                <label class="dropdown-label">{{ LANGUAGE }} </label>
+                                <ul class="dropdown-options">
+                                    <li><a href="#">{{ Simplified_Chinese }}</a></li>
+                                    <li><a href="#">{{ Traditional_Chinese }}</a></li>
+                                    <li><a href="#">{{ Japanese }}</a></li>
+                                    <li><a href="#">{{ Korean }}</a></li>
+                                </ul>
+                            </div>
+                            {% if USER or CONTACT_CREATED %}
+                                <a href="{{ PORTAL_URL ~ 'Logout/' }}"  class="link-bold lmargin-30" title="Sign out">{{ LOG_OUT }}</a>
+                            {% else %}
+                                <a href="{{ loginPage }}" class="link-bold lmargin-30" >{{ LOGIN }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper header-second">
+                    <div class="l-content">
+                        <div class="logobox">
+                            <a href="{{ BASE_PORTAL_URL }}" >
+                                <svg class="logo">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-logo"></use>
+                                </svg>
+                            </a>
+                        </div>
+                        <nav class="navbox-head">
+                            <ul class="menu menu-head">
+                                <li class="menu-item">
+                                    <a href="{{ PORTAL_URL ~ 'SearchAllJobs'}}">{{ Search_All_Jobs }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <div class="dropdown">
+                                        <label class="dropdown-label"><a href="#">{{ Teams___amp__Roles|raw }}</a> </label>
+                                        <ul class="dropdown-options">
+                                            <li><a href="{{ PORTAL_URL ~ 'ServiceLines'}}">{{ Service_Lines }}</a></li>
+                                            <li><a href="{{ PORTAL_URL ~ 'OurPeople'}}">{{ Our_People }}</a></li>
+                                            <li><a href="{{ PORTAL_URL ~ 'Graduates'}}">{{ Graduates }}</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="{{ PORTAL_URL ~ 'LifeInCBRE'}}">{{ Life___CBRE }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    {% if USER or CONTACT_CREATED%}
+                                        <a href="{{ PORTAL_URL ~ 'TalentCommunityWithLogin'}}">{{ Talent_Community }}</a>
+                                    {% else %}
+                                        <a href="{{ PORTAL_URL ~ 'TalentCommunity'}}">{{ Talent_Community }}</a>
+                                    {% endif %}
+
+                                </li>
+                                {% if USER or CONTACT_CREATED%}
+                                <li class="menu-item">
+                                    <a href="{{ createAgentPage }}">{{ Job_Alert }}</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            {% block banner %}
+                <div class="banner">
+                    <h1 class="banner-title heading-largest">{% block bannerName %}{{ Careers }} <span class="banner-sep">|</span> {{ Asia_Pacific }}{% endblock %}</h1>
+
+                    <form method="post" action="{{ searchJobsPage }}" autocomplete="on" class="generalForm banner-searchsection">
+
+                        <div class="box10 box10-search l-850">
+                            <div class="box10-1">
+                                <input class="input-search font-18 inputsearch" placeholder="{{ Keyword_or_search_term }}" type="search" name="search" id="search" {% if not ISMOBILE %}autofocus="autofocus"{% endif %} value="{{ searchText }}" />
+                            </div>
+                            <div class="box10-0">
+                                 <button type="submit" name="action" class="white" value="search">{{ Search }}</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            {% endblock %}
+
+            <div class="l-content tmargin-20">
+
+                <div class="navlabels">
+                  {% block  navLabel %}
+                  {% endblock %}
+                </div>
+
+                {% block navigation %}
+
+                   {% if USER or CONTACT_CREATED%}
+                        <div class="mainNavigation autoClearer">
+                            {% include 'tpt/navigation.tpt' %}
+                        </div>
+                    {% endif %}
+                {% endblock %}
+
+            </div>
+
+            {% block contentWithoutWrapper %}
+            {% endblock %}
+
+            <div class="l-content tmargin-50">
+                {% block content %}
+                {% endblock %}
+            </div>
+            <div id="footer" class="footer tmargin-50">
+                <div class="l-content">
+                    <div class="logobox">
+                        <a href="{{ BASE_PORTAL_URL }}">
+                            <svg class="logo logo-infooter">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-logo"></use>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="footer-content {% if USER or CONTACT_CREATED%} {{ footer_logged }} {% else %} {{ footer_logout }} {% endif %}">
+                        <nav class="footermenubox">
+                            <ul class="menu menu-footer">
+                                <li class="menu-item">
+                                    <a href="{{ PORTAL_URL ~ 'SearchAllJobs'}}">{{ Search_All_Jobs }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <div class="dropdown dropdown-teamsinfooter">
+                                        <label class="dropdown-label"><a href="#">{{ Teams___amp__Roles|raw }}</a> </label>
+                                        <ul class="dropdown-options">
+                                            <li><a href="{{ PORTAL_URL ~ 'ServiceLines'}}">{{ Service_Lines }}</a></li>
+                                            <li><a href="{{ PORTAL_URL ~ 'OurPeople'}}">{{ Our_People }}</a></li>
+                                            <li><a href="{{ PORTAL_URL ~ 'Graduates'}}">{{ Graduates }}</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="{{ PORTAL_URL ~ 'LifeInCBRE'}}">{{ Life___CBRE }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="{{ PORTAL_URL ~ 'TalentCommunity'}}">{{ Talent_Community }}</a>
+                                </li>
+                                {% if USER or CONTACT_CREATED%}
+                                <li class="menu-item">
+                                    <a href="{{  createAgentPage }}">{{ Job_Alert }}</a>
+                                </li>
+                                {% endif %}
+                                <li class="menu-item">
+                                    <a href="http://www.cbre.com">{{ CBRE_Com }}</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <nav class="privacybox">
+                            <ul class="menu menu-privacy">
+                                <li class="menu-item font-h12">
+                                    {{ _copy__2015_CBRE|raw }}
+                                </li>
+                                <li class="menu-item">
+                                    <a href="http://www.cbre.com.au/Pages/disclaimer.aspx" target="_blank">{{ Terms_of_Use }}</a> |
+                                    <a href="http://www.cbre.com.au/Pages/privacypolicy.aspx" target="_blank">{{ Privacy_Policy }}</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <nav class="socialbox tmargin-30">
+                            <ul class="menu">
+                                <li class="menu-item">
+                                    <a href="https://www.linkedin.com/company/cbre" target="_blank">
+                                        <svg class="icon icon--linkedin">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-linkedin"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.facebook.com/cbre" target="_blank">
+                                        <svg class="icon icon--facebook">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-facebook"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<script>
+
+
+ //jrespond
+var jRes = jRespond([
+    {
+        label: 'handheld',
+        enter:0,
+        exit:960
+    }
+]);
+
+$('.dropdown').on('mouseenter touchend mouseleave', function() {
+
+    $(this).children('.dropdown-options').slideToggle();
+
+});
+
+jRes.addFunc({
+    breakpoint: 'handheld',
+    enter: function() {
+
+        $('.dropdown-teamsinfooter').off();
+
+
+    },
+    exit:function(){
+
+        $('.dropdown-teamsinfooter').on('mouseenter touchend mouseleave', function() {
+
+            $(this).children('.dropdown-options').slideToggle();
+
+        });
+
+    }
+
+});
+
+$(function() {
+    $('.menu-head').slicknav({
+        parentTag: 'a',
+        prependTo: '.navbox-head',
+        label:'',
+        beforeOpen: function() {
+             $('.banner').css('margin-top','349px');
+
+        },
+        afterClose: function() {
+             $('.banner').css('margin-top','100px');
+
+        }
+
+    });
+})
+</script>
+{% endblock %}

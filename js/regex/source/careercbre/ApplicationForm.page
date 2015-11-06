@@ -18,7 +18,7 @@
 
 {% block content %}
     <form method="post" enctype="multipart/form-data" autocomplete="off" class="wizard wizardStep{{ STEP_INDEX + 1 }} autoClearer generalForm">
-        <h2 class="pageTitle1">{% if job %}Job application form for **jobName*Web Developer**  <span class="jobName">{{ job.jobname|raw }}</span> {% else %} Job application form {% endif %}</h2>
+    <h2 class="pageTitle1">{% if job %}<span class="dynamic">Job application form for **jobName**  <span class="jobName">{{ job.jobname|raw }}</span></span> {% else %} Job application form {% endif %}</h2>
         {{ WIZARD|raw }}
     </form>
     <script type="text/javascript" src="js/cancelEvent.js"></script>

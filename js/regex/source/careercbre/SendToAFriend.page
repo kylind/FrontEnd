@@ -93,7 +93,7 @@
                 </div>
             </form>
         {% else %}
-            <p class="tPad1">Thanks for recommending "**jobName**" to a friend. <a name="jobName" href="{{ buildJobDetailUrl(PORTAL_URL, job) }}" title="More details about {{ job.jobname }}">{{ job.jobname }}</a></p>
+        <p class="tPad1"><span class="dynamic">Thanks for recommending "**jobName**" to a friend. <a name="jobName" href="{{ buildJobDetailUrl(PORTAL_URL, job) }}" title="More details about {{ job.jobname }}">{{ job.jobname }}</a></span></p>
             <div class="tPad1">
                 <a href="{{ getPortalPersistentData('sessionLastJobSearch') ? getPortalPersistentData('sessionLastJobSearch') : searchJobsPage }}" class="buttonLike">Continue to job list</a>
             </div>

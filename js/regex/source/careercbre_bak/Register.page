@@ -52,7 +52,7 @@
 {% block content %}
     {% if config_canRegisterBeforeApplying or URL_QUERY[jobLabel ~ 'Id'] or job %}
         <form method="post" enctype="multipart/form-data" autocomplete="off" id="Register" class="wizard wizardStep{{ STEP_INDEX + 1 }} autoClearer generalForm">
-            <h2 class="pageTitle1">{% if job %} Registration for **Web Developer** {{ job.jobname|raw }} {% else %} Registration  {% endif %}</h2>
+            <h2 class="pageTitle1">{% if job %} Registration for **jobName*Web Developer**  <span class="jobName">{{ job.jobname|raw }}</span> {% else %} Registration  {% endif %}</h2>
             {% if config_useRegistrationStepsCounting %}
                 {% include 'tpt/registrationSteps.tpt' with {'currentRegistrationStep': (config_useUploadResume or config_useSocialRegistration) ? STEP_INDEX + 2 : STEP_INDEX + 1} %}
             {% endif %}
