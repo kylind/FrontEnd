@@ -60,8 +60,7 @@
         <form method="post" enctype="multipart/form-data" autocomplete="off" id="Register" class="wizard wizardStep{{ STEP_INDEX + 1 }} autoClearer generalForm tmargin-50">
             {{ WIZARD|raw }}
             <p class="tmargin-30 taCenter w98">
-                * By joining our Talent Community you agree to your personal information being collected,
-                    <br> held used and disclosed by us in accordance with our **Privacy Policy**<a href="http://www.cbre.com.au/Pages/privacypolicy.aspx" target="_blank" class="font-darkgreen"></a>
+                * By joining our Talent Community you agree to your personal information being collected, <br> held used and disclosed by us in accordance with our **privacyPolicy*Privacy Policy**<a  name="privacyPolicy"  href="http://www.cbre.com.au/Pages/privacypolicy.aspx" target="_blank" class="font-darkgreen"></a>
             </p>
         </form>
         <script type="text/javascript" src="js/cancelEvent.js"></script>

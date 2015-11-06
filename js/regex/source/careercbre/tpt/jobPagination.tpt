@@ -1,6 +1,8 @@
 {% if navigation %}
     <p class="searchPagination">
-        {% if displayLegend == true %}<span class="jobPaginationLegend">Displaying **1** - **5** of **100**{{ recordsFrom }}{{ recordsTo }}{{ totalCount }}</span>{% endif %}
+        {% if displayLegend == true %}
+            <span class="jobPaginationLegend">Displaying **firstPage** - **lastPage** of **totalPage**
+                <span name="firstPage">{{ recordsFrom }}</span><span name="lastPage">{{ recordsTo }}</span><span name="totalPage">{{ totalCount }}</span></span>{% endif %}
         {% set currentPage = recordsFrom // recordsAmount + 1 %}
         {% set min = (currentPage - minPag - 1) %}
         {% set max = (currentPage + maxPag + 1) %}
