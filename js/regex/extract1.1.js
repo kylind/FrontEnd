@@ -5,15 +5,13 @@ var toDoFolder = process.argv[2];
 var rsFile = toDoFolder + '_result/lang.page'; //process.argv[3];
 var detailFile = toDoFolder + '_result/detail.page';//process.argv[4];
 
-if(!path.existsSync(path.dirname(rsFile))){
-    fs.mkdirSync(path.dirname(rsFile));
-}
+
 
 var fileList = fetchPageFiles(toDoFolder);
 var regexs = []
 
 
-var regex1 = { regex:/(>|\}\}|%\})[\s]*([^><\}\{%=\/]*\w+\s*(<br>)?\s*[^><\}\{%=\/]*[\w;\.!,#])[\s]*(<\/|\{\{|\{%)(?!script)/igm, index: 2};//<div>abc</div> google+
+var regex1 = { regex:/(>|\}\}|%\})[\s]*([^><\}\{%=\/]*[\w,]{2,}\s*(<br>)?\s*[^><\}\{%=\/]*[\w;\.!,#:\*\|])[\s]*(<|<\/|\{\{|\{%)(?!script)/igm, index: 2};//<div>abc</div> google+
 var regex2 = { regex: /placeholder[ ]*=[ ]*['"]([\w ]{2,})['"]/igm, index:1}; //placeholder
 
 var test=/\w/igm;
@@ -29,9 +27,9 @@ fileList.forEach(function(val) {
      //var newFilename = path.dirname(val) + "" + path.basename(val, path.extname(val)) + ".newpage";
     var newFilename = val.replace(toDoFolder, toDoFolder + '_result');
 
-/*    if(!path.existsSync(path.dirname(newFilename))){
+    if(!fs.existsSync(path.dirname(newFilename))){
        fs.mkdirSync(path.dirname(newFilename));
-    }*/
+    }
 
 
     var data = fs.readFileSync(val, {
@@ -47,11 +45,11 @@ fileList.forEach(function(val) {
 
     if (rs.variableDeclaims != "") {
 
-        fs.writeFileSync(rsFile, "{# ------------ " + path.basename(val) + " ------------ #}\n" + rs.variableDeclaims);
+        fs.appendFileSync(rsFile, "{# ------------ " + path.basename(val) + " ------------ #}\n" + rs.variableDeclaims);
     }
 
     if (rs.variableDetails != "") {
-        fs.writeFileSync(detailFile, "{# ------------ " + path.basename(val) + " ------------ #}\n" + rs.variableDetails);
+        fs.appendFileSync(detailFile, "{# ------------ " + path.basename(val) + " ------------ #}\n" + rs.variableDetails);
     }
 
     if (rs.newData != "") {
@@ -103,7 +101,11 @@ function parseData(data,allVariableDeclaims) {
                     allVariableDeclaims=allVariableDeclaims.concat(variableDeclaim);
                 }
 
-                variableOutput = matched[0].replace(matched[regObj.index], "{{ " + variable +"|raw }}")
+                var needRaw=/<br>|(&\w{2,5};)/im.test(variableVal)
+
+                var rawSuffix=needRaw ? '|raw' :''
+
+                variableOutput = matched[0].replace(matched[regObj.index], "{{ " + variable + rawSuffix +" }}")
                 newData = newData.replace(matched[0], variableOutput);
             }
 
