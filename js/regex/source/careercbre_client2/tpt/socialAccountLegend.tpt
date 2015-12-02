@@ -1,0 +1,11 @@
+{% if USER.facebookId %}
+    <p class="tPad05 dynamic">{{ Your_account_is_connected_and_regularly_updated_wi }}<img name="facebook" alt="Connect with Facebook" class="vaMiddle" src="images/facebook_32.png" /></p>
+{% elseif USER.linkedinId %}
+    <p class="tPad05 dynamic">{{ Your_account_is_connected_and_regularly_updated_wi }}<img name="linkedin" alt="Connect with LinkedIn" class="vaMiddle" src="images/linkedin_32.png" /></p>
+{% elseif USER.googleplusId %}
+    <p class="tPad05 dynamic">{{ Your_account_is_connected_and_regularly_updated_wi }}<img name="google" alt="Connect with Google+" class="vaMiddle" src="images/googleplus_32.png" /></p>
+{% elseif USER.viadeoId %}
+    <p class="tPad05 dynamic">{{ Your_account_is_connected_and_regularly_updated_wi }}<img name="viadeo" alt="Connect with Viadeo" class="vaMiddle" src="images/viadeo_32.png" /></p>
+{% elseif USER.xingId %}
+    <p class="tPad05 dynamic">{{ Your_account_is_connected_and_regularly_updated_wi }}<img name="xing" alt="Connect with Xing" class="vaMiddle" src="images/xing_32.png" /></p>
+{% endif %}
