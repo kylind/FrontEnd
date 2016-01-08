@@ -139,6 +139,8 @@
 
 {% set Delete_profile = "Delete profile" %}{# Delete profile #}
 
+{% set __are_you_sure_you_want_to_permanently_remove_your = ", are you sure you want to permanently remove your profile?" %}{# , are you sure you want to permanently remove your profile? #}
+
 {% set This_action_cannot_be_reverted_ = "This action cannot be reverted." %}{# This action cannot be reverted. #}
 
 {% set Remove_Profile = "Remove Profile" %}{# Remove Profile #}
@@ -195,6 +197,10 @@
 {% set User_ = "User:" %}{# User: #}
 
 {% set Password_ = "Password:" %}{# Password: #}
+
+{% set Forgot_your_password_ = "Forgot your password?" %}{# Forgot your password? #}
+
+{% set New_user_ = "New user?" %}{# New user? #}
 
 {% set If_you_are_not_registered_yet__get_your_account_in = "If you are not registered yet, get your account in 2 easy steps." %}{# If you are not registered yet, get your account in 2 easy steps. #}
 
@@ -305,6 +311,12 @@
 
 {# ------------ ResetPassword.page ------------ #}
 {% set Reset_Password = "Reset Password" %}{# Reset Password #}
+
+{% set Having_trouble_logging_in_ = "Having trouble logging in?" %}{# Having trouble logging in? #}
+
+{% set Password_reset = "Password reset" %}{# Password reset #}
+
+{% set Are_you_sure_you_want_to_reset_your_password_ = "Are you sure you want to reset your password?" %}{# Are you sure you want to reset your password? #}
 
 {% set Enter_the_email_address_associated_with_your_accou = "Enter the email address associated with your account, then click \"Continue\"." %}{# Enter the email address associated with your account, then click \"Continue\". #}
 

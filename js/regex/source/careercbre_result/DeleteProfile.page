@@ -17,7 +17,7 @@
             <p><a href="{{ BASE_PORTAL_URL }}">{{ Home }}</a></p>
         {% elseif not profileDeleted %}
             <form action="{{ deleteProfilePage }}" method="post" id="DeleteProfileForm" class="generalForm">
-            <p class="tPad05">{{ USER.personInfo.firstName ~ ' ' ~ USER.personInfo.lastName }}, are you sure you want to permanently remove your profile? <strong>{{ This_action_cannot_be_reverted_ }}</strong></p>
+            <p class="tPad05">{{ USER.personInfo.firstName ~ ' ' ~ USER.personInfo.lastName }}{{ __are_you_sure_you_want_to_permanently_remove_your }} <strong>{{ This_action_cannot_be_reverted_ }}</strong></p>
                 <div class="tPad1 btnGroup-2">
                     <button name="delete" type="submit">{{ Remove_Profile }}</button>
                     <a href="{{ profilePage }}" class='linkLike'>{{ Cancel }}</a>

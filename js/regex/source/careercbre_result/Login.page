@@ -53,7 +53,7 @@
                 </p>
                 <div><input type="password" name="password" id="password" required="required" /></div>
                 {% if ERROR.login %}<p class="errorText tPad1">{{ ERROR.login }}</p>{% endif %}
-                <p class="tPad1"><a href="{{ buildUrl(resetPasswordPage, {'forgotpassword': 'true'}) }}">Forgot your password?</a></p>
+                <p class="tPad1"><a href="{{ buildUrl(resetPasswordPage, {'forgotpassword': 'true'}) }}">{{ Forgot_your_password_ }}</a></p>
                 <div class="tPad1">
                     <button name="login" type="submit">{{ Sign_in }}</button>
                     <a href="{{ BASE_PORTAL_URL }}" onclick="history.back(-1); return false;" class='linkLike'>{{ Cancel }}</a>
@@ -63,7 +63,7 @@
         </div>
         {% if URL_QUERY[jobLabel ~ 'Id'] or config_canRegisterBeforeApplying %}
             <div class="loginRegisterBox">
-                <h3 class="sectionTitle2">New user?</h3>
+                <h3 class="sectionTitle2">{{ New_user_ }}</h3>
                 <p class="tPad1">{{ If_you_are_not_registered_yet__get_your_account_in }}
                 </p>
                 <p class="tPad1"><a href="{{ buildUrl((config_useUploadResume or config_useSocialRegistration) ? registerMethodPage : registerPage, URL_QUERY) }}" class="buttonLike">{{ Register_Now_ }}</a></p>
