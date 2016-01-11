@@ -57,13 +57,14 @@ function Consumer(name) {
             i++;
         }
 
-        console.log("beans.length" + beans.length);
+        console.log("beans.length: " + beans.length);
+
+        console.log(this.listenerCount('empty'));
 
         if(beans.length==0){
-            this.emit('empty', beans);
+            var hasListeners=this.emit('empty', beans);
+            console.log('Has listeners?: ' + hasListeners);
         }
-
-
 
     };
 
