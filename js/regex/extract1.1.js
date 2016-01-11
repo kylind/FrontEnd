@@ -12,6 +12,7 @@ var regexs = []
 
 
 var regex1 = { regex:/(>|\}\}|%\})[\s]*([^><\}\{%=\/]*[\w,]{2,}\s*(<br>)?\s*[^><\}\{%=\/]*[\w;\.!,#:\*\|\?])[\s]*(<|<\/|\{\{|\{%)(?!script)/igm, index: 2};//<div>abc</div> google+
+
 var regex2 = { regex: /placeholder[ ]*=[ ]*['"]([\w ]{2,})['"]/igm, index:1}; //placeholder
 
 var test=/\w/igm;

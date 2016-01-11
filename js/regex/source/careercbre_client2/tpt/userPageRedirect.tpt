@@ -1,0 +1,13 @@
+{% if USER %}
+    <script type="text/javascript">
+        {% if profilePage %}
+            window.location = '{{ profilePage }}';
+        {% else %}
+            window.location = '{{ BASE_PORTAL_URL }}';
+        {% endif %}
+    </script>
+{% elseif CONTACT_CREATED %}
+    <script type="text/javascript">
+        window.location = '{{ BASE_PORTAL_URL }}';
+    </script>
+{% endif %}

@@ -1,0 +1,198 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+{% set isProfile = true %}
+
+{% block configuration %}
+    {{ pageType('personDetail,wizard,searchAgent') }}
+    {{ pageParameters('searchAgent:list') }}
+    {{ wizard('67') }}
+    {{ wizardMode('edit') }}
+    {{ jobDataWithWorkflowStep(config_enableJobDataWithWorkflowStep) }}
+    {{ setJobId(null) }}
+    {{ relateFormsToJob(false) }}
+    {{ forceRelateFormsToJob(false) }}
+    {{ setWizardRedirect(profilePage) }}
+    {{ removePortalPersistentData('sessionJobId') }}
+    {{ removePortalPersistentData('sessionApplyRedirect') }}
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>{{ Home }}</a><span class="navlabel">{{ My_Profile }}</span>
+{% endblock %}
+
+{% block navigation %}
+    <div class="mainNavigation autoClearer">
+        {% include 'tpt/navigation.tpt' %}
+        <p class="mainNavigationStatusAdditional"><strong><a href="{{ searchJobsPage }}">{{ Search_for_jobs }}</a></strong>
+            {% if config_useJobAlerts %}| <a href="{{ createAgentPage }}">{{ Create_job_alert }}</a>{% endif %}
+        </p>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="profileMain clearer autoClearer">
+        <h2 class="pageTitle1">{{ USER.personInfo.firstName ~ ' ' ~ USER.personInfo.lastName }}{% if URL_QUERY.Registration == 'Successful' %}{{ __your_registration_has_been_completed_ }}{% endif %}</h2>
+        {% if URL_QUERY.Registration == 'Successful' %}
+            <p class="bPad1">{{ Take_a_moment_to_review_all_sections_of_your_profi }}</p>
+        {% endif %}
+        <p class="bPad05"><strong><a href="{{ editProfilePage }}" class="tColor2">{{ Edit_profile }}</a></strong></p>
+
+        {% if config_showProfilePicture %}
+            <div class="profilePictureContainer">
+                <img class="profilePicture autoResize dBlock" src="{{ USER.photoAttachmentDownloadUrl ? USER.photoAttachmentDownloadUrl : 'images/defaultPhotoPerson.jpg' }}" alt="Profile Picture" />
+                <a class="profilePictureLink tColor2" href="{{ editProfilePage }}">{{ Edit_profile }}</a>
+            </div>
+        {% endif %}
+
+        {% if USER.personInfo.jobTitle or USER.personInfo.company %}
+            <p>
+                {{ USER.personInfo.jobTitle }}
+                {% if USER.personInfo.jobTitle and USER.personInfo.company %}
+                    at
+                {% endif %}
+                {{ USER.personInfo.company }}
+            </p>
+        {% endif %}
+
+        {% if USER.contactInfo.emails %}
+            {% for email in USER.contactInfo.emails %}
+                <p>{{ Email }} {{ '(' ~ email.emailTypeName|replace({'--': 'other'}) ~ '):'}} {{ email.emailAddress }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {% if USER.contactInfo.phoneNumbers %}
+            {% for phone in USER.contactInfo.phoneNumbers %}
+                <p>{{ Phone }} {{ '(' ~  phone.phoneTypeName ~ '):'}} {{ phone.phoneNumber }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {% if USER.contactInfo.websites %}
+            {% for website in USER.contactInfo.websites %}
+                <p>{{ Website }} {{ '(' ~ website.websiteTypeName  ~ '):'}} {{ website.url|raw }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {% if USER.contactInfo.streetAddresses %}
+            {% for streetAddress in USER.contactInfo.streetAddresses %}
+                <p>Location ({{ streetAddress.streetAddressTypeName }}):
+                    {{ streetAddress.street }}
+                    {% if streetAddress.city %}<span class="commaSeparated">{{ streetAddress.city }}</span>{% endif %}
+                    {% if streetAddress.state %}<span class="commaSeparated">{{ streetAddress.state }}</span>{% endif %}
+                    {% if streetAddress.country %}<span class="commaSeparated">{{ streetAddress.country }}</span>{% endif %}
+                </p>
+                {% if streetAddress.zipCode %}<p>{{ Zip_code_ }} {{ streetAddress.zipCode }}</p>{% endif %}
+            {% endfor %}
+        {% endif %}
+        {% include 'tpt/socialAccountLegend.tpt' %}
+    </div>
+
+    <h3 class="sectionTitle1">{{ Resume }}</h3>
+    <p class="bPad05" id="UploadFileCaption"><strong><a href="#" onclick="showElement('UploadFile'); hideElement('UploadFileCaption'); return false;" class="tColor2">{{ Upload_new_resume }}</a></strong></p>
+    <form method="post" enctype="multipart/form-data" autocomplete="off" class="dNone bPad05 autoClearer generalForm" id="UploadFile">
+        {{ WIZARD|raw }}
+    </form>
+    <script type="text/javascript" src="js/cancelEvent.js"></script>
+    <script type="text/javascript" src="js/disableSubmitButtons.js"></script>
+    <script type="text/javascript" src="js/showElement.js"></script>
+    <script type="text/javascript">
+        var cancelButton;
+        if (document.getElementsByName('cancel')) {
+            cancelButton = document.getElementsByName('cancel')[0];
+        };
+        if (cancelButton) {
+            cancelButton.onclick = function(event) {
+                cancelEvent(event);
+                showElement('UploadFileCaption');
+                hideElement('UploadFile');
+            };
+        };
+    </script>
+
+    {% if attachments %}
+        <h3 class="sectionTitle1">{{ Attachments }}</h3>
+        {% for attachment in attachments %}
+            <div class="fileItem">
+                <strong>{{ File }}{% if attachment.attachmentTypeName or attachment.isPreferred %} ({{ attachment.attachmentTypeName }}{% if attachment.attachmentTypeName and attachment.isPreferred %} - {% endif %}{% if attachment.isPreferred %}{{ preferred }}{% endif %}){% endif %}:</strong>
+                {% include 'tpt/fileManagerItem.tpt' %}
+            </div>
+        {% endfor %}
+
+        <div id="filePreview">
+            <p class="filePreviewBar"><strong><a href="#" onclick="hidePreview(); return false;">{{ Close_preview }}</a></strong></p>
+            <iframe src="about:blank" frameborder="0"></iframe>
+        </div>
+        <script type="text/javascript" src="js/showAttachmentPreview.js"></script>
+    {% endif %}
+
+    {% if JOB_DATA %}
+        <h3 class="sectionTitle1">{{ Positions_I_have_applied_to }}</h3>
+        <p class="bPad05"><strong><a class="tColor2" href="{{ searchJobsPage }}">{{ Search_for_jobs }}</a></strong></p>
+        <table class="tableList">
+            <thead>
+                <tr>
+                    <th>{{ Position }}</th>
+                    {% if config_enableJobDataWithWorkflowStep %}
+                        <th>{{ Status }}</th>
+                    {% endif %}
+                    <th>{{ Location }}</th>
+                    <th>{{ Application_date }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for job in JOB_DATA %}
+                {% set jobCustomFields = customFields(job, [128,110], false) %}
+                {% set jobCity = jobCustomFields[128] %}
+                {% set jobCountry = jobCustomFields[110] %}
+                <tr>
+                    <td><a href="{{ buildJobDetailUrl(PORTAL_URL, job) }}">{{ job.jobName }}</a></td>
+                    {% if config_enableJobDataWithWorkflowStep %}
+                        <td>{{ job.workflowStatusName }}</td>
+                    {% endif %}
+                    <td>{{ jobCity }} {{ (jobCountry and jobCity) ? ',' }} {{ jobCountry }}</td>
+                    <td>{{ job.date.timestamp ? job.date.timestamp|date('d-m-Y') : '' }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% if config_useJobAlerts %}
+        {% if agents %}
+            <h3 class="sectionTitle1">{{ Job_alerts }}</h3>
+            <p class="bPad05"><strong><a class="tColor2" href="{{ createAgentPage }}">{{ Create_job_alert }}</a></strong></p>
+            <table class="tableList">
+                <thead>
+                    <tr>
+                        <th>{{ Keyword }}</th>
+                        <th>{{ Location }}</th>
+                        <th>{{ Role }}</th>
+                        <th>{{ Frequency }}</th>
+                        <th>{{ Actions }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for agent in agents %}
+                        <tr>
+                            <td>{{ agent.searchCriteria }}</td>
+                            <td>{{ agent.customFields["3_110_3"].value }}</td>
+                            <td>{{ agent.customFields["3_142_3"].value }}</td>
+                            <td>
+                                {% if agent.portalSearchAgentFrequencyId == 1 %}
+                                    {{ Weekly }}
+                                {% elseif agent.portalSearchAgentFrequencyId == 2 %}
+                                    {{ Monthly }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a class="bold" href="{{ buildUrl(editAgentPage, {'action': 'edit', 'id': agent.id}) }}">{{ Edit }}</a> |
+                                <a class="bold" href="{{ buildUrl(deleteAgentPage, {'id': agent.id}) }}">{{ Delete }}</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="5">{{ You_don_t_have_any_job_alerts_setup_yet_ }}</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('html') }}
+    {% if URL_QUERY[jobLabel ~ 'Id'] %}
+        {{ setJobId(URL_QUERY[jobLabel ~ 'Id']) }}
+        {% set socialApplyRedirect = buildUrl(applicationFormPage, URL_QUERY) %}
+        {{ addPortalPersistentData('sessionJobId', URL_QUERY[jobLabel ~ 'Id']) }}
+    {% else %}
+        {% set socialApplyRedirect = buildUrl(profilePage, {'Registration': 'Successful'}) %}
+        {{ removePortalPersistentData('sessionJobId') }}
+    {% endif %}
+    {{ addPortalPersistentData('sessionApplyRedirect', socialApplyRedirect) }}
+{% endblock %}
+
+{% block  navLabel %}
+    <a href='{{ BASE_PORTAL_URL }}'>{{ Home }}</a><span class="navlabel">{{ Successful_Registration }}</span>
+{% endblock %}
+
+{% block navigation %}
+    <div class="mainNavigation autoClearer">
+        {% include 'tpt/navigation.tpt' %}
+        <p class="mainNavigationStatusAdditional"><strong><a href="{{ searchJobsPage }}">{{ Search_for_jobs }}</a></strong>
+            {% if config_useJobAlerts %}| <a href="{{ createAgentPage }}">{{ Create_job_alert }}</a>{% endif %}
+        </p>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if APPLIED_JOB_DATA.jobId == URL_QUERY[jobLabel ~ 'Id'] %}
+        {% include 'tpt/successfulApplicationMessage.tpt' %}
+    {% endif %}
+    {% if CONTACT_CREATED and not USER %}
+        <h2 class="sectionTitle1">{{ Want_to_come_back_and_apply_for_jobs_later__Update }}</h2>
+        <div class="tPad05">
+            {% include 'tpt/formChoosePassword.tpt' %}
+            {% if config_useSocialRegistration %}
+                {{ Or_log_in_with_a_social_network_ }}
+                {% if config_useSocialRegistrationFacebook %}
+                    <a class="icon32 iconFacebook32" href="{# LOGINWITHFACEBOOK #}">{{ Connect_with_Facebook }}</a>
+                {% endif %}
+                {% if config_useSocialRegistrationLinkedIn %}
+                    <a class="icon32 iconLinkedin32" href="{# LOGINWITHLINKEDIN #}">{{ Connect_with_LinkedIn }}</a>
+                {% endif %}
+                {% if config_useSocialRegistrationGooglePlus %}
+                    <a class="icon32 iconGoogleplus32" href="{# LOGINWITHGOOGLEPLUS #}">Connect with Google+</a>
+                {% endif %}
+                {% if config_useSocialRegistrationXing %}
+                    <a class="icon32 iconXing32" href="{# LOGINWITHXING #}">{{ Connect_with_Xing }}</a>
+                {% endif %}
+                {% if config_useSocialRegistrationViadeo %}
+                    <a class="icon32 iconViadeo32" href="{# LOGINWITHVIADEO #}">{{ Connect_with_Viadeo }}</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endif %}
+    <div class="tPad1"><a href="{{ searchJobsPage }}" class="buttonLike">{{ Back_to_job_list }}</a></div>
+{% endblock %}

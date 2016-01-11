@@ -1,0 +1,495 @@
+{# ------------ ApplicationForm.page ------------ #}
+{% set Home = "Home" %}{# Home #}
+
+{% set Application_Form = "Application Form" %}{# Application Form #}
+
+{% set Job_application_form_for___jobName__ = "Job application form for **jobName**" %}{# Job application form for **jobName** #}
+
+{% set Job_application_form = "Job application form" %}{# Job application form #}
+
+{# ------------ ApplyConfirmation.page ------------ #}
+{% set Application_Confirmation = "Application Confirmation" %}{# Application Confirmation #}
+
+{% set _lt__Back_to_job_detail = "&lt; Back to job detail" %}{# &lt; Back to job detail #}
+
+{% set Apply_confirmation_ = "Apply confirmation:" %}{# Apply confirmation: #}
+
+{% set Ref__ = "Ref#:" %}{# Ref#: #}
+
+{% set Date_published_ = "Date published:" %}{# Date published: #}
+
+{% set You_have_previously_applied_for_this_job_ = "You have previously applied for this job." %}{# You have previously applied for this job. #}
+
+{% set Apply_Now = "Apply Now" %}{# Apply Now #}
+
+{% set Cancel = "Cancel" %}{# Cancel #}
+
+{# ------------ BaseTemplate.nopage ------------ #}
+{% set logo = "logo" %}{# logo #}
+
+{% set facebook = "facebook" %}{# facebook #}
+
+{% set linkedin = "linkedin" %}{# linkedin #}
+
+{% set Asia_Pacific_Careers_Portal__ = "Asia Pacific Careers Portal |" %}{# Asia Pacific Careers Portal | #}
+
+{% set CBRE_Global = "CBRE Global" %}{# CBRE Global #}
+
+{% set LANGUAGE = "LANGUAGE" %}{# LANGUAGE #}
+
+{% set Simplified_Chinese = "Simplified Chinese" %}{# Simplified Chinese #}
+
+{% set Traditional_Chinese = "Traditional Chinese" %}{# Traditional Chinese #}
+
+{% set Japanese = "Japanese" %}{# Japanese #}
+
+{% set Korean = "Korean" %}{# Korean #}
+
+{% set LOG_OUT = "LOG OUT" %}{# LOG OUT #}
+
+{% set LOGIN = "LOGIN" %}{# LOGIN #}
+
+{% set Search_All_Jobs = "Search All Jobs" %}{# Search All Jobs #}
+
+{% set Teams___amp__Roles = "Teams  &amp; Roles" %}{# Teams  &amp; Roles #}
+
+{% set Service_Lines = "Service Lines" %}{# Service Lines #}
+
+{% set Our_People = "Our People" %}{# Our People #}
+
+{% set Graduates = "Graduates" %}{# Graduates #}
+
+{% set Life___CBRE = "Life @ CBRE" %}{# Life @ CBRE #}
+
+{% set Talent_Community = "Talent Community" %}{# Talent Community #}
+
+{% set Job_Alert = "Job Alert" %}{# Job Alert #}
+
+{% set Careers = "Careers" %}{# Careers #}
+
+{% set Asia_Pacific = "Asia Pacific" %}{# Asia Pacific #}
+
+{% set Search = "Search" %}{# Search #}
+
+{% set footer_logged = "footer-logged" %}{# footer-logged #}
+
+{% set footer_logout = "footer-logout" %}{# footer-logout #}
+
+{% set CBRE_Com = "CBRE.Com" %}{# CBRE.Com #}
+
+{% set _copy__2015_CBRE = "&copy; 2015 CBRE" %}{# &copy; 2015 CBRE #}
+
+{% set Terms_of_Use = "Terms of Use" %}{# Terms of Use #}
+
+{% set Privacy_Policy = "Privacy Policy" %}{# Privacy Policy #}
+
+{% set Keyword_or_search_term = "Keyword or search term" %}{# Keyword or search term #}
+
+{# ------------ ChoosePassword.page ------------ #}
+{% set Choose_Password = "Choose Password" %}{# Choose Password #}
+
+{% set Choose_a_password_to_create_an_account = "Choose a password to create an account" %}{# Choose a password to create an account #}
+
+{% set Password__ = "Password*:" %}{# Password*: #}
+
+{% set Confirm_password__ = "Confirm password*:" %}{# Confirm password*: #}
+
+{% set Continue = "Continue" %}{# Continue #}
+
+{% set Your_account_has_been_created = "Your account has been created" %}{# Your account has been created #}
+
+{% set Take_a_moment_to_review_all_sections_of_your_profi = "Take a moment to review all sections of your profile." %}{# Take a moment to review all sections of your profile. #}
+
+{% set Continue_to_your_profile = "Continue to your profile" %}{# Continue to your profile #}
+
+{# ------------ CreateAgent.page ------------ #}
+{% set Create_Agent = "Create Agent" %}{# Create Agent #}
+
+{% set Use_the_options_below_to_customize_your_job_alerts = "Use the options below to customize your job alerts" %}{# Use the options below to customize your job alerts #}
+
+{% set Keywords_ = "Keywords:" %}{# Keywords: #}
+
+{% set Frequency_ = "Frequency:" %}{# Frequency: #}
+
+{% set Weekly = "Weekly" %}{# Weekly #}
+
+{% set Monthly = "Monthly" %}{# Monthly #}
+
+{% set Save_Job_Notification = "Save Job Notification" %}{# Save Job Notification #}
+
+{% set Back_to_Profile = "Back to Profile" %}{# Back to Profile #}
+
+{% set Back_to_Home = "Back to Home" %}{# Back to Home #}
+
+{% set Job_notification_saved_ = "Job notification saved!" %}{# Job notification saved! #}
+
+{# ------------ DeleteAgent.page ------------ #}
+{% set Delete_Agent = "Delete Agent" %}{# Delete Agent #}
+
+{% set Job_alert_deleted_ = "Job alert deleted!" %}{# Job alert deleted! #}
+
+{% set Back_to_profile = "Back to profile" %}{# Back to profile #}
+
+{% set Delete_job_alert = "Delete job alert" %}{# Delete job alert #}
+
+{% set Delete = "Delete" %}{# Delete #}
+
+{# ------------ DeleteProfile.page ------------ #}
+{% set Delete_Profile = "Delete Profile" %}{# Delete Profile #}
+
+{% set Delete_profile = "Delete profile" %}{# Delete profile #}
+
+{% set __are_you_sure_you_want_to_permanently_remove_your = ", are you sure you want to permanently remove your profile?" %}{# , are you sure you want to permanently remove your profile? #}
+
+{% set This_action_cannot_be_reverted_ = "This action cannot be reverted." %}{# This action cannot be reverted. #}
+
+{% set Remove_Profile = "Remove Profile" %}{# Remove Profile #}
+
+{% set Your_profile_has_been_deleted = "Your profile has been deleted" %}{# Your profile has been deleted #}
+
+{# ------------ EditAgent.page ------------ #}
+{% set Edit_Agent = "Edit Agent" %}{# Edit Agent #}
+
+{% set Edit_job_alert = "Edit job alert" %}{# Edit job alert #}
+
+{% set Save = "Save" %}{# Save #}
+
+{% set Job_alert_updated_ = "Job alert updated!" %}{# Job alert updated! #}
+
+{# ------------ EditProfile.page ------------ #}
+{% set Edit_Profile = "Edit Profile" %}{# Edit Profile #}
+
+{% set Reset_password = "Reset password" %}{# Reset password #}
+
+{% set Edit_profile = "Edit profile" %}{# Edit profile #}
+
+{# ------------ Error.page ------------ #}
+{% set An_error_has_occurred = "An error has occurred" %}{# An error has occurred #}
+
+{% set Recover_your_password = "Recover your password" %}{# Recover your password #}
+
+{% set Return_to_home_page = "Return to home page" %}{# Return to home page #}
+
+{# ------------ JobDetail.page ------------ #}
+{% set Job_Detail = "Job Detail" %}{# Job Detail #}
+
+{% set _lt__Back_to_job_list = "&lt; Back to job list" %}{# &lt; Back to job list #}
+
+{% set Share_with_ = "Share with:" %}{# Share with: #}
+
+{% set Attachments = "Attachments" %}{# Attachments #}
+
+{% set File = "File" %}{# File #}
+
+{% set preferred = "preferred" %}{# preferred #}
+
+{% set Close_preview = "Close preview" %}{# Close preview #}
+
+{% set Send_to_a_friend = "Send to a friend" %}{# Send to a friend #}
+
+{# ------------ Login.page ------------ #}
+{% set Login = "Login" %}{# Login #}
+
+{% set Sign_in_or_register_your_account_below_ = "Sign in or register your account below." %}{# Sign in or register your account below. #}
+
+{% set Sign_in = "Sign in" %}{# Sign in #}
+
+{% set User_ = "User:" %}{# User: #}
+
+{% set Password_ = "Password:" %}{# Password: #}
+
+{% set Forgot_your_password_ = "Forgot your password?" %}{# Forgot your password? #}
+
+{% set New_user_ = "New user?" %}{# New user? #}
+
+{% set If_you_are_not_registered_yet__get_your_account_in = "If you are not registered yet, get your account in 2 easy steps." %}{# If you are not registered yet, get your account in 2 easy steps. #}
+
+{% set Register_Now_ = "Register Now!" %}{# Register Now! #}
+
+{% set Apply_with_Social_Networks = "Apply with Social Networks" %}{# Apply with Social Networks #}
+
+{% set Login_with_Social_Networks = "Login with Social Networks" %}{# Login with Social Networks #}
+
+{% set Connect_with_Facebook = "Connect with Facebook" %}{# Connect with Facebook #}
+
+{% set Connect_with_LinkedIn = "Connect with LinkedIn" %}{# Connect with LinkedIn #}
+
+{% set Connect_with_Xing = "Connect with Xing" %}{# Connect with Xing #}
+
+{% set Connect_with_Viadeo = "Connect with Viadeo" %}{# Connect with Viadeo #}
+
+{# ------------ Profile.page ------------ #}
+{% set My_Profile = "My Profile" %}{# My Profile #}
+
+{% set Search_for_jobs = "Search for jobs" %}{# Search for jobs #}
+
+{% set Create_job_alert = "Create job alert" %}{# Create job alert #}
+
+{% set __your_registration_has_been_completed_ = ", your registration has been completed!" %}{# , your registration has been completed! #}
+
+{% set Email = "Email" %}{# Email #}
+
+{% set Phone = "Phone" %}{# Phone #}
+
+{% set Website = "Website" %}{# Website #}
+
+{% set Zip_code_ = "Zip code:" %}{# Zip code: #}
+
+{% set Resume = "Resume" %}{# Resume #}
+
+{% set Upload_new_resume = "Upload new resume" %}{# Upload new resume #}
+
+{% set Positions_I_have_applied_to = "Positions I have applied to" %}{# Positions I have applied to #}
+
+{% set Position = "Position" %}{# Position #}
+
+{% set Status = "Status" %}{# Status #}
+
+{% set Location = "Location" %}{# Location #}
+
+{% set Application_date = "Application date" %}{# Application date #}
+
+{% set Job_alerts = "Job alerts" %}{# Job alerts #}
+
+{% set Keyword = "Keyword" %}{# Keyword #}
+
+{% set Role = "Role" %}{# Role #}
+
+{% set Frequency = "Frequency" %}{# Frequency #}
+
+{% set Actions = "Actions" %}{# Actions #}
+
+{% set Edit = "Edit" %}{# Edit #}
+
+{% set You_don_t_have_any_job_alerts_setup_yet_ = "You don't have any job alerts setup yet." %}{# You don't have any job alerts setup yet. #}
+
+{# ------------ Register.page ------------ #}
+{% set Register = "Register" %}{# Register #}
+
+{% set Registration_for___jobName__ = "Registration for **jobName**" %}{# Registration for **jobName** #}
+
+{% set Registration = "Registration" %}{# Registration #}
+
+{% set history_back__1__ = "history.back(-1);" %}{# history.back(-1); #}
+
+{# ------------ RegisterMethod.page ------------ #}
+{% set How_do_you_want_to_apply = "How do you want to apply" %}{# How do you want to apply #}
+
+{% set How_do_you_want_to_register = "How do you want to register" %}{# How do you want to register #}
+
+{% set __loginLink_Login___if_you_are_already_registered_ = "**loginLink*Login** if you are already registered." %}{# **loginLink*Login** if you are already registered. #}
+
+{% set Upload_a_file = "Upload a file" %}{# Upload a file #}
+
+{% set Copy_and_paste_resume = "Copy and paste resume" %}{# Copy and paste resume #}
+
+{% set Dropbox = "Dropbox" %}{# Dropbox #}
+
+{% set Google_Drive = "Google Drive" %}{# Google Drive #}
+
+{% set I_ll_post_my_resume_later = "I'll post my resume later" %}{# I'll post my resume later #}
+
+{% set Selected_file_ = "Selected file:" %}{# Selected file: #}
+
+{% set Copy_and_paste_resume_ = "Copy and paste resume:" %}{# Copy and paste resume: #}
+
+{% set Selected_file_from_Dropbox_ = "Selected file from Dropbox:" %}{# Selected file from Dropbox: #}
+
+{% set no_file_selected_ = "no file selected." %}{# no file selected. #}
+
+{% set choose_another_file = "choose another file" %}{# choose another file #}
+
+{% set Selected_file_from_Google_Drive_ = "Selected file from Google Drive:" %}{# Selected file from Google Drive: #}
+
+{% set This_field_is_required_ = "This field is required." %}{# This field is required. #}
+
+{% set _lt__Back = "&lt; Back" %}{# &lt; Back #}
+
+{% set Next__gt_ = "Next &gt;" %}{# Next &gt; #}
+
+{% set alert__Your_browser_does_not_support_Google_Drive_ = "alert('Your browser does not support Google Drive.');" %}{# alert('Your browser does not support Google Drive.'); #}
+
+{# ------------ ResetPassword.page ------------ #}
+{% set Reset_Password = "Reset Password" %}{# Reset Password #}
+
+{% set Having_trouble_logging_in_ = "Having trouble logging in?" %}{# Having trouble logging in? #}
+
+{% set Password_reset = "Password reset" %}{# Password reset #}
+
+{% set Are_you_sure_you_want_to_reset_your_password_ = "Are you sure you want to reset your password?" %}{# Are you sure you want to reset your password? #}
+
+{% set Enter_the_email_address_associated_with_your_accou = "Enter the email address associated with your account, then click \"Continue\"." %}{# Enter the email address associated with your account, then click \"Continue\". #}
+
+{% set We_ll_email_you_a_link_to_reset_your_password_ = "We'll email you a link to reset your password." %}{# We'll email you a link to reset your password. #}
+
+{% set Email_address_ = "Email address:" %}{# Email address: #}
+
+{% set Back = "Back" %}{# Back #}
+
+{% set Check_your_email = "Check your email" %}{# Check your email #}
+
+{% set If_the_email_address_you_entered____mailAddress___ = "If the email address you entered, **mailAddress**, is associated with an account in our records, you will receive an email from us with instructions for resetting your password." %}{# If the email address you entered, **mailAddress**, is associated with an account in our records, you will receive an email from us with instructions for resetting your password. #}
+
+{% set If_you_don_t_receive_this_email__please_check_your = "If you don't receive this email, please check your junk mail folder." %}{# If you don't receive this email, please check your junk mail folder. #}
+
+{# ------------ SearchAllJobs.page ------------ #}
+{% set Advanced_Search = "Advanced Search" %}{# Advanced Search #}
+
+{% set Search_By_Location = "Search By Location" %}{# Search By Location #}
+
+{% set Australia = "Australia" %}{# Australia #}
+
+{% set China = "China" %}{# China #}
+
+{% set Hong_Kong__br__Macau = "Hong Kong <br> Macau" %}{# Hong Kong <br> Macau #}
+
+{% set India = "India" %}{# India #}
+
+{% set Japan = "Japan" %}{# Japan #}
+
+{% set Korea = "Korea" %}{# Korea #}
+
+{% set New_Zealand = "New Zealand" %}{# New Zealand #}
+
+{% set Taiwan = "Taiwan" %}{# Taiwan #}
+
+{% set Search_By_Service_Line = "Search By Service Line" %}{# Search By Service Line #}
+
+{% set Select_service_line_from_dropdown_below_ = "Select service line from dropdown below:" %}{# Select service line from dropdown below: #}
+
+{% set Service_Line_Names = "Service Line Names" %}{# Service Line Names #}
+
+{% set Asset_Services = "Asset Services" %}{# Asset Services #}
+
+{% set Brokerage = "Brokerage" %}{# Brokerage #}
+
+{% set Captial_Markets = "Captial Markets" %}{# Captial Markets #}
+
+{% set Global_Corportate_Services = "Global Corportate Services" %}{# Global Corportate Services #}
+
+{% set Global_Investors = "Global Investors" %}{# Global Investors #}
+
+{% set Valuations__amp__Advisory_Services = "Valuations &amp; Advisory Services" %}{# Valuations &amp; Advisory Services #}
+
+{% set Shared_Services = "Shared Services" %}{# Shared Services #}
+
+{# ------------ SearchAllJobsTemplate.nopage ------------ #}
+{% set Filter_By = "Filter By" %}{# Filter By #}
+
+{% set Country = "Country" %}{# Country #}
+
+{% set CITY = "CITY" %}{# CITY #}
+
+{% set TEAM = "TEAM" %}{# TEAM #}
+
+{% set _nbsp_ = "&nbsp;" %}{# &nbsp; #}
+
+{% set Update_Search = "Update Search" %}{# Update Search #}
+
+{% set No_jobs_found = "No jobs found" %}{# No jobs found #}
+
+{# ------------ SearchJobs.page ------------ #}
+{% set Location_ = "Location:" %}{# Location: #}
+
+{% set Reset = "Reset" %}{# Reset #}
+
+{# ------------ SendToAFriend.page ------------ #}
+{% set Send_to_Friend = "Send to Friend" %}{# Send to Friend #}
+
+{% set _lt__Back_to_ = "&lt; Back to:" %}{# &lt; Back to: #}
+
+{% set job_list = "job list" %}{# job list #}
+
+{% set job_detail = "job detail" %}{# job detail #}
+
+{% set Mail_sent_successfully = "Mail sent successfully" %}{# Mail sent successfully #}
+
+{% set Position_ = "Position:" %}{# Position: #}
+
+{% set Your_name_ = "Your name:" %}{# Your name: #}
+
+{% set Your_email_ = "Your email:" %}{# Your email: #}
+
+{% set Your_friend_s_email_ = "Your friend's email:" %}{# Your friend's email: #}
+
+{% set Subject_ = "Subject:" %}{# Subject: #}
+
+{% set Send = "Send" %}{# Send #}
+
+{% set Thanks_for_recommending____jobName____to_a_friend_ = "Thanks for recommending \"**jobName**\" to a friend." %}{# Thanks for recommending \"**jobName**\" to a friend. #}
+
+{% set Continue_to_job_list = "Continue to job list" %}{# Continue to job list #}
+
+{% set Mail_content = "Mail content" %}{# Mail content #}
+
+{# ------------ SocialRegister.page ------------ #}
+{% set Social_Register = "Social Register" %}{# Social Register #}
+
+{% set Please_select_a_job_before_registering_with_a_soci = "Please select a job before registering with a social network." %}{# Please select a job before registering with a social network. #}
+
+{% set Search_jobs = "Search jobs" %}{# Search jobs #}
+
+{# ------------ SuccessfulRegistration.page ------------ #}
+{% set Successful_Registration = "Successful Registration" %}{# Successful Registration #}
+
+{% set Want_to_come_back_and_apply_for_jobs_later__Update = "Want to come back and apply for jobs later? Update your profile? Create an account with us:" %}{# Want to come back and apply for jobs later? Update your profile? Create an account with us: #}
+
+{% set Or_log_in_with_a_social_network_ = "Or log in with a social network:" %}{# Or log in with a social network: #}
+
+{% set Back_to_job_list = "Back to job list" %}{# Back to job list #}
+
+{# ------------ TalentCommunity.page ------------ #}
+{% set Join_our_Talent_Community_to_keep_up_to_date_with_ = "Join our Talent Community to keep up to date with exciting career opportunities                 <br> and the latest news." %}{# Join our Talent Community to keep up to date with exciting career opportunities                 <br> and the latest news. #}
+
+{% set Please_fill_out_your_details_below_and_indicate_yo = "Please fill out your details below and indicate your area(s) of interest. You can also upload your resume or join using your social profile." %}{# Please fill out your details below and indicate your area(s) of interest. You can also upload your resume or join using your social profile. #}
+
+{% set Apply_with_Linkedin = "Apply with Linkedin" %}{# Apply with Linkedin #}
+
+{% set __By_joining_our_Talent_Community_you_agree_to_you = "* By joining our Talent Community you agree to your personal information being collected, <br> held used and disclosed by us in accordance with our **privacyPolicy*Privacy Policy**" %}{# * By joining our Talent Community you agree to your personal information being collected, <br> held used and disclosed by us in accordance with our **privacyPolicy*Privacy Policy** #}
+
+{# ------------ fileManagerItem.tpt ------------ #}
+{% set Preview = "Preview" %}{# Preview #}
+
+{% set Open_in_a_new_window = "Open in a new window" %}{# Open in a new window #}
+
+{# ------------ formChoosePassword.tpt ------------ #}
+{% set Choose_a_password = "Choose a password" %}{# Choose a password #}
+
+{# ------------ jobPagination.tpt ------------ #}
+{% set Displaying___firstPage_______lastPage___of___total = "Displaying **firstPage** - **lastPage** of **totalPage**" %}{# Displaying **firstPage** - **lastPage** of **totalPage** #}
+
+{# ------------ jobResultItem.tpt ------------ #}
+{% set Posted_ = "Posted:" %}{# Posted: #}
+
+{% set Apply = "Apply" %}{# Apply #}
+
+{# ------------ navigation.tpt ------------ #}
+{% set Welcome_ = "Welcome," %}{# Welcome, #}
+
+{% set My_profile = "My profile" %}{# My profile #}
+
+{% set Create_account = "Create account" %}{# Create account #}
+
+{# ------------ registrationSteps.tpt ------------ #}
+{% set How_to_apply = "How to apply" %}{# How to apply #}
+
+{% set Review_your_data = "Review your data" %}{# Review your data #}
+
+{% set Complete_your_profile = "Complete your profile" %}{# Complete your profile #}
+
+{# ------------ socialAccountLegend.tpt ------------ #}
+{% set Your_account_is_connected_and_regularly_updated_wi = "Your account is connected and regularly updated with **facebook**" %}{# Your account is connected and regularly updated with **facebook** #}
+
+{% set Your_account_is_connected_and_regularly_updated_wi = "Your account is connected and regularly updated with **linkedin**" %}{# Your account is connected and regularly updated with **linkedin** #}
+
+{% set Your_account_is_connected_and_regularly_updated_wi = "Your account is connected and regularly updated with **google**" %}{# Your account is connected and regularly updated with **google** #}
+
+{% set Your_account_is_connected_and_regularly_updated_wi = "Your account is connected and regularly updated with **viadeo**" %}{# Your account is connected and regularly updated with **viadeo** #}
+
+{% set Your_account_is_connected_and_regularly_updated_wi = "Your account is connected and regularly updated with **xing**" %}{# Your account is connected and regularly updated with **xing** #}
+
+{# ------------ successfulApplicationMessage.tpt ------------ #}
+{% set Congratulations_ = "Congratulations!" %}{# Congratulations! #}
+
+{% set You_ve_successfully_applied_for_this_job_ = "You've successfully applied for this job:" %}{# You've successfully applied for this job: #}
+

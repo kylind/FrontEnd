@@ -1,0 +1,15 @@
+{% if navigation %}
+    <p class="searchPagination">
+        {% if displayLegend == true %}
+            <span class="jobPaginationLegend dynamic">{{ Displaying___firstPage_______lastPage___of___total }}
+                <span name="firstPage">{{ recordsFrom }}</span><span name="lastPage">{{ recordsTo }}</span><span name="totalPage">{{ totalCount }}</span></span>{% endif %}
+        {% set currentPage = recordsFrom // recordsAmount + 1 %}
+        {% set min = (currentPage - minPag - 1) %}
+        {% set max = (currentPage + maxPag + 1) %}
+        {% for link in navigation %}
+            {% if (min < loop.index and loop.index < max) or (loop.index == 1) or (loop.index == loop.length) %}
+                <a class="paginationItem {{ link.class }}" href="{{ PORTAL_URL ~ link.href }}">{{ link.text }}</a>
+            {% endif %}
+        {% endfor %}
+    </p>
+{% endif %}

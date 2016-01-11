@@ -1,0 +1,79 @@
+{% extends 'BaseTemplate.nopage' %}
+{% if USER or CONTACT_CREATED %}{% endif %}
+
+{% block configuration %}
+    {{ pageType('html') }}
+{% endblock %}
+
+{% block bannerName %}{{ Search_All_Jobs }}{% endblock %}
+{% block  navLabel %}
+
+    <a href='{{ BASE_PORTAL_URL }}'>{{ Home }}</a>
+    <a class="navlabel" href="{{ PORTAL_URL ~ 'SearchAllJobs'}}">{{ Search_All_Jobs }}</a>
+    <span class="navlabel">{{ Advanced_Search }}</span>
+
+{% endblock %}
+
+
+{% block content %}
+
+        <section class="bylocationbox">
+            <h3 class="heading-24 bmargin-30 taCenter">{{ Search_By_Location }}</h3>
+            <section class="overviewsection">
+                <h4><a class="font-b18 bg-darkgreen" href="{{ PORTAL_URL ~ 'SearchJobsInAustralia'}}">{{ Australia }}</a></h4>
+            </section>
+            <section class="overviewsection">
+                <h4><a class="font-b18 bg-darkgreen" href="{{ PORTAL_URL ~ 'SearchJobsInChina'}}">{{ China }}</a></h4>
+            </section>
+            <section class="overviewsection">
+                <h4><a class="font-b18 bg-darkgreen" href="{{ PORTAL_URL ~ 'SearchJobsInHK'}}">{{ Hong_Kong__br__Macau|raw }}</a></h4>
+            </section>
+            <section class="overviewsection">
+                <h4><a class="font-b18 bg-darkgreen" href="{{ PORTAL_URL ~ 'SearchJobsInIndia'}}">{{ India }}</a></h4>
+            </section>
+            <section class="overviewsection">
+                <h4><a class="font-b18 bg-darkgreen" href="{{ PORTAL_URL ~ 'SearchJobsInJapan'}}">{{ Japan }}</a></h4>
+            </section>
+            <section class="overviewsection">
+                <h4><a class="font-b18 bg-darkgreen" href="{{ PORTAL_URL ~ 'SearchJobsInKorea'}}">{{ Korea }}</a></h4>
+            </section>
+            <section class="overviewsection">
+                <h4><a class="font-b18 bg-darkgreen" href="{{ PORTAL_URL ~ 'SearchJobsInZealand'}}">{{ New_Zealand }}</a></h4>
+            </section>
+            <section class="overviewsection">
+                <h4><a class="font-b18 bg-darkgreen" href="{{ PORTAL_URL ~ 'SearchJobsInSingapore'}}">Singapore/S. East Asia</a></h4>
+            </section>
+            <section class="overviewsection">
+                <h4><a class="font-b18 bg-darkgreen" href="{{ PORTAL_URL ~ 'SearchJobsInTaiwan'}}">{{ Taiwan }}</a></h4>
+            </section>
+        </section>
+        <section class="byserviceline">
+            <h3 class="heading-24  taCenter">{{ Search_By_Service_Line }}</h3>
+            <p class="taCenter tmargin-30">{{ Select_service_line_from_dropdown_below_ }}</p>
+            <div class="tmargin-20 customdropdown">
+                <div class="customdropdown-label font-18"> <span>{{ Service_Line_Names }}</span></div>
+                <ul class="customdropdown-options">
+                    <li><a href="{{ PORTAL_URL ~ 'SearchJobsOfAssetService'}}">{{ Asset_Services }}</a></li>
+                    <li><a href="{{ PORTAL_URL ~ 'SearchJobsOfBrokerage'}}">{{ Brokerage }}</a></li>
+                    <li><a href="{{ PORTAL_URL ~ 'SearchJobsOfCapital'}}">{{ Captial_Markets }}</a></li>
+                    <li><a href="{{ PORTAL_URL ~ 'SearchJobsOfWorkplace'}}">{{ Global_Corportate_Services }}</a></li>
+                    <li><a href="{{ PORTAL_URL ~ 'SearchJobsOfInvestors'}}">{{ Global_Investors }}</a></li>
+                    <li><a href="{{ PORTAL_URL ~ 'SearchJobsOfValuations'}}" class="font-16">{{ Valuations__amp__Advisory_Services|raw }}</a></li>
+                    <li><a href="{{ PORTAL_URL ~ 'SearchJobsOfSharedServices'}}">{{ Shared_Services }}</a></li>
+                </ul>
+            </div>
+        </section>
+        <script>
+        $(".customdropdown").on('click', function() {
+            $(".customdropdown-options").slideToggle();
+
+        });
+
+        $('.overviewsection').on('click',function(){
+            var link=$(this).find('a').attr('href');
+            open(link,'_self');
+
+        });
+        </script>
+
+{% endblock %}

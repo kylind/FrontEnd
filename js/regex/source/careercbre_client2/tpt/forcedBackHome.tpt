@@ -1,0 +1,6 @@
+<div class="tPad1 bPad1 clearer">
+    <a href="{{ BASE_PORTAL_URL }}" class="buttonLike">{{ Home }}</a>
+</div>
+<script type="text/javascript">
+    window.location = '{{ BASE_PORTAL_URL }}';
+</script>
