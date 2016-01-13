@@ -47,7 +47,7 @@ express.listen(3001, function() {
 });*/
 
 
-var mix = new event_pattern.Mix('MixA');
+var mix = new event_pattern.Mix('MixA',100);
 
 mix.on('full',mix.consume);
 mix.on('empty',mix.produce);

@@ -4,12 +4,9 @@ var events = require('events');
 var console = require('console');
 var util=require('util');
 
-function Producer(count) {
+function Producer() {
 
     events.EventEmitter.call(this);
-
-    this.count= count|| 5;
-
 
     this.produce = function(beans) {
 
@@ -77,13 +74,21 @@ Consumer.prototype.constructor=Consumer;*/
 util.inherits(Consumer, events.EventEmitter);
 
 
-function Mix(name){
+function Mix(name, totalCount){
+
+    var totalCount=totalCount||100;
+
+    var currentCount=0;
 
     events.EventEmitter.call(this);
 
     this.name=name;
 
     this.consume = function(beans) {
+
+        if (!util.isArray(beans)){
+            beans=[];
+        }
 
         while (beans.length > 5) {
 
@@ -112,7 +117,8 @@ function Mix(name){
 
         var bean;
 
-        while (beans.length < 20) {
+        while (beans.length < 20 && currentCount++<=totalCount) {
+
 
             bean = Math.round(Math.random() * 100);
 
@@ -121,14 +127,18 @@ function Mix(name){
             console.log(this.name + " produce: " + bean);
 
         }
-        console.log("full listeners: " + this.listenerCount('full'));
+        if(currentCount<= totalCount){
+                    console.log("full listeners: " + this.listenerCount('full'));
         this.emit('full', beans);
+        }
+
 
     };
 
 
 }
-util.inherits(Mix, events.EventEmitter);
+Mix.prototype=new events.EventEmitter();
+Mix.prototype.constructor=Mix;
 
 
 exports.Producer = Producer;
