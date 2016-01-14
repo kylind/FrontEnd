@@ -2,22 +2,26 @@
 
 var events = require('events');
 var console = require('console');
-var util=require('util');
+var util = require('util');
 
 function Producer() {
 
     events.EventEmitter.call(this);
 
+    var totalCount = totalCount || 100;
+
+    var currentCount=0;
+
     this.produce = function(beans) {
 
-        if (!util.isArray(beans)){
-            beans=[];
+        if (!util.isArray(beans)) {
+            beans = [];
         }
 
         var i = 0;
         var bean;
 
-        while (i < 18) {
+        while (i < 18 && currentCount++ < totalCount) {
 
             bean = Math.round(Math.random() * 100);
 
@@ -28,8 +32,9 @@ function Producer() {
             i++;
 
         }
+
         console.log("full listeners: " + this.listenerCount('full'));
-        this.emit('full', beans);
+        this.emit('full', beans, this);
 
     };
 
@@ -44,80 +49,70 @@ function Consumer(name) {
 
     events.EventEmitter.call(this);
 
-    this.name=name;
+    this.name = name;
 
     this.consume = function(beans) {
 
-        var i =  0;
+        var i = 0;
 
-        while (i<10 && beans.length>0) {
+        while (i < 10 && beans.length > 0) {
             var bean = beans.shift();
             console.log(name + "consume: " + bean);
             i++;
         }
 
-        console.log("beans.length: " + beans.length);
-
-        console.log(this.listenerCount('empty'));
-
-        if(beans.length==0){
-            var hasListeners=this.emit('empty', beans);
-            console.log('Has listeners?: ' + hasListeners);
+        if (beans.length == 0) {
+             console.log("empty listeners: " + this.listenerCount('empty'));
+            var hasListeners = this.emit('empty', beans);
         }
 
     };
 
 }
 
-/*Consumer.prototype=new events.EventEmitter();
-Consumer.prototype.constructor=Consumer;*/
-util.inherits(Consumer, events.EventEmitter);
+Consumer.prototype=new events.EventEmitter();
+Consumer.prototype.constructor=Consumer;
+//util.inherits(Consumer, events.EventEmitter);
 
 
-function Mix(name, totalCount){
+function Mix(name, totalCount) {
 
-    var totalCount=totalCount||100;
+    var totalCount = totalCount || 100;
 
-    var currentCount=0;
+    var currentCount = 0;
 
     events.EventEmitter.call(this);
 
-    this.name=name;
+    this.name = name;
 
     this.consume = function(beans) {
 
-        if (!util.isArray(beans)){
-            beans=[];
+        if (!util.isArray(beans)) {
+            beans = [];
         }
 
         while (beans.length > 5) {
 
             var bean = beans.shift();
-            console.log(name + "consume: " + bean);
+            console.log(name + " consume: " + bean);
 
         }
 
         console.log("beans.length: " + beans.length);
 
-        console.log(this.listenerCount('empty'));
-
-
-        var hasListeners=this.emit('empty', beans);
-        console.log('Has listeners?: ' + hasListeners);
-
+        var hasListeners = this.emit('empty', beans);
 
     };
 
     this.produce = function(beans) {
 
-        if (!util.isArray(beans)){
-            beans=[];
+        if (!util.isArray(beans)) {
+            beans = [];
         }
-
 
         var bean;
 
-        while (beans.length < 20 && currentCount++<=totalCount) {
+        while (beans.length < 20 && currentCount++ <= totalCount) {
 
 
             bean = Math.round(Math.random() * 100);
@@ -127,9 +122,8 @@ function Mix(name, totalCount){
             console.log(this.name + " produce: " + bean);
 
         }
-        if(currentCount<= totalCount){
-                    console.log("full listeners: " + this.listenerCount('full'));
-        this.emit('full', beans);
+        if (currentCount <= totalCount) {
+            this.emit('full', beans);
         }
 
 
@@ -137,8 +131,8 @@ function Mix(name, totalCount){
 
 
 }
-Mix.prototype=new events.EventEmitter();
-Mix.prototype.constructor=Mix;
+Mix.prototype = new events.EventEmitter();
+Mix.prototype.constructor = Mix;
 
 
 exports.Producer = Producer;
