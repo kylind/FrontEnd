@@ -1,19 +1,40 @@
 var cp=require('child_process');
 var net=require('net');
+var os=require('os');
 
-var child1=cp.fork('net_http.js');
-var child2=cp.fork('net_http.js');
+
 var server=net.createServer();
-
-/*server.on('connection',function(socket){
-    console.log('server connected...')
-    socket.end('Handled by parent!');
-});*/
-
-server.listen(1234,function(){
-    console.log('server listened...')
-    child1.send('pass to child1: ', server);
-    child2.send('pass to child2: ', server);
-
-    server.close();
+server.listen(1237,function(){
+    var cpus=os.cpus();
+    for(var i=0;i<cpus.length;i++){
+        createWorker();
+    }
 });
+
+process.on('exit',function(){
+    for(var pid in workers){
+        workers[pid].kill();
+    }
+
+})
+
+
+var workers={};
+
+function createWorker(){
+    var worker=cp.fork('net_http.js');
+    worker.on('exit',function(){
+        console.log('create new worker when i exit soon!');
+        delete workers[worker.pid];
+        createWorker();
+    })
+    workers[worker.pid]=worker;
+    worker.send(worker.pid, server);
+
+}
+
+
+
+
+
+console.log('main process: ' + process.pid);
