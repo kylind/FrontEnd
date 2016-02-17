@@ -13,6 +13,7 @@ server.listen(1237,function(){
 
 process.on('exit',function(){
     for(var pid in workers){
+        console.log('master will kill child process: ' + pid);
         workers[pid].kill();
     }
 

@@ -19,4 +19,12 @@ process.on('message', function(msg, tcp){
 
 process.on('exit',function(){
     console.log(process.pid + ' will quit...');
-})
+});
+
+process.on('oncaughtException', function(){
+
+    server.close(function(){
+        process.exit(1);
+    })
+
+});
