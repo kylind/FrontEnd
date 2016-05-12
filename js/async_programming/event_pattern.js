@@ -8,11 +8,10 @@ function Producer() {
 
     events.EventEmitter.call(this);
 
-    var producer = this;
     var totalCount = totalCount || 100;
 
     var currentCount = 0;
-    this.produce = function(beans) {
+    this.produce = beans => {
 
 
         if (!util.isArray(beans)) {
@@ -37,8 +36,8 @@ function Producer() {
         console.log('current count: ' + currentCount);
 
         if(currentCount<=100){
-        console.log("full listeners: " + producer.listenerCount('full'));
-        producer.emit('full', beans);
+        console.log("full listeners: " + this.listenerCount('full'));
+        this.emit('full', beans);
         }
 
 

@@ -1,0 +1,26 @@
+{
+  "name": "easygoing",
+  "version": "1.0.0",
+  "description": "this is for my wife's business, she is running HK purchasing agency, as the order quantity is going up, it becomes difficulty for her to handle each order manually, I hope easygoing can help her! ",
+  "main": "index.js",
+  "scripts": {
+    "test": "todo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "todo"
+  },
+  "keywords": [
+    "easygoing",
+    "hk",
+    "purchase",
+    "agency"
+  ],
+  "author": "Kylin Dai",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^1.2.0",
+    "koa-ejs": "^3.0.0",
+    "mongodb": "^2.1.18"
+  }
+}

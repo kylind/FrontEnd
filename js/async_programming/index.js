@@ -18,7 +18,7 @@ console.log(consumer1.listenerCount('empty'));
 
 consumer2.on('empty',producer.produce);
 
-console.log(consumer2.listenerCount('empty'));
+
 producer.produce();
 /*
 consumer1.consume([1, 2, 3, 4, 5, 6, 7, 8, 9]);
