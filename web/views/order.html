@@ -1,57 +1,55 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>Order</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
-<link href="" rel="stylesheet">
-<script src="../public/js/jquery-2.2.3.min.js"></script>
-<script src="../public/js/knockout-3.4.0.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Order</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link href="" rel="stylesheet">
+    <script src="/js/jquery-2.2.3.min.js"></script>
+    <script src="/js/knockout-3.4.0.js"></script>
 </head>
+
 <body>
-
-<article>
-
-
-<div> <input type="text" data-bind="value: client" placeholder="Client Name"/></div>
-
-<form name="orderForm">
-<section data-bind="foreach: items">
-    <section>
-         <div><input type="text" data-bind="value: name" placeholder="Product Name"/></div>
-         <div><input type="number"  min="0" max="100" step="1"  data-bind="value: quantity" placeholder="Quantity"/></div>
-         <div><input type="text" data-bind="value: note" placeholder="Note:"/></div>
-         <div><a href="#" data-bind="click: $root.removeItem"> Delete</a></div>
-    </section>
-    </section>
-    <button type="button" text="Add" data-bind="click:$root.addItem">Add </button>
-
-    <button type="submit" text="Submit" >Submit</button>
-
-</form>
-
-
-
-</article>
-
-
-
+    <article>
+        <div>
+            <input type="text" data-bind="value: client" placeholder="Client Name" />
+        </div>
+        <form name="orderForm">
+            <section data-bind="foreach: items">
+                <section>
+                    <div>
+                        <input type="text" data-bind="value: name" placeholder="Product Name" />
+                    </div>
+                    <div>
+                        <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
+                    </div>
+                    <div>
+                        <input type="text" data-bind="value: note" placeholder="Note:" />
+                    </div>
+                    <div><a href="#" data-bind="click: $root.removeItem"> Delete</a></div>
+                </section>
+            </section>
+            <button type="button" text="Add" data-bind="click:$root.addItem">Add </button>
+            <button type="submit" text="Submit">Submit</button>
+        </form>
+    </article>
 </body>
-</html>
 
+</html>
 <script>
 var OrderModel = function(order) {
     var self = this;
-    self.client=ko.observable(order.client);
+    self.client = ko.observable(order.client);
     self.items = ko.observableArray(order.items);
 
     self.addItem = function() {
         self.items.push({
             name: "",
             quantity: "",
-            note:''
+            note: ''
         });
     };
 
@@ -60,16 +58,35 @@ var OrderModel = function(order) {
     };
 
     self.save = function(form) {
-        alert("Could now transmit to server: " + ko.toJSON(self));
+        var order = ko.toJS(self);
+
+        $.post('order', order, function(data, status) {
+
+                viewModel.client(data.client);
+                viewModel.items(data.items);
+
+            },
+            'json'
+        );
+
+
         return false;
-        // To actually transmit to server as a regular form post, write this: ko.utils.postJson($("form")[0], self.gifts);
+
     };
 };
 
-var viewModel = new OrderModel({client:'Yolanda', items:[
-    { name: "Tall Hat",  quantity: 39, note:''},
-    { name: "Long Cloak",quantity: 120, note:'require discount'}
-]});
+var viewModel = new OrderModel({
+    client: 'Yolanda',
+    items: [{
+        name: "Tall Hat",
+        quantity: 39,
+        note: ''
+    }, {
+        name: "Long Cloak",
+        quantity: 10,
+        note: 'require discount'
+    }]
+});
 ko.applyBindings(viewModel);
 
 // Activate jQuery Validation

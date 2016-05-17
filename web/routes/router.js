@@ -1,9 +1,9 @@
 var Router = require('koa-router');
-
+var db = require('../data_access/order.js')
 
 
 router = new Router();
-router.get('/orders', function*(next) {
+router.get('/testorders', function*(next) {
 
     var product = [{
         name: 'a',
@@ -21,13 +21,23 @@ router.get('/orders', function*(next) {
 
 });
 
-router.post('/dbrestaurant', function*(next) {
+router.get('/orders', function*(next) {
 
-    dbOperations.add();
+
+    yield this.render('order');
+
+});
+
+
+router.post('/orders/', function* (next) {
+
+    var order = this.request.body;
+    db.insert(order);
+
     yield next;
 
 });
 
 
 exports.router = router;
-exports.dbOperations = dbOperations;
+

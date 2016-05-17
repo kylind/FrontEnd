@@ -1,12 +1,8 @@
 var koa = require('koa');
-
+var path = require('path');
 var render = require('koa-ejs');
 var router = require('./routes/router.js').router;
-
-
-var path = require('path');
-
-
+var bodyParser = require('koa-bodyparser');
 
 var app = koa();
 
@@ -19,9 +15,7 @@ render(app, {
     debug: true
 });
 
-/*app.use(function *(){
-    this.body = 'Hello World';
-})*/
+app.use(bodyParser());
 app.use(router.routes());
 
 app.listen(3000);
