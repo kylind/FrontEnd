@@ -17,11 +17,19 @@ render(app, {
     debug: true
 });
 
+app.use(function*(next) {
 
-app.use(function *(){
-  yield send(this, this.path, { root: __dirname + '/public' });
+     yield send(this, this.path, {
+        root: __dirname + '/public'
+    });
+     //yield next
+
 });
+
 app.use(bodyParser());
+
 app.use(router.routes());
+
+
 
 app.listen(3000);
