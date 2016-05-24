@@ -17,7 +17,7 @@
         <div>
             <input type="text" data-bind="value: client" placeholder="Client Name" />
         </div>
-        <form name="orderForm">
+        <form name="orderForm" data-bind="submit:$root.save">
             <section data-bind="foreach: items">
                 <section>
                     <div>
@@ -60,7 +60,7 @@ var OrderModel = function(order) {
     self.save = function(form) {
         var order = ko.toJS(self);
 
-        $.post('order', order, function(data, status) {
+        $.post('./orders', order, function(data, status) {
 
                 viewModel.client(data.client);
                 viewModel.items(data.items);

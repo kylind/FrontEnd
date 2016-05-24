@@ -19,10 +19,13 @@ render(app, {
 
 app.use(function*(next) {
 
-     yield send(this, this.path, {
+    yield send(this, this.path, {
         root: __dirname + '/public'
     });
-     //yield next
+
+    console.log('static file');
+
+    yield next;
 
 });
 
