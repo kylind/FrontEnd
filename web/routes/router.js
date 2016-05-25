@@ -35,20 +35,13 @@ router.post('/order', function*() {
     var order = this.request.body;
 
     var res = yield orderOperation.insert(order);
+
+
     this.body = res;
     this.status = 200;
 
-/*    yield orderOperation.insert(order).then(function(res) {
-        console.log('success');
 
-
-    }, function() {
-        console.log('failed');
-
-    });*/
     console.log('---res---' + res);
-
-
 
 
 });
