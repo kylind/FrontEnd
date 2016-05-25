@@ -58,9 +58,10 @@ var OrderModel = function(order) {
     };
 
     self.save = function(form) {
-        var order = ko.toJS(self);
 
-        $.post('./orders', order, function(data, status) {
+        var order = $.parseJSON(ko.toJSON(self));
+
+        $.post('./order', order, function(data, status) {
 
                 viewModel.client(data.client);
                 viewModel.items(data.items);

@@ -2,23 +2,30 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 
-var dbOperations = {
+var collection = {
     insert: function(order) {
         var url = 'mongodb://localhost:27017/local';
 
-        var insertDocument = function(db, callback) {
-            db.collection('orders').insertOne(order, function(err, result) {
-                assert.equal(err, null);
-                callback();
-            });
-        };
+        return new Promise(function(resolve, reject) {
 
-        MongoClient.connect(url, function(err, db) {
-            assert.equal(null, err);
-            insertDocument(db, function() {
-                db.close();
+            MongoClient.connect(url, function(err, db) {
+
+                if (db) {
+                    db.collection('orders').insertOne(order, function(err, res) {
+
+                        if (res) {
+                            resolve(res);
+                        } else {
+                            reject(err);
+                        }
+                    });
+
+                } else {
+                    reject(err);
+                }
             });
         });
+
     },
 
     query: function() {
@@ -49,12 +56,11 @@ var dbOperations = {
         var url = 'mongodb://localhost:27017/local';
 
         function update(db, callback) {
-            db.collection('restaurants').updateOne(
-                { "name": "Vella" },
+            db.collection('restaurants').updateOne({ "name": "Vella" },
 
                 { $set: { "cuisine": "Chinese" } },
 
-                function(error, result){
+                function(error, result) {
                     assert.equal(error, null);
                 }
             );
@@ -73,9 +79,8 @@ var dbOperations = {
         var url = 'mongodb://localhost:27017/local';
 
         function remove(db, callback) {
-            db.collection('restaurants').deleteOne(
-                { "name": "Vella" },
-                function(error, result){
+            db.collection('restaurants').deleteOne({ "name": "Vella" },
+                function(error, result) {
                     assert.equal(error, null);
                 }
             );
@@ -91,4 +96,4 @@ var dbOperations = {
 
 };
 
-exports.db=dbOperations;
+exports.collection = collection;

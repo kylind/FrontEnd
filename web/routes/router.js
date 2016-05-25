@@ -1,5 +1,5 @@
 var Router = require('koa-router');
-var db = require('../data_access/order.js')
+var orderOperation = require('../data_access/order.js').collection
 
 
 router = new Router();
@@ -15,13 +15,13 @@ router.get('/testorders', function*(next) {
         name: 'c',
         price: 3
     }];
-    yield this.render('content', {
+    this.render('content', {
         product: product
     });
 
 });
 
-router.get('/orders', function*(next) {
+router.get('/order', function*() {
 
 
     yield this.render('order');
@@ -29,15 +29,29 @@ router.get('/orders', function*(next) {
 });
 
 
-router.post('/orders/', function* (next) {
+router.post('/order', function*() {
+    console.log('insert order...');
 
     var order = this.request.body;
-    db.insert(order);
 
-    yield next;
+    var res = yield orderOperation.insert(order);
+    this.body = res;
+    this.status = 200;
+
+/*    yield orderOperation.insert(order).then(function(res) {
+        console.log('success');
+
+
+    }, function() {
+        console.log('failed');
+
+    });*/
+    console.log('---res---' + res);
+
+
+
 
 });
 
 
 exports.router = router;
-
