@@ -6,7 +6,9 @@ var collection = {
     insert: function(order) {
         var url = 'mongodb://localhost:27017/local';
 
-        return new Promise(function(resolve, reject) {
+        return Promise.resolve({"ok":1,"n":1});
+
+        /*return new Promise(function(resolve, reject) {
 
             MongoClient.connect(url, function(err, db) {
 
@@ -24,8 +26,17 @@ var collection = {
                     reject(err);
                 }
             });
-        });
+        });*/
 
+    },
+    update: function* (order) {
+        var url = 'mongodb://localhost:27017/local';
+
+        var db = yield MongoClient.connect(url);
+
+        var res = yield db.collection('orders').replaceOne({ "_id": new ObjectId(order.id) }, order);
+
+        return res;
     },
 
     query: function() {
@@ -52,28 +63,7 @@ var collection = {
         });
     },
 
-    update: function() {
-        var url = 'mongodb://localhost:27017/local';
 
-        function update(db, callback) {
-            db.collection('restaurants').updateOne({ "name": "Vella" },
-
-                { $set: { "cuisine": "Chinese" } },
-
-                function(error, result) {
-                    assert.equal(error, null);
-                }
-            );
-
-        }
-
-        MongoClient.connect(url, function(err, db) {
-            assert.equal(err, null);
-            update(db, function() {
-                db.close();
-            });
-        });
-    },
 
     remove: function() {
         var url = 'mongodb://localhost:27017/local';
