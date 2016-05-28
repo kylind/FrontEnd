@@ -34,14 +34,19 @@ router.post('/order', function*() {
 
     var order = this.request.body;
 
-    var res = yield orderOperation.insert(order);
+    var res = yield orderOperation.insert(order).then(function(res){
+        console.dir(res);
+        return res;
+
+    });
+
+    console.log(res);
 
 
     this.body = res;
     this.status = 200;
 
 
-    console.log('---res---' + res);
 
 
 });

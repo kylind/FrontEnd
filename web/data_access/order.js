@@ -6,7 +6,7 @@ var collection = {
     insert: function(order) {
         var url = 'mongodb://localhost:27017/local';
 
-        return new Promise(function(resolve, reject) {
+        /*return new Promise(function(resolve, reject) {
 
             MongoClient.connect(url, function(err, db) {
 
@@ -24,7 +24,8 @@ var collection = {
                     reject(err);
                 }
             });
-        });
+        });*/
+        return Promise.resolve({n:1, row:2});
 
     },
 
