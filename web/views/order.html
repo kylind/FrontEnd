@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -8,16 +9,18 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <link href="" rel="stylesheet">
-    <script src="js/jquery-2.2.3.min.js"></script>
-    <script src="js/knockout-3.4.0.js"></script>
+    <script src="/js/jquery-2.2.3.min.js"></script>
+    <script src="/js/knockout-3.4.0.js"></script>
 </head>
 
 <body>
     <article>
-        <div>
-            <input type="text" data-bind="value: client" placeholder="Client Name" />
-        </div>
+
         <form name="orderForm" data-bind="submit:$root.save">
+            <div>
+                <input type="text" data-bind="value: _id" />
+                <input type="text" data-bind="value: client" placeholder="Client Name" />
+            </div>
             <section data-bind="foreach: items">
                 <section>
                     <div>
@@ -42,13 +45,15 @@
 <script>
 var OrderModel = function(order) {
     var self = this;
+
+    self._id = ko.observable(order._id);
     self.client = ko.observable(order.client);
     self.items = ko.observableArray(order.items);
 
     self.addItem = function() {
         self.items.push({
             name: "",
-            quantity: "",
+            quantity: 1,
             note: ''
         });
     };
@@ -61,8 +66,13 @@ var OrderModel = function(order) {
 
         var order = $.parseJSON(ko.toJSON(self));
 
+        console.log('post request....');
+
         $.post('./order', order, function(data, status) {
 
+                console.log('get post result');
+
+                viewModel._id(data._id);
                 viewModel.client(data.client);
                 viewModel.items(data.items);
 
@@ -70,26 +80,14 @@ var OrderModel = function(order) {
             'json'
         );
 
-
         return false;
 
     };
 };
 
-var viewModel = new OrderModel({
-    client: 'Yolanda',
-    items: [{
-        name: "Tall Hat",
-        quantity: 39,
-        note: ''
-    }, {
-        name: "Long Cloak",
-        quantity: 10,
-        note: 'require discount'
-    }]
-});
+var order = <%- JSON.stringify(order) %>;
+
+var viewModel = new OrderModel(order);
 ko.applyBindings(viewModel);
 
-// Activate jQuery Validation
-$("form").submit(viewModel.save);
 </script>

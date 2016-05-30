@@ -1,4 +1,5 @@
 var Router = require('koa-router');
+var ObjectID = require('mongodb').ObjectID;
 var orderOperation = require('../data_access/order.js').collection
 
 
@@ -15,38 +16,98 @@ router.get('/testorders', function*(next) {
         name: 'c',
         price: 3
     }];
-    this.render('content', {
+    yield this.render('content', {
         product: product
+    });
+
+});
+
+router.get('/order/:id', function*() {
+    var res = null;
+
+    if (ObjectID.isValid(this.params.id)) {
+        console.log('i am valid id');
+
+        res = yield orderOperation.query({
+            '_id': new ObjectID(this.params.id)
+        });
+
+    } else {
+        console.log('i am not valid id');
+        res = {
+            _id: '',
+            client: '',
+            items: [{
+                name: "",
+                quantity: 1,
+                note: ''
+            }]
+        }
+
+    }
+
+    yield this.render('order', {
+        order: res,
+        script: 'mvvm',
+        header: 'specific',
+        footer: ''
+
+
     });
 
 });
 
 router.get('/order', function*() {
 
+    var res = {
+        _id: '',
+        client: '',
+        items: [{
+            name: "",
+            quantity: 1,
+            note: ''
+        }]
+    }
 
-    yield this.render('order');
+    yield this.render('order', {
+        order: res,
+        script: 'mvvm',
+        header: 'specific',
+        footer: ''
 
-});
-
-
-router.post('/order', function*() {
-    console.log('insert order...');
-
-    var order = this.request.body;
-
-    var res = yield orderOperation.insert(order).then(function(res){
-        console.dir(res);
-        return res;
 
     });
 
-    console.log(res);
+});
+
+router.post('/order', function*() {
+    console.log('strat to handle request...');
+
+    var order = this.request.body;
+    var res;
 
 
-    this.body = res;
+    if (ObjectID.isValid(order._id)) {
+
+        console.log('valid id:' + order._id);
+
+        res = yield orderOperation.update(order);
+
+
+    } else {
+        console.log('no valid id:' + order._id);
+        delete order._id
+        res = yield orderOperation.insert(order);
+    }
+
+
+    console.log(order);
+
+
+    this.body = order;
     this.status = 200;
 
-
+    console.log('end to handle request...');
 
 
 });

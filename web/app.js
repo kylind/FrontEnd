@@ -11,7 +11,6 @@ var app = koa();
 
 render(app, {
     root: path.join(__dirname, 'views'),
-    layout: 'template',
     viewExt: 'html',
     cache: false,
     debug: true

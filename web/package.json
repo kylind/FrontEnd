@@ -19,13 +19,12 @@
   "author": "Kylin Dai",
   "license": "MIT",
   "dependencies": {
-    "co-monk": "^1.0.0",
+    "ejs": "^2.4.2",
     "koa": "^1.2.0",
     "koa-bodyparser": "^2.2.0",
     "koa-ejs": "^3.0.0",
+    "koa-router": "^5.4.0",
     "koa-send": "^3.2.0",
-    "koa-static": "^2.0.0",
-    "mongodb": "^2.1.18",
-    "monk": "^1.0.1"
+    "mongodb": "^2.1.18"
   }
 }
