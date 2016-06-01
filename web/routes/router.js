@@ -9,7 +9,9 @@ const EMPTY_ORDER = {
         name: "",
         quantity: 1,
         note: ''
-    }]
+    }],
+    createDate:'',
+    status:'',
 }
 
 router = new Router();
