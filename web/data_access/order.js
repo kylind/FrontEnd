@@ -1,12 +1,12 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
+var url = 'mongodb://localhost:27017/local';
 
 var collection = {
     insert: function(order) {
-        var url = 'mongodb://localhost:27017/local';
 
-        /*return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
             MongoClient.connect(url, function(err, db) {
 
@@ -24,30 +24,32 @@ var collection = {
                     reject(err);
                 }
             });
-        });*/
+        });
 
-        return Promise.resolve({
+        /*return Promise.resolve({
             n: 1,
             row: 2
-        });
+        });*/
 
 
     },
-    update: function*(order) {
-        var url = 'mongodb://localhost:27017/local';
+    updateById: function*(id, order) {
 
         var db = yield MongoClient.connect(url);
 
+        order =  JSON.parse(JSON.stringify(order));
+        delete order._id;
+
         var res = yield db.collection('orders').replaceOne({
-            "_id": new ObjectId(order.id)
+            "_id": new ObjectId(id)
         }, order);
 
         return res;
     },
 
-    query: function* (filter) {
+    query: function*(filter) {
 
-        var order = {
+        /*var order = [{
             _id: '',
             client: 'Yolanda',
             items: [{
@@ -59,18 +61,18 @@ var collection = {
                 quantity: 10,
                 note: 'require discount'
             }]
-        }
+        }]
 
-        return Promise.resolve(order);
+        return Promise.resolve(order);*/
 
-/*
+
         var url = 'mongodb://localhost:27017/local';
 
         var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').find(filter).toArray();
 
-        return res;*/
+        return res;
 
 
     },

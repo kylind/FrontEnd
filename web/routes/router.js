@@ -2,6 +2,15 @@ var Router = require('koa-router');
 var ObjectID = require('mongodb').ObjectID;
 var orderOperation = require('../data_access/order.js').collection
 
+const EMPTY_ORDER = {
+    _id: '',
+    client: '',
+    items: [{
+        name: "",
+        quantity: 1,
+        note: ''
+    }]
+}
 
 router = new Router();
 router.get('/testorders', function*(next) {
@@ -26,23 +35,15 @@ router.get('/order/:id', function*() {
     var res = null;
 
     if (ObjectID.isValid(this.params.id)) {
-        console.log('i am valid id');
 
         res = yield orderOperation.query({
             '_id': new ObjectID(this.params.id)
         });
 
+        res = res && res.length > 0 ? res[0] : EMPTY_ORDER;
+
     } else {
-        console.log('i am not valid id');
-        res = {
-            _id: '',
-            client: '',
-            items: [{
-                name: "",
-                quantity: 1,
-                note: ''
-            }]
-        }
+        res = EMPTY_ORDER;
 
     }
 
@@ -51,37 +52,25 @@ router.get('/order/:id', function*() {
         script: 'mvvm',
         header: 'specific',
         footer: ''
-
-
     });
 
 });
 
 router.get('/order', function*() {
 
-    var res = {
-        _id: '',
-        client: '',
-        items: [{
-            name: "",
-            quantity: 1,
-            note: ''
-        }]
-    }
+
 
     yield this.render('order', {
-        order: res,
+        order: EMPTY_ORDER,
         script: 'mvvm',
         header: 'specific',
         footer: ''
-
 
     });
 
 });
 
 router.post('/order', function*() {
-    console.log('strat to handle request...');
 
     var order = this.request.body;
     var res;
@@ -91,7 +80,7 @@ router.post('/order', function*() {
 
         console.log('valid id:' + order._id);
 
-        res = yield orderOperation.update(order);
+        res = yield orderOperation.updateById(order._id, order);
 
 
     } else {
@@ -107,8 +96,35 @@ router.post('/order', function*() {
     this.body = order;
     this.status = 200;
 
-    console.log('end to handle request...');
+});
 
+router.get('/receiving', function*() {
+
+    yield this.render('receiving', {
+        orders: [EMPTY_ORDER],
+        script: 'mvvm',
+        header: 'specific',
+        footer: ''
+
+    });
+
+});
+
+router.get('/receiving/abc', function*() {
+
+    var res = null;
+
+    res = yield orderOperation.query();
+
+    res = res && res.length > 0 ? res : [EMPTY_ORDER];
+
+    yield this.render('receiving', {
+        orders: res,
+        script: 'mvvm',
+        header: 'specific',
+        footer: ''
+
+    });
 
 });
 

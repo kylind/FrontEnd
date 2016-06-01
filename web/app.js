@@ -18,6 +18,10 @@ render(app, {
 
 app.use(function*(next) {
 
+    console.log(this.path);
+
+
+
     yield send(this, this.path, {
         root: __dirname + '/public'
     });
