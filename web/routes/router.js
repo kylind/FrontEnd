@@ -2,6 +2,8 @@ var Router = require('koa-router');
 var ObjectID = require('mongodb').ObjectID;
 var orderOperation = require('../data_access/order.js').collection
 
+const RECEIVED='RECEIVED'
+
 const EMPTY_ORDER = {
     _id: '',
     client: '',
@@ -10,8 +12,8 @@ const EMPTY_ORDER = {
         quantity: 1,
         note: ''
     }],
-    createDate:'',
-    status:'',
+    createDate: new Date();
+    status:RECEIVED
 }
 
 router = new Router();
@@ -78,6 +80,8 @@ router.post('/order', function*() {
     var res;
 
 
+
+
     if (ObjectID.isValid(order._id)) {
 
         console.log('valid id:' + order._id);
@@ -86,6 +90,7 @@ router.post('/order', function*() {
 
 
     } else {
+
         console.log('no valid id:' + order._id);
         delete order._id
         res = yield orderOperation.insert(order);

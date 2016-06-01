@@ -37,7 +37,7 @@ var OrderModel = function(order) {
     self.items = ko.observableArray(order ? order.items:[{name:'',quantity:1, note:''}]);
 };
 
-var OrdersModel = function() {
+var OrdersModel = function(orders) {
 
     var observableOrders = [];
 
@@ -90,9 +90,7 @@ var OrdersModel = function() {
     };
 };
 
-var orders = <%- JSON.stringify(orders) %>;
-
-var ordersModel = new OrdersModel(orders);
+var ordersModel = new OrdersModel( <%- JSON.stringify(orders) %>);
 
 ko.applyBindings(ordersModel);
 </script>

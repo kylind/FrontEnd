@@ -1,0 +1,30 @@
+<div>
+    <span>
+            Product Name
+        </span>
+    <span>
+            Quantity
+        </span>
+</div>
+<div data-bind="foreach: items">
+    <section>
+        <span data-bind="text: name"></span>
+        <span data-bind="text: quantity"></span>
+    </section>
+</div>
+<script>
+
+
+var ItemsModel = function(items) {
+
+    var self = this;
+
+    self.orders = ko.observableArray(items);
+
+};
+
+
+var itemsModel = new ItemsModel(<%- JSON.stringify(items) %>);
+
+ko.applyBindings(itemsModel);
+</script>
