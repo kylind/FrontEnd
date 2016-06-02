@@ -35,7 +35,12 @@ var OrderModel = function(order) {
     self._id = ko.observable( order ? order._id: '');
     self.client = ko.observable(order ? order.client:'');
     self.items = ko.observableArray(order ? order.items:[{name:'',quantity:1, note:''}]);
+    self.createDate= order ? order.createDate : new Date();
+    self.status= order ? order.status : 'RECEIVED';
+
 };
+
+
 
 var OrdersModel = function(orders) {
 
@@ -56,7 +61,8 @@ var OrdersModel = function(orders) {
         data.items.push({
             name: "",
             quantity: 1,
-            note: ''
+            note: '',
+            isDone: false
         });
     };
 
@@ -69,6 +75,11 @@ var OrdersModel = function(orders) {
         console.log('post request....');
 
         var orderData = ko.mapping.toJS(order); //$.parseJSON(ko.toJSON(order));
+
+        orderData.items.forEach(function(item){
+            item.quantity= +item.quantity;
+            item.isDone = item.isDone == 'true'? true:false;
+        });
 
         $.post('/order', orderData, function(data, status) {
 

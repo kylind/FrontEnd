@@ -26,18 +26,13 @@ var collection = {
             });
         });
 
-        /*return Promise.resolve({
-            n: 1,
-            row: 2
-        });*/
-
 
     },
     updateById: function*(id, order) {
 
         var db = yield MongoClient.connect(url);
 
-        order =  JSON.parse(JSON.stringify(order));
+        order = JSON.parse(JSON.stringify(order));
         delete order._id;
 
         var res = yield db.collection('orders').replaceOne({
@@ -49,24 +44,6 @@ var collection = {
 
     query: function*(filter) {
 
-        /*var order = [{
-            _id: '',
-            client: 'Yolanda',
-            items: [{
-                name: "Tall Hat",
-                quantity: 39,
-                note: ''
-            }, {
-                name: "Long Cloak",
-                quantity: 10,
-                note: 'require discount'
-            }]
-        }]
-
-        return Promise.resolve(order);*/
-
-
-        var url = 'mongodb://localhost:27017/local';
 
         var db = yield MongoClient.connect(url);
 
@@ -77,7 +54,30 @@ var collection = {
 
     },
 
+    queryPurchaseItems: function*() {
 
+        var db = yield MongoClient.connect(url);
+
+        var res = yield db.collection('orders').aggregate([{
+
+                $match: { status: 'RECEIVED' }
+
+            }, {
+                $unwind: {
+
+                    path: '$items',
+
+                    preserveNullAndEmptyArrays: true
+                }
+            }, {
+                $group: { '_id': '$items.name', 'quantity': { $sum: '$items.quantity' } }
+            }
+
+        ],{ cursor: { batchSize: 1 } }).toArray();
+
+        return res;
+
+    },
 
     remove: function() {
         var url = 'mongodb://localhost:27017/local';

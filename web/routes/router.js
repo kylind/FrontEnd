@@ -10,9 +10,10 @@ const EMPTY_ORDER = {
     items: [{
         name: "",
         quantity: 1,
-        note: ''
+        note: '',
+        isDone: false
     }],
-    createDate: new Date();
+    createDate: new Date(),
     status:RECEIVED
 }
 
@@ -79,8 +80,10 @@ router.post('/order', function*() {
     var order = this.request.body;
     var res;
 
-
-
+     order.items.forEach(function(item){
+        item.quantity= +item.quantity;
+        item.isDone = item.isDone == 'true'? true:false;
+    });
 
     if (ObjectID.isValid(order._id)) {
 
@@ -97,7 +100,7 @@ router.post('/order', function*() {
     }
 
 
-    console.log(order);
+
 
 
     this.body = order;
@@ -105,9 +108,9 @@ router.post('/order', function*() {
 
 });
 
-router.get('/receiving', function*() {
+router.get('/orders', function*() {
 
-    yield this.render('receiving', {
+    yield this.render('orders', {
         orders: [EMPTY_ORDER],
         script: 'mvvm',
         header: 'specific',
@@ -117,7 +120,7 @@ router.get('/receiving', function*() {
 
 });
 
-router.get('/receiving/abc', function*() {
+router.get('/orders/abc', function*() {
 
     var res = null;
 
@@ -125,8 +128,28 @@ router.get('/receiving/abc', function*() {
 
     res = res && res.length > 0 ? res : [EMPTY_ORDER];
 
-    yield this.render('receiving', {
+    yield this.render('orders', {
         orders: res,
+        script: 'mvvm',
+        header: 'specific',
+        footer: ''
+
+    });
+
+});
+
+router.get('/purchaselist', function*() {
+
+    var res = null;
+
+    res = yield orderOperation.queryPurchaseItems();
+
+    console.log(res);
+
+    res = res && res.length > 0 ? res : { warning: 'There is no purchase item.'};
+
+    yield this.render('purchaselist', {
+        items: res,
         script: 'mvvm',
         header: 'specific',
         footer: ''

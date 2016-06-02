@@ -8,23 +8,23 @@
 </div>
 <div data-bind="foreach: items">
     <section>
-        <span data-bind="text: name"></span>
+        <span data-bind="text: _id"></span>
         <span data-bind="text: quantity"></span>
     </section>
 </div>
 <script>
-
-
 var ItemsModel = function(items) {
 
     var self = this;
 
-    self.orders = ko.observableArray(items);
+    /*self.orders = ko.observableArray(items);*/
 
 };
 
+var items = <%- JSON.stringify(items) %>;
 
-var itemsModel = new ItemsModel(<%- JSON.stringify(items) %>);
+var itemsModel = new ItemsModel();
+ko.mapping.fromJS(items, {}, itemsModel);
 
 ko.applyBindings(itemsModel);
 </script>
