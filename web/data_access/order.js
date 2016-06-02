@@ -70,7 +70,7 @@ var collection = {
                     preserveNullAndEmptyArrays: true
                 }
             }, {
-                $group: { '_id': '$items.name', 'quantity': { $sum: '$items.quantity' } }
+                $group: { '_id': {'name': '$items.name','isDone':'$items.isDone'}, 'quantity': { $sum: '$items.quantity' } }
             }
 
         ],{ cursor: { batchSize: 1 } }).toArray();

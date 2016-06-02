@@ -10,6 +10,9 @@
     <section>
         <span data-bind="text: _id"></span>
         <span data-bind="text: quantity"></span>
+        <span data-bind="text: quantityDone"></span>
+
+        <button data-bind="click: $root.markDone"></button>
     </section>
 </div>
 <script>
@@ -17,7 +20,21 @@ var ItemsModel = function(items) {
 
     var self = this;
 
-    /*self.orders = ko.observableArray(items);*/
+    self.markDone = function(item) {
+        console.log('post request....');
+
+        var itemData = ko.mapping.toJS(item);
+
+        $.post('/order', itemData, function(data, status) {
+
+                console.log('get post result');
+                ko.mapping.fromJS(data, {}, item);
+            },
+            'json'
+        );
+
+        return false;
+    }
 
 };
 

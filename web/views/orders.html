@@ -76,11 +76,6 @@ var OrdersModel = function(orders) {
 
         var orderData = ko.mapping.toJS(order); //$.parseJSON(ko.toJSON(order));
 
-        orderData.items.forEach(function(item){
-            item.quantity= +item.quantity;
-            item.isDone = item.isDone == 'true'? true:false;
-        });
-
         $.post('/order', orderData, function(data, status) {
 
                 console.log('get post result');
