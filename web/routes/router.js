@@ -138,7 +138,7 @@ router.get('/orders/abc', function*() {
 
 });
 
-router.get('/purchaselist', function*() {
+router.get('/items', function*() {
 
     var res = null;
 
@@ -148,13 +148,33 @@ router.get('/purchaselist', function*() {
 
     res = res && res.length > 0 ? res : { warning: 'There is no purchase item.'};
 
-    yield this.render('purchaselist', {
+    yield this.render('items', {
         items: res,
         script: 'mvvm',
         header: 'specific',
         footer: ''
 
     });
+
+});
+
+router.post('/item/:itemName', function*() {
+
+    var purchaseDetail = this.request.body;
+
+
+
+    purchaseDetail.isDone = purchaseDetail.isDone == 'true'? true:false;
+
+    var updatedRes = yield orderOperation.updateItemStatus(this.params.itemName, purchaseDetail.isDone);
+
+    var res = yield orderOperation.getItemStatus(this.params.itemName);
+
+
+
+
+    this.body = res[0];
+    this.status = 200;
 
 });
 

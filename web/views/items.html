@@ -1,0 +1,92 @@
+<div>
+    <span>
+            Product Name
+        </span>
+    <span>
+            Quantity
+        </span>
+</div>
+<div data-bind="foreach: items">
+    <section>
+        name: <span data-bind="text: _id"></span>
+        quantity:<span data-bind="text: quantity"></span>
+
+        purchaseDetail:
+
+        <!-- ko foreach: purchaseDetail -->
+
+        <span data-bind="text: $root.getSubName($data)"></span><span data-bind="name: $root.getSubName($data), text: quantity"></span>
+
+        <!-- /ko -->
+
+        <button data-bind="click: $root.markDone">MarkDone</button>
+        <button data-bind="click: $root.getItemDetail">ItemDetail</button>
+
+        <h4> item detail </h4>
+
+    </section>
+</div>
+<script>
+
+var Item = function(item) {
+    var self = this;
+    self._id = ko.observable( item ? item._id: '');
+    self.quantity = ko.observable( item ? item.quantity: '');
+    self.purchaseDetail = ko.observableArray(item ? item.purchaseDetail:[{isDone: false, quantity:0}]);
+};
+
+var ItemsModel = function(items) {
+
+    var observableItems = [];
+
+    items.forEach(function(item){
+
+        observableItems.push(new Item(item));
+
+    })
+
+    var self = this;
+
+    self.items = ko.observableArray(observableItems);
+
+    self.getSubName = function(item){
+
+        return 'item' + item.isDone;
+
+    }
+
+    self.markDone = function(item) {
+
+        var itemData = ko.mapping.toJS(item);
+
+        var isPurchased = true;
+
+
+        itemData.purchaseDetail.forEach(function(item){
+
+            if(!item.isDone){
+                isPurchased = false;
+            }
+
+        });
+
+       $.post('/item/' + itemData._id, { isDone: !isPurchased }, function(res, status) {
+
+                item.purchaseDetail(res.purchaseDetail);
+            },
+            'json'
+        );
+
+    }
+
+}
+
+var items = <%- JSON.stringify(items) %>;
+
+var itemsModel = new ItemsModel(items);
+
+
+//ko.mapping.fromJS(items, {}, itemsModel);
+
+ko.applyBindings(itemsModel);
+</script>

@@ -70,10 +70,56 @@ var collection = {
                     preserveNullAndEmptyArrays: true
                 }
             }, {
-                $group: { '_id': {'name': '$items.name','isDone':'$items.isDone'}, 'quantity': { $sum: '$items.quantity' } }
+                $group: { '_id': { 'name': '$items.name', 'isDone': '$items.isDone' }, 'quantity': { $sum: '$items.quantity' } }
+            }, {
+                $group: { '_id': '$_id.name', 'purchaseDetail': { $push: { 'isDone': '$_id.isDone', 'quantity': '$quantity' } }, 'quantity': { $sum: '$quantity' } }
             }
 
-        ],{ cursor: { batchSize: 1 } }).toArray();
+        ], { cursor: { batchSize: 1 } }).toArray();
+
+        return res;
+
+    },
+
+    updateItemStatus: function*(itemName, status) {
+
+        var db = yield MongoClient.connect(url);
+
+
+        var res = yield db.collection('orders').updateMany({
+            'items.name': itemName
+
+        }, { $set: { 'items.$.isDone': status } });
+
+        return res;
+
+    },
+    getItemStatus: function*(itemName) {
+
+        var db = yield MongoClient.connect(url);
+
+        var res = yield db.collection('orders').aggregate([{
+
+                $match: { status: 'RECEIVED', 'items.name': itemName }
+
+            }, {
+                $unwind: {
+
+                    path: '$items',
+
+                    preserveNullAndEmptyArrays: true
+                }
+            }, {
+
+                $match: { 'items.name': itemName }
+
+            },{
+                $group: { '_id': { 'name': '$items.name', 'isDone': '$items.isDone' }, 'quantity': { $sum: '$items.quantity' } }
+            }, {
+                $group: { '_id': '$_id.name', 'purchaseDetail': { $push: { 'isDone': '$_id.isDone', 'quantity': '$quantity' } }, 'quantity': { $sum: '$quantity' } }
+            }
+
+        ], { cursor: { batchSize: 1 } }).toArray();
 
         return res;
 
