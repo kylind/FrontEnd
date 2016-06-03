@@ -124,7 +124,32 @@ var collection = {
         return res;
 
     },
+    getSubItems: function*(itemName) {
 
+        var db = yield MongoClient.connect(url);
+
+        var res = yield db.collection('orders').aggregate([{
+
+                $match: { status: 'RECEIVED', 'items.name': itemName }
+
+            }, {
+                $unwind: {
+
+                    path: '$items',
+
+                    preserveNullAndEmptyArrays: true
+                }
+            }, {
+
+                $match: { 'items.name': itemName }
+
+            }
+
+        ], { cursor: { batchSize: 1 } }).toArray();
+
+        return res;
+
+    },
     remove: function() {
         var url = 'mongodb://localhost:27017/local';
 

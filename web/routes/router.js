@@ -170,10 +170,18 @@ router.post('/item/:itemName', function*() {
 
     var res = yield orderOperation.getItemStatus(this.params.itemName);
 
-
-
-
     this.body = res[0];
+    this.status = 200;
+
+});
+
+router.get('/subitems/:itemName', function*() {
+
+    var itemName = this.params.itemName;
+
+    var res = yield orderOperation.getSubItems(itemName);
+
+    this.body = res;
     this.status = 200;
 
 });
