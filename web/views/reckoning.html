@@ -1,0 +1,188 @@
+<div>
+    <button type="button" text="Add" data-bind="click:$root.addOrder">Add Order </button>
+</div>
+<div data-bind="foreach: orders">
+    <section>
+        <div>
+            <div>
+                <input type="text" data-bind="value: _id" />
+                <input type="text" data-bind="value: client" placeholder="Client Name" />
+            </div>
+            <div class="addresses">
+                <!-- ko foreach: addresses -->
+                <fieldset>
+                    <div>
+                        <input type="text" data-bind="value: recipient" placeholder="Recipient" />
+                    </div>
+                    <div>
+                       <input type="text" data-bind="value: address" placeholder="Address" />
+                    </div>
+                    <div>
+                        <input type="text" data-bind="value: phone" placeholder="Phone" />
+                    </div>
+                    <div><a href="#" data-bind="click: $parent.removeAddress.bind(this,$data)"> Remove</a></div>
+                </fieldset>
+                <!-- /ko -->
+                 <button type="button" text="Add" data-bind="click:addAddress">Add </button>
+            </div>
+        </div>
+        <div>
+            <!-- ko foreach: items -->
+            <fieldset>
+                <div>
+                    <input type="text" data-bind="value: name" placeholder="Product Name" />
+                </div>
+                <div>
+                    <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
+                </div>
+                <div>
+                    <input type="text" data-bind="value: note" placeholder="Note:" />
+                </div>
+                <div>
+                    <input type="text" data-bind="value: buyPrice" placeholder="Buy Price" />
+                    <input type="text" data-bind="value: sellPrice" placeholder="Sell Price" />
+                </div>
+                <div><a href="#" data-bind="click: $parent.getHistoricTrade">Refer</a><a href="#" data-bind="click: $parent.removeItem.bind(this, $data)"> Remove</a></div>
+
+
+                <div class="historictrades" style="display: none">
+                    <h4> Historic Trades </h4>
+                    <div data-bind="template:{ name: getTemplateName, foreach: trades }">
+                    </div>
+                </div>
+
+            </fieldset>
+            <!-- /ko -->
+            <button type="button" text="Add" data-bind="click:addItem">Add </button>
+        </div>
+        <div>
+            <button type="button" text="Add" data-bind="click: submitOrder">Submit </button>
+        </div>
+    </section>
+</div>
+
+<script type="text/html" id="historicTrades">
+    <section>
+        <span data-bind="text: client"></span>
+        <span data-bind="text: name"></span>
+        <span data-bind="text: items.quantity"></span>
+        <span data-bind="text: createDate"></span>
+    </section>
+</script>
+<script type="text/html" id="errorInfo">
+    <p>we cannot get historic trades!</p>
+</script>
+
+<script>
+var OrderModel = function(order) {
+    var self = this;
+    self._id = ko.observable(order ? order._id : '');
+    self.client = ko.observable(order ? order.client : '');
+    self.items = ko.observableArray(order ? order.items : [{
+        name: '',
+        quantity: 1,
+        note: ''
+    }]);
+
+    self.addresses = ko.observableArray(order ? order.addresses : [{
+        recipient: "",
+        address:"",
+        phone: ""
+    }]);
+
+    self.historicTrades = ko.observableArray([]);
+
+    self.createDate = order ? order.createDate : new Date();
+    self.status = order ? order.status : 'RECEIVED';
+
+
+
+    self.getTemplateName = function() {
+
+        return self.historicTrades().length > 0 ? 'historicTrades' : 'errorInfo';
+
+    };
+
+    self.addItem = function() {
+
+        self.items.push({
+            name: "",
+            quantity: 1,
+            note: '',
+            isDone: false
+        });
+    };
+
+    self.removeItem = function(item) {
+        self.items.remove(item);
+    };
+
+    self.getHistoricTrade= function(item){
+
+    }
+
+    self.addAddress = function(address){
+        self.addresses.remove(address);
+    };
+
+    self.removeAddress = function(){
+
+        self.addresses.push({
+            recipient: "",
+            address:"",
+            phone: ""
+        });
+
+    };
+
+    self.submitOrder = function(order) {
+
+        console.log('post request....');
+
+        var orderData = ko.mapping.toJS(order); //$.parseJSON(ko.toJSON(order));
+
+        $.post('/order', orderData, function(data, status) {
+
+                console.log('get post result');
+                ko.mapping.fromJS(data, {}, order);
+            },
+            'json'
+        );
+
+        return false;
+
+    };
+
+};
+
+
+
+var OrdersModel = function(orders) {
+
+    var observableOrders = [];
+
+    orders.forEach(function(order) {
+
+        observableOrders.push(new OrderModel(order));
+
+    })
+
+    var self = this;
+
+    self.orders = ko.observableArray(observableOrders);
+
+
+
+
+    self.addOrder = function(data) {
+
+        var order = new OrderModel();
+
+        self.orders.push(order);
+    };
+};
+
+var ordersModel = new OrdersModel(<%- JSON.stringify(orders) %>);
+
+ko.applyBindings(ordersModel);
+</script>
