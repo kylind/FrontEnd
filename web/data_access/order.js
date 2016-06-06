@@ -3,6 +3,8 @@ var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 var url = 'mongodb://localhost:27017/local';
 
+
+
 var collection = {
     insert: function(order) {
 
@@ -54,13 +56,15 @@ var collection = {
 
     },
 
-    queryPurchaseItems: function*() {
+    queryItems: function*() {
 
-        var db = yield MongoClient.connect(url);
+       /* var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
 
-                $match: { status: 'RECEIVED' }
+                $match: {
+                    status: 'RECEIVED'
+                }
 
             }, {
                 $unwind: {
@@ -70,14 +74,47 @@ var collection = {
                     preserveNullAndEmptyArrays: true
                 }
             }, {
-                $group: { '_id': { 'name': '$items.name', 'isDone': '$items.isDone' }, 'quantity': { $sum: '$items.quantity' } }
+                $group: {
+                    '_id': {
+                        'name': '$items.name',
+                        'isDone': '$items.isDone'
+                    },
+                    'quantity': {
+                        $sum: '$items.quantity'
+                    }
+                }
             }, {
-                $group: { '_id': '$_id.name', 'purchaseDetail': { $push: { 'isDone': '$_id.isDone', 'quantity': '$quantity' } }, 'quantity': { $sum: '$quantity' } }
+                $group: {
+                    '_id': '$_id.name',
+                    'purchaseDetail': {
+                        $push: {
+                            'isDone': '$_id.isDone',
+                            'quantity': '$quantity'
+                        }
+                    },
+                    'quantity': {
+                        $sum: '$quantity'
+                    }
+                }
             }
 
-        ], { cursor: { batchSize: 1 } }).toArray();
+        ], {
+            cursor: {
+                batchSize: 1
+            }
+        }).toArray();
 
-        return res;
+        return res;*/
+
+        return Promise.resolve([{
+            _id: 'p1',
+            quantity: 5,
+            purchaseDetail: [{isDone: false, quantity: 5}]
+        },{
+            _id: 'p2',
+            quantity: 8,
+            purchaseDetail: [{isDone: false, quantity: 5}]
+        }]);
 
     },
 
@@ -89,18 +126,25 @@ var collection = {
         var res = yield db.collection('orders').updateMany({
             'items.name': itemName
 
-        }, { $set: { 'items.$.isDone': status } });
+        }, {
+            $set: {
+                'items.$.isDone': status
+            }
+        });
 
         return res;
 
     },
     getItemStatus: function*(itemName) {
 
-        var db = yield MongoClient.connect(url);
+        /*var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
 
-                $match: { status: 'RECEIVED', 'items.name': itemName }
+                $match: {
+                    status: 'RECEIVED',
+                    'items.name': itemName
+                }
 
             }, {
                 $unwind: {
@@ -111,22 +155,53 @@ var collection = {
                 }
             }, {
 
-                $match: { 'items.name': itemName }
+                $match: {
+                    'items.name': itemName
+                }
 
-            },{
-                $group: { '_id': { 'name': '$items.name', 'isDone': '$items.isDone' }, 'quantity': { $sum: '$items.quantity' } }
             }, {
-                $group: { '_id': '$_id.name', 'purchaseDetail': { $push: { 'isDone': '$_id.isDone', 'quantity': '$quantity' } }, 'quantity': { $sum: '$quantity' } }
+                $group: {
+                    '_id': {
+                        'name': '$items.name',
+                        'isDone': '$items.isDone'
+                    },
+                    'quantity': {
+                        $sum: '$items.quantity'
+                    }
+                }
+            }, {
+                $group: {
+                    '_id': '$_id.name',
+                    'purchaseDetail': {
+                        $push: {
+                            'isDone': '$_id.isDone',
+                            'quantity': '$quantity'
+                        }
+                    },
+                    'quantity': {
+                        $sum: '$quantity'
+                    }
+                }
             }
 
-        ], { cursor: { batchSize: 1 } }).toArray();
+        ], {
+            cursor: {
+                batchSize: 1
+            }
+        }).toArray();
 
-        return res;
+        return res;*/
+
+        return Promise.resolve([{
+            _id: 'p1',
+            quantity: 5,
+            purchaseDetail: [{isDone: false, quantity: 5}]
+        }]);
 
     },
     getSubItems: function*(itemName) {
 
-        var db = yield MongoClient.connect(url);
+        /*var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
 
@@ -147,7 +222,31 @@ var collection = {
 
         ], { cursor: { batchSize: 1 } }).toArray();
 
-        return res;
+        return res;*/
+
+        return Promise.resolve([{
+            client: 'kylin',
+            _id: 'abcdefg',
+            items: {
+                name: 'p1',
+                quantity: 2,
+                note: '',
+                isDone:false
+            },
+            status: 'RECEIVED',
+            createDate: new Date().toLocaleDateString('en-us')
+        }, {
+            client: 'kylin',
+            _id: 'abcdefg',
+            items: {
+                name: 'p1',
+                quantity: 3,
+                note: '',
+                isDone:false
+            },
+            status: 'RECEIVED',
+            createDate: new Date().toLocaleDateString('en-us')
+        }])
 
     },
     remove: function() {

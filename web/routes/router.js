@@ -142,7 +142,7 @@ router.get('/items', function*() {
 
     var res = null;
 
-    res = yield orderOperation.queryPurchaseItems();
+    res = yield orderOperation.queryItems();
 
     console.log(res);
 

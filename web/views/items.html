@@ -14,13 +14,26 @@
         <span data-bind="text: $root.getSubName($data)"></span><span data-bind="name: $root.getSubName($data), text: quantity"></span>
         <!-- /ko -->
         <button data-bind="click: $root.markDone">MarkDone</button>
-        <button data-bind="click: $root.getItemDetail">ItemDetail</button>
-        <h4> item detail </h4>
-        <div></div>
+        <button data-bind="click: $root.getSubItems">ItemDetail</button>
+        <div class="subItem" style="display: none">
+            <h4> Sub Items </h4>
+            <div data-bind="template:{ name: getTemplateName, foreach: subItems }">
+            </div>
+        </div>
     </section>
 </div>
-
-
+<script type="text/html" id="subItem">
+    <section>
+        <span data-bind="text: client"></span>
+        <span data-bind="text: status"></span>
+        <span data-bind="text: items.quantity"></span>
+        <span data-bind="text: items.isDone"></span>
+        <span data-bind="text: createDate"></span>
+    </section>
+</script>
+<script type="text/html" id="errorInfo">
+    <p>Somehow we cannot get item detail for now!</p>
+</script>
 <script>
 var Item = function(item) {
     var self = this;
@@ -30,6 +43,22 @@ var Item = function(item) {
         isDone: false,
         quantity: 0
     }]);
+
+    self.subItems = ko.observableArray([]);
+
+    self.getTemplateName = function(subItem) {
+
+        return self.subItems().length > 0 ? 'subItem' : 'errorInfo';
+
+    };
+
+    self.displaySubItems = ko.computed(function() {
+
+        return self.subItems().length > 0;
+
+    });
+
+    self.isSubItemsOpen = false;
 };
 
 var ItemsModel = function(items) {
@@ -42,6 +71,8 @@ var ItemsModel = function(items) {
 
     })
 
+
+
     var self = this;
 
     self.items = ko.observableArray(observableItems);
@@ -52,16 +83,36 @@ var ItemsModel = function(items) {
 
     };
 
-    self.getSubItems = function() {
+    self.getSubItems = function(item, event) {
 
         var itemData = ko.mapping.toJS(item);
 
-        $.getJSON('/subitems/' + itemData._id, function(res, status) {
+        if (!item.isSubItemsOpen) {
+            $.getJSON('/subitems/' + itemData._id, function(res, status) {
+
+                if (status == 'success') {
+                    item.subItems(res);
+
+                } else {
+                    item.subItems([]);
+                }
+
+                $(event.target).next('.subItem').slideDown('fast',function(){
+                     item.isSubItemsOpen=true;
+                });
+
+            });
+
+        }else{
+
+            $(event.target).next('.subItem').slideUp('fast',function(){
+                item.isSubItemsOpen=false;
+            });
 
 
+        }
 
 
-        });
 
     };
 
