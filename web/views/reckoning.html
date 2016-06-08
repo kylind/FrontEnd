@@ -12,18 +12,25 @@
                 <!-- ko foreach: addresses -->
                 <fieldset>
                     <div>
+                        <input type="text" data-bind="value: _id" />
+                    </div>
+                    <div>
+                        <input type="text" data-bind="value: client" />
+                    </div>
+                    <div>
                         <input type="text" data-bind="value: recipient" placeholder="Recipient" />
                     </div>
                     <div>
-                       <input type="text" data-bind="value: address" placeholder="Address" />
+                        <input type="text" data-bind="value: address" placeholder="Address" />
                     </div>
                     <div>
                         <input type="text" data-bind="value: phone" placeholder="Phone" />
                     </div>
-                    <div><a href="#" data-bind="click: $parent.removeAddress.bind(this,$data)"> Remove</a></div>
+                    <div><a href="#" data-bind="click: $parent.removeAddress.bind(this,$data)"> Edit</a><a href="#" data-bind="click: $parent.removeAddress.bind(this,$data)"> Remove</a></div>
                 </fieldset>
                 <!-- /ko -->
-                 <button type="button" text="Add" data-bind="click:addAddress">Add </button>
+                <button type="button" text="Add" data-bind="click:addAddress">Add </button>
+                <button type="button" text="Add" data-bind="click:submitAddress">Submit </button>
             </div>
         </div>
         <div>
@@ -42,15 +49,12 @@
                     <input type="text" data-bind="value: buyPrice" placeholder="Buy Price" />
                     <input type="text" data-bind="value: sellPrice" placeholder="Sell Price" />
                 </div>
-                <div><a href="#" data-bind="click: $parent.getHistoricTrade">Refer</a><a href="#" data-bind="click: $parent.removeItem.bind(this, $data)"> Remove</a></div>
-
-
+                <div><a href="#" data-bind="click: $parent.getHistoricTrades">Refer</a><a href="#" data-bind="click: $parent.removeItem.bind(this, $data)"> Remove</a></div>
                 <div class="historictrades" style="display: none">
                     <h4> Historic Trades </h4>
-                    <div data-bind="template:{ name: getTemplateName, foreach: trades }">
+                    <div data-bind="template:{ name: getTemplateName, foreach: historicTrades }">
                     </div>
                 </div>
-
             </fieldset>
             <!-- /ko -->
             <button type="button" text="Add" data-bind="click:addItem">Add </button>
@@ -60,48 +64,88 @@
         </div>
     </section>
 </div>
-
 <script type="text/html" id="historicTrades">
     <section>
         <span data-bind="text: client"></span>
         <span data-bind="text: name"></span>
-        <span data-bind="text: items.quantity"></span>
+        <span data-bind="text: quantity"></span>
+        <span data-bind="text: sellPrice"></span>
+        <span data-bind="text: buyPrice"></span>
         <span data-bind="text: createDate"></span>
     </section>
 </script>
 <script type="text/html" id="errorInfo">
     <p>we cannot get historic trades!</p>
 </script>
-
 <script>
-var OrderModel = function(order) {
+var Item = function(item) {
     var self = this;
-    self._id = ko.observable(order ? order._id : '');
-    self.client = ko.observable(order ? order.client : '');
-    self.items = ko.observableArray(order ? order.items : [{
-        name: '',
-        quantity: 1,
-        note: ''
-    }]);
-
-    self.addresses = ko.observableArray(order ? order.addresses : [{
-        recipient: "",
-        address:"",
-        phone: ""
-    }]);
-
+    self.name = item.name ? item.name : '';
+    self.quantity = item.quantity ? item.quantity : 1;
+    self.buyPrice = item.buyPrice ? item.buyPrice : '';
+    self.sellPrice = item.sellPrice ? item.sellPrice : '';
+    self.note = item.note ? item.note : '';
+    self.isDone = item.isDone ? item.isDone : false;
     self.historicTrades = ko.observableArray([]);
 
-    self.createDate = order ? order.createDate : new Date();
-    self.status = order ? order.status : 'RECEIVED';
+    self.getHistoricTrades = function(item, event) {
+        var itemData = ko.mapping.toJS(item);
 
+        var $historicTrades = $(event.target).parent().next('.historictrades');
 
+        if (!item.isHistoricTradesOpen) {
+            $.getJSON('/historictrades/' + itemData._id, function(res, status) {
 
+                status == 'success' ? item.historicTrades(res) : item.historicTrades([]);
+
+                $historicTrades.slideDown('fast', function() {
+                    item.isHistoricTradesOpen = true;
+                });
+
+            });
+
+        } else {
+
+            $historicTrades.slideUp('fast', function() {
+                item.isHistoricTradesOpen = false;
+            });
+        }
+    };
     self.getTemplateName = function() {
 
         return self.historicTrades().length > 0 ? 'historicTrades' : 'errorInfo';
 
     };
+}
+
+var OrderModel = function(order) {
+    var self = this;
+    self._id = ko.observable(order ? order._id : '');
+    self.client = ko.observable(order ? order.client : '');
+
+    var items = ($.isArray(order.items) && order.items.length > 0) ? order.items : [{
+        name: '',
+        quantity: 1,
+        buyPrice: 0,
+        sellPrice: 0,
+        isDone: false,
+        note: ''
+    }];
+
+    var observableItems = [];
+
+    items.forEach(function(item) {
+        observableItems.push(new Item(item));
+    });
+
+    self.items = ko.observableArray(observableItems);
+
+    self.addresses = ko.observableArray(order.addresses);
+
+    self.createDate = order ? order.createDate : new Date();
+    self.status = order ? order.status : 'RECEIVED';
+    self.isHistoricTradesOpen = false;
+
 
     self.addItem = function() {
 
@@ -117,21 +161,39 @@ var OrderModel = function(order) {
         self.items.remove(item);
     };
 
-    self.getHistoricTrade= function(item){
 
-    }
 
-    self.addAddress = function(address){
-        self.addresses.remove(address);
-    };
-
-    self.removeAddress = function(){
+    self.addAddress = function(address) {
 
         self.addresses.push({
+            _id:"",
+            client:"",
             recipient: "",
-            address:"",
+            address: "",
             phone: ""
         });
+
+    };
+
+    self.removeAddress = function(address) {
+
+        self.addresses.remove(address);
+
+    };
+
+    self.submitAddresses = function() {
+
+        var addresses = ko.mapping.toJS(self.addresses);
+
+
+        $.post('/addresses', addresses, function(addresses, status) {
+
+                order.addresses(addresses);
+            },
+            'json'
+        );
+
+        return false;
 
     };
 
@@ -170,9 +232,6 @@ var OrdersModel = function(orders) {
     var self = this;
 
     self.orders = ko.observableArray(observableOrders);
-
-
-
 
     self.addOrder = function(data) {
 

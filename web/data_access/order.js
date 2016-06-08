@@ -44,7 +44,7 @@ var collection = {
         return res;
     },
 
-    query: function*(filter) {
+    queryOrders: function*(filter) {
 
 
         var db = yield MongoClient.connect(url);
@@ -58,7 +58,7 @@ var collection = {
 
     queryItems: function*() {
 
-       /* var db = yield MongoClient.connect(url);
+        var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
 
@@ -104,17 +104,17 @@ var collection = {
             }
         }).toArray();
 
-        return res;*/
+        return res;
 
-        return Promise.resolve([{
+        /*return Promise.resolve([{
             _id: 'p1',
             quantity: 5,
-            purchaseDetail: [{isDone: false, quantity: 5}]
-        },{
+            purchaseDetail: [{ isDone: false, quantity: 5 }]
+        }, {
             _id: 'p2',
             quantity: 8,
-            purchaseDetail: [{isDone: false, quantity: 5}]
-        }]);
+            purchaseDetail: [{ isDone: false, quantity: 5 }]
+        }]);*/
 
     },
 
@@ -137,7 +137,7 @@ var collection = {
     },
     getItemStatus: function*(itemName) {
 
-        /*var db = yield MongoClient.connect(url);
+        var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
 
@@ -190,18 +190,18 @@ var collection = {
             }
         }).toArray();
 
-        return res;*/
+        return res;
 
-        return Promise.resolve([{
-            _id: 'p1',
-            quantity: 5,
-            purchaseDetail: [{isDone: false, quantity: 5}]
-        }]);
+        /* return Promise.resolve([{
+             _id: 'p1',
+             quantity: 5,
+             purchaseDetail: [{ isDone: false, quantity: 5 }]
+         }]);*/
 
     },
     getSubItems: function*(itemName) {
 
-        /*var db = yield MongoClient.connect(url);
+        var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
 
@@ -218,35 +218,89 @@ var collection = {
 
                 $match: { 'items.name': itemName }
 
+            }, {
+                $project: { client: 1, createDate: 1, status: 1, name: '$items.name', quantity: '$items.quantity', note: '$items.note', isDone: '$items.isDone' }
             }
 
         ], { cursor: { batchSize: 1 } }).toArray();
 
-        return res;*/
+        return res;
 
-        return Promise.resolve([{
-            client: 'kylin',
-            _id: 'abcdefg',
-            items: {
-                name: 'p1',
-                quantity: 2,
-                note: '',
-                isDone:false
-            },
-            status: 'RECEIVED',
-            createDate: new Date().toLocaleDateString('en-us')
-        }, {
-            client: 'kylin',
-            _id: 'abcdefg',
-            items: {
-                name: 'p1',
-                quantity: 3,
-                note: '',
-                isDone:false
-            },
-            status: 'RECEIVED',
-            createDate: new Date().toLocaleDateString('en-us')
-        }])
+        /*
+                return Promise.resolve([{
+                    client: 'kylin',
+                    _id: 'abcdefg',
+                    items: {
+                        name: 'p1',
+                        quantity: 2,
+                        note: '',
+                        isDone:false
+                    },
+                    status: 'RECEIVED',
+                    createDate: new Date().toLocaleDateString('en-us')
+                }, {
+                    client: 'kylin',
+                    _id: 'abcdefg',
+                    items: {
+                        name: 'p1',
+                        quantity: 3,
+                        note: '',
+                        isDone:false
+                    },
+                    status: 'RECEIVED',
+                    createDate: new Date().toLocaleDateString('en-us')
+                }])*/
+
+    },
+    queryReckoningOrders: function*(filter) {
+
+        var db = yield MongoClient.connect(url);
+
+        var res = yield db.collection('orders').aggregate([
+
+            {
+                $lookup: {
+                    from: "addresses",
+                    localField: "client",
+                    foreignField: "client",
+                    as: "addresses"
+                }
+            }
+
+        ], { cursor: { batchSize: 1 } }).toArray();
+
+
+        return res;
+
+    },
+
+    getHistoricTrades: function*(itemName) {
+
+        var db = yield MongoClient.connect(url);
+
+        var res = yield db.collection('orders').aggregate([{
+
+                $match: { status: 'RECEIVED', 'items.name': itemName }
+
+            }, {
+                $unwind: {
+
+                    path: '$items',
+
+                    preserveNullAndEmptyArrays: true
+                }
+            }, {
+
+                $match: { 'items.name': itemName }
+
+            }, {
+                $project: { _id: 0, client: 1, createDate: 1, status: 1, name: '$items.name', quantity: '$items.quantity', buyPrice: '$items.buyPrice', sellPrice: '$items.sellPrice', isDone: '$items.isDone' }
+            }
+
+        ], { cursor: { batchSize: 1 } }).toArray();
+
+        return res;
+
 
     },
     remove: function() {

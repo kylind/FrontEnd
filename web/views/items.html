@@ -24,11 +24,14 @@
 </div>
 <script type="text/html" id="subItem">
     <section>
+        <span data-bind="text: _id"></span>
         <span data-bind="text: client"></span>
-        <span data-bind="text: status"></span>
-        <span data-bind="text: items.quantity"></span>
-        <span data-bind="text: items.isDone"></span>
-        <span data-bind="text: createDate"></span>
+        <span data-bind="text: name"></span>
+        <span data-bind="text: quantity"></span>
+        <span data-bind="text: note"></span>
+        <span data-bind="text: isDone"></span>
+        <span data-bind="text: new Date(createDate).toLocaleDateString()"></span>
+        <button data-bind="click: $parent.markDone">MarkDone</button>
     </section>
 </script>
 <script type="text/html" id="errorInfo">
@@ -58,7 +61,12 @@ var Item = function(item) {
 
     });
 
+    self.markDone = function(){
+
+    }
+
     self.isSubItemsOpen = false;
+
 };
 
 var ItemsModel = function(items) {

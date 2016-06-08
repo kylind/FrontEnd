@@ -1,8 +1,9 @@
 var Router = require('koa-router');
 var ObjectID = require('mongodb').ObjectID;
 var orderOperation = require('../data_access/order.js').collection
+var addressOperation = require('../data_access/address.js').collection
 
-const RECEIVED='RECEIVED'
+const RECEIVED = 'RECEIVED'
 
 const EMPTY_ORDER = {
     _id: '',
@@ -11,10 +12,19 @@ const EMPTY_ORDER = {
         name: "",
         quantity: 1,
         note: '',
+        buyPrice: '',
+        sellPrice: '',
         isDone: false
     }],
+    addresses: [{
+        _id: '',
+        client: '',
+        recipient: '',
+        address: '',
+        phone: ''
+    }],
     createDate: new Date(),
-    status:RECEIVED
+    status: RECEIVED
 }
 
 router = new Router();
@@ -80,9 +90,11 @@ router.post('/order', function*() {
     var order = this.request.body;
     var res;
 
-     order.items.forEach(function(item){
-        item.quantity= +item.quantity;
-        item.isDone = item.isDone == 'true'? true:false;
+    order.items.forEach(function(item) {
+        item.quantity = +item.quantity;
+        item.isDone = item.isDone == 'true' ? true : false;
+        item.buyPrice = item.buyPrice ? +item.buyPrice : 0;
+        item.sellPrice = item.sellPrice ? +item.sellPrice : 0;
     });
 
     if (ObjectID.isValid(order._id)) {
@@ -124,7 +136,7 @@ router.get('/orders/abc', function*() {
 
     var res = null;
 
-    res = yield orderOperation.query();
+    res = yield orderOperation.queryOrders();
 
     res = res && res.length > 0 ? res : [EMPTY_ORDER];
 
@@ -146,7 +158,7 @@ router.get('/items', function*() {
 
     console.log(res);
 
-    res = res && res.length > 0 ? res : { warning: 'There is no purchase item.'};
+    res = res && res.length > 0 ? res : { warning: 'There is no purchase item.' };
 
     yield this.render('items', {
         items: res,
@@ -162,9 +174,7 @@ router.post('/item/:itemName', function*() {
 
     var purchaseDetail = this.request.body;
 
-
-
-    purchaseDetail.isDone = purchaseDetail.isDone == 'true'? true:false;
+    purchaseDetail.isDone = purchaseDetail.isDone == 'true' ? true : false;
 
     var updatedRes = yield orderOperation.updateItemStatus(this.params.itemName, purchaseDetail.isDone);
 
@@ -186,5 +196,54 @@ router.get('/subitems/:itemName', function*() {
 
 });
 
+router.get('/reckoning', function*() {
+
+    var res = null;
+    res = yield orderOperation.queryReckoningOrders();
+    res = res && res.length > 0 ? res : [EMPTY_ORDER];
+
+
+    res.forEach(function(item) {
+        if (Array.isArray(item.addresses) && item.addresses.length > 0);
+        else
+            item.addresses = EMPTY_ORDER.addresses;
+    })
+
+    console.log(res);
+
+    yield this.render('reckoning', {
+        orders: res,
+        script: 'mvvm',
+        header: 'specific',
+        footer: ''
+
+    });
+
+});
+
+router.post('/addresses', function*() {
+
+    var address = this.request.body;
+    var res;
+
+
+
+
+
+    this.body = order;
+    this.status = 200;
+
+});
+
+router.get('/historictrades/:itemName', function*() {
+
+    var itemName = this.params.itemName;
+
+    var res = yield orderOperation.getHistoricTrades(itemName);
+
+    this.body = res;
+    this.status = 200;
+
+});
 
 exports.router = router;
