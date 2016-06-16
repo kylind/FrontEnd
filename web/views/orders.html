@@ -32,11 +32,11 @@
 <script>
 var OrderModel = function(order) {
     var self = this;
-    self._id = ko.observable( order ? order._id: '');
-    self.client = ko.observable(order ? order.client:'');
-    self.items = ko.observableArray(order ? order.items:[{name:'',quantity:1, note:''}]);
-    self.createDate= order ? order.createDate : new Date();
-    self.status= order ? order.status : 'RECEIVED';
+    self._id = ko.observable( order && order._id ? order._id: '');
+    self.client = ko.observable(order && order.client ? order.client:'');
+    self.items = ko.observableArray(order && Array.isArray(order.items) ? order.items : [{name:'',quantity:1, note:''}]);
+    self.createDate= order && order.createDate ? order.createDate : new Date();
+    self.status= order && order.status ? order.status : 'RECEIVED';
 
 };
 

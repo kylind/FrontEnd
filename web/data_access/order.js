@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-var ObjectId = require('mongodb').ObjectID;
+var ObjectID = require('mongodb').ObjectID;
 var url = 'mongodb://localhost:27017/local';
 
 
@@ -38,7 +38,7 @@ var collection = {
         delete order._id;
 
         var res = yield db.collection('orders').replaceOne({
-            "_id": new ObjectId(id)
+            "_id": new ObjectID(id)
         }, order);
 
         return res;
@@ -291,7 +291,7 @@ var collection = {
                 }
             }, {
 
-                $match: { 'items.name': itemName }
+                $match: { 'items.name': itemName, 'items.sellPrice': { $gt: 0 } }
 
             }, {
                 $project: { _id: 0, client: 1, createDate: 1, status: 1, name: '$items.name', quantity: '$items.quantity', buyPrice: '$items.buyPrice', sellPrice: '$items.sellPrice', isDone: '$items.isDone' }

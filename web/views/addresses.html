@@ -1,0 +1,96 @@
+<div data-bind="foreach: addresses">
+    <section>
+        <div>
+            <input type="text" data-bind="value: _id" />
+            <input type="text" data-bind="value: client" placeholder="Client" />
+        </div>
+        <div>
+            <input type="text" data-bind="value: recipient" placeholder="Recipient" />
+        </div>
+        <div>
+            <input type="text" min="0" max="100" step="1" data-bind="value: address" placeholder="Address" />
+        </div>
+        <div>
+            <input type="text" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" />
+        </div>
+        <div><a href="#" data-bind="click: $root.removeAddress.bind(this, $data)"> Delete</a></div>
+        <button type="button" text="Add" data-bind="click: $root.submitAddress">Submit </button>
+    </section>
+</div>
+<div>
+    <button type="button" text="Add" data-bind="click: addAddress">Add </button>
+
+</div>
+<script>
+var AddressModel = function(address) {
+    var self = this;
+    self._id = ko.observable(address ? address._id : '');
+    self.client = ko.observable(address ? address.client : '');
+    self.recipient = ko.observable(address ? address.recipient : '');
+    self.address = ko.observable(address ? address.address : '');
+    self.phone = ko.observable(address ? address.phone : '');
+
+
+    /*this.isChanged = ko.pureComputed(function() {
+
+        return address && address.client == self.client() && address.recipient == self.recipient() && address.address == self.address() && address.phone == self.phone() ? false : true;
+
+    }, this);*/
+};
+
+var AddressesModel = function(addresses) {
+
+    var observableAddresses = [];
+
+    addresses.forEach(function(address) {
+
+        observableAddresses.push(new AddressModel(address));
+
+    })
+
+    var self = this;
+
+    self.addresses = ko.observableArray(observableAddresses);
+
+    self.addresses.subscribe(function(changes) {
+
+        console.log(changes);
+
+    }, null, "arrayChange");
+
+
+
+    self.addAddress = function() {
+
+        self.addresses.push(new AddressModel());
+    };
+
+    self.removeAddress = function(address) {
+        self.addresses.remove(address);
+
+
+    };
+
+    self.submitAddress = function(address) {
+
+        console.log('post request....');
+
+         var addressData = ko.mapping.toJS(address); //$.parseJSON(ko.toJSON(address));
+
+         $.post('/address', addressData, function(data, status) {
+
+                 console.log('get post result');
+                 ko.mapping.fromJS(data,{}, address);
+             },
+             'json'
+         );
+
+         return false;
+
+    };
+};
+
+var addressesModel = new AddressesModel(<%- JSON.stringify(addresses) %>);
+
+ko.applyBindings(addressesModel);
+</script>

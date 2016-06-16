@@ -28,23 +28,6 @@ const EMPTY_ORDER = {
 }
 
 router = new Router();
-router.get('/testorders', function*(next) {
-
-    var product = [{
-        name: 'a',
-        price: 11
-    }, {
-        name: 'b',
-        price: 2
-    }, {
-        name: 'c',
-        price: 3
-    }];
-    yield this.render('content', {
-        product: product
-    });
-
-});
 
 router.get('/order/:id', function*() {
     var res = null;
@@ -205,9 +188,17 @@ router.get('/reckoning', function*() {
 
     res.forEach(function(item) {
         if (Array.isArray(item.addresses) && item.addresses.length > 0);
-        else
-            item.addresses = EMPTY_ORDER.addresses;
-    })
+        else {
+
+            item.addresses = [{
+                _id: '',
+                client: item.client,
+                recipient: '',
+                address: '',
+                phone: ''
+            }];
+        }
+    });
 
     console.log(res);
 
@@ -223,15 +214,50 @@ router.get('/reckoning', function*() {
 
 router.post('/addresses', function*() {
 
-    var address = this.request.body;
-    var res;
+    var addressesData = this.request.body;
+
+    var addresses = addressesData.addresses;
+
+    var client = addressesData.client;
 
 
 
+    yield addressOperation.saveAddresses(client, addresses)
 
-
-    this.body = order;
+    this.body = addresses;
     this.status = 200;
+
+});
+
+router.post('/address', function*() {
+
+    var address = this.request.body;
+
+    yield addressOperation.saveAddress(address)
+
+    this.body = address;
+    this.status = 200;
+
+});
+
+router.get('/addresses', function*() {
+
+    var res = yield addressOperation.queryAddresses()
+    res = res && res.length > 0 ? res : [{
+        _id: '',
+        client: '',
+        recipient: '',
+        address: '',
+        phone: ''
+    }];
+
+    yield this.render('addresses', {
+        addresses: res,
+        script: 'mvvm',
+        header: 'specific',
+        footer: ''
+
+    });
 
 });
 
