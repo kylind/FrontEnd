@@ -38,7 +38,7 @@ var OrderModel = function(order) {
     self.items = ko.observableArray(order && Array.isArray(order.items) ? order.items : [{name:'',quantity:1, note:''}]);
     self.createDate= order && order.createDate ? order.createDate : new Date();
     self.status= order && order.status ? order.status : 'RECEIVED';  
-
+ 
 };
 
 
