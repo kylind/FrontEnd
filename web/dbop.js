@@ -7,8 +7,7 @@ var dbOperations = {
         var url = 'mongodb://localhost:27017/local';
 
         var insertDocument = function(db, callback) {
-            db.collection('restaurants').insertOne(
-            {
+            db.collection('restaurants').insertOne({
                 "address": {
                     "street": "2 Avenue",
                     "zipcode": "10075",
@@ -47,7 +46,9 @@ var dbOperations = {
         var url = 'mongodb://localhost:27017/local';
 
         function query(db, callback) {
-            var cursor = db.collection('restaurants').find({ "name": "Vella" });
+            var cursor = db.collection('restaurants').find({
+                "name": "Vella"
+            });
             cursor.forEach(function(doc, error) {
                 assert.equal(error, null);
                 if (doc) {
@@ -71,12 +72,17 @@ var dbOperations = {
         var url = 'mongodb://localhost:27017/local';
 
         function update(db, callback) {
-            db.collection('restaurants').updateOne(
-                { "name": "Vella" },
+            db.collection('restaurants').updateOne({
+                    "name": "Vella"
+                },
 
-                { $set: { "cuisine": "Chinese" } },
+                {
+                    $set: {
+                        "cuisine": "Chinese"
+                    }
+                },
 
-                function(error, result){
+                function(error, result) {
                     assert.equal(error, null);
                 }
             );
@@ -95,9 +101,10 @@ var dbOperations = {
         var url = 'mongodb://localhost:27017/local';
 
         function remove(db, callback) {
-            db.collection('restaurants').deleteOne(
-                { "name": "Vella" },
-                function(error, result){
+            db.collection('restaurants').deleteOne({
+                    "name": "Vella"
+                },
+                function(error, result) {
                     assert.equal(error, null);
                 }
             );
