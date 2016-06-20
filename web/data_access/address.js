@@ -57,7 +57,6 @@ var collection = {
 
         if (Array.isArray(addresses) && addresses.length > 0) {
 
-
             yield collection.insertMany(addresses);
 
         }

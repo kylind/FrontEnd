@@ -76,8 +76,8 @@ router.post('/order', function*() {
     order.items.forEach(function(item) {
         item.quantity = +item.quantity;
         item.isDone = item.isDone == 'true' ? true : false;
-        item.buyPrice = item.buyPrice ? +item.buyPrice : 0;
-        item.sellPrice = item.sellPrice ? +item.sellPrice : 0;
+        item.buyPrice = item.buyPrice ? +item.buyPrice : null;
+        item.sellPrice = item.sellPrice ? +item.sellPrice : null;
     });
 
     if (ObjectID.isValid(order._id)) {

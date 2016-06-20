@@ -49,23 +49,17 @@
                     <input type="text" data-bind="value: buyPrice" placeholder="Buy Price" />
                     <input type="text" data-bind="value: sellPrice" placeholder="Sell Price" />
                 </div>
-
                 <div><a href="#" data-bind="click: $parent.getHistoricTrades">Refer</a><a href="#" data-bind="click: $parent.removeItem"> Remove</a></div>
-
-
                 <div class="historictrades" style="display: none">
-                <!-- ko if: $parent.getTemplateName -->
+                    <!-- ko if: $parent.getTemplateName -->
                     <h4> Historic Trades </h4>
-
                     <div data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">
                     </div>
-                <!-- /ko -->
-
-                <!-- ko ifnot: $parent.getTemplateName -->
+                    <!-- /ko -->
+                    <!-- ko ifnot: $parent.getTemplateName -->
                     <p>we cannot get historic trades!</p>
-                <!-- /ko -->
+                    <!-- /ko -->
                 </div>
-
             </fieldset>
             <!-- /ko -->
             <button type="button" text="Add" data-bind="click:addItem">Add </button>
@@ -85,7 +79,6 @@
         <span data-bind="text: createDate"></span>
     </section>
 </script>
-
 <script>
 var Item = function(item) {
     var self = this;
@@ -128,7 +121,13 @@ var OrderModel = function(order) {
 
     self.items = ko.observableArray(observableItems);
 
-    self.addresses = ko.observableArray(order ? order.addresses:[{}]);//to do
+    self.addresses = ko.observableArray(order ? order.addresses : [{
+        _id: '',
+        client: order ? order.client : '',
+        recipient: '',
+        address: '',
+        phone: ''
+    }]); //to do
 
     self.createDate = order ? order.createDate : new Date();
     self.status = order ? order.status : 'RECEIVED';
@@ -218,10 +217,34 @@ var OrderModel = function(order) {
 
         $.post('/order', orderData, function(data, status) {
 
+                data.items.forEach(function(item) {
+
+                    item.historicTrades = [];
+
+                });
+
                 console.log('get post result');
                 ko.mapping.fromJS(data, {}, order);
                 //order = new OrderModel(data);
                 //order.init(data);
+
+
+                var addressesData = ko.mapping.toJS(order.addresses);
+
+                for(var i=0; i<addressesData.length;i++){
+                    addressesData[i].client= order.client();
+                }
+
+                $.post('/addresses', {
+                        "client": order.client(),
+                        "addresses": addressesData
+                    }, function(addresses, status) {
+
+                        order.addresses(addresses);
+                    },
+                    'json'
+                );
+
             },
             'json'
         );
