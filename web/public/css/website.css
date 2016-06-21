@@ -1,6 +1,28 @@
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('../font/fontawesome-webfont.eot?v=3.2.1');
+  src: url('../font/fontawesome-webfont.eot?#iefix&v=3.2.1') format('embedded-opentype'), url('../font/fontawesome-webfont.woff?v=3.2.1') format('woff'), url('../font/fontawesome-webfont.ttf?v=3.2.1') format('truetype'), url('../font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 html{
     font-family: helvetica, arial, "\5b8b\4f53", sans-serif;
     font-size:10px;
+    color:#333;
+}
+
+body{
+    font-size:1.4rem;
+}
+
+:focus{
+    outline: 0;
+}
+
+a{
+    text-decoration: none;
     color:#333;
 }
 
@@ -10,10 +32,74 @@ header, footer, main{
     margin-right:auto;
 }
 
-input[type="text"]{
+.icon:before{
+    font-family: FontAwesome;
+    display: inline-block;
+    font-size: 1.4rem;
+}
+
+.icon-remove:before{
+    content: "\f00d";
+}
+.icon-search:before{
+    content: "\f002";
+}
+
+
+input[type="text"], input[type="number"]{
     border-top:none;
     border-left:none;
     border-right:none;
     border-bottom: 1px solid #666;
 }
+input[type="text"]:focus, input[type="number"]:focus{
+    border-bottom: 1px solid #666;
+}
+.address{
+    position: relative;
+}
+.address-fields{
+    margin-right:30px;
+}
 
+.address-recipient{
+    width:48%;
+    float:left;
+}
+.address-phone{
+    width:48%;
+    float:right;
+}
+.address-address{
+    width:100%;
+}
+
+.address-actions, .item-actions{
+    position: absolute;
+    right: 5px;
+    top:50%;
+    margin-top:-7px;
+}
+
+.item-fields{
+    margin-right:30px;
+}
+.item{
+    position: relative;
+}
+.item-name{
+    width:40%;
+    float:left;
+}
+.item-quantity{
+    width:10%;
+    float:right;
+}
+
+.item-buy{
+    width:20%;
+
+}
+.item-sell{
+    width:20%;
+}

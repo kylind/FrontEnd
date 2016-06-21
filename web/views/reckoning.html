@@ -9,47 +9,36 @@
                 <input type="text" data-bind="value: client" placeholder="Client Name" />
             </div>
             <div class="addresses">
+                <button type="button" text="Add" data-bind="click:addAddress">Add +</button>
                 <!-- ko foreach: addresses -->
                 <fieldset class="address">
-                    <div>
-                        <input type="hidden" data-bind="value: _id" />
+                    <input type="hidden" data-bind="value: _id" />
+                    <input type="hidden" data-bind="value: client" />
+                    <div class="address-fields">
+                        <input class="address-recipient" type="text" data-bind="value: recipient" placeholder="Recipient" />
+                        <input class="address-phone" type="text" data-bind="value: phone" placeholder="Phone" />
+                        <input class="address-address" type="text" data-bind="value: address" placeholder="Address" />
                     </div>
-                    <div>
-                        <input type="hidden" data-bind="value: client" />
-                    </div>
-                    <div>
-                        <input type="text" data-bind="value: recipient" placeholder="Recipient" />
-                    </div>
-                    <div>
-                        <input type="text" data-bind="value: address" placeholder="Address" />
-                    </div>
-                    <div>
-                        <input type="text" data-bind="value: phone" placeholder="Phone" />
-                    </div>
-                    <div><a href="#" data-bind="click: $parent.removeAddress.bind(this,$data)"> Remove</a></div>
+                    <div class="address-actions"><a href="#" class="icon icon-remove"data-bind="click: $parent.removeAddress.bind(this,$data)"> </a></div>
                 </fieldset>
                 <!-- /ko -->
-                <button type="button" text="Add" data-bind="click:addAddress">Add </button>
                 <!-- <button type="button" text="Add" data-bind="click:submitAddresses">Submit </button> -->
             </div>
         </div>
         <div>
             <!-- ko foreach: items -->
-            <fieldset>
-                <div>
-                    <input type="text" data-bind="value: name" placeholder="Product Name" />
+            <fieldset class="item">
+                <div class="item-fields">
+                    <input class="item-name" type="text" data-bind="value: name" placeholder="Product Name" />
+
+                    <input class="item-quantity" type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
+
+                    <input class="item-buy" type="text" data-bind="value: buyPrice" placeholder="Buy Price" />
+                    <input class="item-sell" type="text" data-bind="value: sellPrice" placeholder="Sell Price" />
+                    <a href="#" class="icon icon-search" data-bind="click: $parent.getHistoricTrades"></a>
                 </div>
-                <div>
-                    <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
-                </div>
-                <div>
-                    <input type="text" data-bind="value: note" placeholder="Note:" />
-                </div>
-                <div>
-                    <input type="text" data-bind="value: buyPrice" placeholder="Buy Price" />
-                    <input type="text" data-bind="value: sellPrice" placeholder="Sell Price" />
-                </div>
-                <div><a href="#" data-bind="click: $parent.getHistoricTrades">Refer</a><a href="#" data-bind="click: $parent.removeItem"> Remove</a></div>
+                <div class="item-actions"><a href="#" class="icon icon-remove" data-bind="click: $parent.removeItem"></a></div>
+
                 <div class="historictrades" style="display: none">
                     <!-- ko if: $parent.getTemplateName -->
                     <h4> Historic Trades </h4>
@@ -231,8 +220,8 @@ var OrderModel = function(order) {
 
                 var addressesData = ko.mapping.toJS(order.addresses);
 
-                for(var i=0; i<addressesData.length;i++){
-                    addressesData[i].client= order.client();
+                for (var i = 0; i < addressesData.length; i++) {
+                    addressesData[i].client = order.client();
                 }
 
                 $.post('/addresses', {
