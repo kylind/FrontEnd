@@ -1,0 +1,19 @@
+html{
+    font-family: helvetica, arial, "\5b8b\4f53", sans-serif;
+    font-size:10px;
+    color:#333;
+}
+
+header, footer, main{
+    max-width: 375px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+input[type="text"]{
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    border-bottom: 1px solid #666;
+}
+

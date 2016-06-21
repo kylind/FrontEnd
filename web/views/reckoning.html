@@ -5,17 +5,17 @@
     <section>
         <div>
             <div>
-                <input type="text" data-bind="value: _id" />
+                <input type="hidden" data-bind="value: _id" />
                 <input type="text" data-bind="value: client" placeholder="Client Name" />
             </div>
             <div class="addresses">
                 <!-- ko foreach: addresses -->
-                <fieldset>
+                <fieldset class="address">
                     <div>
-                        <input type="text" data-bind="value: _id" />
+                        <input type="hidden" data-bind="value: _id" />
                     </div>
                     <div>
-                        <input type="text" data-bind="value: client" />
+                        <input type="hidden" data-bind="value: client" />
                     </div>
                     <div>
                         <input type="text" data-bind="value: recipient" placeholder="Recipient" />
@@ -30,7 +30,7 @@
                 </fieldset>
                 <!-- /ko -->
                 <button type="button" text="Add" data-bind="click:addAddress">Add </button>
-                <button type="button" text="Add" data-bind="click:submitAddresses">Submit </button>
+                <!-- <button type="button" text="Add" data-bind="click:submitAddresses">Submit </button> -->
             </div>
         </div>
         <div>
