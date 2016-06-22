@@ -7,8 +7,8 @@
             <input type="hidden" data-bind="value: _id" />
             <input type="text" data-bind="value: client" placeholder="Client Name" />
             <div class="order-savebox">
-                <button type="button" text="Add" class="icon icon-save rmargin-5" data-bind="click: submitOrder"> Save Order </button>
-                <a href="#" class="icon icon-remove font-white" data-bind="click: $parent.submitOrder"></a>
+                <button type="button" text="Add" class="icon icon-save rmargin-20" data-bind="click: submitOrder"> Save Order </button>
+                <a href="#" class="icon icon-remove-sign font-white" data-bind="click: $parent.submitOrder"></a>
             </div>
         </div>
         <div class="order-addressbox tmargin-5">
@@ -57,7 +57,7 @@
                                 <tr>
                                     <th class="w-p30 taLeft">Client</th>
 
-                                    <th class="w-p10 taLeft">Quan</th>
+                                    <th class="w-p10 taLeft">Qua</th>
 
                                     <th class="w-p20 taLeft">Buy</th>
 
@@ -158,6 +158,9 @@ var OrderModel = function(order) {
         var $historicTrades = $(event.target).parent().next('.historicbox');
 
         if (!item.isHistoricTradesOpen) {
+
+            if(itemData.name == '') return;
+
             $.getJSON('/historictrades/' + itemData.name, function(res, status) {
 
                 status == 'success' ? item.historicTrades(res) : item.historicTrades([]);

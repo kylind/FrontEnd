@@ -44,8 +44,8 @@
 .tmargin-10{
     margin-top: 10px;
 }
-.rmargin-5{
-    margin-right: 5px;
+.rmargin-20{
+    margin-right: 20px;
 }
 
 .font-white{
@@ -105,6 +105,11 @@ header, footer, main{
     content: "\f058";
 }
 
+.icon-remove-sign:before{
+    content: "\f057";
+}
+
+
 
 
 input[type="text"], input[type="number"]{
@@ -133,12 +138,19 @@ button{
     padding: 0 0 0 5px;
     font-size: 1.3rem;
     line-height: 17px;
+    border-radius: 8px;
 
 }
 
 
 .order{
     position: relative;
+    border: 1px solid #cc0066;
+    border-top: none;
+    margin-bottom:10px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+
 }
 
 .order-head{
@@ -155,6 +167,8 @@ button{
 .order-head input{
 
      border-bottom: solid 1px #fff;
+     width:125px;
+     box-sizing: border-box;
 }
 
 .order-head button{
@@ -168,19 +182,24 @@ button{
     right:5px;
     top:3px;
 }
+
+.order-addressbox, .order-itembox{
+    padding-left:5px;
+    padding-right:5px;
+}
 .address{
     position: relative;
     margin-bottom: 5px;
     font-size: 0;
 }
 
-.address > span{
+.address > input{
     margin-right: 1px;
 }
 
 .address-actions{
     position: absolute;
-    right: 5px;
+    right: 0;
     top:50%;
     margin-top: -7px;
 }
@@ -192,7 +211,7 @@ button{
 
 .item-actions{
     position: absolute;
-    right: 5px;
+    right: 0;
     top:1px;
 }
 
@@ -208,13 +227,14 @@ button{
 .item-historicTrades{
     width:100%;
     border: 1px solid #cc0066;
-
+    box-sizing: border-box;
 }
 
 .item-historicTrades td, .item-historicTrades th{
 
     border: 1px solid #cc0066;
     padding-left:5px;
+
 }
 .item-historicTrades td:last-child, .item-historicTrades th:last-child{
 

@@ -267,8 +267,10 @@ router.get('/historictrades/:itemName', function*() {
 
     var res = yield orderOperation.getHistoricTrades(itemName);
 
+    var options = {year: "2-digit", month: "2-digit", day: "numeric"};
+
     res.forEach(function(item) {
-        item.createDate = new Date(item.createDate).toLocaleDateString();
+        item.createDate = new Date(item.createDate).toLocaleDateString("en-US", options);
 
     });
 
