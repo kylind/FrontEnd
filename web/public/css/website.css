@@ -5,16 +5,62 @@
   font-weight: normal;
   font-style: normal;
 }
+.taLeft{
+    text-align: left;
+}
+.taRight{
+    text-align: right;
+}
+.taCenter{
+    text-align: center;
+}
+.w-p80{
+    width:80%;
+}
+.w-p40{
+    width:40%;
+}
+.w-p10{
+    width:10%;
+}
+.w-p5{
+    width:5%;
+}
+.w-p15{
+    width:15%;
+}
 
+.w-p20{
+    width:20%;
 
+}
+.w-p30{
+    width:30%;
+}
+
+.tmargin-5{
+    margin-top: 5px;
+}
+.tmargin-10{
+    margin-top: 10px;
+}
+.rmargin-5{
+    margin-right: 5px;
+}
+
+.font-white{
+    color:#fff;
+}
 html{
     font-family: helvetica, arial, "\5b8b\4f53", sans-serif;
     font-size:10px;
     color:#333;
 }
 
+
 body{
     font-size:1.4rem;
+    line-height: 17px;
 }
 
 :focus{
@@ -24,6 +70,9 @@ body{
 a{
     text-decoration: none;
     color:#333;
+    font-size:1.4rem;
+    line-height: 17px;
+
 }
 
 header, footer, main{
@@ -32,10 +81,15 @@ header, footer, main{
     margin-right:auto;
 }
 
+.icon{
+    vertical-align: middle;
+}
+
 .icon:before{
     font-family: FontAwesome;
     display: inline-block;
     font-size: 1.4rem;
+    line-height: 17px;
 }
 
 .icon-remove:before{
@@ -44,62 +98,131 @@ header, footer, main{
 .icon-search:before{
     content: "\f002";
 }
+.icon-add:before{
+    content: "\f055";
+}
+.icon-save:before{
+    content: "\f058";
+}
+
 
 
 input[type="text"], input[type="number"]{
-    border-top:none;
-    border-left:none;
-    border-right:none;
-    border-bottom: 1px solid #666;
+    box-sizing: border-box;
+    border-top:1px solid #fff;
+    border-left:1px solid #fff;
+    border-right:1px solid #fff;
+    border-bottom: 1px solid #999;
+    padding: 0 0 0 5px;
+    font-size: 1.3rem;
+    line-height: 17px;
 }
 input[type="text"]:focus, input[type="number"]:focus{
-    border-bottom: 1px solid #666;
+    border-bottom: 1px solid #cc0066;
+
+}
+
+button{
+    box-sizing: border-box;
+    min-width: 125px;
+    text-align: left;
+    box-shadow: none;
+
+    border: solid 1px #cc0066;
+    background-color:  #fff;
+    padding: 0 0 0 5px;
+    font-size: 1.3rem;
+    line-height: 17px;
+
+}
+
+
+.order{
+    position: relative;
+}
+
+.order-head{
+
+
+    font-size:0;
+    background-color: #cc0066;
+    height:25px;
+    vertical-align: text-bottom;
+    line-height: 25px;
+    padding-left:5px;
+
+}
+.order-head input{
+
+     border-bottom: solid 1px #fff;
+}
+
+.order-head button{
+
+     border: solid 1px #fff;
+}
+
+.order-savebox{
+    line-height: normal;
+    position: absolute;
+    right:5px;
+    top:3px;
 }
 .address{
     position: relative;
-}
-.address-fields{
-    margin-right:30px;
-}
-
-.address-recipient{
-    width:48%;
-    float:left;
-}
-.address-phone{
-    width:48%;
-    float:right;
-}
-.address-address{
-    width:100%;
+    margin-bottom: 5px;
+    font-size: 0;
 }
 
-.address-actions, .item-actions{
+.address > span{
+    margin-right: 1px;
+}
+
+.address-actions{
     position: absolute;
     right: 5px;
     top:50%;
-    margin-top:-7px;
+    margin-top: -7px;
+}
+
+.item{
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.item-actions{
+    position: absolute;
+    right: 5px;
+    top:1px;
 }
 
 .item-fields{
-    margin-right:30px;
-}
-.item{
-    position: relative;
-}
-.item-name{
-    width:40%;
-    float:left;
-}
-.item-quantity{
-    width:10%;
-    float:right;
-}
-
-.item-buy{
-    width:20%;
+    font-size: 0;
+    vertical-align: middle;
 
 }
-.item-sell{
-    width:20%;
+.item-fields > input{
+    margin-right: 1px;
+
 }
+.item-historicTrades{
+    width:100%;
+    border: 1px solid #cc0066;
+
+}
+
+.item-historicTrades td, .item-historicTrades th{
+
+    border: 1px solid #cc0066;
+    padding-left:5px;
+}
+.item-historicTrades td:last-child, .item-historicTrades th:last-child{
+
+    padding-right: 5px;
+    padding-left:0;
+}
+
+.item-historicTrades th{
+    font-weight: normal;
+}
+
