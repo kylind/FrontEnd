@@ -3,6 +3,8 @@ var assert = require('assert');
 var ObjectID = require('mongodb').ObjectID;
 var url = 'mongodb://localhost:27017/local';
 
+
+
 var collection = {
 
     queryAddresses: function*(filter) {
@@ -51,15 +53,24 @@ var collection = {
         return res;
     },
 
-    saveAddresses: function*(client, addresses) {
+    saveAddresses: function*(client, addresses, removedAddresses) {
 
-        yield collection.deleteMany(client);
+        //yield collection.deleteMany(client);
+
+        if (Array.isArray(removedAddresses) && removedAddresses.length > 0) {
+            for (var i = 0; i < removedAddresses.length; i++) {
+
+                yield collection.removeById(removedAddresses[i]);
+            }
+        }
 
         if (Array.isArray(addresses) && addresses.length > 0) {
 
-            yield collection.insertMany(addresses);
-
+            for (var i = 0; i < addresses.length; i++) {
+                yield collection.saveAddress(addresses[i]);
+            }
         }
+
     },
 
     saveAddress: function*(address) {
@@ -76,14 +87,30 @@ var collection = {
         }
 
     },
+    removeById: function*(id) {
+        var db = yield MongoClient.connect(url);
 
-    deleteMany: function*(client) {
+        if (!ObjectID.isValid(id)) {
+            return { ok: 1, n: 0 };
+        } else {
+
+            var res = yield db.collection('addresses').deleteOne({
+                '_id': new ObjectID(id)
+            });
+
+            return res;
+
+        }
+    },
+
+    removeByClient: function*(client) {
 
         var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('addresses').deleteMany({ "client": client });
         return res;
     },
+
     insertMany: function*(addresses) {
 
         var db = yield MongoClient.connect(url);

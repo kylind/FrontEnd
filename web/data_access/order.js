@@ -226,31 +226,6 @@ var collection = {
 
         return res;
 
-        /*
-                return Promise.resolve([{
-                    client: 'kylin',
-                    _id: 'abcdefg',
-                    items: {
-                        name: 'p1',
-                        quantity: 2,
-                        note: '',
-                        isDone:false
-                    },
-                    status: 'RECEIVED',
-                    createDate: new Date().toLocaleDateString('en-us')
-                }, {
-                    client: 'kylin',
-                    _id: 'abcdefg',
-                    items: {
-                        name: 'p1',
-                        quantity: 3,
-                        note: '',
-                        isDone:false
-                    },
-                    status: 'RECEIVED',
-                    createDate: new Date().toLocaleDateString('en-us')
-                }])*/
-
     },
     queryReckoningOrders: function*(filter) {
 
@@ -303,25 +278,20 @@ var collection = {
 
 
     },
-    remove: function() {
-        var url = 'mongodb://localhost:27017/local';
 
-        function remove(db, callback) {
-            db.collection('restaurants').deleteOne({
-                    "name": "Vella"
-                },
-                function(error, result) {
-                    assert.equal(error, null);
-                }
-            );
-        };
+    remove: function*(id) {
 
-        MongoClient.connect(url, function(err, db) {
-            assert.equal(err, null);
-            remove(db, function() {
-                db.close();
-            });
+        if (!ObjectID.isValid(id)) {
+            return { ok: 1, n: 0 };
+        }
+
+        var db = yield MongoClient.connect(url);
+
+        var res = yield db.collection('orders').deleteOne({
+            '_id': new ObjectID(id)
         });
+
+        return res;
     }
 
 };

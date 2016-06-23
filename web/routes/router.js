@@ -218,16 +218,27 @@ router.post('/addresses', function*() {
 
     var addresses = addressesData.addresses;
 
+    var removedAddresses = addressesData.removedAddresses;
+
     var client = addressesData.client;
 
-
-
-    yield addressOperation.saveAddresses(client, addresses)
+    yield addressOperation.saveAddresses(client, addresses,removedAddresses)
 
     this.body = addresses;
     this.status = 200;
 
 });
+
+router.delete('/order/:id', function*() {
+    var id = this.params.id;
+
+    var res = yield orderOperation.remove(id);
+    this.body = res;
+    this.status = 200;
+
+});
+
+
 
 router.post('/address', function*() {
 
@@ -258,6 +269,16 @@ router.get('/addresses', function*() {
         footer: ''
 
     });
+
+});
+
+router.get('/addresses/:client', function*() {
+
+    var res = yield addressOperation.queryAddresses({client: this.params.client})
+    res = res && res.length > 0 ? res : [];
+
+    this.body = res;
+    this.status = 200;
 
 });
 

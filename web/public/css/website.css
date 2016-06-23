@@ -109,6 +109,11 @@ header, footer, main{
     content: "\f057";
 }
 
+.icon-address:before{
+    content: "\f0e0";
+}
+
+
 
 
 
@@ -169,6 +174,11 @@ button{
      border-bottom: solid 1px #fff;
      width:125px;
      box-sizing: border-box;
+}
+
+.order-head input:focus{
+     border-bottom: solid 1px #fff;
+
 }
 
 .order-head button{

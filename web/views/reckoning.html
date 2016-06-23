@@ -8,23 +8,24 @@
             <input type="text" data-bind="value: client" placeholder="Client Name" />
             <div class="order-savebox">
                 <button type="button" text="Add" class="icon icon-save rmargin-20" data-bind="click: submitOrder"> Save Order </button>
-                <a href="#" class="icon icon-remove-sign font-white" data-bind="click: $parent.submitOrder"></a>
+                <a href="#" class="icon icon-remove-sign font-white" data-bind="click: $parent.removeOrder"></a>
             </div>
         </div>
         <div class="order-addressbox tmargin-5">
             <div>
-                <button type="button" text="Add" class="icon icon-add" data-bind="click:addAddress"> Add Address</button>
+                <button type="button" class="icon icon-add" data-bind="click:addAddress"> Add Address</button>
+                <!-- ko if: _id() == '' -->
+                <button type="button" class="icon icon-address" data-bind="click:getAddresses"> Get Addresses</button>
+                <!-- /ko -->
             </div>
             <div class="addresses tmargin-5">
                 <!-- ko foreach: addresses -->
                 <fieldset class="address">
                     <input type="hidden" data-bind="value: _id" />
                     <input type="hidden" data-bind="value: client" />
-
-                        <input class="w-p40" type="text" data-bind="value: recipient" placeholder="Recipient" />
-                        <input class="w-p40" type="text" data-bind="value: phone" placeholder="Phone" />
-                        <input class="w-p80" type="text" data-bind="value: address" placeholder="Address" />
-
+                    <input class="w-p40" type="text" data-bind="value: recipient" placeholder="Recipient" />
+                    <input class="w-p40" type="text" data-bind="value: phone" placeholder="Phone" />
+                    <input class="w-p80" type="text" data-bind="value: address" placeholder="Address" />
                     <div class="address-actions">
                         <a href="#" class="icon icon-remove" data-bind="click: $parent.removeAddress.bind(this,$data)"> </a>
                     </div>
@@ -56,20 +57,14 @@
                             <thead>
                                 <tr>
                                     <th class="w-p30 taLeft">Client</th>
-
                                     <th class="w-p10 taLeft">Qua</th>
-
                                     <th class="w-p20 taLeft">Buy</th>
-
                                     <th class="w-p20 taLeft">Sell</th>
-
                                     <th class="w-p20 taRight">Date</th>
                                 </tr>
                             </thead>
-
-                                <tbody data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">
-                                </tbody>
-
+                            <tbody data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">
+                            </tbody>
                         </table>
                         <!-- /ko -->
                         <!-- ko ifnot: $parent.hasHistoricTrades -->
@@ -89,10 +84,10 @@
             <span data-bind="text: client"></span>
         </td>
         <td class="taLeft">
-            <span  data-bind="text: quantity"></span>
+            <span data-bind="text: quantity"></span>
         </td>
         <td class="taLeft">
-            <span  data-bind="text: buyPrice"></span>
+            <span data-bind="text: buyPrice"></span>
         </td>
         <td class="taLeft">
             <span data-bind="text: sellPrice"></span>
@@ -138,7 +133,6 @@ var OrderModel = function(order) {
     }
 
 
-
     self.items = ko.observableArray(observableItems);
 
     self.addresses = ko.observableArray(order ? order.addresses : [{
@@ -159,7 +153,7 @@ var OrderModel = function(order) {
 
         if (!item.isHistoricTradesOpen) {
 
-            if(itemData.name == '') return;
+            if (itemData.name == '') return;
 
             $.getJSON('/historictrades/' + itemData.name, function(res, status) {
 
@@ -207,9 +201,34 @@ var OrderModel = function(order) {
 
     };
 
+    self.getAddresses = function(order) {
+
+        var client = order.client();
+
+        if (client == '') return;
+
+
+        $.getJSON('/addresses/' + client, function(res, status) {
+
+            status == 'success' ? order.addresses(res) : order.addresses([]);
+
+        });
+
+
+    };
+
+    var removedAddresses = [];
+
     self.removeAddress = function(address) {
 
+        if (address._id != '') {
+
+            removedAddresses.push(address._id);
+
+        }
+
         self.addresses.remove(address);
+
 
     };
 
@@ -260,7 +279,8 @@ var OrderModel = function(order) {
 
                 $.post('/addresses', {
                         "client": order.client(),
-                        "addresses": addressesData
+                        "addresses": addressesData,
+                        "removedAddresses": removedAddresses
                     }, function(addresses, status) {
 
                         order.addresses(addresses);
@@ -294,12 +314,31 @@ var OrdersModel = function(orders) {
 
     self.orders = ko.observableArray(observableOrders);
 
-    self.addOrder = function(data) {
+    self.addOrder = function() {
 
         var order = new OrderModel();
 
         self.orders.unshift(order);
     };
+    self.removeOrder = function(order) {
+        var id = order._id();
+        self.orders.remove(order);
+        if (id == '') return;
+
+        $.ajax('/order/' + id, {
+            success: function(data, status) {
+
+                console.log(data);
+
+            },
+            dataType: 'json',
+            type: 'DELETE'
+
+        });
+
+
+    };
+
 };
 
 var ordersModel = new OrdersModel(<%- JSON.stringify(orders) %>);
