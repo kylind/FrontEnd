@@ -2,8 +2,9 @@ var koa = require('koa');
 var path = require('path');
 var render = require('koa-ejs');
 var send = require('koa-send');
-var router = require('./routes/router.js').router;
-
+var itemRouter = require('./routes/itemRouter.js').router;
+var orderRouter = require('./routes/orderRouter.js').router;
+var addressRouter = require('./routes/addressRouter.js').router;
 var bodyParser = require('koa-bodyparser');
 
 var app = koa();
@@ -34,7 +35,9 @@ app.use(function*(next) {
 
 app.use(bodyParser());
 
-app.use(router.routes());
+app.use(orderRouter.routes());
+app.use(itemRouter.routes());
+app.use(addressRouter.routes());
 
 
 
