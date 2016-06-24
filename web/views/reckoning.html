@@ -1,8 +1,8 @@
 <div>
     <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder">Add Order </button>
     <div class="lmargin-150">
-     <input type="text" class="w-p100" placeholder="Search Your Orders" />
-     </div>
+        <input type="text" class="w-p100" data-bind="event: { keyup: searchOrders }" placeholder="Search Your Orders" />
+    </div>
 </div>
 <div class="tmargin-5" data-bind="foreach: orders">
     <section class="order">
@@ -12,7 +12,6 @@
             <div class="order-savebox">
                 <button type="button" text="Add" class="icon icon-save rmargin-20" data-bind="click: submitOrder"> Save Order </button>
                 <a href="#" class="icon icon-remove-sign font-white" data-bind="click: $parent.removeOrder"></a>
-
             </div>
         </div>
         <div class="order-addressbox tmargin-5">
@@ -340,8 +339,72 @@ var OrdersModel = function(orders) {
 
         });
 
-
     };
+
+
+    var orders = null;
+
+
+    self.searchOrders = function(data, event) {
+
+        var keywords = $(event.target).val();
+        if (keywords.startsWith(' ')) {
+            keywords = keywords.substring(1);
+            searchGlobalOrders(keywords)
+
+        } else {
+            searchCurrentOrders(keywords)
+        }
+
+
+    }
+
+    function searchCurrentOrders(keywords) {
+        if (orders == null) {
+            orders = self.orders();
+        }
+
+        var searchedOrders = orders.filter(function(order) {
+
+            return order.client().indexOf(keywords) >= 0;
+        });
+
+        self.orders(searchedOrders);
+    }
+
+    var timeoutIds=[];
+
+    var newKeywords='';
+
+    function searchGlobalOrders(keywords) {
+
+        newKeywords=keywords;
+
+        var id= setTimeout(function() {
+
+
+            for(var i = 1; i < timeoutIds.length; i++) {
+                clearTimeout(timeoutIds[i]);
+            }
+
+            timeoutIds=[];
+
+            if(newKeywords!=''){
+
+            }
+
+            console.log('i am searching ' + newKeywords);
+
+
+
+
+        }, 1000);
+
+        timeoutIds.push(id);
+
+
+    }
+
 
 };
 
