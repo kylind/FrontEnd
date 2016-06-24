@@ -5,6 +5,9 @@
   font-weight: normal;
   font-style: normal;
 }
+.fl{
+    float: left;
+}
 .taLeft{
     text-align: left;
 }
@@ -13,6 +16,9 @@
 }
 .taCenter{
     text-align: center;
+}
+.w-p100{
+    width:100%;
 }
 .w-p80{
     width:80%;
@@ -43,6 +49,9 @@
 }
 .tmargin-10{
     margin-top: 10px;
+}
+.lmargin-150{
+    margin-left: 150px;
 }
 .rmargin-20{
     margin-right: 20px;
