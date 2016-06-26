@@ -145,8 +145,12 @@ router.get('/reckoning', function*() {
     res = yield orderOperation.queryReckoningOrders();
     res = res && res.length > 0 ? res : [EMPTY_ORDER];
 
+    var options = {month: "2-digit", day: "numeric", weekday:"short"};
+
 
     res.forEach(function(item) {
+
+        item.createDate = new Date(item.createDate).toLocaleDateString("en-US", options);
         if (Array.isArray(item.addresses) && item.addresses.length > 0);
         else {
 

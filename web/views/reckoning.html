@@ -9,8 +9,9 @@
         <div class="order-head">
             <input type="hidden" data-bind="value: _id" />
             <input type="text" data-bind="value: client" placeholder="Client Name" />
+            <span data-bind="text: createDate" class="vaMiddle font-white"></span>
             <div class="order-savebox">
-                <button type="button" text="Add" class="icon icon-save rmargin-20" data-bind="click: submitOrder"> Save Order </button>
+                <a href="#" class="icon icon-save rmargin-20 font-white" data-bind="click: submitOrder"> </a>
                 <a href="#" class="icon icon-remove-sign font-white" data-bind="click: $parent.removeOrder"></a>
             </div>
         </div>
