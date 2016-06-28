@@ -1,7 +1,7 @@
 <div>
     <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder">Add Order </button>
     <div class="lmargin-150">
-        <input type="text" class="w-p100" data-bind="event: { keyup: searchOrders }" placeholder="Search Your Orders" />
+        <input  type="text" class="w-p100 input-search"  data-bind="event: {keyup: $root.searchOrders, change: $root.searchOrders }" placeholder="Search Your Orders" />
     </div>
 </div>
 <div class="tmargin-5" data-bind="foreach: orders">
@@ -9,8 +9,9 @@
         <div class="order-head">
             <input type="hidden" data-bind="value: _id" />
             <input type="text" data-bind="value: client" placeholder="Client Name" />
-            <span data-bind="text: createDate" class="vaMiddle font-white"></span>
+            <span data-bind="text: displayDate()" class="vaMiddle font-white"></span>
             <div class="order-savebox">
+                <a href="#" class="icon icon-circle rmargin-20 font-white" data-bind="click: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
                 <a href="#" class="icon icon-save rmargin-20 font-white" data-bind="click: submitOrder"> </a>
                 <a href="#" class="icon icon-remove-sign font-white" data-bind="click: $parent.removeOrder"></a>
             </div>
@@ -147,8 +148,33 @@ var OrderModel = function(order) {
         phone: ''
     }]); //to do
 
-    self.createDate = order ? order.createDate : new Date();
-    self.status = order ? order.status : 'RECEIVED';
+    self.createDate = order ? order.createDate : '';
+
+    self.rate = order ? order.rate : '';
+
+
+    var dateFormatting = {
+        month: "2-digit",
+        day: "numeric",
+        weekday: "short"
+    };
+
+
+    // self.createDateDisplay = ko.pureComputed(function() {
+
+    //     return self.createDate ?  new Date(self.createDate).toLocaleDateString("en-US", dateFormatting) : '';
+
+
+    // });
+
+    self.displayDate = function() {
+
+        return self.createDate ?  new Date(self.createDate).toLocaleDateString("en-US", dateFormatting) : '';
+
+
+    };
+
+    self.status = ko.observable(order ? order.status : 'RECEIVED');
 
     self.getHistoricTrades = function(item, event) {
         var itemData = ko.mapping.toJS(item);
@@ -255,6 +281,27 @@ var OrderModel = function(order) {
 
     };
 
+    self.markDone = function() {
+        var id = self._id();
+
+        var orderStatus = self.status() == 'RECEIVED' ? 'DONE' : 'RECEIVED'
+
+        $.ajax('/orderStatus/' + id, {
+            success: function(data, status) {
+
+                self.status(orderStatus)
+
+            },
+            data: {
+                'status': orderStatus
+            },
+            dataType: 'json',
+            type: 'PUT'
+
+        });
+
+    }
+
     self.submitOrder = function(order) {
 
         console.log('post request....');
@@ -271,9 +318,6 @@ var OrderModel = function(order) {
 
                 console.log('get post result');
                 ko.mapping.fromJS(data, {}, order);
-                //order = new OrderModel(data);
-                //order.init(data);
-
 
                 var addressesData = ko.mapping.toJS(order.addresses);
 
@@ -318,6 +362,7 @@ var OrdersModel = function(orders) {
 
     self.orders = ko.observableArray(observableOrders);
 
+
     self.addOrder = function() {
 
         var order = new OrderModel();
@@ -342,10 +387,19 @@ var OrdersModel = function(orders) {
 
     };
 
+    self.summarizeOrders = function() {
+
+        self.orders.forEach(function(order){
+
+
+
+        })
+
+    }
+
+
 
     var orders = null;
-
-
     self.searchOrders = function(data, event) {
 
         var keywords = $(event.target).val();
@@ -373,24 +427,24 @@ var OrdersModel = function(orders) {
         self.orders(searchedOrders);
     }
 
-    var timeoutIds=[];
+    var timeoutIds = [];
 
-    var newKeywords='';
+    var newKeywords = '';
 
     function searchGlobalOrders(keywords) {
 
-        newKeywords=keywords;
+        newKeywords = keywords;
 
-        var id= setTimeout(function() {
+        var id = setTimeout(function() {
 
 
-            for(var i = 1; i < timeoutIds.length; i++) {
+            for (var i = 1; i < timeoutIds.length; i++) {
                 clearTimeout(timeoutIds[i]);
             }
 
-            timeoutIds=[];
+            timeoutIds = [];
 
-            if(newKeywords!=''){
+            if (newKeywords != '') {
 
             }
 
@@ -410,6 +464,8 @@ var OrdersModel = function(orders) {
 };
 
 var ordersModel = new OrdersModel(<%- JSON.stringify(orders) %>);
+
+/*$('.input-search').on('change',ordersModel.searchOrders);*/
 
 ko.applyBindings(ordersModel);
 </script>

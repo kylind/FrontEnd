@@ -1,6 +1,7 @@
 var Router = require('koa-router');
 var ObjectID = require('mongodb').ObjectID;
-var orderOperation = require('../data_access/order.js').collection
+var orderOperation = require('../data_access/order.js').collection;
+var util = require('./util.js').util;
 
 
 const RECEIVED = 'RECEIVED'
@@ -23,7 +24,7 @@ const EMPTY_ORDER = {
         address: '',
         phone: ''
     }],
-    createDate: new Date(),
+    createDate: '',
     status: RECEIVED
 }
 
@@ -78,11 +79,21 @@ router.post('/order', function*() {
         item.isDone = item.isDone == 'true' ? true : false;
         item.buyPrice = item.buyPrice ? +item.buyPrice : null;
         item.sellPrice = item.sellPrice ? +item.sellPrice : null;
+        delete item.profit;
     });
+
+
+
+    delete order.sellPrice;
+    delete order.buyPrice;
+    delete order.profit;
 
     if (ObjectID.isValid(order._id)) {
 
         console.log('valid id:' + order._id);
+
+        order.createDate = new Date(order.createDate);
+        order.rate = +order.rate;
 
         res = yield orderOperation.updateById(order._id, order);
 
@@ -91,10 +102,29 @@ router.post('/order', function*() {
 
         console.log('no valid id:' + order._id);
         delete order._id
+
+        order.createDate = new Date();
+        order.rate = 0.85;
         res = yield orderOperation.insert(order);
     }
 
+    util.sumarizeOrder(order);
+
+
+
     this.body = order;
+    this.status = 200;
+
+});
+
+router.put('/orderStatus/:id', function*() {
+
+    var orderStatus = this.request.body;
+    var res;
+
+    res = yield orderOperation.updateOrderStatus(this.params.id, orderStatus.status);
+
+    this.body = res;
     this.status = 200;
 
 });
@@ -145,18 +175,20 @@ router.get('/reckoning', function*() {
     res = yield orderOperation.queryReckoningOrders();
     res = res && res.length > 0 ? res : [EMPTY_ORDER];
 
-    var options = {month: "2-digit", day: "numeric", weekday:"short"};
+    /*var options = {month: "2-digit", day: "numeric", weekday:"short"};*/
 
 
-    res.forEach(function(item) {
+    res.forEach(function(order) {
 
-        item.createDate = new Date(item.createDate).toLocaleDateString("en-US", options);
-        if (Array.isArray(item.addresses) && item.addresses.length > 0);
+        util.sumarizeOrder(order);
+
+        /*order.createDateDisplay = order.createDate.toLocaleDateString("en-US", options);*/
+        if (Array.isArray(order.addresses) && order.addresses.length > 0);
         else {
 
-            item.addresses = [{
+            order.addresses = [{
                 _id: '',
-                client: item.client,
+                client: order.client,
                 recipient: '',
                 address: '',
                 phone: ''

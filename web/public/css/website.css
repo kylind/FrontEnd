@@ -64,6 +64,10 @@
 .font-white{
     color:#fff;
 }
+
+.font-green{
+    color:#99ff99;
+}
 html{
     font-family: helvetica, arial, "\5b8b\4f53", sans-serif;
     font-size:10px;
@@ -130,7 +134,9 @@ header, footer, main{
 .icon-address:before{
     content: "\f0e0";
 }
-
+.icon-circle:before{
+    content: "\f111";
+}
 
 
 
@@ -200,7 +206,6 @@ button{
 
 .order-head input:focus{
      border-bottom: solid 1px #fff;
-     vertical-align: text-bottom;
 
 }
 

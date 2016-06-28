@@ -34,14 +34,31 @@ var collection = {
 
         var db = yield MongoClient.connect(url);
 
-        order = JSON.parse(JSON.stringify(order));
+        //order = JSON.parse(JSON.stringify(order));
+
+        var  id = order._id;
         delete order._id;
 
         var res = yield db.collection('orders').replaceOne({
             "_id": new ObjectID(id)
         }, order);
 
+        order._id= id;
+
         return res;
+    },
+
+    updateOrderStatus: function*(id, status) {
+
+        var db = yield MongoClient.connect(url);
+
+
+        var res = yield db.collection('orders').updateOne({
+            "_id": new ObjectID(id)
+        }, { $set: { "status": status } });
+
+        return res;
+
     },
 
     queryOrders: function*(filter) {
@@ -56,11 +73,22 @@ var collection = {
 
     },
 
-    queryReckoningOrders: function*(filter) {
+    queryReckoningOrders: function*() {
+
+        var currentMiliSeconds = Date.now();
+
+        var currentDay = new Date ().getDay();
+
+        var startMiliSeconds = currentMiliSeconds - ((currentDay + 7) * 24 * 60 * 60 * 1000);
+
+        var startDate = new Date (new Date(startMiliSeconds).setHours(0, 0, 0, 0));
+
 
         var db = yield MongoClient.connect(url);
 
-        var res = yield db.collection('orders').aggregate([
+        var res = yield db.collection('orders').aggregate([{
+                 $match: { $or: [{ status: 'RECEIVED' }, { createDate: { $gt:startDate } }] }
+            },
 
             {
                 $lookup: {
