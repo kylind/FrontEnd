@@ -8,50 +8,62 @@
 </div>
 <div data-bind="foreach: items">
     <section>
-        name: <span data-bind="text: _id"></span> quantity:
-        <span data-bind="text: quantity"></span> purchaseDetail:
-        <!-- ko foreach: purchaseDetail -->
-        <span data-bind="text: $root.getSubName($data)"></span><span data-bind="name: $root.getSubName($data), text: quantity"></span>
-        <!-- /ko -->
-        <button data-bind="click: $root.markDone">MarkDone</button>
-        <button data-bind="click: $root.getSubItems">ItemDetail</button>
+        <span data-bind="text: _id"></span>
+        <span data-bind="text: quantity"></span>
+
+       <!-- ko foreach: purchaseDetail
+        <span data-bind="name: $root.getSubName($data), text: quantity"></span>
+         -->
+
+
+        <a href="#"  class="icon icon-circle rmargin-20" data-bind="click: $root.markDone, css: markItemStatus "></a>
+        <a href="#" class="icon icon-search" data-bind="click: $root.getSubItems"></a>
+
+
         <div class="subItem" style="display: none">
-            <h4> Sub Items </h4>
-            <div data-bind="template:{ name: getTemplateName, foreach: subItems }">
-            </div>
+            <!-- ko if: $parent.hasItemDetail -->
+
+            <table>
+
+            tr>th
+
+                <!-- ko  data-bind="template:{ name: 'subItem', foreach: subItems }" -->
+
+
+                <!-- /ko -->
+
+            </table>
+
+
+            <!-- /ko -->
+            <!-- ko ifnot: $parent.hasItemDetail -->
+            <p>Somehow we cannot get item detail for now!</p>
+            <!-- /ko -->
         </div>
     </section>
 </div>
 <script type="text/html" id="subItem">
-    <section>
-        <span data-bind="text: _id"></span>
-        <span data-bind="text: client"></span>
-        <span data-bind="text: name"></span>
-        <span data-bind="text: quantity"></span>
-        <span data-bind="text: note"></span>
-        <span data-bind="text: isDone"></span>
-        <span data-bind="text: new Date(createDate).toLocaleDateString()"></span>
-        <button data-bind="click: $parent.markDone">MarkDone</button>
-    </section>
+    <tr>
+        <td data-bind="text: client"> </td>
+        <td data-bind="text: quantity"></td>
+        <td data-bind="text: note"></td>
+        <td data-bind="text: createDate"></td>
+        <td><input type="hidden" data-bind="value: _id"/><a href="#" data-bind="css: $parent.markSubItemStatus; click: $parent.markDone">MarkDone</a></td>
+    </tr>
 </script>
-<script type="text/html" id="errorInfo">
-    <p>Somehow we cannot get item detail for now!</p>
-</script>
+
 <script>
 var Item = function(item) {
     var self = this;
     self._id = ko.observable(item ? item._id : '');
     self.quantity = ko.observable(item ? item.quantity : '');
-    self.purchaseDetail = ko.observableArray(item ? item.purchaseDetail : [{
-        isDone: false,
-        quantity: 0
-    }]);
+    self.purchaseDetail = ko.observableArray(item ? item.purchaseDetail : []);
 
     self.subItems = ko.observableArray([]);
 
-    self.getTemplateName = function(subItem) {
+    self.hasItemDetail = function(subItem) {
 
-        return self.subItems().length > 0 ? 'subItem' : 'errorInfo';
+        return self.subItems().length > 0 ? true : false;
 
     };
 
@@ -61,7 +73,15 @@ var Item = function(item) {
 
     });
 
-    self.markDone = function(){
+    self.markDone = function() {
+
+    }
+
+    self.markItemStatus=function(){
+
+    }
+
+    self.markSubItemStatus= function(){
 
     }
 
@@ -105,16 +125,16 @@ var ItemsModel = function(items) {
                     item.subItems([]);
                 }
 
-                $(event.target).next('.subItem').slideDown('fast',function(){
-                     item.isSubItemsOpen=true;
+                $(event.target).next('.subItem').slideDown('fast', function() {
+                    item.isSubItemsOpen = true;
                 });
 
             });
 
-        }else{
+        } else {
 
-            $(event.target).next('.subItem').slideUp('fast',function(){
-                item.isSubItemsOpen=false;
+            $(event.target).next('.subItem').slideUp('fast', function() {
+                item.isSubItemsOpen = false;
             });
 
 
@@ -160,4 +180,8 @@ var itemsModel = new ItemsModel(items);
 //ko.mapping.fromJS(items, {}, itemsModel);
 
 ko.applyBindings(itemsModel);
+
+
+
+
 </script>
