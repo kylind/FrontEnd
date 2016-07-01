@@ -3,6 +3,8 @@ var ObjectID = require('mongodb').ObjectID;
 var orderOperation = require('../data_access/order.js').collection;
 var util = require('./util.js').util;
 
+const RATE = 0.85;
+
 
 const RECEIVED = 'RECEIVED'
 
@@ -25,6 +27,7 @@ const EMPTY_ORDER = {
         phone: ''
     }],
     createDate: '',
+    rate: RATE,
     status: RECEIVED
 }
 
@@ -104,7 +107,7 @@ router.post('/order', function*() {
         delete order._id
 
         order.createDate = new Date();
-        order.rate = 0.85;
+        order.rate = RATE;
         res = yield orderOperation.insert(order);
     }
 
@@ -150,11 +153,15 @@ router.get('/orders', function*() {
 
 });
 
-router.get('/orders/abc', function*() {
+router.get('/ordersByName', function*() {
+
+    var req = this.request.body;
+
+    var client = req.client;
 
     var res = null;
 
-    res = yield orderOperation.queryOrders();
+    res = yield orderOperation.queryOrders({ client: client });
 
     res = res && res.length > 0 ? res : [EMPTY_ORDER];
 
@@ -175,14 +182,14 @@ router.get('/reckoning', function*() {
     res = yield orderOperation.queryReckoningOrders();
     res = res && res.length > 0 ? res : [EMPTY_ORDER];
 
-    /*var options = {month: "2-digit", day: "numeric", weekday:"short"};*/
 
 
     res.forEach(function(order) {
 
+        order.rate = order.rate ? order.rate : RATE;
+
         util.sumarizeOrder(order);
 
-        /*order.createDateDisplay = order.createDate.toLocaleDateString("en-US", options);*/
         if (Array.isArray(order.addresses) && order.addresses.length > 0);
         else {
 
@@ -215,7 +222,7 @@ router.get('/historictrades/:itemName', function*() {
 
     var res = yield orderOperation.getHistoricTrades(itemName);
 
-    var options = {year: "2-digit", month: "2-digit", day: "numeric"};
+    var options = { year: "2-digit", month: "2-digit", day: "numeric" };
 
     res.forEach(function(item) {
         item.createDate = new Date(item.createDate).toLocaleDateString("en-US", options);

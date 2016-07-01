@@ -8,6 +8,7 @@
     <section class="order">
         <div class="order-head">
             <input type="hidden" data-bind="value: _id" />
+            <input type="hidden" data-bind="value: rate" />
             <input type="text" data-bind="value: client" placeholder="Client Name" />
             <span data-bind="text: displayDate()" class="vaMiddle font-white"></span>
             <div class="order-savebox">
@@ -41,7 +42,14 @@
         </div>
         <div class="order-itembox">
             <div>
-                <button type="button" text="Add" class="icon icon-add" data-bind="click:addItem"> Add Item</button>
+                <button type="button" text="Add" class="icon icon-add rmargin-20" data-bind="click:addItem"> Add Item</button>
+
+                <span class="font-bold font-red vaMiddle">
+                    <span>B: </span><span class="rmargin-5" data-bind="text: buyPrice"></span>
+
+                    <span>S: </span><span class="rmargin-5" data-bind="text: sellPrice"></span>
+                    <span>P: </span><span data-bind="text: profit"></span>
+                </span>
             </div>
             <div class="items tmargin-5">
                 <!-- ko foreach: items -->
@@ -49,8 +57,9 @@
                     <div class="item-fields">
                         <input class="w-p30" type="text" data-bind="value: name" placeholder="Product Name" />
                         <input class="w-p10" type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
-                        <input class="w-p20" type="text" data-bind="value: buyPrice" placeholder="Buy Price" />
-                        <input class="w-p20" type="text" data-bind="value: sellPrice" placeholder="Sell Price" />
+                        <input class="w-p15" type="text" data-bind="value: buyPrice" placeholder="Buy" />
+                        <input class="w-p15" type="text" data-bind="value: sellPrice" placeholder="Sell" />
+                        <input class="w-p15" type="text" readonly data-bind="value: profit" placeholder="Profit" />
                         <a href="#" class="icon icon-search" data-bind="click: $parent.getHistoricTrades"></a>
                         <div class="item-actions">
                             <a href="#" class="icon icon-remove" data-bind="click: $parent.removeItem"></a>
@@ -63,9 +72,9 @@
                                 <tr>
                                     <th class="w-p30 taLeft">Client</th>
                                     <th class="w-p10 taLeft">Qua</th>
-                                    <th class="w-p20 taLeft">Buy</th>
-                                    <th class="w-p20 taLeft">Sell</th>
-                                    <th class="w-p20 taRight">Date</th>
+                                    <th class="w-p15 taLeft">Buy</th>
+                                    <th class="w-p15 taLeft">Sell</th>
+                                    <th class="w-p30 taRight">Date</th>
                                 </tr>
                             </thead>
                             <tbody data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">
@@ -111,6 +120,7 @@ var Item = function(item) {
     self.quantity = item && item.quantity ? item.quantity : '1';
     self.buyPrice = item && item.buyPrice ? item.buyPrice : '';
     self.sellPrice = item && item.sellPrice ? item.sellPrice : '';
+    self.profit = item && item.profit ? item.profit : '';
     self.note = item && item.note ? item.note : '';
     self.isDone = item && item.isDone ? item.isDone : false;
     self.historicTrades = ko.observableArray([]);
@@ -151,6 +161,10 @@ var OrderModel = function(order) {
     self.createDate = order ? order.createDate : '';
 
     self.rate = order ? order.rate : '';
+
+    self.buyPrice = ko.observable(order ? order.buyPrice : '');
+    self.sellPrice = ko.observable(order ? order.sellPrice: '');
+    self.profit =  ko.observable(order ? order.profit: '');
 
 
     var dateFormatting = {
@@ -446,12 +460,11 @@ var OrdersModel = function(orders) {
 
             if (newKeywords != '') {
 
+
+
             }
 
             console.log('i am searching ' + newKeywords);
-
-
-
 
         }, 1000);
 

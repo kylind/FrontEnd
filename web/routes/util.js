@@ -12,21 +12,24 @@ sumarizeOrder: function(order){
     var rate = order.rate;
 
     order.items.forEach(function(item){
-        if(isNaN(item.buyPrice)|| isNaN(item.sellPrice)){
-            if(isNaN(item.buyPrice)) isBuyComplete=false;
-            if(isNaN(item.sellPrice)) isSellComplete=false;
+
+        var itemBuy = parseFloat(item.buyPrice);
+        var itemSell = parseFloat(item.sellPrice);
+
+        if(isNaN(itemBuy)|| isNaN(itemSell)){
+
+            if(isNaN(itemBuy)) isBuyComplete=false;
+            if(isNaN(itemSell)) isSellComplete=false;
 
             item.profit = '?'
 
         }else{
 
 
+            item.profit= itemSell<2 ? (itemBuy * itemSell - itemBuy* rate).toFixed(2) : (itemSell - itemBuy * rate).toFixed(2);
 
-            item.profit= item.sellPrice<2 ? (item.buyPrice * item.sellPrice - item.buyPrice* rate) : (item.sellPrice - item.buyPrice * rate);
-
-
-            buyPrice += item.buyPrice;
-            sellPrice += item.sellPrice <2 ? (item.buyPrice * item.sellPrice) : item.sellPrice
+            buyPrice += itemBuy;
+            sellPrice += itemSell <2 ? (itemBuy * itemSell) : itemSell
 
         }
 
@@ -35,7 +38,7 @@ sumarizeOrder: function(order){
     order.buyPrice = isBuyComplete?  buyPrice : (buyPrice + '?');;
     order.sellPrice = isSellComplete?  sellPrice : (sellPrice + '?');
 
-    order.profit= sellPrice - buyPrice*rate;
+    order.profit= (sellPrice - buyPrice*rate).toFixed(2);
 
 }
 

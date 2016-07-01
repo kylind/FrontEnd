@@ -57,6 +57,9 @@
 .lmargin-150{
     margin-left: 150px;
 }
+.rmargin-5{
+    margin-right: 5px;
+}
 .rmargin-20{
     margin-right: 20px;
 }
@@ -67,6 +70,13 @@
 
 .font-green{
     color:#99ff99;
+}
+.font-bold{
+    font-weight: bold;
+}
+
+.font-red{
+    color:#cc0066;
 }
 html{
     font-family: helvetica, arial, "\5b8b\4f53", sans-serif;
