@@ -49,6 +49,18 @@ router.get('/subitems/:itemName', function*() {
 
     var res = yield itemOperation.querySubItems(itemName);
 
+    var dateFormatting = {
+        month: "2-digit",
+        day: "numeric",
+        weekday: "short"
+    };
+
+    res.forEach(function(subItem){
+
+         subItem.createDate = subItem.createDate.toLocaleDateString("en-US", dateFormatting);
+
+    })
+
     this.body = res;
     this.status = 200;
 

@@ -61,7 +61,7 @@ var collection = {
 
     },
 
-    queryOrders: function*(filter) {
+/*    queryOrders: function*(filter) {
 
 
         var db = yield MongoClient.connect(url);
@@ -70,6 +70,32 @@ var collection = {
 
         return res;
 
+
+    },*/
+    queryGlobalOrders: function*( filter) {
+
+
+
+
+        var db = yield MongoClient.connect(url);
+
+        var res = yield db.collection('orders').aggregate([{
+                 $match: filter
+            },
+
+            {
+                $lookup: {
+                    from: "addresses",
+                    localField: "client",
+                    foreignField: "client",
+                    as: "addresses"
+                }
+            }
+
+        ], { cursor: { batchSize: 1 } }).toArray();
+
+
+        return res;
 
     },
 

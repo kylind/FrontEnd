@@ -47,7 +47,9 @@
 .w-p30{
     width:30%;
 }
-
+.w-p60{
+    width:60%;
+}
 .tmargin-5{
     margin-top: 5px;
 }
@@ -64,6 +66,10 @@
     margin-right: 20px;
 }
 
+.rpadding-5{
+    padding-right: 5px;
+}
+
 .font-white{
     color:#fff;
 }
@@ -77,6 +83,10 @@
 
 .font-red{
     color:#cc0066;
+}
+
+.font-yellow{
+    color:#ffcc00;
 }
 html{
     font-family: helvetica, arial, "\5b8b\4f53", sans-serif;
@@ -294,3 +304,80 @@ button{
     font-weight: normal;
 }
 
+
+/**** items.html ***/
+.orderitems{
+    width:100%;
+    border: 1px solid #cc0066;
+    border-collapse: collapse;
+    box-sizing: border-box;;
+        border-right:none;
+    border-bottom: none;
+
+}
+
+.orderitems td, .orderitems th{
+    border-right: 1px solid #cc0066;
+    border-bottom: 1px solid #cc0066;
+    padding-top:5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    font-weight: bold;
+
+}
+.orderitems  th{
+    color:#fff;
+    background-color: #cc0066;
+
+    font-weight: bold;
+
+
+}
+.orderitem{
+
+
+}
+.orderitem-subItems{
+    display: none;
+
+}
+.orderitem-subItems >td{
+    padding:0;
+
+
+}
+.subItems{
+    border:none;
+    width:100%;
+}
+
+.subItems th{
+    font-weight: normal;
+    border-left:none;
+    border-top:none;
+    background-color:#ffcccc;
+    color:#333;
+    font-style: italic;
+
+}
+.subItems td{
+    /*border-left:none;
+    border-top:none;*/
+     font-weight: normal;
+}
+
+.subItems tr > td:last-child{
+    border-right: none;
+
+}
+.subItems tr > th:last-child{
+    border-right: none;
+
+}
+
+
+
+.subItems tr:last-child > td{
+    border-bottom:4px solid #cc0066;
+
+}

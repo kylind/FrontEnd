@@ -199,7 +199,7 @@ var OrderModel = function(order) {
 
             if (itemData.name == '') return;
 
-            $.getJSON('/historictrades/' + itemData.name, function(res, status) {
+            $.getJSON('./historictrades/' + itemData.name, function(res, status) {
 
                 status == 'success' ? item.historicTrades(res) : item.historicTrades([]);
 
@@ -252,7 +252,7 @@ var OrderModel = function(order) {
         if (client == '') return;
 
 
-        $.getJSON('/addresses/' + client, function(res, status) {
+        $.getJSON('./addresses/' + client, function(res, status) {
 
             status == 'success' ? order.addresses(res) : order.addresses([]);
 
@@ -281,7 +281,7 @@ var OrderModel = function(order) {
         var addressesData = ko.mapping.toJS(order.addresses);
 
 
-        $.post('/addresses', {
+        $.post('./addresses', {
                 "client": order.client,
                 "addresses": addressesData
             }, function(addresses, status) {
@@ -300,7 +300,7 @@ var OrderModel = function(order) {
 
         var orderStatus = self.status() == 'RECEIVED' ? 'DONE' : 'RECEIVED'
 
-        $.ajax('/orderStatus/' + id, {
+        $.ajax('./orderStatus/' + id, {
             success: function(data, status) {
 
                 self.status(orderStatus)
@@ -322,7 +322,7 @@ var OrderModel = function(order) {
 
         var orderData = $.parseJSON(ko.toJSON(order));
 
-        $.post('/order', orderData, function(data, status) {
+        $.post('./order', orderData, function(data, status) {
 
                 data.items.forEach(function(item) {
 
@@ -339,7 +339,7 @@ var OrderModel = function(order) {
                     addressesData[i].client = order.client();
                 }
 
-                $.post('/addresses', {
+                $.post('./addresses', {
                         "client": order.client(),
                         "addresses": addressesData,
                         "removedAddresses": removedAddresses
@@ -364,15 +364,23 @@ var OrderModel = function(order) {
 
 var OrdersModel = function(orders) {
 
-    var observableOrders = [];
-
-    orders.forEach(function(order) {
-
-        observableOrders.push(new OrderModel(order));
-
-    })
 
     var self = this;
+
+
+    self.getObservableOrders = function (orders){
+        var observableOrders = [];
+
+         orders.forEach(function(order) {
+
+             observableOrders.push(new OrderModel(order));
+
+        })
+         return observableOrders;
+
+    };
+
+    var observableOrders = self.getObservableOrders(orders);
 
     self.orders = ko.observableArray(observableOrders);
 
@@ -388,7 +396,7 @@ var OrdersModel = function(orders) {
         self.orders.remove(order);
         if (id == '') return;
 
-        $.ajax('/order/' + id, {
+        $.ajax('./order/' + id, {
             success: function(data, status) {
 
                 console.log(data);
@@ -400,16 +408,6 @@ var OrdersModel = function(orders) {
         });
 
     };
-
-    self.summarizeOrders = function() {
-
-        self.orders.forEach(function(order){
-
-
-
-        })
-
-    }
 
 
 
@@ -447,6 +445,10 @@ var OrdersModel = function(orders) {
 
     function searchGlobalOrders(keywords) {
 
+        if (orders == null) {
+            orders = self.orders();
+        }
+
         newKeywords = keywords;
 
         var id = setTimeout(function() {
@@ -459,6 +461,19 @@ var OrdersModel = function(orders) {
             timeoutIds = [];
 
             if (newKeywords != '') {
+
+                $.ajax('./ordersByName',{
+                    data:{client:newKeywords},
+                    type:'GET',
+                    success:function(data, status){
+
+                        self.orders(self.getObservableOrders(data));
+
+                    },
+
+                    dataType:'json'
+
+                });
 
 
 

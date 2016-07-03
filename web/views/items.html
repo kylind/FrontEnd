@@ -1,58 +1,62 @@
-<div>
-    <span>
-            Product Name
-        </span>
-    <span>
-            Quantity
-        </span>
-</div>
-<div data-bind="foreach: items">
-    <section>
-        <span data-bind="text: _id"></span>
-        <span data-bind="text: quantity"></span>
-
-       <!-- ko foreach: purchaseDetail
-        <span data-bind="name: $root.getSubName($data), text: quantity"></span>
-         -->
-
-
-        <a href="#"  class="icon icon-circle rmargin-20" data-bind="click: $root.markDone, css: markItemStatus "></a>
-        <a href="#" class="icon icon-search" data-bind="click: $root.getSubItems"></a>
-
-
-        <div class="subItem" style="display: none">
-            <!-- ko if: $parent.hasItemDetail -->
-
-            <table>
-
-            tr>th
-
-                <!-- ko  data-bind="template:{ name: 'subItem', foreach: subItems }" -->
-
-
-                <!-- /ko -->
-
+<table class="orderitems">
+    <tr>
+        <th class="w-p30 taLeft">Name</th>
+        <th class="w-p10 taLeft">Q</th>
+        <th class="w-p60 taRight rpadding-5"> Done?</th>
+    </tr>
+    <!-- ko foreach: items -->
+    <tr class="orderitem">
+        <td class="taLeft">
+            <span data-bind="text: _id"></span>
+        </td>
+        <td class="taLeft">
+            <span data-bind="text: quantity"></span>
+        </td>
+        <td class="taRight">
+            <a href="#" class="icon icon-search  rmargin-20" data-bind="click: $root.getSubItems"></a>
+            <a href="#" class="icon icon-circle rmargin-5" data-bind="click: $root.markDone, css: markItemStatus() "></a>
+        </td>
+    </tr>
+    <tr class="orderitem-subItems">
+        <td colspan="3">
+            <!-- ko if: hasItemDetail() -->
+            <table class="subItems">
+                <thead>
+                    <tr>
+                        <th class="w-p30 taLeft">Client</th>
+                        <th class="w-p10 taLeft">Q</th>
+                        <th class="w-p30 taLeft">Note</th>
+                        <th class="w-p20 taRight rpadding-5">Date</th>
+                        <th class="w-p10 taRight"></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="template:{ name: 'subItem', foreach: subItems }">
+                </tbody>
             </table>
-
-
             <!-- /ko -->
-            <!-- ko ifnot: $parent.hasItemDetail -->
-            <p>Somehow we cannot get item detail for now!</p>
+            <!-- ko ifnot: hasItemDetail() -->
+            <span>Somehow we cannot get item detail for now!</span>
             <!-- /ko -->
-        </div>
-    </section>
-</div>
+        </td>
+    </tr>
+    <!-- /ko -->
+</table>
 <script type="text/html" id="subItem">
     <tr>
         <td data-bind="text: client"> </td>
         <td data-bind="text: quantity"></td>
-        <td data-bind="text: note"></td>
-        <td data-bind="text: createDate"></td>
-        <td><input type="hidden" data-bind="value: _id"/><a href="#" data-bind="css: $parent.markSubItemStatus; click: $parent.markDone">MarkDone</a></td>
+        <td class="taLeft" data-bind="text: note"></td>
+        <td class="taRight rpadding-5" data-bind="text: createDate"></td>
+        <td class="taRight">
+            <input type="hidden" data-bind="value: _id" />
+            <a href="#" class="icon icon-circle rmargin-5" data-bind="css: $parent.markSubItemStatus($data); click: $parent.markDone"></a>
+        </td>
     </tr>
 </script>
-
 <script>
+// ko foreach: purchaseDetail
+// <span data-bind="name: $root.getSubName($data), text: quantity"></span>
+
 var Item = function(item) {
     var self = this;
     self._id = ko.observable(item ? item._id : '');
@@ -77,11 +81,45 @@ var Item = function(item) {
 
     }
 
-    self.markItemStatus=function(){
+    self.markItemStatus = function() {
+
+        var purchaseDetail = self.purchaseDetail();
+
+        var isDone = 0,
+            notDone = 0;
+
+        purchaseDetail.forEach(function(item) {
+            if (item.isDone) {
+                isDone = item.quantity;
+
+            } else {
+                notDone = item.quantity;
+
+            }
+
+        })
+
+        if (notDone == self.quantity) {
+            return '';
+        } else if (notDone == 0) {
+            return 'font-red';
+        } else {
+            return "font-yellow";
+        }
+
+
 
     }
 
-    self.markSubItemStatus= function(){
+    self.markSubItemStatus = function(item) {
+
+        if (item.isDone) {
+            return 'font-red';
+
+        } else {
+            return "";
+        }
+
 
     }
 
@@ -125,7 +163,7 @@ var ItemsModel = function(items) {
                     item.subItems([]);
                 }
 
-                $(event.target).next('.subItem').slideDown('fast', function() {
+                $(event.target).parents('tr').next().slideDown(function() {
                     item.isSubItemsOpen = true;
                 });
 
@@ -133,7 +171,7 @@ var ItemsModel = function(items) {
 
         } else {
 
-            $(event.target).next('.subItem').slideUp('fast', function() {
+            $(event.target).parents('tr').next().slideUp(function() {
                 item.isSubItemsOpen = false;
             });
 
@@ -180,8 +218,4 @@ var itemsModel = new ItemsModel(items);
 //ko.mapping.fromJS(items, {}, itemsModel);
 
 ko.applyBindings(itemsModel);
-
-
-
-
 </script>

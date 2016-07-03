@@ -155,23 +155,38 @@ router.get('/orders', function*() {
 
 router.get('/ordersByName', function*() {
 
-    var req = this.request.body;
+    var req = this.request.query;
 
     var client = req.client;
 
     var res = null;
 
-    res = yield orderOperation.queryOrders({ client: client });
+    res = yield orderOperation.queryGlobalOrders({ client: client });
 
-    res = res && res.length > 0 ? res : [EMPTY_ORDER];
+    res = res && res.length > 0 ? res : [];
 
-    yield this.render('orders', {
-        orders: res,
-        script: 'mvvm',
-        header: 'specific',
-        footer: ''
 
+    res.forEach(function(order) {
+
+        order.rate = order.rate ? order.rate : RATE;
+
+        util.sumarizeOrder(order);
+
+        if (Array.isArray(order.addresses) && order.addresses.length > 0);
+        else {
+
+            order.addresses = [{
+                _id: '',
+                client: order.client,
+                recipient: '',
+                address: '',
+                phone: ''
+            }];
+        }
     });
+
+    this.body = res;
+    this.status = 200;
 
 });
 
