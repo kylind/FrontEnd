@@ -47,6 +47,9 @@
 .w-p30{
     width:30%;
 }
+.w-p40{
+    width:40%;
+}
 .w-p60{
     width:60%;
 }
@@ -343,11 +346,15 @@ button{
 }
 .orderitem-subItems >td{
     padding:0;
+    /*border-right: 1px solid #cc0066;*/
+    border-right:0;
+
+
 
 
 }
 .subItems{
-    border:none;
+    border:0;
     width:100%;
 }
 
@@ -365,15 +372,17 @@ button{
     border-top:none;*/
      font-weight: normal;
 }
-
+/*
 .subItems tr > td:last-child{
-    border-right: none;
+    border-right:none;
+
 
 }
 .subItems tr > th:last-child{
-    border-right: none;
+     border-right:none;
 
-}
+
+}*/
 
 
 

@@ -44,12 +44,15 @@
             <div>
                 <button type="button" text="Add" class="icon icon-add rmargin-20" data-bind="click:addItem"> Add Item</button>
 
+                 <!-- ko if: _id() != '' -->
+
                 <span class="font-bold font-red vaMiddle">
                     <span>B: </span><span class="rmargin-5" data-bind="text: buyPrice"></span>
 
                     <span>S: </span><span class="rmargin-5" data-bind="text: sellPrice"></span>
                     <span>P: </span><span data-bind="text: profit"></span>
                 </span>
+                <!-- /ko -->
             </div>
             <div class="items tmargin-5">
                 <!-- ko foreach: items -->

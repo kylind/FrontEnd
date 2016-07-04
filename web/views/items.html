@@ -25,9 +25,9 @@
                     <tr>
                         <th class="w-p30 taLeft">Client</th>
                         <th class="w-p10 taLeft">Q</th>
-                        <th class="w-p30 taLeft">Note</th>
+                        <th class="w-p40 taLeft">Note</th>
                         <th class="w-p20 taRight rpadding-5">Date</th>
-                        <th class="w-p10 taRight"></th>
+
                     </tr>
                 </thead>
                 <tbody data-bind="template:{ name: 'subItem', foreach: subItems }">
@@ -43,14 +43,12 @@
 </table>
 <script type="text/html" id="subItem">
     <tr>
-        <td data-bind="text: client"> </td>
+        <td data-bind="text: client">  <input type="hidden" data-bind="value: _id" /></td>
         <td data-bind="text: quantity"></td>
         <td class="taLeft" data-bind="text: note"></td>
         <td class="taRight rpadding-5" data-bind="text: createDate"></td>
-        <td class="taRight">
-            <input type="hidden" data-bind="value: _id" />
-            <a href="#" class="icon icon-circle rmargin-5" data-bind="css: $parent.markSubItemStatus($data); click: $parent.markDone"></a>
-        </td>
+
+
     </tr>
 </script>
 <script>
@@ -99,7 +97,7 @@ var Item = function(item) {
 
         })
 
-        if (notDone == self.quantity) {
+        if (notDone == self.quantity()) {
             return '';
         } else if (notDone == 0) {
             return 'font-red';
@@ -163,7 +161,7 @@ var ItemsModel = function(items) {
                     item.subItems([]);
                 }
 
-                $(event.target).parents('tr').next().slideDown(function() {
+                $(event.target).parents('tr').next().show(function() {
                     item.isSubItemsOpen = true;
                 });
 
@@ -171,7 +169,7 @@ var ItemsModel = function(items) {
 
         } else {
 
-            $(event.target).parents('tr').next().slideUp(function() {
+            $(event.target).parents('tr').next().hide(function() {
                 item.isSubItemsOpen = false;
             });
 
