@@ -25,8 +25,8 @@
                     <tr>
                         <th class="w-p30 taLeft">Client</th>
                         <th class="w-p10 taLeft">Q</th>
-                        <th class="w-p40 taLeft">Note</th>
-                        <th class="w-p20 taRight rpadding-5">Date</th>
+                        <th class="w-p30 taLeft">Note</th>
+                        <th class="w-p30 taRight rpadding-5">Date</th>
 
                     </tr>
                 </thead>
@@ -152,7 +152,7 @@ var ItemsModel = function(items) {
         var itemData = ko.mapping.toJS(item);
 
         if (!item.isSubItemsOpen) {
-            $.getJSON('/subitems/' + itemData._id, function(res, status) {
+            $.getJSON('/subitems' , {itemName: itemData._id} , function(res, status) {
 
                 if (status == 'success') {
                     item.subItems(res);
@@ -195,8 +195,9 @@ var ItemsModel = function(items) {
 
         });
 
-        $.post('/item/' + itemData._id, {
-                isDone: !isPurchased
+        $.post('/item', {
+               itemName: itemData._id,
+               isDone: !isPurchased
             }, function(res, status) {
 
                 item.purchaseDetail(res.purchaseDetail);

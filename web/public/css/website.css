@@ -31,7 +31,7 @@
     width:40%;
 }
 .w-p10{
-    width:10%;
+    width:9.99%;
 }
 .w-p5{
     width:5%;
@@ -135,6 +135,7 @@ header, footer, main{
     display: inline-block;
     font-size: 1.5rem;
     line-height: 17px;
+    font-weight: normal;
 }
 
 .icon-remove:before{
@@ -312,28 +313,29 @@ button{
 .orderitems{
     width:100%;
     border: 1px solid #cc0066;
-    border-collapse: collapse;
-    box-sizing: border-box;;
-        border-right:none;
-    border-bottom: none;
+}
 
+.orderitems tr{
+    border-bottom: 1px solid #cc0066;
 }
 
 .orderitems td, .orderitems th{
     border-right: 1px solid #cc0066;
-    border-bottom: 1px solid #cc0066;
     padding-top:5px;
     padding-bottom: 5px;
     padding-left: 5px;
     font-weight: bold;
 
 }
+
+.orderitems  td:last-child, .orderitems th:last-child{
+    border-right: none;
+}
+
 .orderitems  th{
     color:#fff;
     background-color: #cc0066;
-
     font-weight: bold;
-
 
 }
 .orderitem{
@@ -344,49 +346,31 @@ button{
     display: none;
 
 }
-.orderitem-subItems >td{
+.orderitems .orderitem-subItems > td{
     padding:0;
-    /*border-right: 1px solid #cc0066;*/
-    border-right:0;
-
-
-
 
 }
 .subItems{
-    border:0;
+    border:none;
     width:100%;
 }
 
 .subItems th{
     font-weight: normal;
-    border-left:none;
-    border-top:none;
+
+
     background-color:#ffcccc;
     color:#333;
     font-style: italic;
 
 }
 .subItems td{
-    /*border-left:none;
-    border-top:none;*/
+
      font-weight: normal;
 }
-/*
-.subItems tr > td:last-child{
-    border-right:none;
-
-
-}
-.subItems tr > th:last-child{
-     border-right:none;
-
-
-}*/
 
 
 
-.subItems tr:last-child > td{
+.subItems tbody > tr:last-child{
     border-bottom:4px solid #cc0066;
-
 }

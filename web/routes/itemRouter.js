@@ -28,24 +28,28 @@ router.get('/items', function*() {
 
 });
 
-router.post('/item/:itemName', function*() {
+router.post('/item', function*() {
 
     var purchaseDetail = this.request.body;
 
+    var itemName = purchaseDetail.itemName;
+
     purchaseDetail.isDone = purchaseDetail.isDone == 'true' ? true : false;
 
-    var updatedRes = yield itemOperation.updateItemStatus(this.params.itemName, purchaseDetail.isDone);
+    var updatedRes = yield itemOperation.updateItemStatus(itemName, purchaseDetail.isDone);
 
-    var res = yield itemOperation.queryItemStatus(this.params.itemName);
+    var res = yield itemOperation.queryItemStatus(itemName);
 
     this.body = res[0];
     this.status = 200;
 
 });
 
-router.get('/subitems/:itemName', function*() {
+router.get('/subitems', function*() {
 
-    var itemName = this.params.itemName;
+     var req = this.request.query;
+
+    var itemName = req.itemName;
 
     var res = yield itemOperation.querySubItems(itemName);
 
