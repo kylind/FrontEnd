@@ -60,6 +60,15 @@ var collection = {
         return res;
 
     },
+    queryReceivedOrders: function*() {
+
+        var db = yield MongoClient.connect(url);
+
+        var res = yield db.collection('orders').find({status: "RECEIVED"}).toArray();
+
+        return res;
+
+    },
 
 /*    queryOrders: function*(filter) {
 

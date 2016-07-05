@@ -58,20 +58,6 @@ router.get('/order/:id', function*() {
 
 });
 
-router.get('/order', function*() {
-
-
-
-    yield this.render('order', {
-        order: EMPTY_ORDER,
-        script: 'mvvm',
-        header: 'specific',
-        footer: ''
-
-    });
-
-});
-
 router.post('/order', function*() {
 
     var order = this.request.body;
@@ -141,10 +127,14 @@ router.delete('/order/:id', function*() {
 
 });
 
-router.get('/orders', function*() {
+router.get('/receivedOrders', function*() {
 
-    yield this.render('orders', {
-        orders: [EMPTY_ORDER],
+
+    var res = yield orderOperation.queryReceivedOrders();
+    res = res && res.length > 0 ? res : [EMPTY_ORDER];
+
+    yield this.render('receivedOrders', {
+        orders: res,
         script: 'mvvm',
         header: 'specific',
         footer: ''
@@ -191,7 +181,7 @@ router.get('/ordersByName', function*() {
 });
 
 
-router.get('/reckoning', function*() {
+router.get('/reckoningOrders', function*() {
 
     var res = null;
     res = yield orderOperation.queryReckoningOrders();
@@ -220,7 +210,7 @@ router.get('/reckoning', function*() {
 
     console.log(res);
 
-    yield this.render('reckoning', {
+    yield this.render('reckoningOrders', {
         orders: res,
         script: 'mvvm',
         header: 'specific',

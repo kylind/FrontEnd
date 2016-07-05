@@ -8,7 +8,7 @@ var itemOperation = require('../data_access/item.js').collection
 router = new Router();
 
 
-router.get('/items', function*() {
+router.get('/purchaseItems', function*() {
 
     var res = null;
 
@@ -18,7 +18,7 @@ router.get('/items', function*() {
 
     res = res && res.length > 0 ? res : { warning: 'There is no purchase item.' };
 
-    yield this.render('items', {
+    yield this.render('purchaseItems', {
         items: res,
         script: 'mvvm',
         header: 'specific',

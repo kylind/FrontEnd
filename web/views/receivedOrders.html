@@ -1,0 +1,108 @@
+<div>
+    <button type="button" text="Add" class="icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
+
+</div>
+<div class="tmargin-5" data-bind="foreach: orders">
+    <section  class="order">
+        <div class="order-head">
+            <input type="hidden" data-bind="value: _id" />
+            <input type="text" data-bind="value: client" placeholder="Client Name" />
+            <div class="order-savebox">
+                <a href="#" class="icon icon-save  font-white" data-bind="click: $root.submitOrder"> </a>
+            </div>
+        </div>
+        <div class="order-itembox">
+            <div class="tmargin-5">
+                <button type="button" class="icon icon-add" text="Add" data-bind="click:$root.addItem"> Add Item </button>
+            </div>
+            <div class="items tmargin-5">
+                <!-- ko foreach: items -->
+                <fieldset class="item">
+                    <input class="w-p30" type="text" data-bind="value: name" placeholder="Product Name" />
+                    <input class="w-p10" type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
+                    <input class="w-p40" type="text" data-bind="value: note" placeholder="Note:" />
+                    <div class="item-actions">
+                        <a href="#" class="icon icon-remove" data-bind="click: $root.removeItem.bind(this, $parent, $data)"></a>
+                    </div>
+                </fieldset>
+                <!-- /ko -->
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+var OrderModel = function(order) {
+    var self = this;
+    self._id = ko.observable(order && order._id ? order._id : '');
+    self.client = ko.observable(order && order.client ? order.client : '');
+    self.items = ko.observableArray(order && Array.isArray(order.items) ? order.items : [{
+        name: '',
+        quantity: 1,
+        note: ''
+    }]);
+    self.createDate = order && order.createDate ? order.createDate : '';
+    self.status = order && order.status ? order.status : 'RECEIVED';
+
+};
+
+
+
+
+var OrdersModel = function(orders) {
+
+    var observableOrders = [];
+
+    orders.forEach(function(order) {
+
+        observableOrders.push(new OrderModel(order));
+
+    })
+
+    var self = this;
+
+    self.orders = ko.observableArray(observableOrders);
+
+    self.addItem = function(data) {
+
+        data.items.unshift({
+            name: "",
+            quantity: 1,
+            note: '',
+            isDone: false
+        });
+    };
+
+    self.removeItem = function(parent, data) {
+        parent.items.remove(data);
+    };
+
+    self.submitOrder = function(order) {
+
+        console.log('post request....');
+
+        var orderData = ko.mapping.toJS(order); //$.parseJSON(ko.toJSON(order));
+
+        $.post('/order', orderData, function(data, status) {
+
+                console.log('get post result');
+                ko.mapping.fromJS(data, {}, order);
+            },
+            'json'
+        );
+
+        return false;
+
+    };
+
+    self.addOrder = function(data) {
+
+        var order = new OrderModel();
+
+        self.orders.unshift(order);
+    };
+};
+
+var ordersModel = new OrdersModel(<%- JSON.stringify(orders) %>);
+
+ko.applyBindings(ordersModel);
+</script>
