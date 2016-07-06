@@ -24,12 +24,8 @@
 .w-p100{
     width:100%;
 }
-.w-p80{
-    width:80%;
-}
-.w-p40{
-    width:40%;
-}
+
+
 .w-p10{
     width:9.99%;
 }
@@ -50,8 +46,17 @@
 .w-p40{
     width:40%;
 }
+.w-p43{
+    width:43%;
+}
 .w-p60{
     width:60%;
+}
+.w-p87{
+    width:87%;
+}
+.w-p90{
+    width:90%;
 }
 .tmargin-5{
     margin-top: 5px;
@@ -260,7 +265,7 @@ button{
 }
 
 .address > input{
-    margin-right: 1px;
+    margin-right: 1%;
 }
 
 .address-actions{
@@ -287,7 +292,7 @@ button{
 
 }
 .item-fields > input{
-    margin-right: 1px;
+    margin-right: 0.5%
 
 }
 .item-historicTrades{
@@ -329,7 +334,6 @@ button{
     padding-bottom: 5px;
     padding-left: 5px;
     font-weight: bold;
-
 }
 
 .orderitems  td:last-child, .orderitems th:last-child{
@@ -362,7 +366,6 @@ button{
 .subItems th{
     font-weight: normal;
 
-
     background-color:#ffcccc;
     color:#333;
     font-style: italic;
@@ -373,8 +376,47 @@ button{
      font-weight: normal;
 }
 
-
-
 .subItems tbody > tr:last-child{
     border-bottom:4px solid #cc0066;
+}
+
+/**** addresses ***/
+
+
+.alladdresses .address{
+    font-size: 0;
+    position: relative;
+    margin-left:5%;
+    margin-right:5%;
+}
+.alladdresses .address input{
+    width:32%;
+    margin-right: 2%;
+}
+.alladdresses .address input:nth-of-type(4){
+    margin-right: 0;
+}
+
+
+.alladdresses .address .address-inputaddress{
+    width:100%;
+    margin-right: 0;
+
+}
+.alladdresses .address-save{
+    position: absolute;
+    text-align: right;
+    right:-20px;
+    top:9px;
+
+
+}
+
+.alladdresses .address-remove{
+     position: absolute;
+    left:-17px;
+    top:9px;
+
+
+
 }

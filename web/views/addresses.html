@@ -1,26 +1,17 @@
-
 <div>
-    <button  class="icon icon-add" data-bind="click: addAddress"> Add Address </button>
-
+    <button class="icon icon-add" data-bind="click: addAddress"> Add Address </button>
 </div>
-
-<div data-bind="foreach: addresses">
-    <section>
-
+<div class="tmargin-5 alladdresses" data-bind="foreach: addresses">
+    <section class="address">
         <input type="hidden" data-bind="value: _id" />
-        <input type="text" data-bind="value: client" placeholder="Client" />
-
-        <input type="text" data-bind="value: recipient" placeholder="Recipient" />
-
-        <input type="text" min="0" max="100" step="1" data-bind="value: address" placeholder="Address" />
-
-        <input type="text" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" />
-
-        <div><a href="#" class="icon icon-remove" data-bind="click: $root.removeAddress.bind(this, $data)"> </a>
-        <a href="#" class="icon icon-save" data-bind="click: $root.submitAddress"> </a></div>
+        <input type="text" class="w-p30" data-bind="value: client" placeholder="Client" />
+        <input type="text" class="w-p30" data-bind="value: recipient" placeholder="Recipient" />
+        <input type="text" class="w-p30" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" />
+        <input type="text" class="address-inputaddress" min="0" max="100" step="1" data-bind="value: address" placeholder="Address" />
+        <a href="#" class="address-remove icon icon-remove" data-bind="click: $root.removeAddress.bind(this, $data)"> </a>
+        <a href="#" class="address-save icon icon-save" data-bind="css:{ 'font-red': isSend() },click: $root.submitAddress"> </a>
     </section>
 </div>
-
 <script>
 var AddressModel = function(address) {
     var self = this;
@@ -29,6 +20,7 @@ var AddressModel = function(address) {
     self.recipient = ko.observable(address ? address.recipient : '');
     self.address = ko.observable(address ? address.address : '');
     self.phone = ko.observable(address ? address.phone : '');
+    self.isSend = ko.observable(address ? address.isSend : '');
 
 
     /*this.isChanged = ko.pureComputed(function() {
@@ -62,12 +54,25 @@ var AddressesModel = function(addresses) {
 
     self.addAddress = function() {
 
-        self.addresses.push(new AddressModel());
+        self.addresses.unshift(new AddressModel());
     };
 
     self.removeAddress = function(address) {
-        self.addresses.remove(address);
 
+        var id = address._id();
+        self.addresses.remove(address);
+        if (id == '') return;
+
+        $.ajax('./address/' + id, {
+            success: function(data, status) {
+
+                console.log(data);
+
+            },
+            dataType: 'json',
+            type: 'DELETE'
+
+        });
 
     };
 
@@ -75,17 +80,17 @@ var AddressesModel = function(addresses) {
 
         console.log('post request....');
 
-         var addressData = ko.mapping.toJS(address); //$.parseJSON(ko.toJSON(address));
+        var addressData = ko.mapping.toJS(address); //$.parseJSON(ko.toJSON(address));
 
-         $.post('/address', addressData, function(data, status) {
+        $.post('/address', addressData, function(data, status) {
 
-                 console.log('get post result');
-                 ko.mapping.fromJS(data,{}, address);
-             },
-             'json'
-         );
+                console.log('get post result');
+                ko.mapping.fromJS(data, {}, address);
+            },
+            'json'
+        );
 
-         return false;
+        return false;
 
     };
 };

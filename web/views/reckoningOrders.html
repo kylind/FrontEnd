@@ -1,7 +1,7 @@
 <div>
-    <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder">Add Order </button>
+    <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
     <div class="lmargin-150">
-        <input  type="text" class="w-p100 input-search"  data-bind="event: {input: $root.searchOrders }" placeholder="Search Your Orders" />
+        <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders }" placeholder="Search Your Orders" />
     </div>
 </div>
 <div class="tmargin-5" data-bind="foreach: orders">
@@ -29,9 +29,9 @@
                 <fieldset class="address">
                     <input type="hidden" data-bind="value: _id" />
                     <input type="hidden" data-bind="value: client" />
-                    <input class="w-p40" type="text" data-bind="value: recipient" placeholder="Recipient" />
-                    <input class="w-p40" type="text" data-bind="value: phone" placeholder="Phone" />
-                    <input class="w-p80" type="text" data-bind="value: address" placeholder="Address" />
+                    <input class="w-p43" type="text" data-bind="value: recipient" placeholder="Recipient" />
+                    <input class="w-p43" type="text" data-bind="value: phone" placeholder="Phone" />
+                    <input class="w-p87" type="text" data-bind="value: address" placeholder="Address" />
                     <div class="address-actions">
                         <a href="#" class="icon icon-remove" data-bind="click: $parent.removeAddress.bind(this,$data)"> </a>
                     </div>
@@ -43,14 +43,11 @@
         <div class="order-itembox">
             <div>
                 <button type="button" text="Add" class="icon icon-add rmargin-20" data-bind="click:addItem"> Add Item</button>
-
-                 <!-- ko if: _id() != '' -->
-
+                <!-- ko if: _id() != '' -->
                 <span class="font-bold font-red vaMiddle">
                     <span>B: </span><span class="rmargin-5" data-bind="text: buyPrice"></span>
-
-                    <span>S: </span><span class="rmargin-5" data-bind="text: sellPrice"></span>
-                    <span>P: </span><span data-bind="text: profit"></span>
+                <span>S: </span><span class="rmargin-5" data-bind="text: sellPrice"></span>
+                <span>P: </span><span data-bind="text: profit"></span>
                 </span>
                 <!-- /ko -->
             </div>
@@ -166,8 +163,8 @@ var OrderModel = function(order) {
     self.rate = order ? order.rate : '';
 
     self.buyPrice = ko.observable(order ? order.buyPrice : '');
-    self.sellPrice = ko.observable(order ? order.sellPrice: '');
-    self.profit =  ko.observable(order ? order.profit: '');
+    self.sellPrice = ko.observable(order ? order.sellPrice : '');
+    self.profit = ko.observable(order ? order.profit : '');
 
 
     var dateFormatting = {
@@ -186,7 +183,7 @@ var OrderModel = function(order) {
 
     self.displayDate = function() {
 
-        return self.createDate ?  new Date(self.createDate).toLocaleDateString("en-US", dateFormatting) : '';
+        return self.createDate ? new Date(self.createDate).toLocaleDateString("en-US", dateFormatting) : '';
 
 
     };
@@ -255,7 +252,9 @@ var OrderModel = function(order) {
         if (client == '') return;
 
 
-        $.getJSON('./addresses/' + client, function(res, status) {
+        $.getJSON('./addressesByClient', {
+            client: client
+        }, function(res, status) {
 
             status == 'success' ? order.addresses(res) : order.addresses([]);
 
@@ -371,15 +370,15 @@ var OrdersModel = function(orders) {
     var self = this;
 
 
-    self.getObservableOrders = function (orders){
+    self.getObservableOrders = function(orders) {
         var observableOrders = [];
 
-         orders.forEach(function(order) {
+        orders.forEach(function(order) {
 
-             observableOrders.push(new OrderModel(order));
+            observableOrders.push(new OrderModel(order));
 
         })
-         return observableOrders;
+        return observableOrders;
 
     };
 
@@ -465,16 +464,18 @@ var OrdersModel = function(orders) {
 
             if (newKeywords != '') {
 
-                $.ajax('./ordersByName',{
-                    data:{client:newKeywords},
-                    type:'GET',
-                    success:function(data, status){
+                $.ajax('./ordersByName', {
+                    data: {
+                        client: newKeywords
+                    },
+                    type: 'GET',
+                    success: function(data, status) {
 
                         self.orders(self.getObservableOrders(data));
 
                     },
 
-                    dataType:'json'
+                    dataType: 'json'
 
                 });
 
