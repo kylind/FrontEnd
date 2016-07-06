@@ -147,8 +147,12 @@ header, footer, main{
 .icon-add:before{
     content: "\f055";
 }
-.icon-save:before{
+.icon-save-sign:before{
     content: "\f058";
+}
+
+.icon-save:before {
+  content: "\f00c";
 }
 
 .icon-remove-sign:before{

@@ -1,5 +1,9 @@
 <div>
-    <button type="button" text="Add" class="icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
+    <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder">Add Order </button>
+    <div class="lmargin-150">
+        <input  type="text" class="w-p100 input-search"  data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
+    </div>
+
 
 </div>
 <div class="tmargin-5" data-bind="foreach: orders">
@@ -8,7 +12,8 @@
             <input type="hidden" data-bind="value: _id" />
             <input type="text" data-bind="value: client" placeholder="Client Name" />
             <div class="order-savebox">
-                <a href="#" class="icon icon-save  font-white" data-bind="click: $root.submitOrder"> </a>
+                <a href="#" class="icon icon-save-sign  font-white rmargin-20" data-bind="click: $root.submitOrder"> </a>
+                <a href="#" class="icon icon-remove-sign font-white" data-bind="click: $root.removeOrder"></a>
             </div>
         </div>
         <div class="order-itembox">
@@ -35,6 +40,7 @@ var OrderModel = function(order) {
     var self = this;
     self._id = ko.observable(order && order._id ? order._id : '');
     self.client = ko.observable(order && order.client ? order.client : '');
+    self.rate = order && order.rate ? order.rate : null;
     self.items = ko.observableArray(order && Array.isArray(order.items) ? order.items : [{
         name: '',
         quantity: 1,
@@ -68,6 +74,8 @@ var OrdersModel = function(orders) {
             name: "",
             quantity: 1,
             note: '',
+            buyPrice:'',
+            sellPrice:'',
             isDone: false
         });
     };
@@ -100,6 +108,43 @@ var OrdersModel = function(orders) {
 
         self.orders.unshift(order);
     };
+
+    self.removeOrder = function(order) {
+        var id = order._id();
+        self.orders.remove(order);
+        if (id == '') return;
+
+        $.ajax('./order/' + id, {
+            success: function(data, status) {
+
+                console.log(data);
+
+            },
+            dataType: 'json',
+            type: 'DELETE'
+
+        });
+
+    };
+
+    var orders = null;
+    self.searchOrders = function(data, event) {
+
+        var keywords = $(event.target).val();
+        if (orders == null) {
+            orders = self.orders();
+        }
+
+        var searchedOrders = orders.filter(function(order) {
+
+            return order.client().indexOf(keywords) >= 0;
+        });
+
+        self.orders(searchedOrders);
+
+
+    }
+
 };
 
 var ordersModel = new OrdersModel(<%- JSON.stringify(orders) %>);

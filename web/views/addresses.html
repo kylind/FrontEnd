@@ -1,26 +1,26 @@
-<div data-bind="foreach: addresses">
-    <section>
-        <div>
-            <input type="text" data-bind="value: _id" />
-            <input type="text" data-bind="value: client" placeholder="Client" />
-        </div>
-        <div>
-            <input type="text" data-bind="value: recipient" placeholder="Recipient" />
-        </div>
-        <div>
-            <input type="text" min="0" max="100" step="1" data-bind="value: address" placeholder="Address" />
-        </div>
-        <div>
-            <input type="text" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" />
-        </div>
-        <div><a href="#" data-bind="click: $root.removeAddress.bind(this, $data)"> Delete</a></div>
-        <button type="button" text="Add" data-bind="click: $root.submitAddress">Submit </button>
-    </section>
-</div>
+
 <div>
-    <button type="button" text="Add" data-bind="click: addAddress">Add </button>
+    <button  class="icon icon-add" data-bind="click: addAddress"> Add Address </button>
 
 </div>
+
+<div data-bind="foreach: addresses">
+    <section>
+
+        <input type="hidden" data-bind="value: _id" />
+        <input type="text" data-bind="value: client" placeholder="Client" />
+
+        <input type="text" data-bind="value: recipient" placeholder="Recipient" />
+
+        <input type="text" min="0" max="100" step="1" data-bind="value: address" placeholder="Address" />
+
+        <input type="text" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" />
+
+        <div><a href="#" class="icon icon-remove" data-bind="click: $root.removeAddress.bind(this, $data)"> </a>
+        <a href="#" class="icon icon-save" data-bind="click: $root.submitAddress"> </a></div>
+    </section>
+</div>
+
 <script>
 var AddressModel = function(address) {
     var self = this;

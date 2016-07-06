@@ -1,7 +1,7 @@
 <div>
     <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder">Add Order </button>
     <div class="lmargin-150">
-        <input  type="text" class="w-p100 input-search"  data-bind="event: {keyup: $root.searchOrders, change: $root.searchOrders }" placeholder="Search Your Orders" />
+        <input  type="text" class="w-p100 input-search"  data-bind="event: {input: $root.searchOrders }" placeholder="Search Your Orders" />
     </div>
 </div>
 <div class="tmargin-5" data-bind="foreach: orders">
@@ -13,7 +13,7 @@
             <span data-bind="text: displayDate()" class="vaMiddle font-white"></span>
             <div class="order-savebox">
                 <a href="#" class="icon icon-circle rmargin-20 font-white" data-bind="click: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
-                <a href="#" class="icon icon-save rmargin-20 font-white" data-bind="click: submitOrder"> </a>
+                <a href="#" class="icon icon-save-sign rmargin-20 font-white" data-bind="click: submitOrder"> </a>
                 <a href="#" class="icon icon-remove-sign font-white" data-bind="click: $parent.removeOrder"></a>
             </div>
         </div>
