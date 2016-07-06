@@ -64,7 +64,7 @@ var collection = {
 
         var db = yield MongoClient.connect(url);
 
-        var res = yield db.collection('orders').find({status: "RECEIVED"}).toArray();
+        var res = yield db.collection('orders').find({status: "RECEIVED"}).sort({'createDate': -1}).toArray();
 
         return res;
 
@@ -101,7 +101,7 @@ var collection = {
                 }
             }
 
-        ], { cursor: { batchSize: 1 } }).toArray();
+        ], { cursor: { batchSize: 1 } }).sort({'createDate': -1}).toArray();
 
 
         return res;
@@ -134,7 +134,7 @@ var collection = {
                 }
             }
 
-        ], { cursor: { batchSize: 1 } }).toArray();
+        ], { cursor: { batchSize: 1 } }).sort({'createDate': -1}).toArray();
 
 
         return res;
@@ -178,7 +178,7 @@ var collection = {
                 $project: { _id: 0, client: 1, createDate: 1, status: 1, name: '$items.name', quantity: '$items.quantity', buyPrice: '$items.buyPrice', sellPrice: '$items.sellPrice', isDone: '$items.isDone' }
             }
 
-        ], { cursor: { batchSize: 1 } }).toArray();
+        ], { cursor: { batchSize: 1 } }).sort({'createDate': -1}).toArray();
 
         return res;
 
