@@ -32,8 +32,7 @@ router.get('/addresses', function*() {
 
     var allAddresses = yield operation.queryAddresses()
 
-    var receivedOrders = yield orderOperation.queryReceivedOrders();
-
+    var receivedOrders =  yield orderOperation.queryReceivedOrders();
 
     allAddresses = allAddresses && allAddresses.length > 0 ? allAddresses : [{
         _id: '',

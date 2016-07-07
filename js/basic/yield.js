@@ -74,7 +74,11 @@ var g = gen3(1);
 
 console.log(g.next());
 console.log('y:' + y);
-console.log(g.next());
+console.log(g.next(8));
 console.log('y:' + y);
+
+console.log('5--------------------------------------------');
+
+
 
 

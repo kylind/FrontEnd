@@ -135,7 +135,7 @@ router.get('/receivedOrders', function*() {
 
     yield this.render('receivedOrders', {
         orders: res,
-        script: 'mvvm',
+        script: 'mvm',
         header: 'specific',
         footer: ''
 
