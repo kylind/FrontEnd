@@ -23,14 +23,14 @@ console.log(iterator.next()); // { value: undefined, done: true },
 
 console.log(result); // "foo"
 
+console.log('2--------------------------------------------');
+
 
 var y = null;
 
 function* gen(x) {
-    console.log("access gen");
     y = yield x + 2;
 
-    console.log("end gen");
     return 5;
 
 
@@ -40,6 +40,7 @@ console.log(g.next());
 console.log('y:' + y);
 console.log(g.next());
 console.log('y:' + y);
+console.log('----------')
 var y = null;
 var g = gen(1);
 console.log(g.next());
@@ -47,7 +48,7 @@ console.log('y:' + y);
 console.log(g.next(2));
 console.log('y:' + y);
 
-
+console.log('3--------------------------------------------');
 var y = null;
 
 function* gen1(x) {
@@ -61,18 +62,19 @@ console.log('y:' + y);
 console.log(g.next());
 console.log('y:' + y);
 
-console.log('test 3............................')
+console.log('4--------------------------------------------');
 
 function* gen3(x) {
-    console.log("access gen3");
-    y = yield 5 + gen(x);
-    console.log("end gen3");
+
+    y = yield* gen(x);
     return 6;
 }
 
 var g = gen3(1);
-console.log("access gen3 1");
+
 console.log(g.next());
-console.log("access gen3 2");
+console.log('y:' + y);
 console.log(g.next());
+console.log('y:' + y);
+
 
