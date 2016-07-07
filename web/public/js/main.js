@@ -1,23 +1,39 @@
-(function() {
+requirejs.config({
 
-    requirejs.config({
+    basicUrl: './js',
 
-        basicUrl: '../public/js',
+    paths: {
+        jquery: 'jquery-2.2.3.min',
+        'knockout': 'knockout-3.4.0',
+        'knockout.mapping': 'knockout.mapping.2.4.1'
 
-        paths: {
-            jquery: 'jquery-2.2.3.min',
-            ko: 'knockout-3.4.0',
-            'ko.mapping': 'knockout.mapping.2.4.1'
-        },
-        shim: {
-            'ko.mapping': ['./knockout-3.4.0']
-        }
+    }
+    /*,
+            shim: {
+                'ko.mapping': ['ko']
+            }*/
 
-    });
+});
 
-    require(['received-orders', 'ko'], function(OrdersModel) {
+require(['received-orders', 'knockout', 'jquery'], function(OrdersModel, ko, $) {
+
+    $.getJSON('./receivedOrdersJson', function(orders, status) {
         var ordersModel = new OrdersModel(orders);
-        ko.applyBindings(ordersModel);
+        ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
 
-    });
-})(orders);
+    })
+
+
+});
+
+
+require(['reckoning-orders', 'knockout', 'jquery'], function(OrdersModel, ko, $) {
+
+    $.getJSON('./reckoningOrdersJson', function(orders, status) {
+        var ordersModel = new OrdersModel(orders);
+        ko.applyBindings(ordersModel, $('#reckoningOrders')[0]);
+
+    })
+
+
+});

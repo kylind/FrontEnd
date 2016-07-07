@@ -1,120 +1,121 @@
+define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
-define(['jquery','ko','ko.mapping'],function($){
+    ko.mapping = mapping;
 
-var OrderModel = function(order) {
-    var self = this;
-    self._id = ko.observable(order && order._id ? order._id : '');
-    self.client = ko.observable(order && order.client ? order.client : '');
-    self.rate = order && order.rate ? order.rate : null;
-    self.items = ko.observableArray(order && Array.isArray(order.items) ? order.items : [{
-        name: '',
-        quantity: 1,
-        note: ''
-    }]);
-    self.createDate = order && order.createDate ? order.createDate : '';
-    self.status = order && order.status ? order.status : 'RECEIVED';
 
-};
-
-var OrdersModel = function(orders) {
-
-    var observableOrders = [];
-
-    orders.forEach(function(order) {
-
-        observableOrders.push(new OrderModel(order));
-
-    })
-
-    var self = this;
-
-    self.orders = ko.observableArray(observableOrders);
-
-    self.addItem = function(data) {
-
-        data.items.unshift({
-            name: "",
+    var OrderModel = function(order) {
+        var self = this;
+        self._id = ko.observable(order && order._id ? order._id : '');
+        self.client = ko.observable(order && order.client ? order.client : '');
+        self.rate = order && order.rate ? order.rate : null;
+        self.items = ko.observableArray(order && Array.isArray(order.items) ? order.items : [{
+            name: '',
             quantity: 1,
-            note: '',
-            buyPrice:'',
-            sellPrice:'',
-            isDone: false
-        });
-    };
-
-    self.removeItem = function(parent, data) {
-        parent.items.remove(data);
-    };
-
-    self.submitOrder = function(order) {
-
-        console.log('post request....');
-
-        var orderData = ko.mapping.toJS(order); //$.parseJSON(ko.toJSON(order));
-
-        $.post('/order', orderData, function(data, status) {
-
-                console.log('get post result');
-                ko.mapping.fromJS(data, {}, order);
-            },
-            'json'
-        );
-
-        return false;
+            note: ''
+        }]);
+        self.createDate = order && order.createDate ? order.createDate : '';
+        self.status = order && order.status ? order.status : 'RECEIVED';
 
     };
 
-    self.addOrder = function(data) {
+    var OrdersModel = function(orders) {
 
-        var order = new OrderModel();
+        var observableOrders = [];
 
-        self.orders.unshift(order);
-    };
+        orders.forEach(function(order) {
 
-    self.removeOrder = function(order) {
-        var id = order._id();
-        self.orders.remove(order);
-        if (id == '') return;
+            observableOrders.push(new OrderModel(order));
 
-        $.ajax('./order/' + id, {
-            success: function(data, status) {
+        })
 
-                console.log(data);
+        var self = this;
 
-            },
-            dataType: 'json',
-            type: 'DELETE'
+        self.orders = ko.observableArray(observableOrders);
 
-        });
+        self.addItem = function(data) {
 
-    };
+            data.items.unshift({
+                name: "",
+                quantity: 1,
+                note: '',
+                buyPrice: '',
+                sellPrice: '',
+                isDone: false
+            });
+        };
 
-    var orders = null;
-    self.searchOrders = function(data, event) {
+        self.removeItem = function(parent, data) {
+            parent.items.remove(data);
+        };
 
-        var keywords = $(event.target).val();
-        if (orders == null) {
-            orders = self.orders();
+        self.submitOrder = function(order) {
+
+            console.log('post request....');
+
+            var orderData = ko.mapping.toJS(order); //$.parseJSON(ko.toJSON(order));
+
+            $.post('/order', orderData, function(data, status) {
+
+                    console.log('get post result');
+                    ko.mapping.fromJS(data, {}, order);
+                },
+                'json'
+            );
+
+            return false;
+
+        };
+
+        self.addOrder = function(data) {
+
+            var order = new OrderModel();
+
+            self.orders.unshift(order);
+        };
+
+        self.removeOrder = function(order) {
+            var id = order._id();
+            self.orders.remove(order);
+            if (id == '') return;
+
+            $.ajax('./order/' + id, {
+                success: function(data, status) {
+
+                    console.log(data);
+
+                },
+                dataType: 'json',
+                type: 'DELETE'
+
+            });
+
+        };
+
+        var orders = null;
+        self.searchOrders = function(data, event) {
+
+            var keywords = $(event.target).val();
+            if (orders == null) {
+                orders = self.orders();
+            }
+
+            var searchedOrders = orders.filter(function(order) {
+
+                return order.client().indexOf(keywords) >= 0;
+            });
+
+            self.orders(searchedOrders);
+
+
         }
 
-        var searchedOrders = orders.filter(function(order) {
+    };
 
-            return order.client().indexOf(keywords) >= 0;
-        });
+    return OrdersModel;
 
-        self.orders(searchedOrders);
+    //var ordersModel = new OrdersModel(<%- JSON.stringify(orders) %>);
 
-
-    }
-
-};
-
-return OrdersModel;
-
-//var ordersModel = new OrdersModel(<%- JSON.stringify(orders) %>);
-
-//ko.applyBindings(ordersModel);
+    //ko.applyBindings(ordersModel);
 
 
 })
-

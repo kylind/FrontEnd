@@ -127,6 +127,22 @@ router.delete('/order/:id', function*() {
 
 });
 
+router.get('/index', function*() {
+
+
+    var res = yield orderOperation.queryReceivedOrders();
+    res = res && res.length > 0 ? res : [EMPTY_ORDER];
+
+    yield this.render('index', {
+        orders: res,
+        script: 'mvm',
+        header: 'specific',
+        footer: ''
+
+    });
+
+});
+
 router.get('/receivedOrders', function*() {
 
 
@@ -135,11 +151,21 @@ router.get('/receivedOrders', function*() {
 
     yield this.render('receivedOrders', {
         orders: res,
-        script: 'mvm',
+        script: 'mvvm',
         header: 'specific',
         footer: ''
 
     });
+
+});
+router.get('/receivedOrdersJson', function*() {
+
+
+    var res = yield orderOperation.queryReceivedOrders();
+    res = res && res.length > 0 ? res : [EMPTY_ORDER];
+
+    this.body = res;
+    this.status = 200;
 
 });
 
@@ -183,6 +209,26 @@ router.get('/ordersByName', function*() {
 
 router.get('/reckoningOrders', function*() {
 
+    var res = yield getReckoningOrders();
+
+    yield this.render('reckoningOrders', {
+        orders: res,
+        script: 'mvvm',
+        header: 'specific',
+        footer: ''
+
+    });
+
+});
+router.get('/reckoningOrdersJson', function*() {
+
+    var res = yield getReckoningOrders();
+
+    this.body = res;
+    this.status = 200;
+
+});
+function* getReckoningOrders(){
     var res = null;
     res = yield orderOperation.queryReckoningOrders();
     res = res && res.length > 0 ? res : [EMPTY_ORDER];
@@ -208,18 +254,8 @@ router.get('/reckoningOrders', function*() {
         }
     });
 
-    console.log(res);
-
-    yield this.render('reckoningOrders', {
-        orders: res,
-        script: 'mvvm',
-        header: 'specific',
-        footer: ''
-
-    });
-
-});
-
+    return res;
+}
 
 router.get('/historictrades/:itemName', function*() {
 
@@ -238,5 +274,9 @@ router.get('/historictrades/:itemName', function*() {
     this.status = 200;
 
 });
+
+
+
+
 
 exports.router = router;
