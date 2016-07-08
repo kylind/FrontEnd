@@ -1,0 +1,153 @@
+<section id="receivedOrders">
+    <div>
+        <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder">Add Order </button>
+        <div class="lmargin-150">
+            <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
+        </div>
+    </div>
+    <div class="tmargin-5" data-bind="foreach: orders">
+        <section class="order">
+            <div class="order-head">
+                <input type="hidden" data-bind="value: _id" />
+                <input type="text" data-bind="value: client" placeholder="Client Name" />
+                <div class="order-savebox">
+                    <a href="#" class="icon icon-remove-sign font-white rmargin-20" data-bind="click: $root.removeOrder"></a>
+                    <a href="#" class="icon icon-save-sign  font-white" data-bind="click: $root.submitOrder"> </a>
+                </div>
+            </div>
+            <div class="order-itembox">
+                <div class="tmargin-5">
+                    <button type="button" class="icon icon-add" text="Add" data-bind="click:$root.addItem"> Add Item </button>
+                </div>
+                <div class="items tmargin-5">
+                    <!-- ko foreach: items -->
+                    <fieldset class="item">
+                        <input class="w-p30" type="text" data-bind="value: name" placeholder="Product Name" />
+                        <input class="w-p10" type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
+                        <input class="w-p40" type="text" data-bind="value: note" placeholder="Note:" />
+                        <div class="item-actions">
+                            <a href="#" class="icon icon-remove" data-bind="click: $root.removeItem.bind(this, $parent, $data)"></a>
+                        </div>
+                    </fieldset>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+<section id="reckoningOrders">
+    <div>
+        <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
+        <div class="lmargin-150">
+            <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders }" placeholder="Search Your Orders" />
+        </div>
+    </div>
+    <div class="tmargin-5" data-bind="foreach: orders">
+        <section class="order">
+            <div class="order-head">
+                <input type="hidden" data-bind="value: _id" />
+                <input type="hidden" data-bind="value: rate" />
+                <input type="text" data-bind="value: client" placeholder="Client Name" />
+                <span data-bind="text: displayDate()" class="vaMiddle font-white"></span>
+                <div class="order-savebox">
+                    <a href="#" class="icon icon-remove-sign font-white rmargin-20" data-bind="click: $parent.removeOrder"></a>
+                    <a href="#" class="icon icon-circle rmargin-20 font-white" data-bind="click: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
+                    <a href="#" class="icon icon-save-sign font-white" data-bind="click: submitOrder"> </a>
+                </div>
+            </div>
+            <div class="order-addressbox tmargin-5">
+                <div>
+                    <button type="button" class="icon icon-add" data-bind="click:addAddress"> Add Address</button>
+                    <!-- ko if: _id() == '' -->
+                    <button type="button" class="icon icon-address" data-bind="click:getAddresses"> Get Addresses</button>
+                    <!-- /ko -->
+                </div>
+                <div class="addresses tmargin-5">
+                    <!-- ko foreach: addresses -->
+                    <fieldset class="address">
+                        <input type="hidden" data-bind="value: _id" />
+                        <input type="hidden" data-bind="value: client" />
+                        <input class="w-p43" type="text" data-bind="value: recipient" placeholder="Recipient" />
+                        <input class="w-p43" type="text" data-bind="value: phone" placeholder="Phone" />
+                        <input class="w-p87" type="text" data-bind="value: address" placeholder="Address" />
+                        <div class="address-actions">
+                            <a href="#" class="icon icon-remove" data-bind="click: $parent.removeAddress.bind(this,$data)"> </a>
+                        </div>
+                    </fieldset>
+                    <!-- /ko -->
+                    <!-- <button type="button" text="Add" data-bind="click:submitAddresses">Submit </button> -->
+                </div>
+            </div>
+            <div class="order-itembox">
+                <div>
+                    <button type="button" text="Add" class="icon icon-add rmargin-20" data-bind="click:addItem"> Add Item</button>
+                    <!-- ko if: _id() != '' -->
+                    <span class="font-bold font-red vaMiddle">
+                    <span>B: </span><span class="rmargin-5" data-bind="text: buyPrice"></span>
+                    <span>S: </span><span class="rmargin-5" data-bind="text: sellPrice"></span>
+                    <span>P: </span><span data-bind="text: profit"></span>
+                    </span>
+                    <!-- /ko -->
+                </div>
+                <div class="items tmargin-5">
+                    <!-- ko foreach: items -->
+                    <fieldset class="item">
+                        <div class="item-fields">
+                            <input class="w-p30" type="text" data-bind="value: name" placeholder="Product Name" />
+                            <input class="w-p10" type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
+                            <input class="w-p15" type="text" data-bind="value: buyPrice" placeholder="Buy" />
+                            <input class="w-p15" type="text" data-bind="value: sellPrice" placeholder="Sell" />
+                            <input class="w-p15" type="text" readonly data-bind="value: profit" placeholder="Profit" />
+                            <a href="#" class="icon icon-search" data-bind="click: $parent.getHistoricTrades"></a>
+                            <div class="item-actions">
+                                <a href="#" class="icon icon-remove" data-bind="click: $parent.removeItem"></a>
+                            </div>
+                        </div>
+                        <div class="historicbox tmargin-10" style="display: none">
+                            <!-- ko if: $parent.hasHistoricTrades -->
+                            <table class="item-historicTrades">
+                                <thead>
+                                    <tr>
+                                        <th class="w-p30 taLeft">Client</th>
+                                        <th class="w-p10 taLeft">Qua</th>
+                                        <th class="w-p15 taLeft">Buy</th>
+                                        <th class="w-p15 taLeft">Sell</th>
+                                        <th class="w-p30 taRight">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">
+                                </tbody>
+                            </table>
+                            <!-- /ko -->
+                            <!-- ko ifnot: $parent.hasHistoricTrades -->
+                            <p class="tmargin-10">we cannot get historic trades!</p>
+                            <!-- /ko -->
+                        </div>
+                    </fieldset>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </section>
+    </div>
+    <script type="text/html" id="historicTrades">
+        <tr>
+            <td class="taLeft">
+                <input type="hidden" data-bind="text: name"></input>
+                <span data-bind="text: client"></span>
+            </td>
+            <td class="taLeft">
+                <span data-bind="text: quantity"></span>
+            </td>
+            <td class="taLeft">
+                <span data-bind="text: buyPrice"></span>
+            </td>
+            <td class="taLeft">
+                <span data-bind="text: sellPrice"></span>
+            </td>
+            <td class="taRight">
+                <span data-bind="text: createDate"></span>
+            </td>
+        </tr>
+    </script>
+</section>
+<script data-main="/js/main" src="/js/require.js"></script>
