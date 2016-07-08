@@ -18,9 +18,9 @@ router.post('/addresses', function*() {
 
     var client = addressesData.client;
 
-    yield operation.saveAddresses(client, addresses,removedAddresses)
+    yield operation.saveAddresses(client, addresses, removedAddresses)
 
-    var res = yield operation.queryAddresses({client: client})
+    var res = yield operation.queryAddresses({ client: client })
     res = res && res.length > 0 ? res : [];
 
     this.body = res;
@@ -30,44 +30,7 @@ router.post('/addresses', function*() {
 
 router.get('/addresses', function*() {
 
-    var allAddresses = yield operation.queryAddresses()
-
-    var receivedOrders =  yield orderOperation.queryReceivedOrders();
-
-    allAddresses = allAddresses && allAddresses.length > 0 ? allAddresses : [{
-        _id: '',
-        client: '',
-        recipient: '',
-        address: '',
-        phone: ''
-    }];
-
-    allAddresses.forEach(function(address){
-        var client= address.client;
-
-        var index=receivedOrders.findIndex(function(order){
-            return order.client==client ? true: false;
-        });
-
-        if(index>=0){
-            address.isSend=true;
-
-        }else{
-            address.isSend=false;
-        }
-
-    });
-
-    allAddresses=allAddresses.sort(function(a,b){
-        if(a.isSend){
-            return -1;
-        }else if(b.isSend){
-            return 1;
-        }else{
-            return 0;
-        }
-    })
-
+    var allAddresses = yield getAddresses();
 
     yield this.render('addresses', {
         addresses: allAddresses,
@@ -79,13 +42,64 @@ router.get('/addresses', function*() {
 
 });
 
+router.get('/addressesJson', function*() {
+
+    var allAddresses = yield getAddresses();
+
+    this.body = allAddresses;
+    this.status = 200;
+
+});
+
+function* getAddresses() {
+    var allAddresses = yield operation.queryAddresses()
+
+    var receivedOrders = yield orderOperation.queryReceivedOrders();
+
+    allAddresses = allAddresses && allAddresses.length > 0 ? allAddresses : [{
+        _id: '',
+        client: '',
+        recipient: '',
+        address: '',
+        phone: ''
+    }];
+
+    allAddresses.forEach(function(address) {
+        var client = address.client;
+
+        var index = receivedOrders.findIndex(function(order) {
+            return order.client == client ? true : false;
+        });
+
+        if (index >= 0) {
+            address.isSend = true;
+
+        } else {
+            address.isSend = false;
+        }
+
+    });
+
+    allAddresses = allAddresses.sort(function(a, b) {
+        if (a.isSend) {
+            return -1;
+        } else if (b.isSend) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+
+    return allAddresses;
+}
+
 router.get('/addressesByClient', function*() {
 
     var req = this.request.query;
 
     var client = req.client;
 
-    var res = yield operation.queryAddresses({client: client})
+    var res = yield operation.queryAddresses({ client: client })
     res = res && res.length > 0 ? res : [];
 
     this.body = res;
@@ -97,13 +111,13 @@ router.post('/address', function*() {
 
     var address = this.request.body;
 
-    var isSend=address.isSend;
+    var isSend = address.isSend;
 
     delete address.isSend;
 
     yield operation.saveAddress(address)
 
-    address.isSend=isSend;
+    address.isSend = isSend;
 
     this.body = address;
     this.status = 200;

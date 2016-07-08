@@ -6,15 +6,9 @@ var itemOperation = require('../data_access/item.js').collection
 
 
 router = new Router();
-
-
 router.get('/purchaseItems', function*() {
 
-    var res = null;
-
-    res = yield itemOperation.queryItems();
-
-    console.log(res);
+    var res = yield itemOperation.queryItems();
 
     res = res && res.length > 0 ? res : { warning: 'There is no purchase item.' };
 
@@ -25,6 +19,17 @@ router.get('/purchaseItems', function*() {
         footer: ''
 
     });
+
+});
+
+router.get('/purchaseItemsJson', function*() {
+
+    var res = yield itemOperation.queryItems();
+
+    res = res && res.length > 0 ? res : { warning: 'There is no purchase item.' };
+
+    this.body = res;
+    this.status = 200;
 
 });
 

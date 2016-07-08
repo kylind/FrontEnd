@@ -35,6 +35,60 @@
         </section>
     </div>
 </section>
+<section id="purchaseItems">
+    <table class="orderitems">
+        <tr>
+            <th class="w-p30 taLeft">Name</th>
+            <th class="w-p10 taLeft">Q</th>
+            <th class="w-p60 taRight rpadding-5"> Done?</th>
+        </tr>
+        <!-- ko foreach: items -->
+        <tr class="orderitem">
+            <td class="taLeft">
+                <span data-bind="text: _id"></span>
+            </td>
+            <td class="taLeft">
+                <span data-bind="text: quantity"></span>
+            </td>
+            <td class="taRight">
+                <a href="#" class="icon icon-search  rmargin-20" data-bind="click: $root.getSubItems"></a>
+                <a href="#" class="icon icon-circle rmargin-5" data-bind="click: $root.markDone, css: markItemStatus() "></a>
+            </td>
+        </tr>
+        <tr class="orderitem-subItems">
+            <td colspan="3">
+                <!-- ko if: hasItemDetail() -->
+                <table class="subItems">
+                    <thead>
+                        <tr>
+                            <th class="w-p30 taLeft">Client</th>
+                            <th class="w-p10 taLeft">Q</th>
+                            <th class="w-p30 taLeft">Note</th>
+                            <th class="w-p30 taRight rpadding-5">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="template:{ name: 'subItem', foreach: subItems }">
+                    </tbody>
+                </table>
+                <!-- /ko -->
+                <!-- ko ifnot: hasItemDetail() -->
+                <span>Somehow we cannot get item detail for now!</span>
+                <!-- /ko -->
+            </td>
+        </tr>
+        <!-- /ko -->
+    </table>
+    <script type="text/html" id="subItem">
+        <tr>
+            <td data-bind="text: client">
+                <input type="hidden" data-bind="value: _id" />
+            </td>
+            <td data-bind="text: quantity"></td>
+            <td class="taLeft" data-bind="text: note"></td>
+            <td class="taRight rpadding-5" data-bind="text: createDate"></td>
+        </tr>
+    </script>
+</section>
 <section id="reckoningOrders">
     <div>
         <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
@@ -59,7 +113,8 @@
                 <div>
                     <button type="button" class="icon icon-add" data-bind="click:addAddress"> Add Address</button>
                     <!-- ko if: _id() == '' -->
-                    <button type="button" class="icon icon-address" data-bind="click:getAddresses"> Get Addresses</button>
+                    <button type="button" class="icon icon-address" data-bind="click:getAddresses
+"> Get Addresses</button>
                     <!-- /ko -->
                 </div>
                 <div class="addresses tmargin-5">
@@ -149,5 +204,21 @@
             </td>
         </tr>
     </script>
+</section>
+<section id="addresses">
+    <div>
+        <button class="icon icon-add" data-bind="click: addAddress"> Add Address </button>
+    </div>
+    <div class="tmargin-5 alladdresses" data-bind="foreach: addresses">
+        <section class="address">
+            <input type="hidden" data-bind="value: _id" />
+            <input type="text" class="w-p30" data-bind="value: client" placeholder="Client" />
+            <input type="text" class="w-p30" data-bind="value: recipient" placeholder="Recipient" />
+            <input type="text" class="w-p30" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" />
+            <input type="text" class="address-inputaddress" min="0" max="100" step="1" data-bind="value: address" placeholder="Address" />
+            <a href="#" class="address-remove icon icon-remove" data-bind="click: $root.removeAddress.bind(this, $data)"> </a>
+            <a href="#" class="address-save icon icon-save" data-bind="css:{ 'font-red': isSend() },click: $root.submitAddress"> </a>
+        </section>
+    </div>
 </section>
 <script data-main="/js/main" src="/js/require.js"></script>

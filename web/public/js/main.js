@@ -25,7 +25,16 @@ require(['received-orders', 'knockout', 'jquery'], function(OrdersModel, ko, $) 
 
 
 });
+require(['purchase-items', 'knockout', 'jquery'], function(ItemsModel, ko, $) {
 
+    $.getJSON('./purchaseItemsJson', function(items, status) {
+        var itemsModel = new ItemsModel(items);
+        ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
+
+    })
+
+
+});
 
 require(['reckoning-orders', 'knockout', 'jquery'], function(OrdersModel, ko, $) {
 
@@ -37,3 +46,15 @@ require(['reckoning-orders', 'knockout', 'jquery'], function(OrdersModel, ko, $)
 
 
 });
+
+require(['addresses', 'knockout', 'jquery'], function(AddressesModel, ko, $) {
+
+    $.getJSON('./addressesJson', function(addresses, status) {
+        var addressesModel = new AddressesModel(addresses);
+        ko.applyBindings(addressesModel, $('#addresses')[0]);
+
+    })
+
+
+});
+

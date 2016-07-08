@@ -126,7 +126,7 @@ a{
 }
 
 header, footer, main{
-    max-width: 375px;
+    max-width: 640px;
     margin-left:auto;
     margin-right:auto;
 }
@@ -381,13 +381,16 @@ button{
 }
 
 /**** addresses ***/
-
+.alladdresses{
+    padding-left:5px;
+    padding-right:5px;
+}
 
 .alladdresses .address{
     font-size: 0;
     position: relative;
-    margin-left:5%;
-    margin-right:5%;
+    padding-left:5%;
+    padding-right:5%;
 }
 .alladdresses .address input{
     width:32%;
@@ -406,7 +409,7 @@ button{
 .alladdresses .address-save{
     position: absolute;
     text-align: right;
-    right:-20px;
+    right:0;
     top:9px;
 
 
@@ -414,7 +417,7 @@ button{
 
 .alladdresses .address-remove{
      position: absolute;
-    left:-17px;
+    left:0;
     top:9px;
 
 
