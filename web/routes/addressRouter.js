@@ -34,6 +34,7 @@ router.get('/addresses', function*() {
 
     yield this.render('addresses', {
         addresses: allAddresses,
+        css:'',
         script: 'mvvm',
         header: 'specific',
         footer: ''

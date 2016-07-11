@@ -89,6 +89,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     $historicTrades.slideDown('fast', function() {
                         item.isHistoricTradesOpen = true;
+                        swiper.update();
                     });
 
                 });
@@ -97,6 +98,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                 $historicTrades.slideUp('fast', function() {
                     item.isHistoricTradesOpen = false;
+                    swiper.update();
                 });
             }
         };
@@ -109,10 +111,12 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.addItem = function() {
 
             self.items.unshift(new Item());
+            swiper.update();
         };
 
         self.removeItem = function(item) {
             self.items.remove(item);
+            swiper.update();
         };
 
 
@@ -141,6 +145,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             }, function(res, status) {
 
                 status == 'success' ? order.addresses(res) : order.addresses([]);
+                swiper.update();
 
             });
 
@@ -158,6 +163,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             }
 
             self.addresses.remove(address);
+            swiper.update();
 
 
         };
@@ -173,6 +179,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 }, function(addresses, status) {
 
                     order.addresses(addresses);
+                    swiper.update();
                 },
                 'json'
             );
@@ -276,6 +283,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             var order = new OrderModel();
 
             self.orders.unshift(order);
+            swiper.update();
         };
         self.removeOrder = function(order) {
             var id = order._id();
@@ -285,7 +293,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             $.ajax('./order/' + id, {
                 success: function(data, status) {
 
-                    console.log(data);
+                    swiper.update();
 
                 },
                 dataType: 'json',
@@ -305,9 +313,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 keywords = keywords.substring(1);
                 searchGlobalOrders(keywords)
 
+
             } else {
                 searchCurrentOrders(keywords)
             }
+            swiper.update();
 
 
         }

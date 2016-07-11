@@ -46,7 +46,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             if (notDone == self.quantity()) {
                 return '';
             } else if (notDone == 0) {
-                return 'font-red';
+                return 'font-green';
             } else {
                 return "font-yellow";
             }
@@ -71,7 +71,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     };
 
-    var ItemsModel = function(items) {
+    var ItemsModel = function(items, swiper) {
 
         var observableItems = [];
 
@@ -109,6 +109,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     $(event.target).parents('tr').next().show(function() {
                         item.isSubItemsOpen = true;
+                        swiper.update(true);
                     });
 
                 });
@@ -117,6 +118,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                 $(event.target).parents('tr').next().hide(function() {
                     item.isSubItemsOpen = false;
+                    swiper.update(true);
                 });
 
 

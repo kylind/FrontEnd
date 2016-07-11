@@ -51,6 +51,7 @@ router.get('/order/:id', function*() {
 
     yield this.render('order', {
         order: res,
+        css:'',
         script: 'mvvm',
         header: 'specific',
         footer: ''
@@ -135,7 +136,8 @@ router.get('/index', function*() {
 
     yield this.render('index', {
         orders: res,
-        script: 'mvm',
+        script:'',
+        css:'swiper',
         header: 'specific',
         footer: ''
 
@@ -151,6 +153,7 @@ router.get('/receivedOrders', function*() {
 
     yield this.render('receivedOrders', {
         orders: res,
+        css:'',
         script: 'mvvm',
         header: 'specific',
         footer: ''
@@ -213,6 +216,7 @@ router.get('/reckoningOrders', function*() {
 
     yield this.render('reckoningOrders', {
         orders: res,
+        css:'',
         script: 'mvvm',
         header: 'specific',
         footer: ''

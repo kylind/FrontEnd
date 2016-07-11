@@ -94,7 +94,7 @@
 }
 
 .font-yellow{
-    color:#ffcc00;
+    color:#ffff00;
 }
 html{
     font-family: helvetica, arial, "\5b8b\4f53", sans-serif;
@@ -127,6 +127,7 @@ a{
 
 header, footer, main{
     max-width: 640px;
+    min-width:360px;
     margin-left:auto;
     margin-right:auto;
 }
@@ -203,7 +204,6 @@ button{
     border-radius: 8px;
 
 }
-
 
 .order{
     position: relative;
@@ -336,6 +336,7 @@ button{
     font-weight: bold;
 }
 
+
 .orderitems  td:last-child, .orderitems th:last-child{
     border-right: none;
 }
@@ -346,10 +347,11 @@ button{
     font-weight: bold;
 
 }
-.orderitem{
-
+.orderitem td{
+    background-color: #ffcccc;
 
 }
+
 .orderitem-subItems{
     display: none;
 
@@ -365,8 +367,9 @@ button{
 
 .subItems th{
     font-weight: normal;
+    background-color: #fff;
 
-    background-color:#ffcccc;
+
     color:#333;
     font-style: italic;
 
@@ -374,6 +377,7 @@ button{
 .subItems td{
 
      font-weight: normal;
+     background-color: #fff;
 }
 
 .subItems tbody > tr:last-child{
