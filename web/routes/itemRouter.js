@@ -10,7 +10,7 @@ router.get('/purchaseItems', function*() {
 
     var res = yield itemOperation.queryItems();
 
-    res = res && res.length > 0 ? res : { warning: 'There is no purchase item.' };
+    res = res && res.length > 0 ? res : [];
 
     yield this.render('purchaseItems', {
         items: res,
@@ -27,7 +27,7 @@ router.get('/purchaseItemsJson', function*() {
 
     var res = yield itemOperation.queryItems();
 
-    res = res && res.length > 0 ? res : { warning: 'There is no purchase item.' };
+    res = res && res.length > 0 ? res :[];
 
     this.body = res;
     this.status = 200;
