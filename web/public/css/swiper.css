@@ -269,6 +269,7 @@ button.swiper-pagination-bullet {
     padding:5px;
     border-radius: 12px;
     color:#fff;
+    font-weight: bold;
 }
 
 .swiper-pagination-white .swiper-pagination-bullet-active {
