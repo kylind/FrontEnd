@@ -130,6 +130,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 address: "",
                 phone: ""
             });
+            swiper.update();
 
         };
 
@@ -239,6 +240,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                         }, function(addresses, status) {
 
                             order.addresses(addresses);
+                            swiper.update();
                         },
                         'json'
                     );

@@ -131,6 +131,12 @@ header, footer, main{
     margin-left:auto;
     margin-right:auto;
 }
+footer{
+    height: 10px;
+    border:none;
+    background-color: #cc0066;
+    margin-top: 10px;
+}
 
 .icon{
     vertical-align: middle;
@@ -213,6 +219,10 @@ button{
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
 
+}
+
+.order:last-child{
+    margin-bottom: 0;
 }
 
 .order-head{
@@ -395,6 +405,10 @@ button{
     position: relative;
     padding-left:5%;
     padding-right:5%;
+}
+.alladdresses .address:last-child{
+    margin-bottom: 0;
+
 }
 .alladdresses .address input{
     width:32%;

@@ -42,10 +42,12 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 sellPrice: '',
                 isDone: false
             });
+            swiper.update();
         };
 
         self.removeItem = function(parent, data) {
             parent.items.remove(data);
+            swiper.update();
         };
 
         self.submitOrder = function(order) {
@@ -71,12 +73,19 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             var order = new OrderModel();
 
             self.orders.unshift(order);
+            swiper.update();
         };
 
         self.removeOrder = function(order) {
             var id = order._id();
             self.orders.remove(order);
-            if (id == '') return;
+
+
+            if (id == '') {
+                swiper.update();
+
+                return;
+            }
 
             $.ajax('./order/' + id, {
                 success: function(data, status) {
@@ -88,6 +97,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 type: 'DELETE'
 
             });
+            swiper.update();
+
 
         };
 
@@ -105,11 +116,14 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             });
 
             self.orders(searchedOrders);
+            swiper.update();
 
 
-        }
+        };
 
     };
+
+
 
     return OrdersModel;
 

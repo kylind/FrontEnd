@@ -33,17 +33,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.addresses = ko.observableArray(observableAddresses);
 
-        self.addresses.subscribe(function(changes) {
-
-            console.log(changes);
-
-        }, null, "arrayChange");
-
-
 
         self.addAddress = function() {
 
             self.addresses.unshift(new AddressModel());
+            swiper.update();
         };
 
         self.removeAddress = function(address) {
@@ -55,13 +49,15 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             $.ajax('./address/' + id, {
                 success: function(data, status) {
 
-                    console.log(data);
+
 
                 },
                 dataType: 'json',
                 type: 'DELETE'
 
             });
+
+            swiper.update();
 
         };
 
@@ -75,6 +71,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     console.log('get post result');
                     ko.mapping.fromJS(data, {}, address);
+                    swiper.update();
                 },
                 'json'
             );
