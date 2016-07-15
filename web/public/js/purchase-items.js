@@ -75,7 +75,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         var observableItems = [];
 
-        if(!Array.isArrary() || items.length=0)
+        if(!Array.isArray() || items.length==0)
             return;
 
         items.forEach(function(item) {
