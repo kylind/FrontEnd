@@ -73,21 +73,33 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     var ItemsModel = function(items, swiper) {
 
-        var observableItems = [];
+        function init(items) {
+            var observableItems = [];
 
-        if (Array.isArray(items) && items.length > 0) {
-            items.forEach(function(item) {
+            if (Array.isArray(items) && items.length > 0) {
+                items.forEach(function(item) {
 
-                observableItems.push(new Item(item));
+                    observableItems.push(new Item(item));
 
-            })
+                })
+            }
+
+            return observableItems;
         }
+
+        var observableItems = init(items);
 
 
 
         var self = this;
 
         self.items = ko.observableArray(observableItems);
+
+        self.setItems = function(items) {
+
+            self.items(init(items));
+
+        }
 
         self.getSubName = function(item) {
 

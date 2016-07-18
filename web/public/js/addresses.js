@@ -19,19 +19,32 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         }, this);*/
     };
 
-    var AddressesModel = function(addresses) {
+    var AddressesModel = function(addresses, swiper) {
 
-        var observableAddresses = [];
+        function init(addresses) {
+            var observableAddresses = [];
 
-        addresses.forEach(function(address) {
+            addresses.forEach(function(address) {
 
-            observableAddresses.push(new AddressModel(address));
+                observableAddresses.push(new AddressModel(address));
 
-        })
+            })
+            return observableAddresses;
+
+        }
+
+
 
         var self = this;
 
+        var observableAddresses = init(addresses);
+
         self.addresses = ko.observableArray(observableAddresses);
+
+        self.setAddresses = function(addresses) {
+            self.addresses(init(addresses));
+
+        }
 
 
         self.addAddress = function() {

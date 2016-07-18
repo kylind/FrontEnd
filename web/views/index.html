@@ -3,9 +3,9 @@
     <div class="swiper-wrapper">
         <section  class="swiper-slide" id="receivedOrders">
             <div>
-                <button type="button" text="Add" class="lmargin-10 fl icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
+                <button type="button" text="Add" class="lmargin-5 fl icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
                 <div class="lmargin-150">
-                    <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
+                    <input type="text" class="w-p100 input-search" name="search-receivedOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
                 </div>
             </div>
             <div class="tmargin-10" data-bind="foreach: orders">
@@ -94,9 +94,9 @@
         </section>
         <section  class="swiper-slide" id="reckoningOrders">
             <div>
-                <button type="button" text="Add" class="fl icon icon-add lmargin-10" data-bind="click:$root.addOrder"> Add Order </button>
+                <button type="button" text="Add" class="fl icon icon-add lmargin-5" data-bind="click:$root.addOrder"> Add Order </button>
                 <div class="lmargin-150">
-                    <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders }" placeholder="Search Your Orders" />
+                    <input type="text" class="w-p100 input-search" name="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
                 </div>
             </div>
             <div class="tmargin-10" data-bind="foreach: orders">
@@ -225,4 +225,9 @@
         </section>
     </div>
 </div>
+
+<script>
+var orders=<%- JSON.stringify(orders) %>
+</script>
+
 <script data-main="/js/main" src="/js/require.js"></script>

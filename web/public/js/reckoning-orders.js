@@ -19,7 +19,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     }
 
-    var OrderModel = function(order) {
+    var OrderModel = function(order, swiper) {
         var self = this;
 
         self._id = ko.observable(order ? order._id : '');
@@ -84,7 +84,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                 if (itemData.name == '') return;
 
-                $.getJSON('./historictrades', {'itemName':  itemData.name }, function(res, status) {
+                $.getJSON('./historictrades', { 'itemName': itemData.name }, function(res, status) {
 
                     status == 'success' ? item.historicTrades(res) : item.historicTrades([]);
 
@@ -259,7 +259,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
 
-    var OrdersModel = function(orders) {
+    var OrdersModel = function(orders, swiper) {
 
 
         var self = this;
@@ -270,7 +270,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             orders.forEach(function(order) {
 
-                observableOrders.push(new OrderModel(order));
+                observableOrders.push(new OrderModel(order, swiper));
 
             })
             return observableOrders;
@@ -370,6 +370,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                         success: function(data, status) {
 
                             self.orders(self.getObservableOrders(data));
+                            swiper.update();
 
                         },
 

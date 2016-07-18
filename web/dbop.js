@@ -4,7 +4,7 @@ var ObjectId = require('mongodb').ObjectID;
 
 var dbOperations = {
     add: function() {
-        var url = 'mongodb://localhost:27017/local';
+        var url = 'mongodb://website:zombie.123@localhost:27017/orders';
 
         var insertDocument = function(db, callback) {
             db.collection('restaurants').insertOne({
@@ -43,7 +43,7 @@ var dbOperations = {
     },
 
     query: function() {
-        var url = 'mongodb://localhost:27017/local';
+        var url = 'mongodb://website:zombie.123@localhost:27017/orders';
 
         function query(db, callback) {
             var cursor = db.collection('restaurants').find({
@@ -69,7 +69,7 @@ var dbOperations = {
     },
 
     update: function() {
-        var url = 'mongodb://localhost:27017/local';
+        var url = 'mongodb://website:zombie.123@localhost:27017/orders';
 
         function update(db, callback) {
             db.collection('restaurants').updateOne({
@@ -98,7 +98,7 @@ var dbOperations = {
     },
 
     remove: function() {
-        var url = 'mongodb://localhost:27017/local';
+        var url = 'mongodb://website:zombie.123@localhost:27017/orders';
 
         function remove(db, callback) {
             db.collection('restaurants').deleteOne({

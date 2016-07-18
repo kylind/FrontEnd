@@ -1,8 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectID = require('mongodb').ObjectID;
-var url = 'mongodb://localhost:27017/local';
-
+var url = 'mongodb://website:zombie.123@120.24.63.42:27017/orders';
 
 
 var collection = {

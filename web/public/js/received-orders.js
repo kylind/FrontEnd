@@ -18,19 +18,32 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     };
 
-    var OrdersModel = function(orders) {
+    var OrdersModel = function(orders, swiper) {
 
-        var observableOrders = [];
+        function init(orders) {
 
-        orders.forEach(function(order) {
+            var observableOrders = [];
 
-            observableOrders.push(new OrderModel(order));
+            orders.forEach(function(order) {
 
-        })
+                observableOrders.push(new OrderModel(order));
+
+            })
+
+            return observableOrders;
+        }
 
         var self = this;
 
+        var observableOrders = init(orders);
+
         self.orders = ko.observableArray(observableOrders);
+
+        self.setOrders = function(orders) {
+
+            self.orders(init(orders));
+
+        }
 
         self.addItem = function(data) {
 

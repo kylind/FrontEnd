@@ -1,4 +1,4 @@
-var db = require('monk')('mongodb://localhost:27017/local');
+var db = require('monk')('mongodb://website:zombie.123@localhost:27017/orders');
 var restaurants = db.get('restaurants');
 
 var monkOperations = {

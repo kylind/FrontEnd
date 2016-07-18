@@ -15,11 +15,11 @@ requirejs.config({
 
 });
 
-var swiper
+
 
 require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersModel, ko, $, Swiper) {
 
-     swiper = new Swiper('.swiper-container', {
+    var swiper = new Swiper('.swiper-container', {
         autoHeight: true,
         spaceBetween: 30,
         pagination: '.swiper-pagination',
@@ -46,51 +46,77 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
             }
             return '<span class="' + className + '">' + bulletName + '</span>';
         }
-    });
-
-    $.getJSON('./receivedOrdersJson', function(orders, status) {
-
-        var ordersModel = new OrdersModel(orders, swiper);
-        ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
-        swiper.onResize();
-
 
     });
 
+    var ordersModel = new OrdersModel(orders, swiper);
+    ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
+    swiper.update();
 
-});
+    require(['purchase-items', 'reckoning-orders', 'addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel, AddressesModel, ko, $) {
+
+        var itemsModel, reckoningOrdersModel, addressesModel;
+
+        $.getJSON('./purchaseItemsJson', function(items, status) {
+            itemsModel = new ItemsModel(items, swiper);
+            ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
+
+        });
+
+        $.getJSON('./reckoningOrdersJson', function(orders, status) {
+            reckoningOrdersModel = new OrdersModel(orders, swiper);
+            ko.applyBindings(reckoningOrdersModel, $('#reckoningOrders')[0]);
+
+        });
+
+        $.getJSON('./addressesJson', function(addresses, status) {
+            addressesModel = new AddressesModel(addresses, swiper);
+            ko.applyBindings(addressesModel, $('#addresses')[0]);
+
+        });
 
 
+        swiper.params.onSlideChangeStart = function(swiper) {
 
-require(['purchase-items', 'knockout', 'jquery'], function(ItemsModel, ko, $) {
+            switch (swiper.activeIndex) {
+                case 0:
+                    $.getJSON('./receivedOrdersJson', function(orders, status) {
 
-    $.getJSON('./purchaseItemsJson', function(items, status) {
-        var itemsModel = new ItemsModel(items, swiper);
-        ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
+                        ordersModel.setOrders(orders);
+                        swiper.update();
 
-    })
+                    });
+                    break;
+                case 1:
+                    $.getJSON('./purchaseItemsJson', function(items, status) {
+                        itemsModel.setItems(items);
+                        swiper.update();
+
+                    });
+                    break;
+                case 2:
+                    $.getJSON('./reckoningOrdersJson', function(orders, status) {
+
+                        var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+                        reckoningOrdersModel.orders(observableOrders);
+                        swiper.update();
+
+                    })
+                    break;
+                case 3:
+                    $.getJSON('./addressesJson', function(addresses, status) {
+                        addressesModel.setAddresses(addresses);
+                        swiper.update();
+
+                    })
+                    break;
+            }
 
 
-});
-
-require(['reckoning-orders', 'knockout', 'jquery'], function(OrdersModel, ko, $) {
-
-    $.getJSON('./reckoningOrdersJson', function(orders, status) {
-        var ordersModel = new OrdersModel(orders, swiper);
-        ko.applyBindings(ordersModel, $('#reckoningOrders')[0]);
-
-    })
+        }
 
 
-});
-
-require(['addresses', 'knockout', 'jquery'], function(AddressesModel, ko, $) {
-
-    $.getJSON('./addressesJson', function(addresses, status) {
-        var addressesModel = new AddressesModel(addresses, swiper);
-        ko.applyBindings(addressesModel, $('#addresses')[0]);
-
-    })
+    });
 
 
 });

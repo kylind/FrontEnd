@@ -1,13 +1,11 @@
 <div>
     <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder">Add Order </button>
     <div class="lmargin-150">
-        <input  type="text" class="w-p100 input-search"  data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
+        <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
     </div>
-
-
 </div>
 <div class="tmargin-5" data-bind="foreach: orders">
-    <section  class="order">
+    <section class="order">
         <div class="order-head">
             <input type="hidden" data-bind="value: _id" />
             <input type="text" data-bind="value: client" placeholder="Client Name" />
@@ -53,17 +51,30 @@ var OrderModel = function(order) {
 
 var OrdersModel = function(orders) {
 
-    var observableOrders = [];
+    function init(orders) {
 
-    orders.forEach(function(order) {
+        var observableOrders = [];
 
-        observableOrders.push(new OrderModel(order));
+        orders.forEach(function(order) {
 
-    })
+            observableOrders.push(new OrderModel(order));
+
+        })
+
+        return observableOrders;
+    }
 
     var self = this;
 
+    var observableOrders = init(orders);
+
     self.orders = ko.observableArray(observableOrders);
+
+    self.setOrders = function(orders){
+
+        self.orders(init(orders));
+
+    }
 
     self.addItem = function(data) {
 
@@ -71,8 +82,8 @@ var OrdersModel = function(orders) {
             name: "",
             quantity: 1,
             note: '',
-            buyPrice:'',
-            sellPrice:'',
+            buyPrice: '',
+            sellPrice: '',
             isDone: false
         });
     };
