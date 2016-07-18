@@ -3,12 +3,12 @@
     <div class="swiper-wrapper">
         <section  class="swiper-slide" id="receivedOrders">
             <div>
-                <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder">Add Order </button>
+                <button type="button" text="Add" class="lmargin-10 fl icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
                 <div class="lmargin-150">
                     <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
                 </div>
             </div>
-            <div class="tmargin-5" data-bind="foreach: orders">
+            <div class="tmargin-10" data-bind="foreach: orders">
                 <section class="order">
                     <div class="order-head">
                         <input type="hidden" data-bind="value: _id" />
@@ -94,18 +94,18 @@
         </section>
         <section  class="swiper-slide" id="reckoningOrders">
             <div>
-                <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
+                <button type="button" text="Add" class="fl icon icon-add lmargin-10" data-bind="click:$root.addOrder"> Add Order </button>
                 <div class="lmargin-150">
                     <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders }" placeholder="Search Your Orders" />
                 </div>
             </div>
-            <div class="tmargin-5" data-bind="foreach: orders">
+            <div class="tmargin-10" data-bind="foreach: orders">
                 <section class="order">
                     <div class="order-head">
                         <input type="hidden" data-bind="value: _id" />
                         <input type="hidden" data-bind="value: rate" />
                         <input type="text" data-bind="value: client" placeholder="Client Name" />
-                        <span data-bind="text: displayDate()" class="vaMiddle font-white"></span>
+                        <span data-bind="text: displayDate" class="vaMiddle font-white"></span>
                         <div class="order-savebox">
                             <a href="#" class="icon icon-remove-sign font-white rmargin-20" data-bind="click: $parent.removeOrder"></a>
                             <a href="#" class="icon icon-circle rmargin-20 font-white" data-bind="click: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
@@ -211,7 +211,7 @@
             <div>
                 <button class="icon icon-add" data-bind="click: addAddress"> Add Address </button>
             </div>
-            <div class="tmargin-5 alladdresses" data-bind="foreach: addresses">
+            <div class="tmargin-10 alladdresses" data-bind="foreach: addresses">
                 <section class="address">
                     <input type="hidden" data-bind="value: _id" />
                     <input type="text" class="w-p30" data-bind="value: client" placeholder="Client" />

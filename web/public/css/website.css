@@ -1,148 +1,178 @@
 @font-face {
-  font-family: 'FontAwesome';
-  src: url('../font/fontawesome-webfont.eot?v=3.2.1');
-  src: url('../font/fontawesome-webfont.eot?#iefix&v=3.2.1') format('embedded-opentype'), url('../font/fontawesome-webfont.woff?v=3.2.1') format('woff'), url('../font/fontawesome-webfont.ttf?v=3.2.1') format('truetype'), url('../font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1') format('svg');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'FontAwesome';
+    src: url('../font/fontawesome-webfont.eot?v=3.2.1');
+    src: url('../font/fontawesome-webfont.eot?#iefix&v=3.2.1') format('embedded-opentype'), url('../font/fontawesome-webfont.woff?v=3.2.1') format('woff'), url('../font/fontawesome-webfont.ttf?v=3.2.1') format('truetype'), url('../font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
-.fl{
+
+.fl {
     float: left;
 }
-.taLeft{
+
+.taLeft {
     text-align: left;
 }
-.taRight{
+
+.taRight {
     text-align: right;
 }
-.taCenter{
+
+.taCenter {
     text-align: center;
 }
 
-.vaMiddle{
+.vaMiddle {
     vertical-align: middle;
 }
-.w-p100{
-    width:100%;
+
+.w-p100 {
+    width: 100%;
 }
 
-
-.w-p10{
-    width:9.99%;
-}
-.w-p5{
-    width:5%;
-}
-.w-p15{
-    width:15%;
+.w-p10 {
+    width: 9.99%;
 }
 
-.w-p20{
-    width:20%;
+.w-p5 {
+    width: 5%;
+}
 
+.w-p15 {
+    width: 15%;
 }
-.w-p30{
-    width:30%;
+
+.w-p20 {
+    width: 20%;
 }
-.w-p40{
-    width:40%;
+
+.w-p30 {
+    width: 30%;
 }
-.w-p43{
-    width:43%;
+
+.w-p40 {
+    width: 40%;
 }
-.w-p60{
-    width:60%;
+
+.w-p43 {
+    width: 43%;
 }
-.w-p87{
-    width:87%;
+
+.w-p60 {
+    width: 60%;
 }
-.w-p90{
-    width:90%;
+
+.w-p87 {
+    width: 87%;
 }
-.tmargin-5{
+
+.w-p90 {
+    width: 90%;
+}
+
+.tmargin-5 {
     margin-top: 5px;
 }
-.tmargin-10{
+
+.tmargin-10 {
     margin-top: 10px;
 }
-.lmargin-150{
+
+.lmargin-150 {
     margin-left: 150px;
 }
-.rmargin-5{
+.lmargin-10 {
+    margin-left: 10px;
+}
+.rmargin-5 {
     margin-right: 5px;
 }
-.rmargin-20{
+
+.rmargin-20 {
     margin-right: 20px;
 }
 
-.rpadding-5{
+.rpadding-5 {
     padding-right: 5px;
 }
 
-.font-white{
-    color:#fff;
+.font-white {
+    color: #fff;
 }
 
-.font-green{
-    color:#99ff99;
+.font-green {
+    color: #99ff99;
 }
-.font-bold{
+
+.font-bold {
     font-weight: bold;
 }
 
-.font-red{
-    color:#cc0066;
+.font-red {
+    color: #cc0066;
 }
 
-.font-yellow{
-    color:#ffff00;
+.font-yellow {
+    color: #ffff00;
 }
-html{
+
+html {
     font-family: helvetica, arial, "\5b8b\4f53", sans-serif;
-    font-size:10px;
-    color:#333;
+    font-size: 10px;
+    color: #333;
 }
 
-
-body, span{
-    font-size:1.3rem;
+body,
+span {
+    font-size: 1.3rem;
     line-height: 18px;
 }
-span{
-    font-size:1.3rem;
+
+span {
+    font-size: 1.3rem;
 }
 
-
-
-:focus{
+:focus {
     outline: 0;
 }
 
-a{
+a {
     text-decoration: none;
-    color:#333;
-    font-size:1.4rem;
+    color: #333;
+    font-size: 1.4rem;
     line-height: 18px;
-
 }
 
-header, footer, main{
+header,
+footer,
+main {
     max-width: 640px;
-    min-width:360px;
-    margin-left:auto;
-    margin-right:auto;
+    min-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
 }
-footer{
-    height: 10px;
-    border:none;
-    background-color: #cc0066;
+
+@media all and (max-width: 660px) {
+    header,
+    footer,
+    main {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+footer {
+   /* height: 10px;
+    border: none;
+    background-color: #cc0066;*/
     margin-top: 10px;
 }
 
-.icon{
+.icon {
     vertical-align: middle;
 }
 
-.icon:before{
+.icon:before {
     font-family: FontAwesome;
     display: inline-block;
     font-size: 1.5rem;
@@ -150,294 +180,288 @@ footer{
     font-weight: normal;
 }
 
-.icon-remove:before{
+.icon-remove:before {
     content: "\f00d";
 }
-.icon-search:before{
+
+.icon-search:before {
     content: "\f002";
 }
-.icon-add:before{
+
+.icon-add:before {
     content: "\f055";
 }
-.icon-save-sign:before{
+
+.icon-save-sign:before {
     content: "\f058";
 }
 
 .icon-save:before {
-  content: "\f00c";
+    content: "\f00c";
 }
 
-.icon-remove-sign:before{
+.icon-remove-sign:before {
     content: "\f057";
 }
 
-.icon-address:before{
+.icon-address:before {
     content: "\f0e0";
 }
-.icon-circle:before{
+
+.icon-circle:before {
     content: "\f111";
 }
 
-
-
-
-input[type="text"], input[type="number"]{
+input[type="text"],
+input[type="number"] {
     box-sizing: border-box;
-    border-top:1px solid #fff;
-    border-left:1px solid #fff;
-    border-right:1px solid #fff;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
     border-bottom: 1px solid #999;
     padding: 0 0 0 5px;
     font-size: 1.3rem;
     line-height: 18px;
 }
-input[type="text"]:focus, input[type="number"]:focus{
-    border-bottom: 1px solid #cc0066;
 
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-bottom: 1px solid #cc0066;
 }
 
-button{
+button {
     box-sizing: border-box;
     min-width: 125px;
     text-align: left;
     box-shadow: none;
-
     border: solid 1px #cc0066;
-    background-color:  #fff;
+    background-color: #fff;
     padding: 0 0 0 5px;
     font-size: 1.5rem;
     line-height: 18px;
     border-radius: 8px;
-
 }
 
-.order{
+.order {
     position: relative;
     border: 1px solid #cc0066;
     border-top: none;
-    margin-bottom:10px;
+    margin-bottom: 10px;
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
-
 }
 
-.order:last-child{
+.order:last-child {
     margin-bottom: 0;
 }
 
-.order-head{
-
+.order-head {
     background-color: #cc0066;
-    height:26px;
-
-    padding-left:5px;
-
+    height: 26px;
+    padding-left: 5px;
 }
-.order-head:after{
-    content:'';
+
+.order-head:after {
+    content: '';
     display: inline-block;
     height: 100%;
     vertical-align: middle;
 }
-.order-head input{
 
-     border-bottom: solid 1px #fff;
-     width:125px;
-     box-sizing: border-box;
-     vertical-align: middle;
+.order-head input {
+    border-bottom: solid 1px #fff;
+    width: 125px;
+    box-sizing: border-box;
+    vertical-align: middle;
 }
 
-.order-head input:focus{
-     border-bottom: solid 1px #fff;
-
+.order-head input:focus {
+    border-bottom: solid 1px #fff;
 }
 
-.order-head button{
-
-     border: solid 1px #fff;
+.order-head button {
+    border: solid 1px #fff;
 }
 
-.order-savebox{
+.order-savebox {
     line-height: normal;
     position: absolute;
-    right:5px;
-    top:4px;
+    right: 5px;
+    top: 4px;
 }
 
-.order-addressbox, .order-itembox{
-    padding-left:5px;
-    padding-right:5px;
+.order-addressbox,
+.order-itembox {
+    padding-left: 5px;
+    padding-right: 5px;
 }
-.address{
+
+.address {
     position: relative;
     margin-bottom: 5px;
     font-size: 0;
 }
 
-.address > input{
+.address > input {
     margin-right: 1%;
 }
 
-.address-actions{
+.address-actions {
     position: absolute;
     right: 0;
-    top:50%;
+    top: 50%;
     margin-top: -7px;
 }
 
-.item{
+.item {
     position: relative;
     margin-bottom: 5px;
 }
 
-.item-actions{
+.item-actions {
     position: absolute;
     right: 0;
-    top:1px;
+    top: 1px;
 }
 
-.item-fields{
+.item-fields {
     font-size: 0;
     vertical-align: middle;
-
 }
-.item-fields > input{
+
+.item-fields > input {
     margin-right: 0.5%
-
 }
-.item-historicTrades{
-    width:100%;
+
+.item-historicTrades {
+    width: 100%;
     border: 1px solid #cc0066;
     box-sizing: border-box;
 }
 
-.item-historicTrades td, .item-historicTrades th{
-
+.item-historicTrades td,
+.item-historicTrades th {
     border: 1px solid #cc0066;
-    padding-left:5px;
-
+    padding-left: 5px;
 }
-.item-historicTrades td:last-child, .item-historicTrades th:last-child{
 
+.item-historicTrades td:last-child,
+.item-historicTrades th:last-child {
     padding-right: 5px;
-    padding-left:0;
+    padding-left: 0;
 }
 
-.item-historicTrades th{
+.item-historicTrades th {
     font-weight: normal;
 }
 
 
 /**** items.html ***/
-.orderitems{
-    width:100%;
+
+.orderitems {
+    width: 100%;
     border: 1px solid #cc0066;
 }
 
-.orderitems tr{
+.orderitems tr {
     border-bottom: 1px solid #cc0066;
 }
 
-.orderitems td, .orderitems th{
+.orderitems td,
+.orderitems th {
     border-right: 1px solid #cc0066;
-    padding-top:5px;
+    padding-top: 5px;
     padding-bottom: 5px;
     padding-left: 5px;
     font-weight: bold;
 }
 
-
-.orderitems  td:last-child, .orderitems th:last-child{
+.orderitems td:last-child,
+.orderitems th:last-child {
     border-right: none;
 }
 
-.orderitems  th{
-    color:#fff;
+.orderitems th {
+    color: #fff;
     background-color: #cc0066;
     font-weight: bold;
-
 }
-.orderitem td{
+
+.orderitem td {
     background-color: #ffcccc;
-
 }
 
-.orderitem-subItems{
+.orderitem-subItems {
     display: none;
-
-}
-.orderitems .orderitem-subItems > td{
-    padding:0;
-
-}
-.subItems{
-    border:none;
-    width:100%;
 }
 
-.subItems th{
+.orderitems .orderitem-subItems > td {
+    padding: 0;
+}
+
+.subItems {
+    border: none;
+    width: 100%;
+}
+
+.subItems th {
     font-weight: normal;
     background-color: #fff;
-
-
-    color:#333;
+    color: #333;
     font-style: italic;
-
-}
-.subItems td{
-
-     font-weight: normal;
-     background-color: #fff;
 }
 
-.subItems tbody > tr:last-child{
-    border-bottom:4px solid #cc0066;
+.subItems td {
+    font-weight: normal;
+    background-color: #fff;
 }
+
+.subItems tbody > tr:last-child {
+    border-bottom: 4px solid #cc0066;
+}
+
 
 /**** addresses ***/
-.alladdresses{
-    padding-left:5px;
-    padding-right:5px;
+
+.alladdresses {
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
-.alladdresses .address{
+.alladdresses .address {
     font-size: 0;
     position: relative;
-    padding-left:5%;
-    padding-right:5%;
+    padding-left: 5%;
+    padding-right: 5%;
 }
-.alladdresses .address:last-child{
-    margin-bottom: 0;
 
+.alladdresses .address:last-child {
+    margin-bottom: 0;
 }
-.alladdresses .address input{
-    width:32%;
+
+.alladdresses .address input {
+    width: 32%;
     margin-right: 2%;
 }
-.alladdresses .address input:nth-of-type(4){
+
+.alladdresses .address input:nth-of-type(4) {
     margin-right: 0;
 }
 
-
-.alladdresses .address .address-inputaddress{
-    width:100%;
+.alladdresses .address .address-inputaddress {
+    width: 100%;
     margin-right: 0;
-
 }
-.alladdresses .address-save{
+
+.alladdresses .address-save {
     position: absolute;
     text-align: right;
-    right:0;
-    top:9px;
-
-
+    right: 0;
+    top: 9px;
 }
 
-.alladdresses .address-remove{
-     position: absolute;
-    left:0;
-    top:9px;
-
-
-
+.alladdresses .address-remove {
+    position: absolute;
+    left: 0;
+    top: 9px;
 }

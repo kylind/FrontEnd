@@ -49,6 +49,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         }]); //to do
 
         self.createDate = ko.observable(order ? order.createDate : '');
+        self.displayDate = ko.observable(order ? order.displayDate : '');
 
         self.rate = order ? order.rate : '';
 
@@ -64,13 +65,13 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
 
 
-        self.displayDate = function() {
+        /*self.displayDate = function() {
 
             var createDate = self.createDate()
 
             return createDate ? new Date(createDate).toLocaleDateString("en-US", dateFormatting) : '';
 
-        };
+        };*/
 
         self.status = ko.observable(order ? order.status : 'RECEIVED');
 
@@ -83,7 +84,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                 if (itemData.name == '') return;
 
-                $.getJSON('./historictrades/' + itemData.name, function(res, status) {
+                $.getJSON('./historictrades', {'itemName':  itemData.name }, function(res, status) {
 
                     status == 'success' ? item.historicTrades(res) : item.historicTrades([]);
 
@@ -102,6 +103,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 });
             }
         };
+
         self.hasHistoricTrades = function(item) {
 
             return item.historicTrades().length > 0 ? true : false;

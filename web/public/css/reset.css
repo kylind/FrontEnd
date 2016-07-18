@@ -68,5 +68,12 @@ hr {
     padding: 0;
 }
 input, select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
     vertical-align: middle;
+    box-shadow: none !important;
+    border-radius: 0;
+    outline: none;
 }

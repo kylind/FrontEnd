@@ -111,7 +111,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     $(event.target).parents('tr').next().show(function() {
                         item.isSubItemsOpen = true;
-                        swiper.update(true);
+                        swiper.update();
                     });
 
                 });
@@ -120,7 +120,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                 $(event.target).parents('tr').next().hide(function() {
                     item.isSubItemsOpen = false;
-                    swiper.update(true);
+                    swiper.update();
                 });
 
 

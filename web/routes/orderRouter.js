@@ -3,6 +3,12 @@ var ObjectID = require('mongodb').ObjectID;
 var orderOperation = require('../data_access/order.js').collection;
 var util = require('./util.js').util;
 
+var dateFormatting = {
+    month: "2-digit",
+    day: "numeric",
+    weekday: "short"
+};
+
 const RATE = 0.85;
 
 
@@ -51,7 +57,7 @@ router.get('/order/:id', function*() {
 
     yield this.render('order', {
         order: res,
-        css:'',
+        css: '',
         script: 'mvvm',
         header: 'specific',
         footer: ''
@@ -77,6 +83,7 @@ router.post('/order', function*() {
     delete order.sellPrice;
     delete order.buyPrice;
     delete order.profit;
+    delete order.displayDate;
 
     if (ObjectID.isValid(order._id)) {
 
@@ -94,7 +101,9 @@ router.post('/order', function*() {
         delete order._id
 
         order.createDate = new Date();
+        order.displayDate = order.createDate ? order.createDate.toLocaleDateString("en-US", dateFormatting) : '';
         order.rate = RATE;
+
         res = yield orderOperation.insert(order);
     }
 
@@ -136,8 +145,8 @@ router.get('/index', function*() {
 
     yield this.render('index', {
         orders: res,
-        script:'',
-        css:'swiper',
+        script: '',
+        css: 'swiper',
         header: 'specific',
         footer: ''
 
@@ -153,7 +162,7 @@ router.get('/receivedOrders', function*() {
 
     yield this.render('receivedOrders', {
         orders: res,
-        css:'',
+        css: '',
         script: 'mvvm',
         header: 'specific',
         footer: ''
@@ -216,7 +225,7 @@ router.get('/reckoningOrders', function*() {
 
     yield this.render('reckoningOrders', {
         orders: res,
-        css:'',
+        css: '',
         script: 'mvvm',
         header: 'specific',
         footer: ''
@@ -232,16 +241,17 @@ router.get('/reckoningOrdersJson', function*() {
     this.status = 200;
 
 });
-function* getReckoningOrders(){
+
+function* getReckoningOrders() {
     var res = null;
     res = yield orderOperation.queryReckoningOrders();
     res = res && res.length > 0 ? res : [EMPTY_ORDER];
 
-
-
     res.forEach(function(order) {
 
         order.rate = order.rate ? order.rate : RATE;
+
+        order.displayDate = order.createDate ? new Date(order.createDate).toLocaleDateString("en-US", dateFormatting) : '';
 
         util.sumarizeOrder(order);
 
@@ -261,9 +271,11 @@ function* getReckoningOrders(){
     return res;
 }
 
-router.get('/historictrades/:itemName', function*() {
+router.get('/historictrades', function*() {
 
-    var itemName = this.params.itemName;
+    var req = this.request.query;
+
+    var itemName = req.itemName;
 
     var res = yield orderOperation.getHistoricTrades(itemName);
 
