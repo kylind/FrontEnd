@@ -1,59 +1,51 @@
-<table class="orderitems">
-    <tr>
-        <th class="w-p30 taLeft">Name</th>
-        <th class="w-p10 taLeft">Q</th>
-        <th class="w-p60 taRight rpadding-5"> Done?</th>
-    </tr>
+<div class="orderitems">
+    <div class="orderitems-header">
+        <span class="w-p30 taLeft">Name</span>
+        <span class="w-p10 taLeft">Q</span>
+        <span class="w-p60 taRight rpadding-5"> Done?</span>
+    </div>
     <!-- ko foreach: items -->
-    <tr class="orderitem">
-        <td class="taLeft">
-            <span data-bind="text: _id"></span>
-        </td>
-        <td class="taLeft">
-            <span data-bind="text: quantity"></span>
-        </td>
-        <td class="taRight">
-            <a href="#" class="icon icon-search  rmargin-20" data-bind="click: $root.getSubItems"></a>
-            <a href="#" class="icon icon-circle rmargin-5" data-bind="click: $root.markDone, css: markItemStatus() "></a>
-        </td>
-    </tr>
-    <tr class="orderitem-subItems">
-        <td colspan="3">
+    <div class="orderitem">
+        <div class="orderitem-cnt">
+            <span class="taLeft w-p30" data-bind="text: _id"></span>
+            <span class="taLeft w-p10" data-bind="text: quantity"></span>
+            <span class="taRight w-p60 orderitem-cnt-btns">
+                <a href="#" class="icon icon-search  rmargin-20" data-bind="click: $root.getSubItems"></a>
+                <a href="#" class="icon icon-circle rmargin-5" data-bind="click: $root.markDone, css: markItemStatus() "></a>
+            </span>
+        </div>
+        <div class="orderitem-subItems">
             <!-- ko if: hasItemDetail() -->
-            <table class="subItems">
-                <thead>
-                    <tr>
-                        <th class="w-p30 taLeft">Client</th>
-                        <th class="w-p10 taLeft">Q</th>
-                        <th class="w-p30 taLeft">Note</th>
-                        <th class="w-p30 taRight rpadding-5">Date</th>
+            <div class="subItems">
+                <div class="subItems-header">
 
-                    </tr>
-                </thead>
-                <tbody data-bind="template:{ name: 'subItem', foreach: subItems }">
-                </tbody>
-            </table>
+                    <span class="w-p30 taLeft">Client</span>
+                    <span class="w-p10 taLeft">Q</span>
+                    <span class="w-p30 taLeft">Note</span>
+                    <span class="w-p30 taRight rpadding-5">Date</span>
+
+                </div>
+                <div class="subItems-cnt" data-bind="template:{ name: 'subItem', foreach: subItems }">
+                </div>
+            </div>
             <!-- /ko -->
             <!-- ko ifnot: hasItemDetail() -->
             <span>Somehow we cannot get item detail for now!</span>
             <!-- /ko -->
-        </td>
-    </tr>
+        </div>
+    </div>
     <!-- /ko -->
-</table>
+</div>
 <script type="text/html" id="subItem">
-    <tr>
-        <td data-bind="text: client">  <input type="hidden" data-bind="value: _id" /></td>
-        <td data-bind="text: quantity"></td>
-        <td class="taLeft" data-bind="text: note"></td>
-        <td class="taRight rpadding-5" data-bind="text: createDate"></td>
-
-
-    </tr>
+    <section class="subItems-item">
+        <input type="hidden" data-bind="value: _id" />
+        <span class="w-p30" data-bind="text: client"> </span>
+        <span class="w-p10" data-bind="text: quantity"> </span>
+        <span class="w-p30 taLeft" data-bind="text: note"> </span>
+        <span class="w-p30 taRight rpadding-5" data-bind="text: createDate"> </span>
+    </section>
 </script>
 <script>
-// ko foreach: purchaseDetail
-// <span data-bind="name: $root.getSubName($data), text: quantity"></span>
 
 var Item = function(item) {
     var self = this;
@@ -152,7 +144,9 @@ var ItemsModel = function(items) {
         var itemData = ko.mapping.toJS(item);
 
         if (!item.isSubItemsOpen) {
-            $.getJSON('/subitems' , {itemName: itemData._id} , function(res, status) {
+            $.getJSON('/subitems', {
+                itemName: itemData._id
+            }, function(res, status) {
 
                 if (status == 'success') {
                     item.subItems(res);
@@ -161,7 +155,7 @@ var ItemsModel = function(items) {
                     item.subItems([]);
                 }
 
-                $(event.target).parents('tr').next().show(function() {
+                $(event.target).parents('.orderitem-cnt').next().slideDown(function() {
                     item.isSubItemsOpen = true;
                 });
 
@@ -169,7 +163,7 @@ var ItemsModel = function(items) {
 
         } else {
 
-            $(event.target).parents('tr').next().hide(function() {
+            $(event.target).parents('.orderitem-cnt').next().slideUp(function() {
                 item.isSubItemsOpen = false;
             });
 
@@ -196,8 +190,8 @@ var ItemsModel = function(items) {
         });
 
         $.post('/item', {
-               itemName: itemData._id,
-               isDone: !isPurchased
+                itemName: itemData._id,
+                isDone: !isPurchased
             }, function(res, status) {
 
                 item.purchaseDetail(res.purchaseDetail);

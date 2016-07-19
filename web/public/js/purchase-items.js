@@ -121,7 +121,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                         item.subItems([]);
                     }
 
-                    $(event.target).parents('tr').next().show(function() {
+                    $(event.target).parents('.orderitem-cnt').next().slideDown(function() {
                         item.isSubItemsOpen = true;
                         swiper.update();
                     });
@@ -130,7 +130,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             } else {
 
-                $(event.target).parents('tr').next().hide(function() {
+                $(event.target).parents('.orderitem-cnt').next().slideUp(function() {
                     item.isSubItemsOpen = false;
                     swiper.update();
                 });

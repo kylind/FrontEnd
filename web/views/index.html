@@ -1,7 +1,7 @@
 <div class="swiper-container">
     <div class="swiper-pagination"></div>
     <div class="swiper-wrapper">
-        <section  class="swiper-slide" id="receivedOrders">
+        <section class="swiper-slide" id="receivedOrders">
             <div>
                 <button type="button" text="Add" class="lmargin-5 fl icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
                 <div class="lmargin-150">
@@ -38,61 +38,54 @@
                 </section>
             </div>
         </section>
-        <section  class="swiper-slide" id="purchaseItems">
-            <table class="orderitems">
-                <tr>
-                    <th class="w-p30 taLeft">Name</th>
-                    <th class="w-p10 taLeft">Q</th>
-                    <th class="w-p60 taRight rpadding-5"> Done?</th>
-                </tr>
+        <section class="swiper-slide" id="purchaseItems">
+            <div class="orderitems">
+                <div class="orderitems-header">
+                    <span class="w-p30 taLeft">Name</span>
+                    <span class="w-p10 taLeft">Q</span>
+                    <span class="w-p60 taRight rpadding-5"> Done?</span>
+                </div>
                 <!-- ko foreach: items -->
-                <tr class="orderitem">
-                    <td class="taLeft">
-                        <span data-bind="text: _id"></span>
-                    </td>
-                    <td class="taLeft">
-                        <span data-bind="text: quantity"></span>
-                    </td>
-                    <td class="taRight">
-                        <a href="#" class="icon icon-search  rmargin-20" data-bind="click: $root.getSubItems"></a>
-                        <a href="#" class="icon icon-circle rmargin-5" data-bind="click: $root.markDone, css: markItemStatus() "></a>
-                    </td>
-                </tr>
-                <tr class="orderitem-subItems">
-                    <td colspan="3">
+                <div class="orderitem">
+                    <div class="orderitem-cnt">
+                        <span class="taLeft w-p30" data-bind="text: _id"></span>
+                        <span class="taLeft w-p10" data-bind="text: quantity"></span>
+                        <span class="taRight w-p60 orderitem-cnt-btns">
+                <a href="#" class="icon icon-search  rmargin-20" data-bind="click: $root.getSubItems"></a>
+                <a href="#" class="icon icon-circle rmargin-5" data-bind="click: $root.markDone, css: markItemStatus() "></a>
+            </span>
+                    </div>
+                    <div class="orderitem-subItems">
                         <!-- ko if: hasItemDetail() -->
-                        <table class="subItems">
-                            <thead>
-                                <tr>
-                                    <th class="w-p30 taLeft">Client</th>
-                                    <th class="w-p10 taLeft">Q</th>
-                                    <th class="w-p30 taLeft">Note</th>
-                                    <th class="w-p30 taRight rpadding-5">Date</th>
-                                </tr>
-                            </thead>
-                            <tbody data-bind="template:{ name: 'subItem', foreach: subItems }">
-                            </tbody>
-                        </table>
+                        <div class="subItems">
+                            <div class="subItems-header">
+                                <span class="w-p30 taLeft">Client</span>
+                                <span class="w-p10 taLeft">Q</span>
+                                <span class="w-p30 taLeft">Note</span>
+                                <span class="w-p30 taRight rpadding-5">Date</span>
+                            </div>
+                            <div class="subItems-cnt" data-bind="template:{ name: 'subItem', foreach: subItems }">
+                            </div>
+                        </div>
                         <!-- /ko -->
                         <!-- ko ifnot: hasItemDetail() -->
                         <span>Somehow we cannot get item detail for now!</span>
                         <!-- /ko -->
-                    </td>
-                </tr>
+                    </div>
+                </div>
                 <!-- /ko -->
-            </table>
+            </div>
             <script type="text/html" id="subItem">
-                <tr>
-                    <td data-bind="text: client">
-                        <input type="hidden" data-bind="value: _id" />
-                    </td>
-                    <td data-bind="text: quantity"></td>
-                    <td class="taLeft" data-bind="text: note"></td>
-                    <td class="taRight rpadding-5" data-bind="text: createDate"></td>
-                </tr>
+                <section class="subItems-item">
+                    <input type="hidden" data-bind="value: _id" />
+                    <span class="w-p30" data-bind="text: client"> </span>
+                    <span class="w-p10" data-bind="text: quantity"> </span>
+                    <span class="w-p30 taLeft" data-bind="text: note"> </span>
+                    <span class="w-p30 taRight rpadding-5" data-bind="text: createDate"> </span>
+                </section>
             </script>
         </section>
-        <section  class="swiper-slide" id="reckoningOrders">
+        <section class="swiper-slide" id="reckoningOrders">
             <div>
                 <button type="button" text="Add" class="fl icon icon-add lmargin-5" data-bind="click:$root.addOrder"> Add Order </button>
                 <div class="lmargin-150">
@@ -207,7 +200,7 @@
                 </tr>
             </script>
         </section>
-        <section  class="swiper-slide" id="addresses">
+        <section class="swiper-slide" id="addresses">
             <div>
                 <button class="icon icon-add" data-bind="click: addAddress"> Add Address </button>
             </div>
@@ -225,9 +218,7 @@
         </section>
     </div>
 </div>
-
 <script>
-var orders=<%- JSON.stringify(orders) %>
+var orders = <%- JSON.stringify(orders) %>
 </script>
-
 <script data-main="/js/main" src="/js/require.js"></script>

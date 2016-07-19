@@ -361,47 +361,124 @@ button {
 .orderitems {
     width: 100%;
     border: 1px solid #cc0066;
+    box-sizing: border-box;
 }
 
-.orderitems tr {
-    border-bottom: 1px solid #cc0066;
+.orderitems-header{
+    font-size: 0;
+    background-color: #cc0066;
 }
 
-.orderitems td,
-.orderitems th {
-    border-right: 1px solid #cc0066;
+.orderitems-header span {
+    font-size: 1.3rem;
+    display: inline-block;
+    box-sizing: border-box;
+    font-weight: bold;
+    color: #fff;
     padding-top: 5px;
     padding-bottom: 5px;
     padding-left: 5px;
-    font-weight: bold;
+
 }
 
-.orderitems td:last-child,
-.orderitems th:last-child {
+.orderitem{
+   background-color: #ffcccc;
+   border-bottom: 1px solid #cc0066;
+
+}
+.orderitem:last-child{
+   border-bottom: none;
+}
+
+
+.orderitem-cnt{
+   font-size: 0;
+
+}
+
+.orderitem-cnt span{
+    font-size: 1.3rem;
+    display: inline-block;
+    box-sizing: border-box;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    border-right: 1px solid #cc0066;
+    vertical-align: middle;
+}
+
+span.orderitem-cnt-btns{
+    font-size: 0;
+}
+
+.orderitem-cnt span:last-child{
+
     border-right: none;
 }
 
-.orderitems th {
-    color: #fff;
-    background-color: #cc0066;
-    font-weight: bold;
-}
-
-.orderitem td {
-    background-color: #ffcccc;
-}
 
 .orderitem-subItems {
+    border-top: 1px solid #cc0066;
     display: none;
 }
 
-.orderitems .orderitem-subItems > td {
-    padding: 0;
+.subItems{
+    width:100%;
+    background-color: #fff;
 }
 
-.subItems {
-    border: none;
-    width: 100%;
+.subItems-header{
+    font-size: 0;
+    border-bottom: 1px solid #cc0066;
+}
+
+.subItems-header span{
+    font-size: 1.3rem;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    border-right: 1px solid #cc0066;
+    display: inline-block;
+    box-sizing: border-box;
+
+}
+.subItems-header span:last-child{
+
+    border-right: none;
+
+}
+
+.subItems-item{
+    font-size: 0;
+    border-bottom: 1px solid #cc0066;
+}
+.subItems-item:last-child{
+    border-bottom: none;
+}
+
+.subItems-item span{
+    font-size: 1.3rem;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    border-right: 1px solid #cc0066;
+    display: inline-block;
+    box-sizing: border-box;
+    height: 28px;
+    vertical-align: middle;
+}
+
+.subItems-item span:last-child{
+
+    border-right: none;
+
+}
+
+.subItems tr{
+    border-bottom: 1px solid #cc0066;
+}
+.subItems tbody > tr:last-child{
+    border-bottom: none;
 }
 
 .subItems th {
@@ -409,16 +486,36 @@ button {
     background-color: #fff;
     color: #333;
     font-style: italic;
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+
+
+    border-right: 1px solid #cc0066;
+    box-sizing: border-box;
+}
+
+.subItems th:last-child {
+
+    border-right: none;
 }
 
 .subItems td {
     font-weight: normal;
     background-color: #fff;
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    border-right: 1px solid #cc0066;
+    box-sizing: border-box;
 }
 
-.subItems tbody > tr:last-child {
-    border-bottom: 4px solid #cc0066;
+.subItems td:last-child {
+border-right: none;
 }
+
 
 
 /**** addresses ***/
