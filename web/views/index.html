@@ -3,7 +3,7 @@
     <div class="swiper-wrapper">
         <section class="swiper-slide" id="receivedOrders">
             <div>
-                <button type="button" text="Add" class="lmargin-5 fl icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
+                <button type="button" text="Add" class="lmargin-5 fl icon icon-add" data-bind="tap:$root.addOrder"> Add Order </button>
                 <div class="lmargin-150">
                     <input type="text" class="w-p100 input-search" name="search-receivedOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
                 </div>
@@ -14,13 +14,13 @@
                         <input type="hidden" data-bind="value: _id" />
                         <input type="text" data-bind="value: client" placeholder="Client Name" />
                         <div class="order-savebox">
-                            <a href="#" class="icon icon-remove-sign font-white rmargin-20" data-bind="click: $root.removeOrder"></a>
-                            <a href="#" class="icon icon-save-sign  font-white" data-bind="click: $root.submitOrder"> </a>
+                            <a href="#" class="icon icon-remove-sign font-white rmargin-20" data-bind="tap: $root.removeOrder"></a>
+                            <a href="#" class="icon icon-save-sign  font-white" data-bind="tap: $root.submitOrder"> </a>
                         </div>
                     </div>
                     <div class="order-itembox">
                         <div class="tmargin-5">
-                            <button type="button" class="icon icon-add" text="Add" data-bind="click:$root.addItem"> Add Item </button>
+                            <button type="button" class="icon icon-add" text="Add" data-bind="tap:$root.addItem"> Add Item </button>
                         </div>
                         <div class="items tmargin-5">
                             <!-- ko foreach: items -->
@@ -29,7 +29,7 @@
                                 <input class="w-p10" type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
                                 <input class="w-p40" type="text" data-bind="value: note" placeholder="Note:" />
                                 <div class="item-actions">
-                                    <a href="#" class="icon icon-remove" data-bind="click: $root.removeItem.bind(this, $parent, $data)"></a>
+                                    <a href="#" class="icon icon-remove" data-bind="tap: $root.removeItem"></a>
                                 </div>
                             </fieldset>
                             <!-- /ko -->
@@ -51,8 +51,8 @@
                         <span class="taLeft w-p30" data-bind="text: _id"></span>
                         <span class="taLeft w-p10" data-bind="text: quantity"></span>
                         <span class="taRight w-p60 orderitem-cnt-btns">
-                <a href="#" class="icon icon-search  rmargin-20" data-bind="click: $root.getSubItems"></a>
-                <a href="#" class="icon icon-circle rmargin-5" data-bind="click: $root.markDone, css: markItemStatus() "></a>
+                <a href="#" class="icon icon-search  rmargin-20" data-bind="tap: $root.getSubItems"></a>
+                <a href="#" class="icon icon-circle rmargin-5" data-bind="tap: $root.markDone, css: markItemStatus() "></a>
             </span>
                     </div>
                     <div class="orderitem-subItems">
@@ -87,7 +87,7 @@
         </section>
         <section class="swiper-slide" id="reckoningOrders">
             <div>
-                <button type="button" text="Add" class="fl icon icon-add lmargin-5" data-bind="click:$root.addOrder"> Add Order </button>
+                <button type="button" text="Add" class="fl icon icon-add lmargin-5" data-bind="tap:$root.addOrder"> Add Order </button>
                 <div class="lmargin-150">
                     <input type="text" class="w-p100 input-search" name="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
                 </div>
@@ -100,16 +100,16 @@
                         <input type="text" data-bind="value: client" placeholder="Client Name" />
                         <span data-bind="text: displayDate" class="vaMiddle font-white"></span>
                         <div class="order-savebox">
-                            <a href="#" class="icon icon-remove-sign font-white rmargin-20" data-bind="click: $parent.removeOrder"></a>
-                            <a href="#" class="icon icon-circle rmargin-20 font-white" data-bind="click: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
-                            <a href="#" class="icon icon-save-sign font-white" data-bind="click: submitOrder"> </a>
+                            <a href="#" class="icon icon-remove-sign font-white rmargin-20" data-bind="tap: $parent.removeOrder"></a>
+                            <a href="#" class="icon icon-circle rmargin-20 font-white" data-bind="tap: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
+                            <a href="#" class="icon icon-save-sign font-white" data-bind="tap: submitOrder"> </a>
                         </div>
                     </div>
                     <div class="order-addressbox tmargin-5">
                         <div>
-                            <button type="button" class="icon icon-add" data-bind="click:addAddress"> Add Address</button>
+                            <button type="button" class="icon icon-add" data-bind="tap:addAddress"> Add Address</button>
                             <!-- ko if: _id() == '' -->
-                            <button type="button" class="icon icon-address" data-bind="click:getAddresses"> Get Addresses</button>
+                            <button type="button" class="icon icon-address" data-bind="tap:getAddresses"> Get Addresses</button>
                             <!-- /ko -->
                         </div>
                         <div class="addresses tmargin-5">
@@ -121,16 +121,16 @@
                                 <input class="w-p43" type="text" data-bind="value: phone" placeholder="Phone" />
                                 <input class="w-p87" type="text" data-bind="value: address" placeholder="Address" />
                                 <div class="address-actions">
-                                    <a href="#" class="icon icon-remove" data-bind="click: $parent.removeAddress.bind(this,$data)"> </a>
+                                    <a href="#" class="icon icon-remove" data-bind="tap: $parent.removeAddress"> </a>
                                 </div>
                             </fieldset>
                             <!-- /ko -->
-                            <!-- <button type="button" text="Add" data-bind="click:submitAddresses">Submit </button> -->
+                            <!-- <button type="button" text="Add" data-bind="tap:submitAddresses">Submit </button> -->
                         </div>
                     </div>
                     <div class="order-itembox">
                         <div>
-                            <button type="button" text="Add" class="icon icon-add rmargin-20" data-bind="click:addItem"> Add Item</button>
+                            <button type="button" text="Add" class="icon icon-add rmargin-20" data-bind="tap:addItem"> Add Item</button>
                             <!-- ko if: _id() != '' -->
                             <span class="font-bold font-red vaMiddle">
                     <span>B: </span><span class="rmargin-5" data-bind="text: buyPrice"></span>
@@ -148,9 +148,9 @@
                                     <input class="w-p15" type="text" data-bind="value: buyPrice" placeholder="Buy" />
                                     <input class="w-p15" type="text" data-bind="value: sellPrice" placeholder="Sell" />
                                     <input class="w-p15" type="text" readonly data-bind="value: profit" placeholder="Profit" />
-                                    <a href="#" class="icon icon-search" data-bind="click: $parent.getHistoricTrades"></a>
+                                    <a href="#" class="icon icon-search" data-bind="tap: $parent.getHistoricTrades"></a>
                                     <div class="item-actions">
-                                        <a href="#" class="icon icon-remove" data-bind="click: $parent.removeItem"></a>
+                                        <a href="#" class="icon icon-remove" data-bind="tap: $parent.removeItem"></a>
                                     </div>
                                 </div>
                                 <div class="historicbox tmargin-10" style="display: none">
@@ -202,7 +202,7 @@
         </section>
         <section class="swiper-slide" id="addresses">
             <div>
-                <button class="icon icon-add" data-bind="click: addAddress"> Add Address </button>
+                <button class="icon icon-add" data-bind="tap: addAddress"> Add Address </button>
             </div>
             <div class="tmargin-10 alladdresses" data-bind="foreach: addresses">
                 <section class="address">
@@ -211,8 +211,8 @@
                     <input type="text" class="w-p30" data-bind="value: recipient" placeholder="Recipient" />
                     <input type="text" class="w-p30" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" />
                     <input type="text" class="address-inputaddress" min="0" max="100" step="1" data-bind="value: address" placeholder="Address" />
-                    <a href="#" class="address-remove icon icon-remove" data-bind="click: $root.removeAddress.bind(this, $data)"> </a>
-                    <a href="#" class="address-save icon icon-save" data-bind="css:{ 'font-red': isSend() },click: $root.submitAddress"> </a>
+                    <a href="#" class="address-remove icon icon-remove" data-bind="tap: $root.removeAddress"> </a>
+                    <a href="#" class="address-save icon icon-save" data-bind="css:{ 'font-red': isSend() },tap: $root.submitAddress"> </a>
                 </section>
             </div>
         </section>

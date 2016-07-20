@@ -75,7 +75,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.status = ko.observable(order ? order.status : 'RECEIVED');
 
-        self.getHistoricTrades = function(item, event) {
+        self.getHistoricTrades = function(item, parent, event) {
             var itemData = ko.mapping.toJS(item);
 
             var $historicTrades = $(event.target).parent().next('.historicbox');
@@ -313,16 +313,23 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.searchOrders = function(data, event) {
 
             var keywords = $(event.target).val();
-            if (keywords.startsWith(' ')) {
-                keywords = keywords.substring(1);
-                searchGlobalOrders(keywords)
+
+            var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D\w]+)/;
 
 
-            } else {
-                searchCurrentOrders(keywords)
+            var matchedRes = keywords.match(regex);
+
+            if (matchedRes != null) {
+                if (matchedRes[1] == "") {
+                    searchCurrentOrders(matchedRes[2])
+
+                } else {
+                    searchGlobalOrders(matchedRes[2])
+                }
+
+            } else if (orders != null) {
+                self.orders(orders);
             }
-            swiper.update();
-
 
         }
 

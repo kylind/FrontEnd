@@ -18,7 +18,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     };
 
-    var OrdersModel = function(orders, swiper) {
+    var OrdersModel = function(orders, mySwiper) {
+
+        var swiper= mySwiper;
+
+
 
         function init(orders) {
 
@@ -34,6 +38,12 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         }
 
         var self = this;
+
+        self.setSwiper=function(mySwiper){
+
+            swiper=mySwiper;
+
+        }
 
         var observableOrders = init(orders);
 
@@ -58,7 +68,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             swiper.update();
         };
 
-        self.removeItem = function(parent, data) {
+        self.removeItem = function(data,parent) {
             parent.items.remove(data);
             swiper.update();
         };
@@ -81,7 +91,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         };
 
-        self.addOrder = function(data) {
+        self.addOrder = function() {
 
             var order = new OrderModel();
 

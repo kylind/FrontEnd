@@ -19,6 +19,37 @@ requirejs.config({
 
 require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersModel, ko, $, Swiper) {
 
+    var isTouch = ('ontouchstart' in document.documentElement) ? 'touchstart' : 'click';
+    var _on = $.fn.on;
+    $.fn.on = function(){
+        arguments[0] = (arguments[0] === 'click') ? isTouch: arguments[0];
+        return _on.apply(this, arguments);
+    };
+
+    ko.bindingHandlers.tap = {
+
+        init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+
+            var handler=valueAccessor();
+
+            $(element).on('click', function(event){
+
+                handler(bindingContext.$data,bindingContext.$parent, event);
+
+            });
+
+        },
+        update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+
+        }
+    };
+
+
+
+
+    var ordersModel = new OrdersModel(orders);
+    ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
+
     var swiper = new Swiper('.swiper-container', {
         autoHeight: true,
         spaceBetween: 30,
@@ -49,9 +80,8 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
     });
 
-    var ordersModel = new OrdersModel(orders, swiper);
-    ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
-    swiper.update();
+    ordersModel.setSwiper(swiper);
+
 
     require(['purchase-items', 'reckoning-orders', 'addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel, AddressesModel, ko, $) {
 

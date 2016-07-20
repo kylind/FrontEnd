@@ -1,7 +1,7 @@
 <div>
     <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
     <div class="lmargin-150">
-        <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders }" placeholder="Search Your Orders" />
+        <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
     </div>
 </div>
 <div class="tmargin-5" data-bind="foreach: orders">
@@ -15,7 +15,6 @@
                 <a href="#" class="icon icon-remove-sign font-white rmargin-20" data-bind="click: $parent.removeOrder"></a>
                 <a href="#" class="icon icon-circle rmargin-20 font-white" data-bind="click: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
                 <a href="#" class="icon icon-save-sign font-white" data-bind="click: submitOrder"> </a>
-
             </div>
         </div>
         <div class="order-addressbox tmargin-5">
@@ -179,7 +178,7 @@ var OrderModel = function(order) {
 
         var createDate = self.createDate()
 
-        return  createDate ? new Date(createDate).toLocaleDateString("en-US", dateFormatting) : '';
+        return createDate ? new Date(createDate).toLocaleDateString("en-US", dateFormatting) : '';
 
     };
 
@@ -412,14 +411,23 @@ var OrdersModel = function(orders) {
     self.searchOrders = function(data, event) {
 
         var keywords = $(event.target).val();
-        if (keywords.startsWith(' ')) {
-            keywords = keywords.substring(1);
-            searchGlobalOrders(keywords)
 
-        } else {
-            searchCurrentOrders(keywords)
+        var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D\w]+)/;
+
+
+        var matchedRes = keywords.match(regex);
+
+        if (matchedRes != null) {
+            if (matchedRes[1]=="") {
+                searchCurrentOrders(matchedRes[2])
+
+            } else {
+                 searchGlobalOrders(matchedRes[2])
+            }
+
+        }else if(orders!=null){
+            self.orders(orders);
         }
-
 
     }
 
