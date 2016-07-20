@@ -409,6 +409,9 @@ var OrdersModel = function(orders) {
 
     var orders = null;
     self.searchOrders = function(data, event) {
+        if (orders == null) {
+            orders = self.orders();
+        }
 
         var keywords = $(event.target).val();
 
@@ -418,23 +421,21 @@ var OrdersModel = function(orders) {
         var matchedRes = keywords.match(regex);
 
         if (matchedRes != null) {
-            if (matchedRes[1]=="") {
+            if (matchedRes[1] == "") {
                 searchCurrentOrders(matchedRes[2])
 
             } else {
-                 searchGlobalOrders(matchedRes[2])
+                searchGlobalOrders(matchedRes[2])
             }
 
-        }else if(orders!=null){
+        } else {
             self.orders(orders);
         }
 
     }
 
     function searchCurrentOrders(keywords) {
-        if (orders == null) {
-            orders = self.orders();
-        }
+
 
         var searchedOrders = orders.filter(function(order) {
 

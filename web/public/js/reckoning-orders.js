@@ -311,6 +311,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         var orders = null;
         self.searchOrders = function(data, event) {
+            if (orders == null) {
+                orders = self.orders();
+            }
 
             var keywords = $(event.target).val();
 
@@ -327,16 +330,14 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     searchGlobalOrders(matchedRes[2])
                 }
 
-            } else if (orders != null) {
+            } else {
                 self.orders(orders);
             }
 
         }
 
         function searchCurrentOrders(keywords) {
-            if (orders == null) {
-                orders = self.orders();
-            }
+
 
             var searchedOrders = orders.filter(function(order) {
 
@@ -351,10 +352,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         var newKeywords = '';
 
         function searchGlobalOrders(keywords) {
-
-            if (orders == null) {
-                orders = self.orders();
-            }
 
             newKeywords = keywords;
 
