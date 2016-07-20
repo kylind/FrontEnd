@@ -321,9 +321,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
             var matchedRes = keywords.match(regex);
-            window.alert(matchedRes);
 
             if (matchedRes != null) {
+
                 if (matchedRes[1] == "") {
                     searchCurrentOrders(matchedRes[2])
 
@@ -332,8 +332,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 }
 
             } else {
-                window.alert(orders.length);
-                self.orders(orders);
+
+                searchCurrentOrders('')
             }
 
         }
