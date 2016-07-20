@@ -420,6 +420,8 @@ var OrdersModel = function(orders) {
 
         var matchedRes = keywords.match(regex);
 
+        window.alert(matchedRes);
+
         if (matchedRes != null) {
             if (matchedRes[1] == "") {
                 searchCurrentOrders(matchedRes[2])
@@ -486,8 +488,6 @@ var OrdersModel = function(orders) {
 
 
             }
-
-            console.log('i am searching ' + newKeywords);
 
         }, 1000);
 
