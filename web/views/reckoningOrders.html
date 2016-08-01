@@ -4,7 +4,7 @@
         <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
     </div>
 </div>
-<div class="tmargin-5" data-bind="foreach: orders">
+<div class="tmargin-10" data-bind="foreach: orders">
     <section class="order">
         <div class="order-head">
             <input type="hidden" data-bind="value: _id" />
@@ -17,14 +17,14 @@
                 <a href="#" class="icon icon-save-sign font-white" data-bind="click: submitOrder"> </a>
             </div>
         </div>
-        <div class="order-addressbox tmargin-5">
+        <div class="order-addressbox tmargin-10">
             <div>
                 <button type="button" class="icon icon-add" data-bind="click:addAddress"> Add Address</button>
                 <!-- ko if: _id() == '' -->
                 <button type="button" class="icon icon-address" data-bind="click:getAddresses"> Get Addresses</button>
                 <!-- /ko -->
             </div>
-            <div class="addresses tmargin-5">
+            <div class="addresses tmargin-10">
                 <!-- ko foreach: addresses -->
                 <fieldset class="address">
                     <input type="hidden" data-bind="value: _id" />
@@ -51,7 +51,7 @@
                 </span>
                 <!-- /ko -->
             </div>
-            <div class="items tmargin-5">
+            <div class="items tmargin-10">
                 <!-- ko foreach: items -->
                 <fieldset class="item">
                     <div class="item-fields">

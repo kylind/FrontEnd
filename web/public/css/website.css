@@ -70,9 +70,7 @@
     width: 90%;
 }
 
-.tmargin-5 {
-    margin-top: 5px;
-}
+
 
 .tmargin-10 {
     margin-top: 10px;
@@ -87,6 +85,10 @@
 .rmargin-5 {
     margin-right: 5px;
 }
+.rmargin-10 {
+    margin-right: 10px;
+}
+
 
 .rmargin-20 {
     margin-right: 20px;
@@ -179,6 +181,20 @@ footer {
     line-height: 17px;
     font-weight: normal;
 }
+
+a.icon {
+    text-align: center;
+    width:30px;
+    height: 20px;
+    display: inline-block;
+
+}
+
+a.icon:before {
+
+
+}
+
 
 .icon-remove:before {
     content: "\f00d";
@@ -298,7 +314,7 @@ button {
 
 .address {
     position: relative;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     font-size: 0;
 }
 
@@ -309,13 +325,13 @@ button {
 .address-actions {
     position: absolute;
     right: 0;
-    top: 50%;
-    margin-top: -7px;
+    top: 10px;
+    /*margin-top: -7px;*/
 }
 
 .item {
     position: relative;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .item-actions {
@@ -409,6 +425,7 @@ button {
 
 span.orderitem-cnt-btns{
     font-size: 0;
+    padding: 0;
 }
 
 .orderitem-cnt span:last-child{
@@ -548,17 +565,19 @@ border-right: none;
 .alladdresses .address .address-inputaddress {
     width: 100%;
     margin-right: 0;
+    margin-top: 10px
 }
 
 .alladdresses .address-save {
     position: absolute;
     text-align: right;
     right: 0;
-    top: 9px;
+    top: 10px;
 }
 
 .alladdresses .address-remove {
     position: absolute;
     left: 0;
-    top: 9px;
+    top: 10px;
+    text-align: left;
 }

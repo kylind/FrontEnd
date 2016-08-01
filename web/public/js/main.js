@@ -35,6 +35,7 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
             $(element).on('click', function(event){
 
                 handler(bindingContext.$data,bindingContext.$parent, event);
+                return false;
 
             });
 

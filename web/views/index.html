@@ -19,10 +19,10 @@
                         </div>
                     </div>
                     <div class="order-itembox">
-                        <div class="tmargin-5">
+                        <div class="tmargin-10">
                             <button type="button" class="icon icon-add" text="Add" data-bind="tap:$root.addItem"> Add Item </button>
                         </div>
-                        <div class="items tmargin-5">
+                        <div class="items tmargin-10">
                             <!-- ko foreach: items -->
                             <fieldset class="item">
                                 <input class="w-p30" type="text" data-bind="value: name" placeholder="Product Name" />
@@ -105,21 +105,21 @@
                             <a href="#" class="icon icon-save-sign font-white" data-bind="tap: submitOrder"> </a>
                         </div>
                     </div>
-                    <div class="order-addressbox tmargin-5">
+                    <div class="order-addressbox tmargin-10">
                         <div>
                             <button type="button" class="icon icon-add" data-bind="tap:addAddress"> Add Address</button>
                             <!-- ko if: _id() == '' -->
                             <button type="button" class="icon icon-address" data-bind="tap:getAddresses"> Get Addresses</button>
                             <!-- /ko -->
                         </div>
-                        <div class="addresses tmargin-5">
+                        <div class="addresses tmargin-10">
                             <!-- ko foreach: addresses -->
                             <fieldset class="address">
                                 <input type="hidden" data-bind="value: _id" />
                                 <input type="hidden" data-bind="value: client" />
                                 <input class="w-p43" type="text" data-bind="value: recipient" placeholder="Recipient" />
                                 <input class="w-p43" type="text" data-bind="value: phone" placeholder="Phone" />
-                                <input class="w-p87" type="text" data-bind="value: address" placeholder="Address" />
+                                <input class="w-p87 tmargin-10" type="text" data-bind="value: address" placeholder="Address" />
                                 <div class="address-actions">
                                     <a href="#" class="icon icon-remove" data-bind="tap: $parent.removeAddress"> </a>
                                 </div>
@@ -130,7 +130,7 @@
                     </div>
                     <div class="order-itembox">
                         <div>
-                            <button type="button" text="Add" class="icon icon-add rmargin-20" data-bind="tap:addItem"> Add Item</button>
+                            <button type="button" text="Add" class="icon icon-add rmargin-5" data-bind="tap:addItem"> Add Item</button>
                             <!-- ko if: _id() != '' -->
                             <span class="font-bold font-red vaMiddle">
                     <span>B: </span><span class="rmargin-5" data-bind="text: buyPrice"></span>
@@ -139,11 +139,11 @@
                             </span>
                             <!-- /ko -->
                         </div>
-                        <div class="items tmargin-5">
+                        <div class="items tmargin-10">
                             <!-- ko foreach: items -->
                             <fieldset class="item">
                                 <div class="item-fields">
-                                    <input class="w-p30" type="text" data-bind="value: name" placeholder="Product Name" />
+                                    <input class="w-p20" type="text" data-bind="value: name" placeholder="Product Name" />
                                     <input class="w-p10" type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
                                     <input class="w-p15" type="text" data-bind="value: buyPrice" placeholder="Buy" />
                                     <input class="w-p15" type="text" data-bind="value: sellPrice" placeholder="Sell" />
@@ -158,11 +158,11 @@
                                     <table class="item-historicTrades">
                                         <thead>
                                             <tr>
-                                                <th class="w-p30 taLeft">Client</th>
+                                                <th class="w-p20 taLeft">Client</th>
                                                 <th class="w-p10 taLeft">Qua</th>
                                                 <th class="w-p15 taLeft">Buy</th>
                                                 <th class="w-p15 taLeft">Sell</th>
-                                                <th class="w-p30 taRight">Date</th>
+                                                <th class="w-p40 taRight">Date</th>
                                             </tr>
                                         </thead>
                                         <tbody data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">

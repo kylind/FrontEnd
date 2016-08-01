@@ -15,8 +15,9 @@ sumarizeOrder: function(order){
 
         var itemBuy = parseFloat(item.buyPrice);
         var itemSell = parseFloat(item.sellPrice);
+        var quantity = parseFloat(item.quantity);
 
-        if(isNaN(itemBuy)|| isNaN(itemSell)){
+        if(isNaN(itemBuy)|| isNaN(itemSell)|| isNaN(quantity)){
 
             if(isNaN(itemBuy)) isBuyComplete=false;
             if(isNaN(itemSell)) isSellComplete=false;
@@ -26,19 +27,19 @@ sumarizeOrder: function(order){
         }else{
 
 
-            item.profit= itemSell<2 ? (itemBuy * itemSell - itemBuy* rate).toFixed(2) : (itemSell - itemBuy * rate).toFixed(2);
+            item.profit= itemSell<2 ? ((itemBuy * itemSell - itemBuy* rate)*quantity).toFixed(1) : ((itemSell - itemBuy * rate)*quantity).toFixed(1);
 
-            buyPrice += itemBuy;
-            sellPrice += itemSell <2 ? (itemBuy * itemSell) : itemSell
+            buyPrice += itemBuy * quantity;
+            sellPrice += itemSell <2 ? (itemBuy * itemSell) * quantity : itemSell * quantity
 
         }
 
     });
 
-    order.buyPrice = isBuyComplete?  buyPrice : (buyPrice + '?');;
-    order.sellPrice = isSellComplete?  sellPrice : (sellPrice + '?');
+    order.buyPrice = isBuyComplete?  buyPrice.toFixed(1) : (buyPrice.toFixed(1) + '?');;
+    order.sellPrice = isSellComplete?  sellPrice.toFixed(1) : (sellPrice.toFixed(1) + '?');
 
-    order.profit= (sellPrice - buyPrice*rate).toFixed(2);
+    order.profit= (sellPrice - buyPrice*rate).toFixed(1);
 
 }
 
