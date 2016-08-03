@@ -19,9 +19,7 @@ render(app, {
 
 app.use(function*(next) {
 
-    console.log(this.path);
-
-
+    console.log(`It's handled by process: ${process.pid}`);
 
     yield send(this, this.path, {
         root: __dirname + '/public'
@@ -42,3 +40,6 @@ app.use(addressRouter.routes());
 
 
 app.listen(3000);
+
+console.log(process.env.NODE_ENV);
+console.log(process.env.db);
