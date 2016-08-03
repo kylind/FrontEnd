@@ -3,23 +3,39 @@ const passport = require('koa-passport')
 
 router = new Router();
 
+
 router.get('/', function*() {
-    yield this.render('login', {
-        script: '',
-        css: '',
-        header: 'specific',
-        footer: ''
+    if (this.isAuthenticated()) {
+        this.redirect('/index');
 
-    });
+    } else {
+
+        yield this.render('login', {
+            script: '',
+            css: '',
+            header: 'specific',
+            footer: ''
+
+        });
+    }
+
+
 });
-router.get('/login', function*() {
-    yield this.render('login', {
-        script: '',
-        css: '',
-        header: 'specific',
-        footer: ''
 
-    });
+router.get('/login', function*() {
+    if (this.isAuthenticated()) {
+        this.redirect('/index');
+
+    } else {
+
+        yield this.render('login', {
+            script: '',
+            css: '',
+            header: 'specific',
+            footer: ''
+
+        });
+    }
 });
 
 router.post('/login', function*() {
@@ -30,7 +46,7 @@ router.post('/login', function*() {
     })
 });
 
-router.get('/logout', function* () {
+router.get('/logout', function*() {
     this.logout()
     this.redirect('/login')
 });

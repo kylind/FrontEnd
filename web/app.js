@@ -41,24 +41,34 @@ app.use(function*(next) {
         root: __dirname + '/public'
     });
 
-    console.log('static file');
+    console.log(`static file: ${ this.path }`);
 
     yield next;
 
 });
 
+var bodyParser = require('koa-bodyparser');
 var loginRouter = require('./routes/loginRouter.js').router;
+app.use(bodyParser());
+app.use(loginRouter.routes());
+
+app.use(function* (next) {
+  if (this.isAuthenticated()) {
+    yield next;
+  } else {
+    this.redirect('/')
+  }
+});
+
+
 var itemRouter = require('./routes/itemRouter.js').router;
 var orderRouter = require('./routes/orderRouter.js').router;
 var addressRouter = require('./routes/addressRouter.js').router;
-var bodyParser = require('koa-bodyparser');
 
-app.use(bodyParser());
-app.use(loginRouter.routes());
+
 app.use(orderRouter.routes());
 app.use(itemRouter.routes());
 app.use(addressRouter.routes());
-
 
 
 app.listen(3000);
