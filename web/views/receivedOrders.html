@@ -4,7 +4,7 @@
         <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
     </div>
 </div>
-<div class="tmargin-5" data-bind="foreach: orders">
+<div class="tmargin-10" data-bind="foreach: orders">
     <section class="order">
         <div class="order-head">
             <input type="hidden" data-bind="value: _id" />
@@ -15,10 +15,10 @@
             </div>
         </div>
         <div class="order-itembox">
-            <div class="tmargin-5">
+            <div class="tmargin-10">
                 <button type="button" class="icon icon-add" text="Add" data-bind="click:$root.addItem"> Add Item </button>
             </div>
-            <div class="items tmargin-5">
+            <div class="items tmargin-10">
                 <!-- ko foreach: items -->
                 <fieldset class="item">
                     <input class="w-p30" type="text" data-bind="value: name" placeholder="Product Name" />

@@ -331,9 +331,12 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     searchGlobalOrders(matchedRes[2])
                 }
 
-            } else {
+            } else if(orders!=null) {
 
-                searchCurrentOrders('')
+                newKeywords = '';
+
+                self.orders(orders);
+                swiper.update();
             }
 
         }
@@ -347,6 +350,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             });
 
             self.orders(searchedOrders);
+            swiper.update();
         }
 
         var timeoutIds = [];

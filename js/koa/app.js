@@ -10,8 +10,8 @@
         },
         //执行中间件
         listen: function() {
-            this._run();
-            //this.mockRun();
+            //this._run();
+            this.mockRun();
             console.log("run end" + this.body);
 
         },
@@ -53,7 +53,7 @@
                 console.log('xxx' + ctx.body);
             };
 
-           /* var gen = async();
+          /*  var gen = async();
 
             var gen1 = gen.next().value;
 
@@ -87,17 +87,23 @@
 
                 }
 
-                middle.forEach(function(item){
+              /*middle.forEach(function(item){
 
                     item.next();
 
 
-                })
+                })*/
+
+                for(var i=0; i< 4;i++){
+                    middle.pop().next();
+
+                }
+                //gen.next();
 
 
             }
 
-            myRun(async);
+             myRun(async);
 
         }
     };
