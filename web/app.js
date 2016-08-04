@@ -2,6 +2,7 @@ var koa = require('koa');
 var path = require('path');
 var render = require('koa-ejs');
 var send = require('koa-send');
+var fs = require('fs');
 
 var session = require('koa-generic-session');
 var MongoStore = require('koa-generic-session-mongo');
@@ -10,11 +11,15 @@ var app = koa();
 app.keys = ['keys', 'keykeys'];
 app.use(session({
     store: new MongoStore({
-        host:"120.24.63.42",
+        host: "120.24.63.42",
         db: "orders",
         user: "website",
         password: "zombie.123",
-    })
+    }),
+    cookie: {
+        maxage: 604800000,
+        overwrite:true
+    }
 }));
 
 
@@ -37,13 +42,24 @@ app.use(function*(next) {
 
     console.log(`It's handled by process: ${process.pid}`);
 
-    yield send(this, this.path, {
+    var rs = yield send(this, this.path, {
         root: __dirname + '/public'
     });
 
-    console.log(`static file: ${ this.path }`);
+    var path = `${__dirname}/public${this.path}`;
 
-    yield next;
+    var isFile = false;
+
+    try {
+        isFile = fs.statSync(path).isFile();
+
+    } catch (err) {}
+
+    if (!isFile) {
+        yield next;
+    } else {
+        console.log(`request static file: ${this.path}`);
+    }
 
 });
 
@@ -52,12 +68,13 @@ var loginRouter = require('./routes/loginRouter.js').router;
 app.use(bodyParser());
 app.use(loginRouter.routes());
 
-app.use(function* (next) {
-  if (this.isAuthenticated()) {
-    yield next;
-  } else {
-    this.redirect('/')
-  }
+app.use(function*(next) {
+    console.log(`authenticate: ${ this.path }`);
+    if (this.isAuthenticated()) {
+        yield next;
+    } else {
+        this.redirect('/')
+    }
 });
 
 
