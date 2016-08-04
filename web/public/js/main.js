@@ -21,8 +21,8 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
     var isTouch = ('ontouchstart' in document.documentElement) ? 'touchstart' : 'click';
     var _on = $.fn.on;
-    $.fn.on = function(){
-        arguments[0] = (arguments[0] === 'click') ? isTouch: arguments[0];
+    $.fn.on = function() {
+        arguments[0] = (arguments[0] === 'click') ? isTouch : arguments[0];
         return _on.apply(this, arguments);
     };
 
@@ -30,14 +30,37 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
 
-            var handler=valueAccessor();
+            var handler = valueAccessor();
 
-            $(element).on('click', function(event){
+            $(element).on('click', function(event) {
 
-                handler(bindingContext.$data,bindingContext.$parent, event);
+                var offset = $(event.target).offset();
+                var top = offset.top;
+                $('.prompt').css('top', top).show();
+
+                handler(bindingContext.$data, bindingContext.$parent, event, function() {
+
+
+                    var $submitting=$('.prompt-submitting');
+                    var $succeed=$('.prompt-succeed');
+
+                    $submitting.addClass('disappeared')
+                    $succeed.removeClass('disappeared')
+
+                    $('.prompt').delay(1200).fadeOut('slow', function() {
+                            $submitting.removeClass('disappeared')
+                            $succeed.addClass('disappeared')
+                    });
+
+
+
+
+
+
+                });
                 return false;
-
             });
+
 
         },
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {

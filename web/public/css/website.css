@@ -1,9 +1,10 @@
+
 @font-face {
-    font-family: 'FontAwesome';
-    src: url('../font/fontawesome-webfont.eot?v=3.2.1');
-    src: url('../font/fontawesome-webfont.eot?#iefix&v=3.2.1') format('embedded-opentype'), url('../font/fontawesome-webfont.woff?v=3.2.1') format('woff'), url('../font/fontawesome-webfont.ttf?v=3.2.1') format('truetype'), url('../font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1') format('svg');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'FontAwesome';
+  src: url('../fonts/fontawesome-webfont.eot?v=4.6.3');
+  src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.6.3') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.6.3') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.6.3') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.6.3') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 .fl {
@@ -225,12 +226,17 @@ a.icon:before {
     content: "\f0e0";
 }
 
-.icon-circle:before {
-    content: "\f111";
+.icon-flag:before {
+    content: "\f024";
 }
 .icon-signin:before {
     content: "\f090";
+    font-size: 1.8rem;
 }
+.icon-peace:before {
+ content: "\f25b";
+}
+
 input[type="text"],
 input[type="number"],
 input[type="password"] {
@@ -608,5 +614,84 @@ border-right: none;
     min-width: 0;
 
     border: none;
+    cursor: pointer;
 
+
+}
+
+/*** prompt ***/
+
+.prompt{
+    position: absolute;
+    top:50%;
+    width:200px;
+    text-align: center;
+    margin-left:-100px;
+    left:50%;
+    z-index:999;
+    overflow: hidden;
+    height: 20px;
+    display: none;
+    font-weight: bold;
+}
+
+.prompt-submitting, .prompt-succeed{
+    position: absolute;
+    width:100%;
+    top:0;
+
+
+}
+.prompt-submitting{
+    left:0;
+    transition: left 3000ms;
+}
+.prompt-submitting.disappeared{
+    left:-200px;
+
+}
+
+.prompt-succeed{
+    right:0;
+    transition: right 600ms;
+
+}
+.prompt-succeed.disappeared{
+    right:-200px;
+
+}
+
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+.fa-pulse {
+    animation: 1s steps(8) 0s normal none infinite running fa-spin;
+}
+.fa-spinner:before {
+  content: "\f110";
 }

@@ -75,6 +75,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.submitOrder = function(order) {
 
+            var succeed = arguments[3];
+
             console.log('post request....');
 
             var orderData = ko.mapping.toJS(order); //$.parseJSON(ko.toJSON(order));
@@ -83,6 +85,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     console.log('get post result');
                     ko.mapping.fromJS(data, {}, order);
+                    succeed();
                 },
                 'json'
             );

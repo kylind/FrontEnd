@@ -52,7 +52,7 @@
                         <span class="taLeft w-p10" data-bind="text: quantity"></span>
                         <span class="taRight w-p60 orderitem-cnt-btns">
                 <a href="#" class="icon icon-search  rmargin-20" data-bind="tap: $root.getSubItems"></a>
-                <a href="#" class="icon icon-circle rmargin-5" data-bind="tap: $root.markDone, css: markItemStatus() "></a>
+                <a href="#" class="icon icon-flag rmargin-5" data-bind="tap: $root.markDone, css: markItemStatus() "></a>
             </span>
                     </div>
                     <div class="orderitem-subItems">
@@ -101,7 +101,7 @@
                         <span data-bind="text: displayDate" class="vaMiddle font-white"></span>
                         <div class="order-savebox">
                             <a href="#" class="icon icon-remove-sign font-white rmargin-20" data-bind="tap: $parent.removeOrder"></a>
-                            <a href="#" class="icon icon-circle rmargin-20 font-white" data-bind="tap: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
+                            <a href="#" class="icon icon-flag rmargin-20 font-white" data-bind="tap: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
                             <a href="#" class="icon icon-save-sign font-white" data-bind="tap: submitOrder"> </a>
                         </div>
                     </div>
@@ -217,6 +217,11 @@
             </div>
         </section>
     </div>
+</div>
+
+<div class="prompt">
+<span class="prompt-submitting"><i class="fa fa-spinner fa-pulse"></i> Submit...</span>
+<span class="prompt-succeed disappeared icon icon-peace font-green"> Succeed!</span>
 </div>
 <script>
 var orders = <%- JSON.stringify(orders) %>

@@ -13,7 +13,7 @@
             <span data-bind="text: displayDate()" class="vaMiddle font-white"></span>
             <div class="order-savebox">
                 <a href="#" class="icon icon-remove-sign font-white rmargin-20" data-bind="click: $parent.removeOrder"></a>
-                <a href="#" class="icon icon-circle rmargin-20 font-white" data-bind="click: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
+                <a href="#" class="icon icon-flag rmargin-20 font-white" data-bind="click: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
                 <a href="#" class="icon icon-save-sign font-white" data-bind="click: submitOrder"> </a>
             </div>
         </div>
