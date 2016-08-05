@@ -34,30 +34,46 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
             $(element).on('click', function(event) {
 
-                var offset = $(event.target).offset();
-                var top = offset.top;
-                $('.prompt').css('top', top).show();
+                $target= $(event.target);
+                var $submitting=$('.prompt-submitting');
+                var $succeed=$('.prompt-succeed');
 
-                handler(bindingContext.$data, bindingContext.$parent, event, function() {
+                if($target.hasClass('action-submit')){
 
+                    $submitting.text("Submitting...");
 
-                    var $submitting=$('.prompt-submitting');
-                    var $succeed=$('.prompt-succeed');
+                    var offset = $target.offset();
+                    $('.prompt').css('top', offset.top).show();
 
-                    $submitting.addClass('disappeared')
-                    $succeed.removeClass('disappeared')
+                    handler(bindingContext.$data, bindingContext.$parent, event, function() {
 
-                    $('.prompt').delay(1200).fadeOut('slow', function() {
-                            $submitting.removeClass('disappeared')
-                            $succeed.addClass('disappeared')
+                        $submitting.addClass('disappeared')
+                        $succeed.removeClass('disappeared')
+
+                        $('.prompt').delay(1200).fadeOut('slow', function() {
+                                $submitting.removeClass('disappeared')
+                                $succeed.addClass('disappeared')
+                        });
+
                     });
 
+                }else if($target.hasClass('action-load')){
+                    $submitting.text("Loading...");
+
+                    var offset = $target.offset();
+                    $('.prompt').css('top', offset.top).show();
+
+                    handler(bindingContext.$data, bindingContext.$parent, event, function() {
+
+                        $('.prompt').delay(1200).fadeOut('slow');
+
+                    });
+
+                }else{
+                    handler(bindingContext.$data, bindingContext.$parent, event);
 
 
-
-
-
-                });
+                }
                 return false;
             });
 

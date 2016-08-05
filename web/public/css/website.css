@@ -105,6 +105,7 @@
 
 .font-green {
     color: #99ff99;
+
 }
 
 .font-bold {
@@ -624,30 +625,36 @@ border-right: none;
 .prompt{
     position: absolute;
     top:50%;
-    width:200px;
+    width:100px;
     text-align: center;
-    margin-left:-100px;
+    margin-left:-50px;
     left:50%;
     z-index:999;
     overflow: hidden;
     height: 20px;
     display: none;
-    font-weight: bold;
+
+    box-shadow: 3px 3px 3px;
+    background-color: #cc0066;
+    opacity: 0.8;
+    /*background-color: #fff;*/
 }
 
 .prompt-submitting, .prompt-succeed{
+    font-weight: bold;
     position: absolute;
-    width:100%;
+    width:100px;
     top:0;
 
 
 }
 .prompt-submitting{
     left:0;
-    transition: left 3000ms;
+    color:#fff;
+    transition: left 300ms;
 }
 .prompt-submitting.disappeared{
-    left:-200px;
+    left:-100px;
 
 }
 
@@ -657,7 +664,7 @@ border-right: none;
 
 }
 .prompt-succeed.disappeared{
-    right:-200px;
+    right:-100px;
 
 }
 
