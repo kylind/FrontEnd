@@ -308,10 +308,13 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var id = order._id();
             self.orders.remove(order);
+
             if (id == '') {
+                swiper.update();
                 succeed();
                 return;
             }
+
 
 
             $.ajax('./order/' + id, {

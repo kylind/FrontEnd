@@ -104,9 +104,7 @@
 }
 
 .font-green {
-    /*color: #99ff99;*/
-
-    color:#33CC00;
+    color: #99ff99;
 
 }
 
@@ -268,7 +266,7 @@ input[type="password"]:focus {
 
 button {
     box-sizing: border-box;
-    min-width: 125px;
+    min-width: 100px;
     text-align: left;
     box-shadow: none;
     border: solid 1px #cc0066;
@@ -277,8 +275,8 @@ button {
     font-size: 1.5rem;
     line-height: 18px;
     /*border-radius: 8px;*/
-    text-transform: uppercase;
-    box-shadow: 2px 2px 3px;
+    /*text-transform: uppercase;*/
+    /*box-shadow: 2px 2px 3px;*/
 }
 
 .order {
@@ -623,6 +621,7 @@ border-right: none;
 
     border: none;
     cursor: pointer;
+    box-shadow: none;
 
 
 }
@@ -632,9 +631,9 @@ border-right: none;
 .prompt{
     position: absolute;
     top:50%;
-    width:120px;
+    width:100px;
     text-align: center;
-    margin-left:-60px;
+    margin-left:-50px;
     left:50%;
     z-index:999;
     overflow: hidden;
@@ -647,9 +646,8 @@ border-right: none;
 }
 
 .prompt-submitting, .prompt-succeed{
-    font-weight: bold;
     position: absolute;
-    width:120px;
+    width:100px;
     top:0;
 
 
@@ -660,17 +658,18 @@ border-right: none;
     transition: left 300ms;
 }
 .prompt-submitting.disappeared{
-    left:-120px;
+    left:-100px;
 
 }
 
 .prompt-succeed{
+    color:#33CC00;
     right:0;
     transition: right 600ms;
 
 }
 .prompt-succeed.disappeared{
-    right:-120px;
+    right:-100px;
 
 }
 

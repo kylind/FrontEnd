@@ -58,7 +58,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             var succeed = arguments[4];
             var id = address._id();
             self.addresses.remove(address);
+
             if (id == '') {
+                swiper.update();
                 succeed();
                 return;
             }

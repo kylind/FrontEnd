@@ -109,7 +109,7 @@
                         <div>
                             <button type="button" class="icon icon-add" data-bind="tap:addAddress"> Address</button>
                             <!-- ko if: _id() == '' -->
-                            <button type="button" class="icon icon-searchplus action-load" data-bind="tap:getAddresses"> Addresses</button>
+                            <button type="button" class="icon icon-searchplus action-load" data-bind="tap:getAddresses"> Address</button>
                             <!-- /ko -->
                         </div>
                         <div class="addresses tmargin-10">
@@ -221,7 +221,7 @@
 
 <div class="prompt">
     <span class="prompt-submitting"><i class="fa fa-spinner fa-pulse"></i> <span>Submit...</span></span>
-<span class="prompt-succeed disappeared icon icon-peace font-green"> Succeed!</span>
+<span class="prompt-succeed disappeared icon icon-peace"> Succeed!</span>
 </div>
 <script>
 var orders = <%- JSON.stringify(orders) %>
