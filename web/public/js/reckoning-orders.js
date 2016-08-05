@@ -76,11 +76,14 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.status = ko.observable(order ? order.status : 'RECEIVED');
 
         self.getHistoricTrades = function(item, parent, event) {
+
             var itemData = ko.mapping.toJS(item);
 
             var $historicTrades = $(event.target).parent().next('.historicbox');
 
             if (!item.isHistoricTradesOpen) {
+                arguments[3]();
+                var succeed = arguments[4]
 
                 if (itemData.name == '') return;
 
@@ -91,6 +94,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     $historicTrades.slideDown('fast', function() {
                         item.isHistoricTradesOpen = true;
                         swiper.update();
+                        succeed();
                     });
 
                 });
@@ -137,11 +141,12 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
 
         self.getAddresses = function(order) {
+            arguments[3]();
+            var succeed = arguments[4];
 
             var client = order.client();
 
             if (client == '') return;
-
 
             $.getJSON('./addressesByClient', {
                 client: client
@@ -149,6 +154,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                 status == 'success' ? order.addresses(res) : order.addresses([]);
                 swiper.update();
+                succeed();
 
             });
 
@@ -172,6 +178,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
 
         self.submitAddresses = function(order) {
+            arguments[3]();
+            var succeed = arguments[4];
 
             var addressesData = ko.mapping.toJS(order.addresses);
 
@@ -183,6 +191,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     order.addresses(addresses);
                     swiper.update();
+                    succeed();
                 },
                 'json'
             );
@@ -192,6 +201,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
 
         self.markDone = function() {
+            arguments[3]();
+            var succeed = arguments[4];
             var id = self._id();
 
             var orderStatus = self.status() == 'RECEIVED' ? 'DONE' : 'RECEIVED'
@@ -200,6 +211,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 success: function(data, status) {
 
                     self.status(orderStatus)
+                    succeed();
 
                 },
                 data: {
@@ -213,8 +225,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         }
 
         self.submitOrder = function(order) {
-
-            console.log('post request....');
+            arguments[3]();
+            var succeed = arguments[4];
 
             var orderData = $.parseJSON(ko.toJSON(order));
 
@@ -243,6 +255,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                             order.addresses(addresses);
                             swiper.update();
+                            succeed();
                         },
                         'json'
                     );
@@ -290,20 +303,28 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             swiper.update();
         };
         self.removeOrder = function(order) {
+            arguments[3]();
+            var succeed = arguments[4];
+
             var id = order._id();
             self.orders.remove(order);
-            if (id == '') return;
+            if (id == '') {
+                succeed();
+                return;
+            }
+
 
             $.ajax('./order/' + id, {
                 success: function(data, status) {
 
-                    swiper.update();
+                    succeed();
 
                 },
                 dataType: 'json',
                 type: 'DELETE'
 
             });
+            swiper.update();
 
         };
 
@@ -331,7 +352,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     searchGlobalOrders(matchedRes[2])
                 }
 
-            } else if(orders!=null) {
+            } else if (orders != null) {
 
                 newKeywords = '';
 

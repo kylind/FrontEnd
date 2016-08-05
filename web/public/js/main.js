@@ -34,42 +34,43 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
             $(element).on('click', function(event) {
 
-                $target= $(event.target);
-                var $submitting=$('.prompt-submitting');
-                var $succeed=$('.prompt-succeed');
+                $target = $(event.target);
+                var $submitting = $('.prompt-submitting');
+                var $succeed = $('.prompt-succeed');
 
-                if($target.hasClass('action-submit')){
-
-                    $submitting.text("Submitting...");
-
-                    var offset = $target.offset();
-                    $('.prompt').css('top', offset.top).show();
+                if ($target.hasClass('action-submit')) {
 
                     handler(bindingContext.$data, bindingContext.$parent, event, function() {
+                        $submitting.children('span').text("Submitting...");
+                        var offset = $target.offset();
+                        $('.prompt').css('top', offset.top).show();
+
+                    }, function() {
 
                         $submitting.addClass('disappeared')
                         $succeed.removeClass('disappeared')
 
-                        $('.prompt').delay(1200).fadeOut('slow', function() {
-                                $submitting.removeClass('disappeared')
-                                $succeed.addClass('disappeared')
+                        $('.prompt').delay(600).fadeOut('slow', function() {
+                            $submitting.removeClass('disappeared')
+                            $succeed.addClass('disappeared')
                         });
 
                     });
 
-                }else if($target.hasClass('action-load')){
-                    $submitting.text("Loading...");
-
-                    var offset = $target.offset();
-                    $('.prompt').css('top', offset.top).show();
+                } else if ($target.hasClass('action-load')) {
 
                     handler(bindingContext.$data, bindingContext.$parent, event, function() {
+                        $submitting.children('span').text("Loading...");
+                        var offset = $target.offset();
+                        $('.prompt').css('top', offset.top).show();
 
-                        $('.prompt').delay(1200).fadeOut('slow');
+                    }, function() {
+
+                        $('.prompt').delay(600).fadeOut('slow');
 
                     });
 
-                }else{
+                } else {
                     handler(bindingContext.$data, bindingContext.$parent, event);
 
 

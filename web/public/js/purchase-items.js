@@ -109,9 +109,12 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.getSubItems = function(item, parent, event) {
 
+
             var itemData = ko.mapping.toJS(item);
 
             if (!item.isSubItemsOpen) {
+                arguments[3]();
+                var succeed = arguments[4]
                 $.getJSON('/subitems', { itemName: itemData._id }, function(res, status) {
 
                     if (status == 'success') {
@@ -121,16 +124,17 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                         item.subItems([]);
                     }
 
-                    $(event.target).parents('.orderitem-cnt').next().slideDown('fast',function() {
+                    $(event.target).parents('.orderitem-cnt').next().slideDown('fast', function() {
                         item.isSubItemsOpen = true;
                         swiper.update();
+                        succeed();
                     });
 
                 });
 
             } else {
 
-                $(event.target).parents('.orderitem-cnt').next().slideUp('fast',function() {
+                $(event.target).parents('.orderitem-cnt').next().slideUp('fast', function() {
                     item.isSubItemsOpen = false;
                     swiper.update();
                 });
@@ -143,6 +147,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
 
         self.markDone = function(item) {
+            arguments[3]();
+            var succeed = arguments[4];
 
             var itemData = ko.mapping.toJS(item);
 
@@ -163,6 +169,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 }, function(res, status) {
 
                     item.purchaseDetail(res.purchaseDetail);
+                    succeed();
                 },
                 'json'
             );

@@ -20,7 +20,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     var OrdersModel = function(orders, mySwiper) {
 
-        var swiper= mySwiper;
+        var swiper = mySwiper;
 
 
 
@@ -39,9 +39,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         var self = this;
 
-        self.setSwiper=function(mySwiper){
+        self.setSwiper = function(mySwiper) {
 
-            swiper=mySwiper;
+            swiper = mySwiper;
 
         }
 
@@ -68,14 +68,14 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             swiper.update();
         };
 
-        self.removeItem = function(data,parent) {
+        self.removeItem = function(data, parent) {
             parent.items.remove(data);
             swiper.update();
         };
 
         self.submitOrder = function(order) {
-
-            var succeed = arguments[3];
+            arguments[3]();
+            var succeed = arguments[4];
 
             console.log('post request....');
 
@@ -103,12 +103,17 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
 
         self.removeOrder = function(order) {
+
+            arguments[3]();
+            var succeed = arguments[4];
+
             var id = order._id();
             self.orders.remove(order);
 
 
             if (id == '') {
                 swiper.update();
+                succeed();
 
                 return;
             }
@@ -116,7 +121,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             $.ajax('./order/' + id, {
                 success: function(data, status) {
 
-                    console.log(data);
+                    succeed();
 
                 },
                 dataType: 'json',

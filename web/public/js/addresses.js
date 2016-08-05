@@ -54,16 +54,20 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
 
         self.removeAddress = function(address) {
-
+            arguments[3]();
+            var succeed = arguments[4];
             var id = address._id();
             self.addresses.remove(address);
-            if (id == '') return;
+            if (id == '') {
+                succeed();
+                return;
+            }
+
+
 
             $.ajax('./address/' + id, {
                 success: function(data, status) {
-
-
-
+                    succeed();
                 },
                 dataType: 'json',
                 type: 'DELETE'
@@ -75,6 +79,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
 
         self.submitAddress = function(address) {
+            arguments[3]();
+            var succeed = arguments[4];
 
             console.log('post request....');
 
@@ -85,6 +91,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     console.log('get post result');
                     ko.mapping.fromJS(data, {}, address);
                     swiper.update();
+                    succeed();
                 },
                 'json'
             );

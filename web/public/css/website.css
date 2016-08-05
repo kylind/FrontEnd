@@ -104,7 +104,9 @@
 }
 
 .font-green {
-    color: #99ff99;
+    /*color: #99ff99;*/
+
+    color:#33CC00;
 
 }
 
@@ -208,7 +210,7 @@ a.icon:before {
 }
 
 .icon-add:before {
-    content: "\f055";
+    content: "\f067";
 }
 
 .icon-save-sign:before {
@@ -236,6 +238,9 @@ a.icon:before {
 }
 .icon-peace:before {
  content: "\f25b";
+}
+.icon-searchplus:before {
+ content: "\f00e";
 }
 
 input[type="text"],
@@ -271,7 +276,9 @@ button {
     padding: 0 0 0 5px;
     font-size: 1.5rem;
     line-height: 18px;
-    border-radius: 8px;
+    /*border-radius: 8px;*/
+    text-transform: uppercase;
+    box-shadow: 2px 2px 3px;
 }
 
 .order {
@@ -625,9 +632,9 @@ border-right: none;
 .prompt{
     position: absolute;
     top:50%;
-    width:100px;
+    width:120px;
     text-align: center;
-    margin-left:-50px;
+    margin-left:-60px;
     left:50%;
     z-index:999;
     overflow: hidden;
@@ -635,26 +642,25 @@ border-right: none;
     display: none;
 
     box-shadow: 3px 3px 3px;
-    background-color: #cc0066;
-    opacity: 0.8;
-    /*background-color: #fff;*/
+    background-color: #fff;
+    opacity: 0.9;
 }
 
 .prompt-submitting, .prompt-succeed{
     font-weight: bold;
     position: absolute;
-    width:100px;
+    width:120px;
     top:0;
 
 
 }
 .prompt-submitting{
     left:0;
-    color:#fff;
+    color:#cc0066;
     transition: left 300ms;
 }
 .prompt-submitting.disappeared{
-    left:-100px;
+    left:-120px;
 
 }
 
@@ -664,7 +670,7 @@ border-right: none;
 
 }
 .prompt-succeed.disappeared{
-    right:-100px;
+    right:-120px;
 
 }
 
