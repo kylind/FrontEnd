@@ -24,6 +24,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self._id = ko.observable(order ? order._id : '');
         self.client = ko.observable(order ? order.client : '');
+        self.postage = ko.observable(order && order.postage ? order.postage : 0);
 
 
         var observableItems = [];
@@ -51,11 +52,22 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.createDate = ko.observable(order ? order.createDate : '');
         self.displayDate = ko.observable(order ? order.displayDate : '');
 
+
         self.rate = order ? order.rate : '';
 
         self.buyPrice = ko.observable(order ? order.buyPrice : '');
         self.sellPrice = ko.observable(order ? order.sellPrice : '');
         self.profit = ko.observable(order ? order.profit : '');
+
+        self.total = ko.pureComputed(function() {
+            var sellPrice=parseFloat(this.sellPrice());
+            var postage = parseFloat(this.postage());
+            if(isNaN(sellPrice) || isNaN(postage)){
+                return '?';
+            }else{
+                return (sellPrice + postage).toFixed(1);
+            }
+        }, self);
 
 
         var dateFormatting = {
@@ -294,10 +306,27 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.orders = ko.observableArray(observableOrders);
 
+        self.toggleClientView = function(data, parent, event) {
+
+            $(event.target).toggleClass('icon-eyeslash');
+
+
+            var $orders = $('#reckoningOrders').find('.orders');
+
+            if ($(event.target).hasClass('icon-eyeslash')) {
+                $orders.addClass("isClientView");
+
+            } else {
+                $orders.removeClass("isClientView");
+            }
+
+
+        };
+
 
         self.addOrder = function() {
 
-            var order = new OrderModel();
+            var order = new OrderModel(null, swiper);
 
             self.orders.unshift(order);
             swiper.update();

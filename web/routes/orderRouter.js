@@ -17,6 +17,7 @@ const RECEIVED = 'RECEIVED'
 const EMPTY_ORDER = {
     _id: '',
     client: '',
+    postage:'',
     items: [{
         name: "",
         quantity: 1,
@@ -84,6 +85,7 @@ router.post('/order', function*() {
     delete order.buyPrice;
     delete order.profit;
     delete order.displayDate;
+    delete order.total;
 
     if (ObjectID.isValid(order._id)) {
 

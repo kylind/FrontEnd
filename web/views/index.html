@@ -87,12 +87,13 @@
         </section>
         <section class="swiper-slide" id="reckoningOrders">
             <div>
-                <button type="button" text="Add" class="fl icon icon-add lmargin-5" data-bind="tap:$root.addOrder"> Order </button>
+                <button type="button" text="Add" class="fl icon icon-add lmargin-5 rmargin-20" data-bind="tap:$root.addOrder"> Order </button>
+                <a href="#" class="fl icon icon-eye" data-bind="tap: $root.toggleClientView"></a>
                 <div class="lmargin-150">
                     <input type="text" class="w-p100 input-search" name="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
                 </div>
             </div>
-            <div class="tmargin-10" data-bind="foreach: orders">
+            <div class="tmargin-10 orders" data-bind="foreach: orders">
                 <section class="order">
                     <div class="order-head">
                         <input type="hidden" data-bind="value: _id" />
@@ -102,7 +103,7 @@
                         <div class="order-savebox">
                             <a href="#" class="icon icon-remove-sign font-white rmargin-20  action-submit" data-bind="tap: $parent.removeOrder"></a>
                             <a href="#" class="icon icon-flag rmargin-20 font-white  action-submit" data-bind="tap: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
-                            <a href="#" class="icon icon-save-sign font-white  action-submit" data-bind="tap: submitOrder"> </a>
+                            <a href="#" class="icon icon-save-sign font-white  action-submit" role="button" tabindex="0"  data-key="true" data-bind="enter: submitOrder"> </a>
                         </div>
                     </div>
                     <div class="order-addressbox tmargin-10">
@@ -132,10 +133,14 @@
                         <div>
                             <button type="button" text="Add" class="icon icon-add rmargin-5" data-bind="tap:addItem"> Item</button>
                             <!-- ko if: _id() != '' -->
-                            <span class="font-bold font-red vaMiddle">
-                    <span>B: </span><span class="rmargin-5" data-bind="text: buyPrice"></span>
-                            <span>S: </span><span class="rmargin-5" data-bind="text: sellPrice"></span>
-                            <span>P: </span><span data-bind="text: profit"></span>
+                            <span class="font-bold font-red vaMiddle onlyForMe">
+                                <span>B: </span><span class="rmargin-5" data-bind="text: buyPrice"></span>
+                                <span>S: </span><span class="rmargin-5" data-bind="text: sellPrice"></span>
+                                <span>P: </span><span class="rmargin-5" data-bind="text: profit"></span>
+                                <span>F: </span><input type="text"  class="w-30 font-red font-bold postage" data-bind="value: postage" /></span>
+                            </span>
+                            <span class="font-bold font-red vaMiddle onlyForClient">
+                                <span>Total: </span><span data-bind="text: sellPrice"></span> + <span data-bind="text: postage"></span> = <span data-bind="text: total"></span>
                             </span>
                             <!-- /ko -->
                         </div>
@@ -145,9 +150,9 @@
                                 <div class="item-fields">
                                     <input class="w-p20" type="text" data-bind="value: name" placeholder="Product Name" />
                                     <input class="w-p10" type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
-                                    <input class="w-p15" type="text" data-bind="value: buyPrice" placeholder="Buy" />
+                                    <input class="w-p15 onlyForMe" type="text" data-bind="value: buyPrice" placeholder="Buy" />
                                     <input class="w-p15" type="text" data-bind="value: sellPrice" placeholder="Sell" />
-                                    <input class="w-p15" type="text" readonly data-bind="value: profit" placeholder="Profit" />
+                                    <input class="w-p15 onlyForMe" type="text" readonly data-bind="value: profit" placeholder="Profit" />
                                     <a href="#" class="icon icon-search  action-load" data-bind="tap: $parent.getHistoricTrades"></a>
                                     <div class="item-actions">
                                         <a href="#" class="icon icon-remove action-submit" data-bind="tap: $parent.removeItem"></a>
@@ -218,10 +223,9 @@
         </section>
     </div>
 </div>
-
 <div class="prompt">
     <span class="prompt-submitting"><i class="fa fa-spinner fa-pulse"></i> <span>Submit...</span></span>
-<span class="prompt-succeed disappeared icon icon-peace"> Succeed!</span>
+    <span class="prompt-succeed disappeared icon icon-peace"> Succeed!</span>
 </div>
 <script>
 var orders = <%- JSON.stringify(orders) %>
