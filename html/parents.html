@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Examples</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link href="" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+    </header>
+    <main>
+        <ul class="level-1">
+            <li class="item-i">I</li>
+            <li class="item-ii">II
+                <ul class="level-2">
+                    <li class="item-a">A</li>
+                    <li class="item-a">A</li>
+                    <li class="item-b">B
+                        <ul class="level-3">
+                            <li class="item-1">1</li>
+                            <li class="item-2">2</li>
+                            <li class="item-3">3</li>
+                        </ul>
+                    </li>
+                    <li class="item-c">C</li>
+                </ul>
+            </li>
+            <li class="item-iii">III
+                <ul class="level-2">
+                    <li class="item-a">A</li>
+                    <li class="item-b">B
+                        <ul class="level-3">
+                            <li class="item-1">1</li>
+                            <li class="item-2">2</li>
+                            <li class="item-3">3</li>
+                        </ul>
+                    </li>
+                    <li class="item-c">C</li>
+                </ul>
+            </li>
+        </ul>
+        <div>
+            <p>Hello</p>
+        </div>
+        <div class="selected">
+            <div>
+                <p>Hello Again</p>
+            </div>
+        </div>
+        <div class="selected">
+
+                <p>Hello Again</p>
+
+        </div>
+    </main>
+    <footer>
+    </footer>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/lib/jquery-1.11.1.min.js"></script>
+<script>
+$('li.item-a').parentsUntil('.level-1')
+    .css('background-color', 'red');
+
+$("p").parent(".selected").css('background-color', 'yellow');
+</script>
