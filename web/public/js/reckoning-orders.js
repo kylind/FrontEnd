@@ -60,11 +60,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.profit = ko.observable(order ? order.profit : '');
 
         self.total = ko.pureComputed(function() {
-            var sellPrice=parseFloat(this.sellPrice());
+            var sellPrice = parseFloat(this.sellPrice());
             var postage = parseFloat(this.postage());
-            if(isNaN(sellPrice) || isNaN(postage)){
+            if (isNaN(sellPrice) || isNaN(postage)) {
                 return '?';
-            }else{
+            } else {
                 return (sellPrice + postage).toFixed(1);
             }
         }, self);
@@ -86,6 +86,14 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };*/
 
         self.status = ko.observable(order ? order.status : 'RECEIVED');
+
+        self.orderStatus = ko.pureComputed(function() {
+            if (self.status() == 'DONE') {
+                return 'font-green';
+            } else if (self.status() == 'SENT') {
+                return 'font-yellow';
+            }
+        });
 
         self.getHistoricTrades = function(item, parent, event) {
 
@@ -215,19 +223,37 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.markDone = function() {
             arguments[3]();
             var succeed = arguments[4];
+            var parent = arguments[1];
             var id = self._id();
 
-            var orderStatus = self.status() == 'RECEIVED' ? 'DONE' : 'RECEIVED'
+            var orderStatus = self.status();
+
+            var newStatus = 'RECEIVED';
+
+            if (orderStatus == 'RECEIVED') {
+                newStatus = 'SENT'
+
+            } else if (orderStatus == 'SENT') {
+                newStatus = 'DONE'
+
+            }
 
             $.ajax('./orderStatus/' + id, {
                 success: function(data, status) {
 
-                    self.status(orderStatus)
+                    self.status(newStatus)
+                    if (newStatus == 'DONE') {
+                        parent.removeDoneOrder(self)
+                    } else if (orderStatus == 'DONE') {
+                        parent.addExistingOrder(self)
+
+                    }
+                    swiper.update();
                     succeed();
 
                 },
                 data: {
-                    'status': orderStatus
+                    'status': newStatus
                 },
                 dataType: 'json',
                 type: 'PUT'
@@ -331,7 +357,36 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             self.orders.unshift(order);
             swiper.update();
         };
+        self.addExistingOrder = function(order) {
+            if (orders != null) {
+                orders.push(order);
+
+            }
+            //self.orders.push(order);
+
+        };
+        self.removeDoneOrder = function(doneOrder) {
+
+            var id=doneOrder._id();
+
+            if (orders != null) {
+
+                var newOrders=orders.filter(function(order){
+
+                    return order._id()!=id;
+
+                });
+
+                orders=newOrders;
+
+            }
+
+            self.orders.remove(doneOrder);
+
+
+        };
         self.removeOrder = function(order) {
+
             arguments[3]();
             var succeed = arguments[4];
 

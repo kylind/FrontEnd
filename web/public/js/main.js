@@ -85,53 +85,6 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
         }
     };
 
-    ko.bindingHandlers.enter = {
-
-        init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-
-            var handler = valueAccessor();
-
-            $(element).on('keydown', function(event) {
-
-                if (event.keyCode == 13) {
-                    $target = $(event.target);
-                    var $submitting = $('.prompt-submitting');
-                    var $succeed = $('.prompt-succeed');
-
-                    if ($target.hasClass('action-submit')) {
-
-                        handler(bindingContext.$data, bindingContext.$parent, event, function() {
-                            $submitting.children('span').text("Submitting...");
-                            var offset = $target.offset();
-                            $('.prompt').css('top', offset.top).show();
-
-                        }, function() {
-
-                            $submitting.addClass('disappeared')
-                            $succeed.removeClass('disappeared')
-
-                            $('.prompt').delay(600).fadeOut('slow', function() {
-                                $submitting.removeClass('disappeared')
-                                $succeed.addClass('disappeared')
-                            });
-
-                        });
-
-                    }
-                    return false;
-
-                }
-
-
-            });
-
-
-        },
-        update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-
-        }
-    };
-
 
     var ordersModel = new OrdersModel(orders);
     ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
@@ -188,6 +141,18 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
         $.getJSON('./addressesJson', function(addresses, status) {
             addressesModel = new AddressesModel(addresses, swiper);
             ko.applyBindings(addressesModel, $('#addresses')[0]);
+
+        });
+
+        $(document).on('keydown', function(event){
+            if(event.keyCode==13){
+                var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
+                $(document.activeElement).blur();
+                setTimeout(function(){
+                    $target.trigger('click')
+                },100);
+
+            }
 
         });
 

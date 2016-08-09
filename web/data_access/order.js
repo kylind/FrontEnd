@@ -1,7 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectID = require('mongodb').ObjectID;
-var url = 'mongodb://website:zombie.123@120.24.63.42:27017/orders';
+var url = 'mongodb://127.0.0.1:27017/orders';
 
 
 var collection = {
@@ -35,14 +35,14 @@ var collection = {
 
         //order = JSON.parse(JSON.stringify(order));
 
-        var  id = order._id;
+        var id = order._id;
         delete order._id;
 
         var res = yield db.collection('orders').replaceOne({
             "_id": new ObjectID(id)
         }, order);
 
-        order._id= id;
+        order._id = id;
 
         return res;
     },
@@ -63,24 +63,24 @@ var collection = {
 
         var db = yield MongoClient.connect(url);
 
-        var res = yield db.collection('orders').find({status: "RECEIVED"}).sort({'createDate': -1}).toArray();
+        var res = yield db.collection('orders').find({ status: "RECEIVED" }).sort({ 'createDate': -1 }).toArray();
 
         return res;
 
     },
 
-/*    queryOrders: function*(filter) {
+    /*    queryOrders: function*(filter) {
 
 
-        var db = yield MongoClient.connect(url);
+            var db = yield MongoClient.connect(url);
 
-        var res = yield db.collection('orders').find(filter).toArray();
+            var res = yield db.collection('orders').find(filter).toArray();
 
-        return res;
+            return res;
 
 
-    },*/
-    queryGlobalOrders: function*( filter) {
+        },*/
+    queryGlobalOrders: function*(filter) {
 
 
 
@@ -88,7 +88,7 @@ var collection = {
         var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
-                 $match: filter
+                $match: filter
             },
 
             {
@@ -100,7 +100,7 @@ var collection = {
                 }
             }
 
-        ], { cursor: { batchSize: 1 } }).sort({'createDate': -1}).toArray();
+        ], { cursor: { batchSize: 1 } }).sort({ 'createDate': -1 }).toArray();
 
 
         return res;
@@ -111,17 +111,19 @@ var collection = {
 
         var currentMiliSeconds = Date.now();
 
-        var currentDay = new Date ().getDay();
+        var currentDay = new Date().getDay();
 
         var startMiliSeconds = currentMiliSeconds - ((currentDay + 7) * 24 * 60 * 60 * 1000);
 
-        var startDate = new Date (new Date(startMiliSeconds).setHours(0, 0, 0, 0));
+        var startDate = new Date(new Date(startMiliSeconds).setHours(0, 0, 0, 0));
+
+        //, { createDate: { $gt:startDate } }
 
 
         var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
-                 $match: { $or: [{ status: 'RECEIVED' }, { createDate: { $gt:startDate } }] }
+                $match: { $or: [{ status: 'RECEIVED' }, { status: 'SENT' }] }
             },
 
             {
@@ -133,7 +135,7 @@ var collection = {
                 }
             }
 
-        ], { cursor: { batchSize: 1 } }).sort({'createDate': -1}).toArray();
+        ], { cursor: { batchSize: 1 } }).sort({ 'createDate': -1 }).toArray();
 
 
         return res;
@@ -160,8 +162,10 @@ var collection = {
 
         var res = yield db.collection('orders').aggregate([{
 
-                $match: { status: 'RECEIVED', 'items.name': itemName }
+            $match: { $or: [{ status: 'SENT' }, { status: 'DONE' }], 'items.name': itemName }
 
+            }, {
+                $limit: 10
             }, {
                 $unwind: {
 
@@ -177,7 +181,7 @@ var collection = {
                 $project: { _id: 0, client: 1, createDate: 1, status: 1, name: '$items.name', quantity: '$items.quantity', buyPrice: '$items.buyPrice', sellPrice: '$items.sellPrice', isDone: '$items.isDone' }
             }
 
-        ], { cursor: { batchSize: 1 } }).sort({'createDate': -1}).toArray();
+        ], { cursor: { batchSize: 1 } }).sort({ 'createDate': -1 }).toArray();
 
         return res;
 

@@ -9,13 +9,13 @@
                 </div>
             </div>
             <div class="tmargin-10" data-bind="foreach: orders">
-                <section class="order">
+                <section class="order enterArea">
                     <div class="order-head">
                         <input type="hidden" data-bind="value: _id" />
                         <input type="text" data-bind="value: client" placeholder="Client Name" />
                         <div class="order-savebox">
                             <a href="#" class="icon icon-remove-sign font-white rmargin-20 action-submit" data-bind="tap: $root.removeOrder"></a>
-                            <a href="#" class="icon icon-save-sign  font-white action-submit" data-bind="tap: $root.submitOrder"> </a>
+                            <a href="#" class="icon icon-save-sign  font-white action-submit action-enter" data-bind="tap: $root.submitOrder"> </a>
                         </div>
                     </div>
                     <div class="order-itembox">
@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="tmargin-10 orders" data-bind="foreach: orders">
-                <section class="order">
+                <section class="order enterArea">
                     <div class="order-head">
                         <input type="hidden" data-bind="value: _id" />
                         <input type="hidden" data-bind="value: rate" />
@@ -102,8 +102,8 @@
                         <span data-bind="text: displayDate" class="vaMiddle font-white"></span>
                         <div class="order-savebox">
                             <a href="#" class="icon icon-remove-sign font-white rmargin-20  action-submit" data-bind="tap: $parent.removeOrder"></a>
-                            <a href="#" class="icon icon-flag rmargin-20 font-white  action-submit" data-bind="tap: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
-                            <a href="#" class="icon icon-save-sign font-white  action-submit" role="button" tabindex="0"  data-key="true" data-bind="enter: submitOrder"> </a>
+                            <a href="#" class="icon icon-flag rmargin-20 font-white  action-submit" data-bind="tap: markDone, css: orderStatus"> </a>
+                            <a href="#" class="icon icon-save-sign font-white  action-submit action-enter" role="button" tabindex="0"  data-key="true" data-bind="tap: submitOrder"> </a>
                         </div>
                     </div>
                     <div class="order-addressbox tmargin-10">
@@ -137,7 +137,7 @@
                                 <span>B: </span><span class="rmargin-5" data-bind="text: buyPrice"></span>
                                 <span>S: </span><span class="rmargin-5" data-bind="text: sellPrice"></span>
                                 <span>P: </span><span class="rmargin-5" data-bind="text: profit"></span>
-                                <span>F: </span><input type="text"  class="w-30 font-red font-bold postage" data-bind="value: postage" /></span>
+                                <span>F: </span><input type="text"  class="w-30 font-red font-bold postage" data-bind="value: postage" />
                             </span>
                             <span class="font-bold font-red vaMiddle onlyForClient">
                                 <span>Total: </span><span data-bind="text: sellPrice"></span> + <span data-bind="text: postage"></span> = <span data-bind="text: total"></span>
@@ -210,14 +210,14 @@
                 <button class="icon icon-add" data-bind="tap: addAddress"> Address </button>
             </div>
             <div class="tmargin-10 alladdresses" data-bind="foreach: addresses">
-                <section class="address">
+                <section class="address enterArea">
                     <input type="hidden" data-bind="value: _id" />
                     <input type="text" class="w-p30" data-bind="value: client" placeholder="Client" />
                     <input type="text" class="w-p30" data-bind="value: recipient" placeholder="Recipient" />
                     <input type="text" class="w-p30" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" />
                     <input type="text" class="address-inputaddress" min="0" max="100" step="1" data-bind="value: address" placeholder="Address" />
                     <a href="#" class="address-remove icon icon-remove action-submit" data-bind="tap: $root.removeAddress"> </a>
-                    <a href="#" class="address-save icon icon-save  action-submit" data-bind="css:{ 'font-red': isSend() },tap: $root.submitAddress"> </a>
+                    <a href="#" class="address-save icon icon-save  action-submit action-enter" data-bind="css:{ 'font-red': isSend() },tap: $root.submitAddress"> </a>
                 </section>
             </div>
         </section>

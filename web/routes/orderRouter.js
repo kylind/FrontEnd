@@ -9,7 +9,7 @@ var dateFormatting = {
     weekday: "short"
 };
 
-const RATE = 0.85;
+const RATE = 0.86;
 
 
 const RECEIVED = 'RECEIVED'
@@ -86,6 +86,7 @@ router.post('/order', function*() {
     delete order.profit;
     delete order.displayDate;
     delete order.total;
+    delete order.orderStatus
 
     if (ObjectID.isValid(order._id)) {
 
