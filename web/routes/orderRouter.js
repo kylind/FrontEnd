@@ -244,7 +244,28 @@ router.get('/reckoningOrdersJson', function*() {
     this.status = 200;
 
 });
+router.get('/profitList', function*() {
 
+    var res = yield orderOperation.summarizeProfit();
+
+    yield this.render('profitList', {
+        orders: res,
+        css: '',
+        script: 'mvvm',
+        header: 'specific',
+        footer: ''
+
+    });
+
+});
+router.get('/profitListJson', function*() {
+
+    var res = yield orderOperation.summarizeProfit();
+
+    this.body = res;
+    this.status = 200;
+
+});
 function* getReckoningOrders() {
     var res = null;
     res = yield orderOperation.queryReckoningOrders();

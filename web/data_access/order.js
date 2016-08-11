@@ -141,6 +141,38 @@ var collection = {
         return res;
 
     },
+    summarizeProfit: function*() {
+
+        var db = yield MongoClient.connect(url);
+
+        var res = yield db.collection('orders').aggregate([{
+                $match: { $or: [{ status: 'DONE' }, { status: 'SENT' }] }
+            }, {
+                $project: { _id: 0, client: 1, status: 1, buyPrice: 1, sellPrice: 1, profit: 1, year: { $year: "$createDate" }, week: { $week: "$createDate" } }
+            }, {
+                $group: {
+                    _id: { 'year': '$year', 'week': '$week' },
+                    buyPrice: {
+                        $sum: '$buyPrice'
+
+                    },
+                    sellPrice: {
+                        $sum: '$sellPrice'
+
+                    },
+                    profit: {
+                        $sum: '$profit'
+                    }
+                }
+            },{
+
+            }
+
+        ], { cursor: { batchSize: 1 } }).sort({ 'week': -1 }).toArray();
+
+        return res;
+
+    },
 
     remove: function*(id) {
 
@@ -162,7 +194,7 @@ var collection = {
 
         var res = yield db.collection('orders').aggregate([{
 
-            $match: { $or: [{ status: 'SENT' }, { status: 'DONE' }], 'items.name': itemName }
+                $match: { $or: [{ status: 'SENT' }, { status: 'DONE' }], 'items.name': itemName }
 
             }, {
                 $limit: 10

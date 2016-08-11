@@ -51,9 +51,9 @@
                         <span class="taLeft w-p30" data-bind="text: _id"></span>
                         <span class="taLeft w-p10" data-bind="text: quantity"></span>
                         <span class="taRight w-p60 orderitem-cnt-btns">
-                <a href="#" class="icon icon-search  rmargin-20 action-load" data-bind="tap: $root.getSubItems"></a>
-                <a href="#" class="icon icon-flag rmargin-5 action-submit" data-bind="tap: $root.markDone, css: markItemStatus() "></a>
-            </span>
+                            <a href="#" class="icon icon-search  rmargin-20 action-load" data-bind="tap: $root.getSubItems"></a>
+                            <a href="#" class="icon icon-flag rmargin-5 action-submit" data-bind="tap: $root.markDone, css: markItemStatus() "></a>
+                        </span>
                     </div>
                     <div class="orderitem-subItems">
                         <!-- ko if: hasItemDetail() -->
@@ -103,7 +103,7 @@
                         <div class="order-savebox">
                             <a href="#" class="icon icon-remove-sign font-white rmargin-20  action-submit" data-bind="tap: $parent.removeOrder"></a>
                             <a href="#" class="icon icon-flag rmargin-20 font-white  action-submit" data-bind="tap: markDone, css: orderStatus"> </a>
-                            <a href="#" class="icon icon-save-sign font-white  action-submit action-enter" role="button" tabindex="0"  data-key="true" data-bind="tap: submitOrder"> </a>
+                            <a href="#" class="icon icon-save-sign font-white  action-submit action-enter" role="button" tabindex="0" data-key="true" data-bind="tap: submitOrder"> </a>
                         </div>
                     </div>
                     <div class="order-addressbox tmargin-10">
@@ -135,9 +135,10 @@
                             <!-- ko if: _id() != '' -->
                             <span class="font-bold font-red vaMiddle onlyForMe">
                                 <span>B: </span><span class="rmargin-5" data-bind="text: buyPrice"></span>
-                                <span>S: </span><span class="rmargin-5" data-bind="text: sellPrice"></span>
-                                <span>P: </span><span class="rmargin-5" data-bind="text: profit"></span>
-                                <span>F: </span><input type="text"  class="w-30 font-red font-bold postage" data-bind="value: postage" />
+                            <span>S: </span><span class="rmargin-5" data-bind="text: sellPrice"></span>
+                            <span>P: </span><span class="rmargin-5" data-bind="text: profit"></span>
+                            <span>F: </span>
+                            <input type="text" class="w-30 font-red font-bold postage" data-bind="value: postage" />
                             </span>
                             <span class="font-bold font-red vaMiddle onlyForClient">
                                 <span>Total: </span><span data-bind="text: sellPrice"></span> + <span data-bind="text: postage"></span> = <span data-bind="text: total"></span>
