@@ -3,7 +3,7 @@ util = {
     sumarizeOrder: function(order) {
         var buyPrice = 0,
             sellPrice = 0,
-            profit = NaN;
+            profit = 0;
 
         var isBuyComplete = true;
         var isSellComplete = true;
@@ -49,36 +49,49 @@ util = {
 
             } else {
 
-                item.profit = itemSell < 2 ? ((itemBuy * itemSell - itemBuy * rate) * quantity).toFixed(1) : ((itemSell - itemBuy * rate) * quantity).toFixed(1);
+                var itemProfit = itemSell < 2 ? ((itemBuy * itemSell - itemBuy * rate) * quantity) : ((itemSell - itemBuy * rate) * quantity);
+
+                item.profit=itemProfit.toFixed(1);
+
+                profit+=itemProfit;
 
             }
 
         });
 
-        if (buyPrice==0) {
+        /*        if (buyPrice==0) {
 
-            order.buyPrice = '?';
+                    order.buyPrice = '?';
 
+                } else {
+                     order.buyPrice = isBuyComplete ? buyPrice.toFixed(1) : (buyPrice.toFixed(1) + '?');
 
-        } else {
-            order.buyPrice = isBuyComplete ? buyPrice.toFixed(1) : (buyPrice.toFixed(1) + '?');
-        }
+                }*/
 
-        if (sellPrice==0) {
+        order.buyPrice = buyPrice == 0 ? null : buyPrice;
 
-            order.sellPrice = '?';
+        /*        if (sellPrice==0) {
 
-        } else {
-            order.sellPrice = isSellComplete ? sellPrice.toFixed(1) : (sellPrice.toFixed(1) + '?');
-        }
+                    order.sellPrice = '?';
 
-        if (buyPrice==0 || sellPrice==0) {
-            order.profit = '?'
+                } else {
+                    order.sellPrice = isSellComplete ? sellPrice.toFixed(1) : (sellPrice.toFixed(1) + '?');
+                }*/
 
-        } else {
-            order.profit = (sellPrice - buyPrice * rate).toFixed(1);
+        order.sellPrice = sellPrice == 0 ? null : sellPrice;
 
-        }
+        // if (buyPrice==0 || sellPrice==0) {
+        //     order.profit = '?'
+
+        // } else {
+        //     order.profit = (sellPrice - buyPrice * rate).toFixed(1);
+
+        // }
+
+        order.profit = (profit == 0) ? null : profit;
+
+        order.isComplete= isSellComplete && isBuyComplete;
+
 
     }
 

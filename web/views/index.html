@@ -133,12 +133,12 @@
                         <div>
                             <button type="button" text="Add" class="icon icon-add rmargin-5" data-bind="tap:addItem"> Item</button>
                             <!-- ko if: _id() != '' -->
-                            <span class="font-bold font-red vaMiddle onlyForMe">
-                                <span>B: </span><span class="rmargin-5" data-bind="text: buyPrice"></span>
-                            <span>S: </span><span class="rmargin-5" data-bind="text: sellPrice"></span>
-                            <span>P: </span><span class="rmargin-5" data-bind="text: profit"></span>
+                            <span class="font-bold font-red vaMiddle onlyForMe" data-bind="css:{'font-red': isComplete}">
+                                <span>B: </span><span class="rmargin-5" data-bind="text: formatPrice(buyPrice)"></span>
+                            <span>S: </span><span class="rmargin-5" data-bind="text: formatPrice(sellPrice)"></span>
+                            <span>P: </span><span class="rmargin-5" data-bind="text: formatPrice(profit)"></span>
                             <span>F: </span>
-                            <input type="text" class="w-30 font-red font-bold postage" data-bind="value: postage" />
+                            <input type="text" class="w-30 font-bold postage" data-bind="value: postage,css:{'font-red': isComplete}" />
                             </span>
                             <span class="font-bold font-red vaMiddle onlyForClient">
                                 <span>Total: </span><span data-bind="text: sellPrice"></span> + <span data-bind="text: postage"></span> = <span data-bind="text: total"></span>
@@ -205,6 +205,28 @@
                     </td>
                 </tr>
             </script>
+        </section>
+        <section class="swiper-slide" id="incomeList">
+            <div class="incomelist">
+                <div class="incomelist-header">
+                    <span class="w-p15 taLeft">Year</span>
+                    <span class="w-p15 taLeft">Week</span>
+                    <span class="w-p25 taRight rpadding-5">Cost</span>
+                    <span class="w-p25 taRight  rpadding-5">Revenue</span>
+                    <span class="w-p20 taRight rpadding-5"> Income</span>
+                </div>
+                <!-- ko foreach: incomeList -->
+                <div class="orderitem">
+                    <div class="orderitem-cnt">
+                        <span class="taLeft w-p15" data-bind="text: year"></span>
+                        <span class="taLeft w-p15" data-bind="text: week"></span>
+                        <span class="taRight w-p25 rpadding-5" data-bind="text: $root.formatPrice(cost)"></span>
+                        <span class="taRight w-p25 rpadding-5" data-bind="text: $root.formatPrice(revenue)"></span>
+                        <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(income)"></span>
+                    </div>
+                </div>
+                <!-- /ko -->
+            </div>
         </section>
         <section class="swiper-slide" id="addresses">
             <div>

@@ -265,9 +265,10 @@ button.swiper-pagination-bullet {
 
 .swiper-pagination-bullet-active {
     opacity: 1;
-    background: #cc0066;
+    /*background-color: #cc0066;*/
+    background:linear-gradient(to right,#fff,#cc0066 10%,#cc0066 90%,#fff);
     padding:5px;
-    border-radius: 12px;
+    /*border-radius: 12px;*/
     color:#fff;
     font-weight: bold;
 }

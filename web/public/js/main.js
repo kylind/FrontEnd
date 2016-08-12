@@ -99,19 +99,22 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
             switch (index) {
                 case 0:
 
-                    bulletName = 'RECEIVEING';
+                    bulletName = 'Receiving';
                     break;
 
                 case 1:
-                    bulletName = 'PURCHASE';
+                    bulletName = 'Purchase';
                     break;
 
                 case 2:
-                    bulletName = 'RECKONING';
+                    bulletName = 'Reckoning';
                     break;
 
                 case 3:
-                    bulletName = 'DELIVERY';
+                    bulletName = 'Income';
+                    break;
+                case 4:
+                    bulletName = 'Delivery';
                     break;
             }
             return '<span class="' + className + '">' + bulletName + '</span>';
@@ -122,9 +125,9 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
     ordersModel.setSwiper(swiper);
 
 
-    require(['purchase-items', 'reckoning-orders', 'addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel, AddressesModel, ko, $) {
+    require(['purchase-items', 'reckoning-orders','income-list', 'addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel,IncomeListModel, AddressesModel, ko, $) {
 
-        var itemsModel, reckoningOrdersModel, addressesModel;
+        var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel;
 
         $.getJSON('./purchaseItemsJson', function(items, status) {
             itemsModel = new ItemsModel(items, swiper);
@@ -138,19 +141,25 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
         });
 
+        $.getJSON('./incomeListJson', function(incomeList, status) {
+            incomeListModel = new IncomeListModel(incomeList, swiper);
+            ko.applyBindings(incomeListModel, $('#incomeList')[0]);
+
+        });
+
         $.getJSON('./addressesJson', function(addresses, status) {
             addressesModel = new AddressesModel(addresses, swiper);
             ko.applyBindings(addressesModel, $('#addresses')[0]);
 
         });
 
-        $(document).on('keydown', function(event){
-            if(event.keyCode==13){
+        $(document).on('keydown', function(event) {
+            if (event.keyCode == 13) {
                 var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
                 $(document.activeElement).blur();
-                setTimeout(function(){
+                setTimeout(function() {
                     $target.trigger('click')
-                },100);
+                }, 100);
 
             }
 
@@ -185,6 +194,13 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
                     })
                     break;
                 case 3:
+                    $.getJSON('./incomeListJson', function(incomeList, status) {
+                        incomeListModel.setIncomeList(incomeList);
+                        swiper.update();
+
+                    })
+                    break;
+                case 4:
                     $.getJSON('./addressesJson', function(addresses, status) {
                         addressesModel.setAddresses(addresses);
                         swiper.update();

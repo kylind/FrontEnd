@@ -53,11 +53,30 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.displayDate = ko.observable(order ? order.displayDate : '');
 
 
+
+
         self.rate = order ? order.rate : '';
 
-        self.buyPrice = ko.observable(order ? order.buyPrice : '');
-        self.sellPrice = ko.observable(order ? order.sellPrice : '');
-        self.profit = ko.observable(order ? order.profit : '');
+
+
+
+        self.buyPrice = ko.observable(order && order.buyPrice ? order.buyPrice : '');
+        self.sellPrice = ko.observable(order && order.sellPrice ? order.sellPrice : '');
+        self.profit = ko.observable(order && order.profit ? order.profit : '');
+        self.isComplete = ko.observable(order && order.isComplete ? order.isComplete : false);
+
+        self.formatPrice = function(price) {
+
+            if(!price) return '?';
+
+            var purePrice = price();
+            if (purePrice) {
+                return (+purePrice).toFixed(1);
+            } else {
+                return '?'
+            }
+        }
+
 
         self.total = ko.pureComputed(function() {
             var sellPrice = parseFloat(this.sellPrice());
@@ -367,17 +386,17 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
         self.removeDoneOrder = function(doneOrder) {
 
-            var id=doneOrder._id();
+            var id = doneOrder._id();
 
             if (orders != null) {
 
-                var newOrders=orders.filter(function(order){
+                var newOrders = orders.filter(function(order) {
 
-                    return order._id()!=id;
+                    return order._id() != id;
 
                 });
 
-                orders=newOrders;
+                orders = newOrders;
 
             }
 

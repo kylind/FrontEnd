@@ -47,6 +47,9 @@
 .w-p20 {
     width: 20%;
 }
+.w-p25 {
+    width: 25%;
+}
 .w-30 {
     width: 30px;
 }
@@ -725,4 +728,51 @@ span.orderitem-cnt-btns {
 
 .fa-spinner:before {
     content: "\f110";
+}
+
+/**** incomeList ***/
+.incomelist {
+    width: 100%;
+    border: 1px solid #cc0066;
+    box-sizing: border-box;
+}
+
+.incomelist-header {
+    font-size: 0;
+    background-color: #cc0066;
+}
+
+.incomelist-header span {
+    font-size: 1.3rem;
+    display: inline-block;
+    box-sizing: border-box;
+    font-weight: bold;
+    color: #fff;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+.incomeitem {
+    background-color: #ffcccc;
+    border-bottom: 1px solid #cc0066;
+}
+
+.incomeitem:last-child {
+    border-bottom: none;
+}
+
+.incomeitem-cnt {
+    font-size: 0;
+}
+
+.incomeitem-cnt span {
+    font-size: 1.3rem;
+    display: inline-block;
+    box-sizing: border-box;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    border-right: 1px solid #cc0066;
+    vertical-align: middle;
 }

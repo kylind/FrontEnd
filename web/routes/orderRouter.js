@@ -81,12 +81,11 @@ router.post('/order', function*() {
 
 
 
-    delete order.sellPrice;
-    delete order.buyPrice;
-    delete order.profit;
     delete order.displayDate;
     delete order.total;
     delete order.orderStatus
+    delete order.__ko_mapping__;
+
 
     if (ObjectID.isValid(order._id)) {
 
@@ -94,9 +93,9 @@ router.post('/order', function*() {
 
         order.createDate = new Date(order.createDate);
         order.rate = +order.rate;
+        util.sumarizeOrder(order);
 
         res = yield orderOperation.updateById(order._id, order);
-
 
     } else {
 
@@ -106,12 +105,10 @@ router.post('/order', function*() {
         order.createDate = new Date();
         order.displayDate = order.createDate ? order.createDate.toLocaleDateString("en-US", dateFormatting) : '';
         order.rate = RATE;
+        util.sumarizeOrder(order);
 
         res = yield orderOperation.insert(order);
     }
-
-    util.sumarizeOrder(order);
-
 
 
     this.body = order;
@@ -201,7 +198,7 @@ router.get('/ordersByName', function*() {
 
         order.rate = order.rate ? order.rate : RATE;
 
-        util.sumarizeOrder(order);
+        //util.sumarizeOrder(order);
 
         if (Array.isArray(order.addresses) && order.addresses.length > 0);
         else {
@@ -244,12 +241,12 @@ router.get('/reckoningOrdersJson', function*() {
     this.status = 200;
 
 });
-router.get('/profitList', function*() {
+router.get('/incomeList', function*() {
 
     var res = yield orderOperation.summarizeProfit();
 
-    yield this.render('profitList', {
-        orders: res,
+    yield this.render('incomeList', {
+        profitList: res,
         css: '',
         script: 'mvvm',
         header: 'specific',
@@ -258,7 +255,7 @@ router.get('/profitList', function*() {
     });
 
 });
-router.get('/profitListJson', function*() {
+router.get('/incomeListJson', function*() {
 
     var res = yield orderOperation.summarizeProfit();
 
@@ -277,7 +274,7 @@ function* getReckoningOrders() {
 
         order.displayDate = order.createDate ? new Date(order.createDate).toLocaleDateString("en-US", dateFormatting) : '';
 
-        util.sumarizeOrder(order);
+        //util.sumarizeOrder(order);
 
         if (Array.isArray(order.addresses) && order.addresses.length > 0);
         else {
