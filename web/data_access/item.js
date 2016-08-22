@@ -51,7 +51,7 @@ var collection = {
             cursor: {
                 batchSize: 1
             }
-        }).toArray();
+        }).sort({ '_id': 1 }).toArray();
 
         return res;
 
