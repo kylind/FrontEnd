@@ -26,6 +26,8 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
         return _on.apply(this, arguments);
     };
 
+
+
     ko.bindingHandlers.tap = {
 
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -94,6 +96,9 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
         spaceBetween: 30,
         pagination: '.swiper-pagination',
         paginationClickable: true,
+        simulateTouch:false,
+        shortSwipes:false,
+        longSwipes:false,
         paginationBulletRender: function(index, className) {
             var bulletName = '';
             switch (index) {
@@ -123,6 +128,12 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
     });
 
     ordersModel.setSwiper(swiper);
+
+    $(window).scroll(function() {
+        var top = $(window).scrollTop();
+       $(".searchbox").css("top",top);
+
+    });
 
 
     require(['purchase-items', 'reckoning-orders','income-list', 'addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel,IncomeListModel, AddressesModel, ko, $) {
@@ -208,6 +219,7 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
                     })
                     break;
             }
+            $(window).scrollTop(0);
 
 
         }

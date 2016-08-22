@@ -2,13 +2,13 @@
     <div class="swiper-pagination"></div>
     <div class="swiper-wrapper">
         <section class="swiper-slide" id="receivedOrders">
-            <div>
+            <div class="searchbox">
                 <button type="button" text="Add" class="lmargin-5 fl icon icon-add" data-bind="tap:$root.addOrder"> Order </button>
                 <div class="lmargin-150">
                     <input type="text" class="w-p100 input-search" name="search-receivedOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
                 </div>
             </div>
-            <div class="tmargin-10" data-bind="foreach: orders">
+            <div class="tmargin-40" data-bind="foreach: orders">
                 <section class="order enterArea">
                     <div class="order-head">
                         <input type="hidden" data-bind="value: _id" />
@@ -86,14 +86,14 @@
             </script>
         </section>
         <section class="swiper-slide" id="reckoningOrders">
-            <div>
+            <div class="searchbox">
                 <button type="button" text="Add" class="fl icon icon-add lmargin-5 rmargin-20" data-bind="tap:$root.addOrder"> Order </button>
                 <a href="#" class="fl icon icon-eye" data-bind="tap: $root.toggleClientView"></a>
                 <div class="lmargin-150">
                     <input type="text" class="w-p100 input-search" name="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
                 </div>
             </div>
-            <div class="tmargin-10 orders" data-bind="foreach: orders">
+            <div class="tmargin-40 orders" data-bind="foreach: orders">
                 <section class="order enterArea">
                     <div class="order-head">
                         <input type="hidden" data-bind="value: _id" />

@@ -2,7 +2,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     ko.mapping = mapping;
 
-
     var OrderModel = function(order) {
         var self = this;
         self._id = ko.observable(order && order._id ? order._id : '');

@@ -81,7 +81,9 @@
 .tmargin-10 {
     margin-top: 10px;
 }
-
+.tmargin-40 {
+    margin-top: 40px;
+}
 .lmargin-150 {
     margin-left: 175px;
 }
@@ -298,6 +300,16 @@ button {
     /*border-radius: 8px;*/
     /*text-transform: uppercase;*/
     /*box-shadow: 2px 2px 3px;*/
+}
+.searchbox{
+    position: absolute;
+    padding-top:10px;
+    width:100%;
+    top:0;
+    left:0;
+    z-index: 999;
+    background-color: #fff;
+    padding-bottom: 10px;
 }
 
 .orders.isClientView .onlyForMe {
