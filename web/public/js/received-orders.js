@@ -99,6 +99,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             self.orders.unshift(order);
             swiper.update();
+            $(window).scrollTop(0);
         };
 
         self.removeOrder = function(order) {

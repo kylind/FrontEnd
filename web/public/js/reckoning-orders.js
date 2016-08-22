@@ -375,6 +375,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             self.orders.unshift(order);
             swiper.update();
+            $(window).scrollTop(0);
         };
         self.addExistingOrder = function(order) {
             if (orders != null) {
