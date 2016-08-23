@@ -57,9 +57,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.rate = order ? order.rate : '';
 
-
-
-
         self.buyPrice = ko.observable(order && order.buyPrice ? order.buyPrice : '');
         self.sellPrice = ko.observable(order && order.sellPrice ? order.sellPrice : '');
         self.profit = ko.observable(order && order.profit ? order.profit : '');
@@ -105,6 +102,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };*/
 
         self.status = ko.observable(order ? order.status : 'RECEIVED');
+
+        self.packingStatus = order ? order.packingStatus : 'ISREADY';
 
         self.orderStatus = ko.pureComputed(function() {
             if (self.status() == 'DONE') {

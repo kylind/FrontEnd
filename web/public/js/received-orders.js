@@ -14,6 +14,25 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         }]);
         self.createDate = order && order.createDate ? order.createDate : '';
         self.status = order && order.status ? order.status : 'RECEIVED';
+        self.packingStatus=   ko.observable(order && order.packingStatus ? order.packingStatus : 'ISREADY');
+
+        self.orderPackingStatus = ko.pureComputed(function() {
+            if (self.packingStatus() == 'PACKED') {
+                return 'font-green';
+            } else if (self.packingStatus() == 'NOTREADY') {
+                return 'font-yellow';
+            }else{
+                return 'font-white';
+            }
+        });
+
+        self.orderReadyStatus = ko.pureComputed(function() {
+            if (self.packingStatus() == 'NOTREADY') {
+                return 'icon-thumbsdown font-darkyellow';
+            }else{
+                return 'icon-thumbsup';
+            }
+        });
 
     };
 
@@ -90,6 +109,57 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             );
 
             return false;
+
+        };
+
+
+
+        self.markPackingStatus = function(order) {
+            arguments[3]();
+            var succeed = arguments[4];
+            var parent = arguments[1];
+            var id = order._id();
+
+            var packingStatus = order.packingStatus()
+
+             $target = $(arguments[2].target);
+
+             var newStatus = '';
+
+             if($target.hasClass('icon-leaf')){
+                if(packingStatus=="ISREADY"){
+                    newStatus = 'PACKED';
+                }else if(packingStatus=="PACKED"){
+                    newStatus = 'ISREADY';
+                }
+             }else{
+                if(packingStatus=="ISREADY" || packingStatus=="PACKED"){
+                    newStatus = 'NOTREADY';
+                }else{
+                    newStatus = 'ISREADY';
+                }
+             }
+
+
+            if(newStatus==""){
+                succeed();
+                return;
+            }
+
+            $.ajax('./packingStatus/' + id, {
+                success: function(data, status) {
+
+                    order.packingStatus(newStatus)
+                    succeed();
+
+                },
+                data: {
+                    'packingStatus': newStatus
+                },
+                dataType: 'json',
+                type: 'PUT'
+
+            });
 
         };
 

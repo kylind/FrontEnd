@@ -83,7 +83,9 @@ router.post('/order', function*() {
 
     delete order.displayDate;
     delete order.total;
-    delete order.orderStatus
+    delete order.orderStatus;
+    delete order.orderPackingStatus;
+    delete order.orderReadyStatus;
     delete order.__ko_mapping__;
 
 
@@ -122,6 +124,18 @@ router.put('/orderStatus/:id', function*() {
     var res;
 
     res = yield orderOperation.updateOrderStatus(this.params.id, orderStatus.status);
+
+    this.body = res;
+    this.status = 200;
+
+});
+
+router.put('/packingStatus/:id', function*() {
+
+    var packingStatus = this.request.body;
+    var res;
+
+    res = yield orderOperation.updatePackingStatus(this.params.id, packingStatus.packingStatus);
 
     this.body = res;
     this.status = 200;
