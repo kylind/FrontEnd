@@ -45,9 +45,9 @@
         <section class="swiper-slide" id="purchaseItems">
             <div class="orderitems">
                 <div class="orderitems-header">
-                    <span class="w-p30 taLeft">Name</span>
+                    <span class="w-p40 taLeft">Name</span>
                     <span class="w-p10 taLeft">Q</span>
-                    <span class="w-p60 taRight rpadding-5"> Done?</span>
+                    <span class="w-p50 taRight rpadding-5"> Done?</span>
                 </div>
                 <!-- ko foreach: items -->
                 <div class="orderitem">
@@ -65,8 +65,8 @@
                             <div class="subItems-header">
                                 <span class="w-p40 taLeft">Client</span>
                                 <span class="w-p10 taLeft">Q</span>
-                                <span class="w-p30 taLeft">Note</span>
-                                <span class="w-p20 taRight rpadding-5">Date</span>
+                                <span class="w-p25 taLeft">Note</span>
+                                <span class="w-p25 taRight rpadding-5">Date</span>
                             </div>
                             <div class="subItems-cnt" data-bind="template:{ name: 'subItem', foreach: subItems }">
                             </div>
@@ -82,10 +82,10 @@
             <script type="text/html" id="subItem">
                 <section class="subItems-item">
                     <input type="hidden" data-bind="value: _id" />
-                    <span class="w-p30" data-bind="text: client"> </span>
+                    <span class="w-p40" data-bind="text: client"> </span>
                     <span class="w-p10" data-bind="text: quantity"> </span>
                     <span class="w-p30 taLeft" data-bind="text: note"> </span>
-                    <span class="w-p30 taRight rpadding-5" data-bind="text: createDate"> </span>
+                    <span class="w-p20 taRight rpadding-5" data-bind="text: createDate"> </span>
                 </section>
             </script>
         </section>
