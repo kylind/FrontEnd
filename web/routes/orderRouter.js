@@ -105,12 +105,14 @@ router.post('/order', function*() {
         delete order._id
 
         order.createDate = new Date();
-        order.displayDate = order.createDate ? order.createDate.toLocaleDateString("en-US", dateFormatting) : '';
         order.rate = RATE;
         util.sumarizeOrder(order);
 
         res = yield orderOperation.insert(order);
+
     }
+
+    order.displayDate = order.createDate ? order.createDate.toLocaleDateString("en-US", dateFormatting) : '';
 
 
     this.body = order;
