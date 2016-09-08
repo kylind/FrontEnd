@@ -9,7 +9,7 @@ var dateFormatting = {
     weekday: "short"
 };
 
-const RATE = 0.86;
+const RATE = 0.87;
 
 
 const RECEIVED = 'RECEIVED'

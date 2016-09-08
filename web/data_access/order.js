@@ -135,7 +135,7 @@ var collection = {
         var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
-                $match: { $or: [{ status: 'RECEIVED' }, { status: 'SENT' }] }
+                $match: { $or: [{ status: 'RECEIVED' }, { status: 'SENT' } ,{ createDate: { $gt:startDate } }] }
             },
 
             {
