@@ -75,7 +75,7 @@ var collection = {
 
         var db = yield MongoClient.connect(url);
 
-        var res = yield db.collection('orders').find({ status: "RECEIVED" }).sort({ 'createDate': -1 }).toArray();
+        var res = yield db.collection('orders').find({ status: '1RECEIVED' }).sort({ 'packingStatus':1, 'createDate': -1 }).toArray();
 
         return res;
 
@@ -92,7 +92,7 @@ var collection = {
 
 
         },*/
-    queryGlobalOrders: function*(filter) {
+    queryGlobalOrders: function*(text) {
 
 
 
@@ -100,7 +100,7 @@ var collection = {
         var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
-                $match: filter
+                $match: {$text: { $search: text }}
             },
 
             {
@@ -112,7 +112,7 @@ var collection = {
                 }
             }
 
-        ], { cursor: { batchSize: 1 } }).sort({ 'createDate': -1 }).toArray();
+        ], { cursor: { batchSize: 1 } }).sort({'status':1, 'createDate': -1 }).toArray();
 
 
         return res;
@@ -135,7 +135,7 @@ var collection = {
         var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
-                $match: { $or: [{ status: 'RECEIVED' }, { status: 'SENT' } ,{ createDate: { $gt:startDate } }] }
+                $match: { $or: [{ status: '1RECEIVED' }, { status: '2SENT' } ,{ createDate: { $gt:startDate } }] }
             },
 
             {
@@ -147,7 +147,7 @@ var collection = {
                 }
             }
 
-        ], { cursor: { batchSize: 1 } }).sort({ 'createDate': -1 }).toArray();
+        ], { cursor: { batchSize: 1 } }).sort({'status':1, 'createDate': -1 }).toArray();
 
 
         return res;
@@ -158,7 +158,7 @@ var collection = {
         var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
-                $match: { $or: [{ status: 'DONE' }, { status: 'SENT' }] }
+                $match: { $or: [{ status: '3DONE' }, { status: '2SENT' }] }
             }, {
                 $project: { _id: 0, client: 1, status: 1, buyPrice: 1, sellPrice: 1, profit: 1, year: { $year: "$createDate" }, week: { $week: "$createDate" } }
             }, {
@@ -207,7 +207,7 @@ var collection = {
 
         var res = yield db.collection('orders').aggregate([{
 
-                $match: { $or: [{ status: 'SENT' }, { status: 'DONE' }], 'items.name': itemName }
+                $match: { $or: [{ status: '2SENT' }, { status: '3DONE' }], 'items.name': itemName }
 
             }, {
                 $limit: 10

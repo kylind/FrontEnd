@@ -12,7 +12,7 @@ var collection = {
         var res = yield db.collection('orders').aggregate([{
 
                 $match: {
-                    status: 'RECEIVED'
+                    status: '1RECEIVED'
                 }
 
             }, {
@@ -82,7 +82,7 @@ var collection = {
         var res = yield db.collection('orders').aggregate([{
 
                 $match: {
-                    status: 'RECEIVED',
+                    status: '1RECEIVED',
                     'items.name': itemName
                 }
 
@@ -139,7 +139,7 @@ var collection = {
 
         var res = yield db.collection('orders').aggregate([{
 
-                $match: { status: 'RECEIVED', 'items.name': itemName }
+                $match: { status: '1RECEIVED', 'items.name': itemName }
 
             }, {
                 $unwind: {

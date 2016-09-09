@@ -13,7 +13,7 @@
             <span data-bind="text: displayDate()" class="vaMiddle font-white"></span>
             <div class="order-savebox">
                 <a href="#" class="icon icon-remove-sign font-white rmargin-20" data-bind="click: $parent.removeOrder"></a>
-                <a href="#" class="icon icon-flag rmargin-20 font-white" data-bind="click: markDone, css: { 'font-green': status() == 'DONE' }"> </a>
+                <a href="#" class="icon icon-flag rmargin-20 font-white" data-bind="click: markDone, css: { 'font-green': status() == '3DONE' }"> </a>
                 <a href="#" class="icon icon-save-sign font-white" data-bind="click: submitOrder"> </a>
             </div>
         </div>
@@ -182,7 +182,7 @@ var OrderModel = function(order) {
 
     };
 
-    self.status = ko.observable(order ? order.status : 'RECEIVED');
+    self.status = ko.observable(order ? order.status : '1RECEIVED');
 
     self.getHistoricTrades = function(item, event) {
         var itemData = ko.mapping.toJS(item);
@@ -294,7 +294,7 @@ var OrderModel = function(order) {
     self.markDone = function() {
         var id = self._id();
 
-        var orderStatus = self.status() == 'RECEIVED' ? 'DONE' : 'RECEIVED'
+        var orderStatus = self.status() == '1RECEIVED' ? '3DONE' : '1RECEIVED'
 
         $.ajax('./orderStatus/' + id, {
             success: function(data, status) {

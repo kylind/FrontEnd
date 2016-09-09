@@ -43,7 +43,7 @@
             </div>
         </section>
         <section class="swiper-slide" id="purchaseItems">
-            <div class="orderitems">
+            <div class="orderitems tmargin-10">
                 <div class="orderitems-header">
                     <span class="w-p40 taLeft">Name</span>
                     <span class="w-p10 taLeft">Q</span>
@@ -105,7 +105,8 @@
                         <input type="text" data-bind="value: client" placeholder="Client Name" />
                         <span data-bind="text: displayDate" class="vaMiddle font-white"></span>
                         <div class="order-savebox">
-                            <a href="#" class="icon icon-remove-sign font-white rmargin-20  action-submit" data-bind="tap: $parent.removeOrder"></a>
+                        <!--
+                            <a href="#" class="icon icon-remove-sign font-white rmargin-20  action-submit" data-bind="tap: $parent.removeOrder"></a>-->
                             <a href="#" class="icon icon-flag rmargin-20 font-white  action-submit" data-bind="tap: markDone, css: orderStatus"> </a>
                             <a href="#" class="icon icon-save-sign font-white  action-submit action-enter" role="button" tabindex="0" data-key="true" data-bind="tap: submitOrder"> </a>
                         </div>
@@ -211,7 +212,7 @@
             </script>
         </section>
         <section class="swiper-slide" id="incomeList">
-            <div class="incomelist">
+            <div class="incomelist  tmargin-10">
                 <div class="incomelist-header">
                     <span class="w-p15 taLeft">Year</span>
                     <span class="w-p15 taLeft">Week</span>
@@ -233,7 +234,7 @@
             </div>
         </section>
         <section class="swiper-slide" id="addresses">
-            <div>
+            <div class="tmargin-10">
                 <button class="icon icon-add" data-bind="tap: addAddress"> Address </button>
             </div>
             <div class="tmargin-10 alladdresses" data-bind="foreach: addresses">

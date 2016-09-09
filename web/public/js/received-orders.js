@@ -13,13 +13,13 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             note: ''
         }]);
         self.createDate = order && order.createDate ? order.createDate : '';
-        self.status = order && order.status ? order.status : 'RECEIVED';
-        self.packingStatus=   ko.observable(order && order.packingStatus ? order.packingStatus : 'ISREADY');
+        self.status = order && order.status ? order.status : '1RECEIVED';
+        self.packingStatus=   ko.observable(order && order.packingStatus ? order.packingStatus : '1ISREADY');
 
         self.orderPackingStatus = ko.pureComputed(function() {
-            if (self.packingStatus() == 'PACKED') {
+            if (self.packingStatus() == '3PACKED') {
                 return 'font-green';
-            } else if (self.packingStatus() == 'NOTREADY') {
+            } else if (self.packingStatus() == '2NOTREADY') {
                 return 'font-yellow';
             }else{
                 return 'font-white';
@@ -27,7 +27,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         });
 
         self.orderReadyStatus = ko.pureComputed(function() {
-            if (self.packingStatus() == 'NOTREADY') {
+            if (self.packingStatus() == '2NOTREADY') {
                 return 'icon-thumbsdown font-darkyellow';
             }else{
                 return 'icon-thumbsup';
@@ -127,16 +127,16 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
              var newStatus = '';
 
              if($target.hasClass('icon-leaf')){
-                if(packingStatus=="ISREADY"){
-                    newStatus = 'PACKED';
-                }else if(packingStatus=="PACKED"){
-                    newStatus = 'ISREADY';
+                if(packingStatus=="1ISREADY"){
+                    newStatus = '3PACKED';
+                }else if(packingStatus=="3PACKED"){
+                    newStatus = '1ISREADY';
                 }
              }else{
-                if(packingStatus=="ISREADY" || packingStatus=="PACKED"){
-                    newStatus = 'NOTREADY';
+                if(packingStatus=="1ISREADY" || packingStatus=="3PACKED"){
+                    newStatus = '2NOTREADY';
                 }else{
-                    newStatus = 'ISREADY';
+                    newStatus = '1ISREADY';
                 }
              }
 

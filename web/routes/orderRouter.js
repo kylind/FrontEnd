@@ -12,7 +12,7 @@ var dateFormatting = {
 const RATE = 0.87;
 
 
-const RECEIVED = 'RECEIVED'
+const RECEIVED = '1RECEIVED'
 
 const EMPTY_ORDER = {
     _id: '',
@@ -205,7 +205,7 @@ router.get('/ordersByName', function*() {
 
     var res = null;
 
-    res = yield orderOperation.queryGlobalOrders({ client: client });
+    res = yield orderOperation.queryGlobalOrders(client);
 
     res = res && res.length > 0 ? res : [];
 

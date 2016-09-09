@@ -101,14 +101,14 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         };*/
 
-        self.status = ko.observable(order ? order.status : 'RECEIVED');
+        self.status = ko.observable(order ? order.status : '1RECEIVED');
 
-        self.packingStatus = order ? order.packingStatus : 'ISREADY';
+        self.packingStatus = order ? order.packingStatus : '1ISREADY';
 
         self.orderStatus = ko.pureComputed(function() {
-            if (self.status() == 'DONE') {
+            if (self.status() == '3DONE') {
                 return 'font-green';
-            } else if (self.status() == 'SENT') {
+            } else if (self.status() == '2SENT') {
                 return 'font-yellow';
             }
         });
@@ -246,13 +246,13 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var orderStatus = self.status();
 
-            var newStatus = 'RECEIVED';
+            var newStatus = '1RECEIVED';
 
-            if (orderStatus == 'RECEIVED') {
-                newStatus = 'SENT'
+            if (orderStatus == '1RECEIVED') {
+                newStatus = '2SENT'
 
-            } else if (orderStatus == 'SENT') {
-                newStatus = 'DONE'
+            } else if (orderStatus == '2SENT') {
+                newStatus = '3DONE'
 
             }
 
@@ -260,9 +260,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 success: function(data, status) {
 
                     self.status(newStatus)
-                    if (newStatus == 'DONE') {
-                        parent.removeDoneOrder(self)
-                    } else if (orderStatus == 'DONE') {
+                    if (newStatus == '3DONE') {
+                        //parent.removeDoneOrder(self)
+                    } else if (orderStatus == '3DONE') {
                         parent.addExistingOrder(self)
 
                     }
@@ -378,7 +378,14 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
         self.addExistingOrder = function(order) {
             if (orders != null) {
-                orders.push(order);
+
+                var existingOrder=orders.find(function(ele){
+                    return ele._id==order._id;
+                });
+
+                if(!existingOrder){
+                    orders.unshift(order);
+                }
 
             }
             //self.orders.push(order);
@@ -444,7 +451,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var keywords = $(event.target).val();
 
-            var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D\w]+)/;
+            var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D]+[\u4E00-\u9FA5\uF900-\uFA2D\w ]*)/;
 
 
             var matchedRes = keywords.match(regex);
