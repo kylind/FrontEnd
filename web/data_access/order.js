@@ -160,10 +160,12 @@ var collection = {
         var res = yield db.collection('orders').aggregate([{
                 $match: { $or: [{ status: '3DONE' }, { status: '2SENT' }] }
             }, {
-                $project: { _id: 0, client: 1, status: 1, buyPrice: 1, sellPrice: 1, profit: 1, year: { $year: "$createDate" }, week: { $week: "$createDate" } }
+                $project: { _id: 0, client: 1, status: 1, buyPrice: 1, sellPrice: 1, profit: 1, createDate: 1,
+                localWeek: { $let:{ vars: { localDate: { $add:['$createDate', 28800000]} }, in: { $week: '$$localDate'} }  },
+                localYear: { $let:{ vars: { localDate: { $add:['$createDate', 28800000]} }, in: { $year: '$$localDate'} }  }
             }, {
                 $group: {
-                    _id: { 'year': '$year', 'week': '$week' },
+                    _id: { 'year': '$localYear', 'week': '$localWeek' },
                     cost: {
                         $sum: '$buyPrice'
 
