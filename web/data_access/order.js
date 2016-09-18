@@ -75,7 +75,7 @@ var collection = {
 
         var db = yield MongoClient.connect(url);
 
-        var res = yield db.collection('orders').find({ status: '1RECEIVED' }).sort({ 'packingStatus':1, 'createDate': -1 }).toArray();
+        var res = yield db.collection('orders').find({ status: '1RECEIVED' }).sort({ 'packingStatus': 1, 'createDate': -1 }).toArray();
 
         return res;
 
@@ -100,7 +100,7 @@ var collection = {
         var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
-                $match: {$text: { $search: text }}
+                $match: { $text: { $search: text } }
             },
 
             {
@@ -112,7 +112,7 @@ var collection = {
                 }
             }
 
-        ], { cursor: { batchSize: 1 } }).sort({'status':1, 'createDate': -1 }).toArray();
+        ], { cursor: { batchSize: 1 } }).sort({ 'status': 1, 'createDate': -1 }).toArray();
 
 
         return res;
@@ -135,7 +135,7 @@ var collection = {
         var db = yield MongoClient.connect(url);
 
         var res = yield db.collection('orders').aggregate([{
-                $match: { $or: [{ status: '1RECEIVED' }, { status: '2SENT' } ,{ createDate: { $gt:startDate } }] }
+                $match: { $or: [{ status: '1RECEIVED' }, { status: '2SENT' }, { createDate: { $gt: startDate } }] }
             },
 
             {
@@ -147,7 +147,7 @@ var collection = {
                 }
             }
 
-        ], { cursor: { batchSize: 1 } }).sort({'status':1, 'createDate': -1 }).toArray();
+        ], { cursor: { batchSize: 1 } }).sort({ 'status': 1, 'createDate': -1 }).toArray();
 
 
         return res;
@@ -160,9 +160,17 @@ var collection = {
         var res = yield db.collection('orders').aggregate([{
                 $match: { $or: [{ status: '3DONE' }, { status: '2SENT' }] }
             }, {
-                $project: { _id: 0, client: 1, status: 1, buyPrice: 1, sellPrice: 1, profit: 1, createDate: 1,
-                localWeek: { $let:{ vars: { localDate: { $add:['$createDate', 28800000]} }, in: { $week: '$$localDate'} }  },
-                localYear: { $let:{ vars: { localDate: { $add:['$createDate', 28800000]} }, in: { $year: '$$localDate'} }  }
+                $project: {
+                    _id: 0,
+                    client: 1,
+                    status: 1,
+                    buyPrice: 1,
+                    sellPrice: 1,
+                    profit: 1,
+                    createDate: 1,
+                    localWeek: { $let: { vars: { localDate: { $add: ['$createDate', 28800000] } }, in : { $week: '$$localDate' } } },
+                    localYear: { $let: { vars: { localDate: { $add: ['$createDate', 28800000] } }, in : { $year: '$$localDate' } } }
+                }
             }, {
                 $group: {
                     _id: { 'year': '$localYear', 'week': '$localWeek' },
