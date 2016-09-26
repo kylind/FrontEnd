@@ -14,25 +14,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         }]);
         self.createDate = order && order.createDate ? order.createDate : '';
         self.status = order && order.status ? order.status : '1RECEIVED';
-        self.packingStatus=   ko.observable(order && order.packingStatus ? order.packingStatus : '1ISREADY');
-
-        self.orderPackingStatus = ko.pureComputed(function() {
-            if (self.packingStatus() == '3PACKED') {
-                return 'font-green';
-            } else if (self.packingStatus() == '2NOTREADY') {
-                return 'font-yellow';
-            }else{
-                return 'font-white';
-            }
-        });
-
-        self.orderReadyStatus = ko.pureComputed(function() {
-            if (self.packingStatus() == '2NOTREADY') {
-                return 'icon-thumbsdown font-darkyellow';
-            }else{
-                return 'icon-thumbsup';
-            }
-        });
+        self.packingStatus = ko.observable(order && order.packingStatus ? order.packingStatus : '1ISREADY');
 
     };
 
@@ -46,11 +28,23 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var observableOrders = [];
 
-            orders.forEach(function(order) {
+            if (Array.isArray(orders) && orders.length > 0) {
 
-                observableOrders.push(new OrderModel(order));
 
-            })
+
+                orders.forEach(function(order) {
+
+                    observableOrders.push(new OrderModel(order));
+
+                })
+            } else {
+
+                for (var i = 0; i < 30; i++) {
+                    observableOrders.push(new OrderModel());
+                }
+
+            }
+
 
             return observableOrders;
         }
@@ -73,31 +67,29 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         }
 
-        self.addItem = function(data) {
-
-            data.items.unshift({
-                name: "",
-                quantity: 1,
-                note: '',
-                buyPrice: '',
-                sellPrice: '',
-                isDone: false
-            });
-            swiper.update();
-        };
-
-        self.removeItem = function(data, parent) {
-            parent.items.remove(data);
-            swiper.update();
-        };
-
-        self.submitOrder = function(order) {
+        self.submitOrders = function(orders) {
             arguments[3]();
             var succeed = arguments[4];
 
             console.log('post request....');
 
-            var orderData = ko.mapping.toJS(order); //$.parseJSON(ko.toJSON(order));
+            var orderData = ko.mapping.toJS(orders); //$.parseJSON(ko.toJSON(order));
+
+
+
+
+            newOrders=orderData.filter(function(order){
+                return order._id=='' && order.client!='' ;
+            });
+
+            newOrders.forEach(function(newOrder){
+                orders.find(function(order){
+                    return order._id!='' && order.client==newOrder.
+                })
+
+            })
+
+
 
             $.post('/order', orderData, function(data, status) {
 
@@ -113,61 +105,14 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
 
 
-
-        self.markPackingStatus = function(order) {
-            arguments[3]();
-            var succeed = arguments[4];
-            var parent = arguments[1];
-            var id = order._id();
-
-            var packingStatus = order.packingStatus()
-
-             $target = $(arguments[2].target);
-
-             var newStatus = '';
-
-             if($target.hasClass('icon-leaf')){
-                if(packingStatus=="1ISREADY"){
-                    newStatus = '3PACKED';
-                }else if(packingStatus=="3PACKED"){
-                    newStatus = '1ISREADY';
-                }
-             }else{
-                if(packingStatus=="1ISREADY" || packingStatus=="3PACKED"){
-                    newStatus = '2NOTREADY';
-                }else{
-                    newStatus = '1ISREADY';
-                }
-             }
-
-
-            if(newStatus==""){
-                succeed();
-                return;
-            }
-
-            $.ajax('./packingStatus/' + id, {
-                success: function(data, status) {
-
-                    order.packingStatus(newStatus)
-                    succeed();
-
-                },
-                data: {
-                    'packingStatus': newStatus
-                },
-                dataType: 'json',
-                type: 'PUT'
-
-            });
-
-        };
-
         self.addOrder = function() {
 
-            var order = new OrderModel();
+            for (var i = 0; i < 10; i++) {
 
-            self.orders.unshift(order);
+                var order = new OrderModel();
+                self.orders.unshift(order);
+            }
+
             swiper.update();
             $(window).scrollTop(0);
         };
@@ -218,7 +163,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             self.orders(searchedOrders);
             swiper.update();
-
 
         };
 

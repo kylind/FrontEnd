@@ -7,10 +7,12 @@
 </div>
 <div class="tmargin-40" data-bind="foreach: orders">
     <section class="order order--received enterArea">
+            <input type="hidden" data-bind="value: _id" />
+            <input type="hidden" data-bind="value: client" placeholder="Client Name" />
             <div class="items">
                 <!-- ko foreach: items -->
                 <input type="hidden" data-bind="value: $parent._id" />
-
+                <input type="hidden" data-bind="value: $parent.client" placeholder="Client Name" />
                 <fieldset class="item">
                     <span class="w-p30">
                         <input type="text" data-bind="value: $parent.client" placeholder="Client Name" />
