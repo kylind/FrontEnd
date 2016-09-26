@@ -216,8 +216,13 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 return order.client().indexOf(keywords) >= 0;
             });
 
+
             self.orders(searchedOrders);
-            swiper.update();
+
+
+            setTimeout(function(){
+                swiper.update();
+            },100)
 
 
         };
