@@ -272,13 +272,11 @@ input[type="text"],
 input[type="number"],
 input[type="password"] {
     box-sizing: border-box;
-    border-top: 1px solid #fff;
-    border-left: 1px solid #fff;
-    border-right: 1px solid #fff;
-    border-bottom: 1px solid #999;
+    border:none;
     padding: 0 0 0 5px;
     font-size: 1.3rem;
     line-height: 18px;
+    width:100%;
 }
 
 input:-webkit-autofill {
@@ -289,7 +287,8 @@ input:-webkit-autofill {
 input[type="text"]:focus,
 input[type="number"]:focus,
 input[type="password"]:focus {
-    border-bottom: 1px solid #cc0066;
+    /*border-bottom: 1px solid #cc0066;*/
+
 }
 
 input.postage{
@@ -338,18 +337,18 @@ button {
     display: inline-block;
 }
 
-.order {
+.order--received {
     position: relative;
-    border: 1px solid #cc0066;
-    border-top: none;
-    margin-bottom: 10px;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
+    border-left: 1px solid #cc0066;
+    border-right: 1px solid #cc0066;
 }
 
-.order:last-child {
-    margin-bottom: 0;
+.order--received:first-child{
+    border-top: 1px solid #cc0066;
+
 }
+
+
 
 .order-head {
     background-color: #cc0066;
@@ -386,8 +385,7 @@ button {
     top: 4px;
 }
 
-.order-addressbox,
-.order-itembox {
+.order-addressbox {
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -409,16 +407,29 @@ button {
     /*margin-top: -7px;*/
 }
 
-.item {
+.order--received .item {
     position: relative;
-    margin-bottom: 10px;
+    border-bottom: solid 1px #cc0066;
 }
 
-.item-actions {
+.order--received .item:last-child{
+    border-top: none;
+}
+
+.order--received .item > span{
+    display: inline-block;
+    border-right: solid 1px #cc0066;
+}
+
+
+.order--received .item-actions {
     position: absolute;
     right: 0;
     top: 1px;
 }
+
+
+
 
 .item-fields {
     font-size: 0;
