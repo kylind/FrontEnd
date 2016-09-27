@@ -1,6 +1,6 @@
 <div class="searchbox">
     <button type="button" text="Add" class="lmargin-5 fl icon icon-add" data-bind="tap:$root.addOrder"> Order </button>
-    <button type="button" text="Add" class="lmargin-5 fl icon icon-save-all" data-bind="tap:$root.submitOrders"> Orders </button>
+    <button type="button" text="Add" class="lmargin-5 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> Orders </button>
     <div class="lmargin-220">
         <input type="text" class="w-p100 input-search" name="search-receivedOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
     </div>
@@ -10,21 +10,23 @@
         <div class="order-actions">
             <input type="hidden" data-bind="value: _id" />
             <div class="order-clientbox">
-                <input type="text" class="client" data-bind="value: client" placeholder="Client Name" />
-                <a href="#" class="icon icon-add " text="Add" data-bind="click:$root.addItem"> </a>
+                <input type="text" class="client" data-bind="value: client" placeholder="Client" />
+
             </div>
-            <div class="order-actionbox">
-                <a href="#" class="icon icon-remove-sign font-white action-submit fl" data-bind="tap: $root.removeOrder"></a>
-                <a href="#" class="icon icon-leaf action-submit font-white" data-bind="tap: $root.markPackingStatus, css: orderPackingStatus"> </a>
-                <!--<a href="#" class="icon icon-save-sign action-submit action-enter" data-bind="tap: $root.submitOrder"> </a>-->
-                <a href="#" class="icon action-submit font-white fr" data-bind="tap: $root.markPackingStatus, css: orderReadyStatus"> </a>
-            </div>
+
         </div>
         <div class="order-items">
+            <div class="order-actionbox">
+                <a href="#" class="icon icon-add" text="Add" data-bind="click:$root.addItem"> </a>
+
+                <a href="#" class="icon icon-leaf action-submit" data-bind="tap: $root.markPackingStatus, css: orderPackingStatus"> </a>
+                <a href="#" class="icon action-submit" data-bind="tap: $root.markPackingStatus, css: orderReadyStatus"> </a>
+                <a href="#" class="icon icon-remove-sign action-submit" data-bind="tap: $root.removeOrder"></a>
+            </div>
             <!-- ko foreach: items -->
-            <fieldset class="item" data-bind="css:{'onlyItem': $parent.items().length==1}">
+            <fieldset class="item" >
                 <span class="w-p40">
-                    <input  type="text" data-bind="value: name" placeholder="Product Name" />
+                    <input  type="text" data-bind="value: name" placeholder="Product" />
                 </span>
                 <span class="w-p10">
                     <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
@@ -32,7 +34,7 @@
                 <span class="w-p30">
                     <input  type="text" data-bind="value: note" placeholder="Note:" />
                 </span>
-                <span class="w-p20 taRight" "><!-- data-bind="css: { 'align-right': $index()%2==0 } -->
+                <span class="w-p20 taRight rpadding-10"><!-- data-bind="css: { 'align-right': $index()%2==0 } -->
 
                      <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $root.removeItem"></a>
 
@@ -41,6 +43,11 @@
             <!-- /ko -->
         </div>
     </section>
+</div>
+
+<div class="prompt">
+    <span class="prompt-submitting"><i class="fa fa-spinner fa-pulse"></i> <span>Submit...</span></span>
+    <span class="prompt-succeed disappeared icon icon-peace"> Succeed!</span>
 </div>
 <script>
 var orders = <%- JSON.stringify(orders) %>; //

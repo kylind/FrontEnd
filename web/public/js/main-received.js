@@ -82,6 +82,21 @@ require(['received-orders', 'knockout', 'jquery'], function(OrdersModel, ko, $) 
         }
     };
 
+        $(document).on('keydown', function(event) {
+            if (event.keyCode == 13) {
+                //var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
+                $(document.activeElement).blur();
+                var $target = $('.action-enter');
+                setTimeout(function() {
+                    $target.trigger('click')
+                }, 100);
+                return false;
+
+            }
+
+
+        });
+
 
     var ordersModel = new OrdersModel(orders);
     ko.applyBindings(ordersModel, $('#receivedOrders')[0]);

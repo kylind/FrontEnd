@@ -69,7 +69,7 @@ router.get('/order/:id', function*() {
 function* saveOrder(order) {
     var res;
 
-    orders.items=orders.items.filter(function(item){
+    order.items=order.items.filter(function(item){
         return item.name==''? false : true;
     })
 

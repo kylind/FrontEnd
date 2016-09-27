@@ -114,6 +114,9 @@
 .rpadding-5 {
     padding-right: 5px;
 }
+.rpadding-10 {
+    padding-right: 10px;
+}
 
 .font-white {
     color: #fff;
@@ -305,6 +308,8 @@ input:-webkit-autofill {
     border-bottom: 1px solid #cc0066;
     text-align: center;
     padding-right:22px;
+
+    background-color: #ffcccc;
 }
 
 input[type="text"]:focus,
@@ -398,7 +403,8 @@ button {
 }
 
 .order--received .order-clientbox{
-    position: relative;
+    background-color: #ffcccc;
+
 
 }
 
@@ -418,10 +424,25 @@ button {
 }
 
 .order--received .order-actionbox{
-    text-align: center;
-     background-color: #cc0066;
-}
+    padding-left:10px;
+    padding-right:10px;
+    text-align: justify;
+     border-bottom: 1px solid #cc0066;
+     line-height: 0;
+     font-size: 0;
+     background-color: #ffcccc;
 
+}
+.order--received .order-actionbox:after{
+    content: '';
+    display: inline-block;
+    width:100%;
+    height: 0;
+}
+.order--received .order-actionbox > icon{
+    vertical-align: top;
+
+}
 .order--received .order-items{
     width:70%;
     display: table-cell;
