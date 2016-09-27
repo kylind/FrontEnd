@@ -6,6 +6,16 @@ var url = 'mongodb://127.0.0.1:27017/orders';
 
 var collection = {
 
+    insertOne: function*(user) {
+        var db = yield MongoClient.connect(url);
+
+        delete user._id
+        res = yield db.collection('siteusers').insertOne(user);
+
+        return res;
+
+    },
+
     queryUser: function(userName) {
 
         return new Promise(function(resolve, reject) {

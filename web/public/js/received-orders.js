@@ -11,25 +11,25 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             name: '',
             quantity: 1,
             note: ''
-        },{
+        }, {
             name: '',
             quantity: 1,
             note: ''
-        },{
+        }, {
             name: '',
             quantity: 1,
             note: ''
         }]);
         self.createDate = order && order.createDate ? order.createDate : '';
         self.status = order && order.status ? order.status : '1RECEIVED';
-        self.packingStatus=   ko.observable(order && order.packingStatus ? order.packingStatus : '1ISREADY');
+        self.packingStatus = ko.observable(order && order.packingStatus ? order.packingStatus : '1ISREADY');
 
         self.orderPackingStatus = ko.pureComputed(function() {
             if (self.packingStatus() == '3PACKED') {
                 return 'font-green';
             } else if (self.packingStatus() == '2NOTREADY') {
                 return 'font-yellow';
-            }else{
+            } else {
                 return 'font-white';
             }
         });
@@ -37,7 +37,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.orderReadyStatus = ko.pureComputed(function() {
             if (self.packingStatus() == '2NOTREADY') {
                 return 'icon-thumbsdown font-yellow';
-            }else{
+            } else {
                 return 'icon-thumbsup font-white';
             }
         });
@@ -55,16 +55,16 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var observableOrders = [];
 
-            if(Array.isArray(orders) && orders.length>0){
+            if (Array.isArray(orders) && orders.length > 0) {
                 orders.forEach(function(order) {
 
                     observableOrders.push(new OrderModel(order));
 
                 })
-            }else{
+            } else {
 
-                for(var i=0;i<30;i++){
-                   observableOrders.push(new OrderModel());
+                for (var i = 0; i < 30; i++) {
+                    observableOrders.push(new OrderModel());
 
                 }
 
@@ -103,10 +103,10 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 sellPrice: '',
                 isDone: false
             });
-           // swiper.update();
+            // swiper.update();
         };
 
-        self.removeItem = function(data,parent) {
+        self.removeItem = function(data, parent) {
             parent.items.remove(data);
             //swiper.update();
         };
@@ -133,19 +133,27 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
 
         self.submitOrders = function() {
-           // arguments[3]();
-          //  var succeed = arguments[4];
+            // arguments[3]();
+            //  var succeed = arguments[4];
 
             console.log('post request....');
 
             var ordersData = ko.mapping.toJS(self.orders()); //$.parseJSON(ko.toJSON(order));
 
-            $.post('/orders', {orders: ordersData}, function(data, status) {
-                    console.log(ordersData);
-                    //succeed();
-                },
-                'json'
-            );
+            if (Arrary.isArray(ordersData) && ordersData.length > 0) {
+                var realOrders = ordersData.filter(function(order) {
+                    return order.client == '' ? false : true;
+                })
+
+                $.post('/orders', { orders: ordersData }, function(data, status) {
+                        console.log(ordersData);
+                        //succeed();
+                    },
+                    'json'
+                );
+            }
+
+
 
             return false;
 
@@ -161,26 +169,26 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var packingStatus = order.packingStatus()
 
-             $target = $(arguments[2].target);
+            $target = $(arguments[2].target);
 
-             var newStatus = '';
+            var newStatus = '';
 
-             if($target.hasClass('icon-leaf')){
-                if(packingStatus=="1ISREADY"){
+            if ($target.hasClass('icon-leaf')) {
+                if (packingStatus == "1ISREADY") {
                     newStatus = '3PACKED';
-                }else if(packingStatus=="3PACKED"){
+                } else if (packingStatus == "3PACKED") {
                     newStatus = '1ISREADY';
                 }
-             }else{
-                if(packingStatus=="1ISREADY" || packingStatus=="3PACKED"){
+            } else {
+                if (packingStatus == "1ISREADY" || packingStatus == "3PACKED") {
                     newStatus = '2NOTREADY';
-                }else{
+                } else {
                     newStatus = '1ISREADY';
                 }
-             }
+            }
 
 
-            if(newStatus==""){
+            if (newStatus == "") {
                 succeed();
                 return;
             }
@@ -207,7 +215,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             var order = new OrderModel();
 
             self.orders.unshift(order);
-           // swiper.update();
+            // swiper.update();
             $(window).scrollTop(0);
         };
 
@@ -259,9 +267,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             self.orders(searchedOrders);
 
 
-            setTimeout(function(){
+            setTimeout(function() {
                 swiper.update();
-            },100)
+            }, 100)
 
 
         };
