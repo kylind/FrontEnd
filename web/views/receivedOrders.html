@@ -1,40 +1,48 @@
-
 <div class="searchbox">
     <button type="button" text="Add" class="lmargin-5 fl icon icon-add" data-bind="tap:$root.addOrder"> Order </button>
-    <div class="lmargin-150">
+    <button type="button" text="Add" class="lmargin-5 fl icon icon-save-all" data-bind="tap:$root.submitOrders"> Orders </button>
+    <div class="lmargin-220">
         <input type="text" class="w-p100 input-search" name="search-receivedOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
     </div>
 </div>
 <div class="tmargin-40" data-bind="foreach: orders">
     <section class="order order--received enterArea">
+        <div class="order-actions">
             <input type="hidden" data-bind="value: _id" />
-            <input type="hidden" data-bind="value: client" placeholder="Client Name" />
-            <div class="items">
-                <!-- ko foreach: items -->
-                <input type="hidden" data-bind="value: $parent._id" />
-                <input type="hidden" data-bind="value: $parent.client" placeholder="Client Name" />
-                <fieldset class="item">
-                    <span class="w-p30">
-                        <input type="text" data-bind="value: $parent.client" placeholder="Client Name" />
-                    </span>
-                    <span class="w-p30">
-                        <input  type="text" data-bind="value: name" placeholder="Product Name" />
-                    </span>
-                    <span class="w-p10">
-                        <input  type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
-                    </span>
-                    <span class="w-p20">
-                        <input  type="text" data-bind="value: note" placeholder="Note:" />
-                    </span>
-                    <div class="item-actions">
-                        <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $root.removeItem"></a>
-                    </div>
-                </fieldset>
-                <!-- /ko -->
+            <div class="order-clientbox">
+                <input type="text" class="client" data-bind="value: client" placeholder="Client Name" />
+                <a href="#" class="icon icon-add " text="Add" data-bind="click:$root.addItem"> </a>
             </div>
+            <div class="order-actionbox">
+                <a href="#" class="icon icon-remove-sign font-white action-submit fl" data-bind="tap: $root.removeOrder"></a>
+                <a href="#" class="icon icon-leaf action-submit font-white" data-bind="tap: $root.markPackingStatus, css: orderPackingStatus"> </a>
+                <!--<a href="#" class="icon icon-save-sign action-submit action-enter" data-bind="tap: $root.submitOrder"> </a>-->
+                <a href="#" class="icon action-submit font-white fr" data-bind="tap: $root.markPackingStatus, css: orderReadyStatus"> </a>
+            </div>
+        </div>
+        <div class="order-items">
+            <!-- ko foreach: items -->
+            <fieldset class="item" data-bind="css:{'onlyItem': $parent.items().length==1}">
+                <span class="w-p40">
+                    <input  type="text" data-bind="value: name" placeholder="Product Name" />
+                </span>
+                <span class="w-p10">
+                    <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
+                </span>
+                <span class="w-p30">
+                    <input  type="text" data-bind="value: note" placeholder="Note:" />
+                </span>
+                <span class="w-p20 taRight" "><!-- data-bind="css: { 'align-right': $index()%2==0 } -->
+
+                     <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $root.removeItem"></a>
+
+                </span>
+            </fieldset>
+            <!-- /ko -->
+        </div>
     </section>
 </div>
 <script>
-var orders = <%- JSON.stringify(orders) %>
+var orders = <%- JSON.stringify(orders) %>; //
 </script>
 <script data-main="/js/main-received" src="/js/require.js"></script>
