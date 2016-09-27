@@ -10,7 +10,9 @@
     float: left;
 }
 
-
+.fr {
+    float: right;
+}
 
 .taLeft {
     text-align: left;
@@ -89,6 +91,9 @@
 .lmargin-150 {
     margin-left: 175px;
 }
+.lmargin-220 {
+    margin-left: 220px;
+}
 
 .lmargin-5 {
     margin-left: 5px;
@@ -113,6 +118,7 @@
 .font-white {
     color: #fff;
 }
+
 
 .font-green {
     color: #99ff99;
@@ -193,14 +199,14 @@ footer {
     font-family: FontAwesome;
     display: inline-block;
     font-size: 1.5rem;
-    line-height: 17px;
+    line-height: 18px;
     font-weight: normal;
 }
 
 a.icon {
     text-align: center;
     width: 30px;
-    height: 20px;
+    height: 18px;
     display: inline-block;
 }
 
@@ -225,6 +231,10 @@ a.icon:before {}
 .icon-save:before {
     content: "\f00c";
 }
+.icon-save-all:before {
+    content: "\f0c7";
+}
+
 
 .icon-remove-sign:before {
     content: "\f057";
@@ -286,10 +296,29 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
 
+.order--received input{
+    border:0;
+    width:100%;
+}
+
+.order--received input.client{
+    border-bottom: 1px solid #cc0066;
+    text-align: center;
+    padding-right:22px;
+}
+
 input[type="text"]:focus,
 input[type="number"]:focus,
 input[type="password"]:focus {
     border-bottom: 1px solid #cc0066;
+}
+
+.order--received input:focus{
+    border-bottom: 0;
+}
+.order--received input.client:focus{
+    border-bottom: 1px solid #cc0066;
+    text-align: center;
 }
 
 input.postage{
@@ -347,8 +376,81 @@ button {
     border-bottom-left-radius: 8px;
 }
 
+.order--received{
+
+    border-top: 1px solid #cc0066;
+    border-left: 1px solid #cc0066;
+    border-right: 1px solid #cc0066;
+    border-bottom: none;
+    border-radius: 0;
+    margin-bottom: 0;
+    display: table;
+    width:100%;
+}
+
 .order:last-child {
     margin-bottom: 0;
+}
+
+.order--received.order:last-child {
+
+    border-bottom: 1px solid #cc0066;
+}
+
+.order--received .order-clientbox{
+    position: relative;
+
+}
+
+.order-clientbox .icon{
+    position: absolute;
+    right:0;
+    top:0;
+
+}
+
+.order--received .order-actions{
+    width:30%;
+    display: table-cell;
+    border-right: 1px solid #cc0066;
+
+
+}
+
+.order--received .order-actionbox{
+    text-align: center;
+     background-color: #cc0066;
+}
+
+.order--received .order-items{
+    width:70%;
+    display: table-cell;
+    vertical-align: top;
+}
+
+.order--received .item{
+    border-bottom: 1px solid #cc0066;
+    margin-bottom: 0;
+    font-size: 0;
+    display: block;
+
+}
+.order--received .item:last-child{
+    border-bottom: none;
+}
+.order--received .onlyItem.item:last-child{
+    border-bottom: 1px solid #cc0066;
+}
+.order--received .item > span{
+    border-right: 1px solid #cc0066;
+    display: inline-block;
+    box-sizing: border-box;
+    font-size: 0;
+
+
+}
+.order--received .item > span:last-child{
+    border-right: 0;
 }
 
 .order-head {
@@ -356,6 +458,7 @@ button {
     height: 26px;
     padding-left: 5px;
 }
+
 
 .order-head:after {
     content: '';
@@ -412,12 +515,23 @@ button {
 .item {
     position: relative;
     margin-bottom: 10px;
+
 }
 
 .item-actions {
     position: absolute;
     right: 0;
     top: 1px;
+}
+.order--received .item-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.order--received .leftPosition {
+
+    left: 0;
+
 }
 
 .item-fields {

@@ -64,7 +64,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.formatPrice = function(price) {
 
-            if(!price) return '?';
+            if (!price) return '?';
 
             var purePrice = price();
             if (purePrice) {
@@ -379,11 +379,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.addExistingOrder = function(order) {
             if (orders != null) {
 
-                var existingOrder=orders.find(function(ele){
-                    return ele._id==order._id;
+                var existingOrder = orders.find(function(ele) {
+                    return ele._id == order._id;
                 });
 
-                if(!existingOrder){
+                if (!existingOrder) {
                     orders.unshift(order);
                 }
 
@@ -451,7 +451,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var keywords = $(event.target).val();
 
-            var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D]+[\u4E00-\u9FA5\uF900-\uFA2D\w ]*)/;
+            var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D\w]+[\u4E00-\u9FA5\uF900-\uFA2D\w ]*)/;
 
 
             var matchedRes = keywords.match(regex);
@@ -470,7 +470,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 newKeywords = '';
 
                 self.orders(orders);
-                swiper.update();
+                setTimeout(function() {
+                    swiper.update();
+                }, 100)
             }
 
         }
@@ -484,7 +486,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             });
 
             self.orders(searchedOrders);
-            swiper.update();
+            setTimeout(function() {
+                swiper.update();
+            }, 100)
         }
 
         var timeoutIds = [];
@@ -514,7 +518,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                         success: function(data, status) {
 
                             self.orders(self.getObservableOrders(data));
-                            swiper.update();
+                            setTimeout(function() {
+                                swiper.update();
+                            }, 100);
 
                         },
 

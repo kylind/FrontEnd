@@ -17,7 +17,7 @@ const RECEIVED = '1RECEIVED'
 const EMPTY_ORDER = {
     _id: '',
     client: '',
-    postage:'',
+    postage: '',
     items: [{
         name: "",
         quantity: 1,
@@ -66,9 +66,7 @@ router.get('/order/:id', function*() {
 
 });
 
-router.post('/order', function*() {
-
-    var order = this.request.body;
+function* saveOrder(order) {
     var res;
 
     order.items.forEach(function(item) {
@@ -78,8 +76,6 @@ router.post('/order', function*() {
         item.sellPrice = item.sellPrice ? +item.sellPrice : null;
         delete item.profit;
     });
-
-
 
     delete order.displayDate;
     delete order.total;
@@ -114,8 +110,35 @@ router.post('/order', function*() {
 
     order.displayDate = order.createDate ? order.createDate.toLocaleDateString("en-US", dateFormatting) : '';
 
+    return order;
+}
+
+router.post('/order', function*() {
+
+    var order = this.request.body;
+
+    yield saveOrder(order);
 
     this.body = order;
+    this.status = 200;
+
+});
+
+router.post('/orders', function*() {
+
+    var req = this.request.body;
+
+    var orders=req.orders;
+
+    if(Array.isArray(orders) && orders.length>0){
+        for(var i=0;i<orders.length;i++){
+            yield saveOrder(orders[i]);
+        }
+
+    }
+
+
+    this.body = orders;
     this.status = 200;
 
 });
@@ -279,6 +302,7 @@ router.get('/incomeListJson', function*() {
     this.status = 200;
 
 });
+
 function* getReckoningOrders() {
     var res = null;
     res = yield orderOperation.queryReckoningOrders();

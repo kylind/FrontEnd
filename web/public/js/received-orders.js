@@ -11,6 +11,14 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             name: '',
             quantity: 1,
             note: ''
+        },{
+            name: '',
+            quantity: 1,
+            note: ''
+        },{
+            name: '',
+            quantity: 1,
+            note: ''
         }]);
         self.createDate = order && order.createDate ? order.createDate : '';
         self.status = order && order.status ? order.status : '1RECEIVED';
@@ -28,11 +36,12 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.orderReadyStatus = ko.pureComputed(function() {
             if (self.packingStatus() == '2NOTREADY') {
-                return 'icon-thumbsdown font-darkyellow';
+                return 'icon-thumbsdown font-yellow';
             }else{
-                return 'icon-thumbsup';
+                return 'icon-thumbsup font-white';
             }
         });
+
 
     };
 
@@ -46,11 +55,22 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var observableOrders = [];
 
-            orders.forEach(function(order) {
+            if(Array.isArray(orders) && orders.length>0){
+                orders.forEach(function(order) {
 
-                observableOrders.push(new OrderModel(order));
+                    observableOrders.push(new OrderModel(order));
 
-            })
+                })
+            }else{
+
+                for(var i=0;i<30;i++){
+                   observableOrders.push(new OrderModel());
+
+                }
+
+            }
+
+
 
             return observableOrders;
         }
@@ -83,12 +103,12 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 sellPrice: '',
                 isDone: false
             });
-            swiper.update();
+           // swiper.update();
         };
 
-        self.removeItem = function(data, parent) {
+        self.removeItem = function(data,parent) {
             parent.items.remove(data);
-            swiper.update();
+            //swiper.update();
         };
 
         self.submitOrder = function(order) {
@@ -104,6 +124,25 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     console.log('get post result');
                     ko.mapping.fromJS(data, {}, order);
                     succeed();
+                },
+                'json'
+            );
+
+            return false;
+
+        };
+
+        self.submitOrders = function() {
+           // arguments[3]();
+          //  var succeed = arguments[4];
+
+            console.log('post request....');
+
+            var ordersData = ko.mapping.toJS(self.orders()); //$.parseJSON(ko.toJSON(order));
+
+            $.post('/orders', {orders: ordersData}, function(data, status) {
+                    console.log(ordersData);
+                    //succeed();
                 },
                 'json'
             );
@@ -168,7 +207,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             var order = new OrderModel();
 
             self.orders.unshift(order);
-            swiper.update();
+           // swiper.update();
             $(window).scrollTop(0);
         };
 
@@ -216,8 +255,13 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 return order.client().indexOf(keywords) >= 0;
             });
 
+
             self.orders(searchedOrders);
-            swiper.update();
+
+
+            setTimeout(function(){
+                swiper.update();
+            },100)
 
 
         };
