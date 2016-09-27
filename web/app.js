@@ -81,12 +81,10 @@ app.use(function*(next) {
 var itemRouter = require('./routes/itemRouter.js').router;
 var orderRouter = require('./routes/orderRouter.js').router;
 var addressRouter = require('./routes/addressRouter.js').router;
-var otherRouter = require('./routes/otherRouter.js').router;
 
 app.use(orderRouter.routes());
 app.use(itemRouter.routes());
 app.use(addressRouter.routes());
-app.use(otherRouter.routes());
 
 app.listen(3000);
 
