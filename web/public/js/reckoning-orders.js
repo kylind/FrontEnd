@@ -35,7 +35,10 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             });
 
         } else {
-            observableItems.push(new Item());
+            for(var i=0;i<3;i++){
+                observableItems.push(new Item());
+            }
+
         }
 
 
@@ -117,7 +120,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var itemData = ko.mapping.toJS(item);
 
-            var $historicTrades = $(event.target).parent().next('.historicbox');
+            var $historicTrades = $(event.target).closest('.item').find('.historicbox');
 
             if (!item.isHistoricTradesOpen) {
                 arguments[3]();
@@ -131,8 +134,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     $historicTrades.slideDown('fast', function() {
                         item.isHistoricTradesOpen = true;
-                        swiper.update();
+
                         succeed();
+                        swiper.update();
                     });
 
                 });
@@ -266,8 +270,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                         parent.addExistingOrder(self)
 
                     }
-                    swiper.update();
                     succeed();
+                    swiper.update();
 
                 },
                 data: {
@@ -420,8 +424,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             self.orders.remove(order);
 
             if (id == '') {
-                swiper.update();
+
                 succeed();
+                swiper.update();
                 return;
             }
 

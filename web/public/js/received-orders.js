@@ -147,7 +147,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 })
 
                 $.post('/orders', { orders: realOrders }, function(data, status) {
-                        console.log(data);
+                        self.setOrders (data);
                         succeed();
                     },
                     'json'

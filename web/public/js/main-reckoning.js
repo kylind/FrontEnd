@@ -12,7 +12,7 @@ requirejs.config({
 
 
 
-require(['received-orders', 'knockout', 'jquery'], function(OrdersModel, ko, $) {
+require(['reckoning-orders', 'knockout', 'jquery'], function(OrdersModel, ko, $) {
 
     var isTouch = ('ontouchstart' in document.documentElement) ? 'touchstart' : 'click';
     var _on = $.fn.on;

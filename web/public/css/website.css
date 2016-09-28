@@ -211,6 +211,7 @@ a.icon {
     width: 30px;
     height: 18px;
     display: inline-block;
+    cursor: pointer;
 }
 
 a.icon:before {}
@@ -285,13 +286,14 @@ input[type="text"],
 input[type="number"],
 input[type="password"] {
     box-sizing: border-box;
-    border-top: 1px solid #fff;
-    border-left: 1px solid #fff;
-    border-right: 1px solid #fff;
-    border-bottom: 1px solid #999;
+    border:0;
     padding: 0 0 0 5px;
     font-size: 1.3rem;
     line-height: 18px;
+}
+
+.searchbox input{
+    border-bottom: 1px solid #999;
 }
 
 input:-webkit-autofill {
@@ -299,40 +301,35 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
 
-.order--received input{
+.order--received input, .order--reckoning input{
     border:0;
     width:100%;
 }
 
-.order--received input.client{
-    border-bottom: 1px solid #cc0066;
-    text-align: center;
-    padding-right:22px;
+.order--received input.client, .order--reckoning input.client{
 
+    text-align: center;
     background-color: #ffcccc;
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus,
 input[type="password"]:focus {
-    border-bottom: 1px solid #cc0066;
+     border-bottom: 0;
 }
 
-.order--received input:focus{
-    border-bottom: 0;
-}
-.order--received input.client:focus{
-    border-bottom: 1px solid #cc0066;
-    text-align: center;
-}
 
 input.postage{
     font-weight: bold;
     line-height: 1;
     height: 15px;
     vertical-align: text-bottom;
+    width:20px;
+    border-bottom: solid 1px #999;
+}
+input.postage:focus{
 
-
+    border-bottom: solid 1px #cc0066;
 }
 
 button {
@@ -348,7 +345,9 @@ button {
     /*border-radius: 8px;*/
     /*text-transform: uppercase;*/
     /*box-shadow: 2px 2px 3px;*/
+    cursor: pointer;
 }
+
 .searchbox{
     position: absolute;
     padding-top:10px;
@@ -374,58 +373,42 @@ button {
 
 .order {
     position: relative;
-    border: 1px solid #cc0066;
-    border-top: none;
-    margin-bottom: 10px;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-
-.order--received{
 
     border-top: 1px solid #cc0066;
     border-left: 1px solid #cc0066;
     border-right: 1px solid #cc0066;
-    border-bottom: none;
-    border-radius: 0;
-    margin-bottom: 0;
-    display: table;
     width:100%;
+    box-sizing: border-box;
+    display: table;
+
+}
+
+.order--received{
+
 }
 
 .order:last-child {
-    margin-bottom: 0;
+     border-bottom: 1px solid #cc0066;
 }
 
-.order--received.order:last-child {
-
-    border-bottom: 1px solid #cc0066;
-}
-
-.order--received .order-clientbox{
+.order--received .order-clientbox, .order--reckoning .order-clientbox{
     background-color: #ffcccc;
-
-
+    border-bottom: 1px solid #cc0066;
+    font-size: 0;
 }
 
-.order-clientbox .icon{
-    position: absolute;
-    right:0;
-    top:0;
 
-}
-
-.order--received .order-actions{
+.order--received .order-client, .order--reckoning .order-client{
     width:30%;
     display: table-cell;
     border-right: 1px solid #cc0066;
-
-
 }
-
-.order--received .order-actionbox{
-    padding-left:10px;
-    padding-right:10px;
+.order--reckoning .order-client{
+    width:20%;
+}
+.order-actionbox{
+    padding-left:5px;
+    padding-right:5px;
     text-align: justify;
      border-bottom: 1px solid #cc0066;
      line-height: 0;
@@ -433,20 +416,39 @@ button {
      background-color: #ffcccc;
 
 }
-.order--received .order-actionbox:after{
+.order-actionbox:after{
     content: '';
     display: inline-block;
     width:100%;
     height: 0;
 }
-.order--received .order-actionbox > icon{
+.order-actionbox > icon{
     vertical-align: top;
-
 }
+
 .order--received .order-items{
     width:70%;
     display: table-cell;
     vertical-align: top;
+}
+.order--reckoning .order-items{
+    width:80%;
+    display: table-cell;
+    vertical-align: top;
+}
+
+
+.order-totalbox{
+    border-bottom: 1px solid #cc0066;
+}
+
+
+.item{
+    border-bottom: 1px solid #cc0066;
+    margin-bottom: 0;
+    font-size: 0;
+    display: block;
+
 }
 
 .order--received .item{
@@ -454,61 +456,43 @@ button {
     margin-bottom: 0;
     font-size: 0;
     display: block;
+}
 
+.item:last-child{
+    border-bottom: none;
 }
 .order--received .item:last-child{
     border-bottom: none;
 }
-.order--received .onlyItem.item:last-child{
-    border-bottom: 1px solid #cc0066;
+
+.item > span{
+    border-right: 1px solid #cc0066;
+    display: inline-block;
+    box-sizing: border-box;
+    font-size: 0;
 }
+
 .order--received .item > span{
     border-right: 1px solid #cc0066;
     display: inline-block;
     box-sizing: border-box;
     font-size: 0;
-
-
 }
+
+.order--reckoning .item-fields > span{
+    border-right: 1px solid #cc0066;
+    display: inline-block;
+    box-sizing: border-box;
+    font-size: 0;
+}
+
 .order--received .item > span:last-child{
     border-right: 0;
 }
-
-.order-head {
-    background-color: #cc0066;
-    height: 26px;
-    padding-left: 5px;
+.order--reckoning .item-fields > span:last-child{
+    border-right: 0;
 }
 
-
-.order-head:after {
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-}
-
-.order-head input {
-    border-bottom: solid 1px #fff;
-    width: 125px;
-    box-sizing: border-box;
-    vertical-align: middle;
-}
-
-.order-head input:focus {
-    border-bottom: solid 1px #fff;
-}
-
-.order-head button {
-    border: solid 1px #fff;
-}
-
-.order-savebox {
-    line-height: normal;
-    position: absolute;
-    right: 5px;
-    top: 4px;
-}
 
 .order-addressbox,
 .order-itembox {
@@ -535,8 +519,6 @@ button {
 
 .item {
     position: relative;
-    margin-bottom: 10px;
-
 }
 
 .item-actions {
@@ -563,27 +545,31 @@ button {
 .item-fields > input {
     margin-right: 0.5%
 }
-
-.item-historicTrades {
-    width: 100%;
-    border: 1px solid #cc0066;
-    box-sizing: border-box;
+.historic{
+    width:100%;
+}
+.historic-header{
+    border-bottom: 1px solid #cc0066;
 }
 
-.item-historicTrades td,
-.item-historicTrades th {
-    border: 1px solid #cc0066;
-    padding-left: 5px;
+.historic-header > span{
+    border-right: 1px solid #cc0066;
+}
+.historic-header > span:last-child{
+    border-right: 1px solid #cc0066;
 }
 
-.item-historicTrades td:last-child,
-.item-historicTrades th:last-child {
-    padding-right: 5px;
-    padding-left: 0;
+.historic-item{
+    border-bottom: 1px solid #cc0066;
 }
-
-.item-historicTrades th {
-    font-weight: normal;
+.historic-item:last-child{
+    border-bottom: 1px solid #cc0066;
+}
+.historic-item > span{
+    border-right: 1px solid #cc0066;
+}
+.historic-item > span:last-child{
+    border-right: 1px solid #cc0066;
 }
 
 
@@ -936,4 +922,20 @@ span.orderitem-cnt-btns {
     padding-left: 5px;
     border-right: 1px solid #cc0066;
     vertical-align: middle;
+}
+
+/*** confirm **/
+.confirm{
+    font-size: 0;
+    width:205px;
+    padding:5px;
+    background-color: #cc0066;
+
+    line-height: 0;
+    display: none;
+    position: absolute;
+    left:50%;
+    margin-left: -102.5px;
+    z-index: 1;
+
 }

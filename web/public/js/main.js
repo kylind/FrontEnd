@@ -39,8 +39,43 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
                 $target = $(event.target);
                 var $submitting = $('.prompt-submitting');
                 var $succeed = $('.prompt-succeed');
+                var $confirm = $('.confirm');
 
-                if ($target.hasClass('action-submit')) {
+                if ($target.hasClass('action-delete') && $target.hasClass('action-submit')) {
+                    var offset = $target.offset();
+
+                    $('.confirm-submit').one('click', function() {
+
+                        $confirm.fadeOut('slow');
+                        handler(bindingContext.$data, bindingContext.$parent, event, function() {
+                            $submitting.children('span').text("Submitting...");
+                            var offset = $target.offset();
+                            $('.prompt').css('top', offset.top).show();
+
+                        }, function() {
+
+                            $submitting.addClass('disappeared')
+                            $succeed.removeClass('disappeared')
+
+                            $('.prompt').delay(600).fadeOut('slow', function() {
+                                $submitting.removeClass('disappeared')
+                                $succeed.addClass('disappeared')
+                            });
+
+                        });
+
+                    })
+
+                    $('.confirm-cancel').one('click', function() {
+
+                        $confirm.fadeOut('slow');
+
+                    })
+
+                    $('.confirm').css('top', offset.top).fadeIn('slow');
+
+
+                } else if ($target.hasClass('action-submit')) {
 
                     handler(bindingContext.$data, bindingContext.$parent, event, function() {
                         $submitting.children('span').text("Submitting...");
@@ -96,9 +131,9 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
         spaceBetween: 30,
         pagination: '.swiper-pagination',
         paginationClickable: true,
-        simulateTouch:false,
-        shortSwipes:false,
-        longSwipes:false,
+        simulateTouch: false,
+        shortSwipes: false,
+        longSwipes: false,
         paginationBulletRender: function(index, className) {
             var bulletName = '';
             switch (index) {
@@ -131,12 +166,12 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
     $(window).scroll(function() {
         var top = $(window).scrollTop();
-       $(".searchbox").css("top",top);
+        $(".searchbox").css("top", top);
 
     });
 
 
-    require(['purchase-items', 'reckoning-orders','income-list', 'addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel,IncomeListModel, AddressesModel, ko, $) {
+    require(['purchase-items', 'reckoning-orders', 'income-list', 'addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
 
         var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel;
 
@@ -166,11 +201,13 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
         $(document).on('keydown', function(event) {
             if (event.keyCode == 13) {
-                var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
+                //var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
                 $(document.activeElement).blur();
+                var $target = $('.action-enter');
                 setTimeout(function() {
                     $target.trigger('click')
                 }, 100);
+                return false;
 
             }
 
