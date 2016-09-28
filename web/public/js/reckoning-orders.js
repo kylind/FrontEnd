@@ -393,32 +393,49 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                 var changedOrders = ordersData.filter(function(order) {
 
-                    var isReal = order.client == '' ? false : true;
+                    // var isReal = order.client == '' ? false : true;
 
-                    if (isReal) {
-                        if (order.isChanged) {
-                            return true
-                        } else {
-                            var isChanged = false;
-                            for (var i = 0; i < order.items.length; i++) {
-                                if (order.items[i].isChanged) {
-                                    isChanged = true;
-                                    break;
-                                }
-
-                            }
-                            return isChanged;
-                        }
-
+                    //if (isReal) {
+                    if (order.isChanged) {
+                        return true
                     } else {
-                        return false;
+                        var isChanged = false;
+                        for (var i = 0; i < order.items.length; i++) {
+                            if (order.items[i].isChanged) {
+                                isChanged = true;
+                                break;
+                            }
+
+                        }
+                        return isChanged;
                     }
+
+                    // } else {
+                    //     return false;
+                    // }
 
                 })
 
                 if (changedOrders.length > 0) {
                     $.post('/orders', { orders: changedOrders }, function(data, status) {
-                            self.setOrders(data);
+
+
+                            self.orders().forEach(function(order) {
+
+
+                                var newOrder = data.find(function(newOrder) {
+                                    return newOrder._id == order._id();
+                                })
+
+                                if (newOrder) {
+                                    newOrder.items.forEach(function(item) {
+                                        item.historicTrades = [];
+                                    });
+                                    ko.mapping.fromJS(newOrder, {}, order);
+                                }
+
+                            })
+
                             succeed();
                         },
                         'json'
