@@ -17,7 +17,20 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.isHistoricTradesOpen = false;
 
+        self.isChanged=false;
 
+        self.name.subscribe(function(){
+            self.isChanged=true;
+        })
+        self.quantity.subscribe(function(){
+            self.isChanged=true;
+        })
+        self.buyPrice.subscribe(function(){
+            self.isChanged=true;
+        })
+        self.sellPrice.subscribe(function(){
+            self.isChanged=true;
+        })
 
     }
 
@@ -37,7 +50,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             });
 
         } else {
-            for(var i=0;i<3;i++){
+            for (var i = 0; i < 3; i++) {
                 observableItems.push(new Item());
             }
 
@@ -46,13 +59,20 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.items = ko.observableArray(observableItems);
 
-        self.addresses = ko.observableArray(order ? order.addresses : [{
-            _id: '',
-            client: order ? order.client : '',
-            recipient: '',
-            address: '',
-            phone: ''
-        }]); //to do
+        self.items.subscribe(function(newValue) {
+
+
+        })
+        self.items.subscribe(function(newValue) {
+
+
+        })
+        self.items.subscribe(function(newValue) {
+
+
+        })
+
+
 
         self.createDate = ko.observable(order ? order.createDate : '');
         self.displayDate = ko.observable(order ? order.displayDate : '');
@@ -303,24 +323,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     console.log('get post result');
                     ko.mapping.fromJS(data, {}, order);
 
-                    var addressesData = ko.mapping.toJS(order.addresses);
-
-                    for (var i = 0; i < addressesData.length; i++) {
-                        addressesData[i].client = order.client();
-                    }
-
-                    $.post('./addresses', {
-                            "client": order.client(),
-                            "addresses": addressesData,
-                            "removedAddresses": removedAddresses
-                        }, function(addresses, status) {
-
-                            order.addresses(addresses);
-                            swiper.update();
-                            succeed();
-                        },
-                        'json'
-                    );
 
                 },
                 'json'
