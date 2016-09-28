@@ -17,19 +17,19 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.isHistoricTradesOpen = false;
 
-        self.isChanged=false;
+        self.isChanged = false;
 
-        self.name.subscribe(function(){
-            self.isChanged=true;
+        self.name.subscribe(function() {
+            self.isChanged = true;
         })
-        self.quantity.subscribe(function(){
-            self.isChanged=true;
+        self.quantity.subscribe(function() {
+            self.isChanged = true;
         })
-        self.buyPrice.subscribe(function(){
-            self.isChanged=true;
+        self.buyPrice.subscribe(function() {
+            self.isChanged = true;
         })
-        self.sellPrice.subscribe(function(){
-            self.isChanged=true;
+        self.sellPrice.subscribe(function() {
+            self.isChanged = true;
         })
 
     }
@@ -56,18 +56,22 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         }
 
+        self.isChanged = false;
 
         self.items = ko.observableArray(observableItems);
 
         self.items.subscribe(function(newValue) {
+            self.isChanged = true;
 
 
         })
-        self.items.subscribe(function(newValue) {
+        self.client.subscribe(function(newValue) {
 
+            self.isChanged = true;
 
         })
-        self.items.subscribe(function(newValue) {
+        self.postage.subscribe(function(newValue) {
+            self.isChanged = true;
 
 
         })
@@ -332,6 +336,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         };
 
+
     };
 
 
@@ -375,6 +380,60 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         };
 
+
+
+        self.submitOrders = function() {
+            arguments[3]();
+            var succeed = arguments[4];
+
+
+            var ordersData = $.parseJSON(ko.toJSON(self.orders())); //$.parseJSON(ko.toJSON(order));
+
+            if (Array.isArray(ordersData) && ordersData.length > 0) {
+
+                var changedOrders = ordersData.filter(function(order) {
+
+                    var isReal = order.client == '' ? false : true;
+
+                    if (isReal) {
+                        if (order.isChanged) {
+                            return true
+                        } else {
+                            var isChanged = false;
+                            for (var i = 0; i < order.items.length; i++) {
+                                if (order.items[i].isChanged) {
+                                    isChanged = true;
+                                    break;
+                                }
+
+                            }
+                            return isChanged;
+                        }
+
+                    } else {
+                        return false;
+                    }
+
+                })
+
+                if (changedOrders.length > 0) {
+                    $.post('/orders', { orders: changedOrders }, function(data, status) {
+                            self.setOrders(data);
+                            succeed();
+                        },
+                        'json'
+                    );
+                } else {
+                    succeed();
+                }
+
+
+            }
+
+
+            return false;
+
+        };
 
         self.addOrder = function() {
 

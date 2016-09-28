@@ -79,6 +79,7 @@ function* saveOrder(order) {
         item.buyPrice = item.buyPrice ? +item.buyPrice : null;
         item.sellPrice = item.sellPrice ? +item.sellPrice : null;
         delete item.profit;
+        delete item.isChanged;
     });
 
     delete order.displayDate;
@@ -86,6 +87,7 @@ function* saveOrder(order) {
     delete order.orderStatus;
     delete order.orderPackingStatus;
     delete order.orderReadyStatus;
+    delete order.isChanged;
     delete order.__ko_mapping__;
 
 

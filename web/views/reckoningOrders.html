@@ -1,7 +1,8 @@
 <div class="searchbox">
-    <button type="button" text="Add" class="fl icon icon-add lmargin-5 rmargin-20" data-bind="tap:$root.addOrder"> Order </button>
+    <button type="button" text="Add" class="fl icon icon-add rmargin-5" data-bind="tap:$root.addOrder"> Order </button>
+    <button type="button" text="Add" class="rmargin-20 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> Orders </button>
     <a href="#" class="fl icon icon-eye" data-bind="tap: $root.toggleClientView"></a>
-    <div class="lmargin-150">
+    <div class="lmargin-270">
         <input type="text" class="w-p100 input-search" name="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
     </div>
 </div>

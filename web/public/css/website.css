@@ -94,7 +94,9 @@
 .lmargin-220 {
     margin-left: 220px;
 }
-
+.lmargin-270 {
+    margin-left: 270px;
+}
 .lmargin-5 {
     margin-left: 5px;
 }
@@ -291,15 +293,35 @@ input[type="password"] {
     font-size: 1.3rem;
     line-height: 18px;
 }
-
-.searchbox input{
-    border-bottom: 1px solid #999;
-}
-
 input:-webkit-autofill {
     background-color: #fff !important;
     -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus {
+     border-bottom: 0;
+}
+.searchbox input{
+    border-bottom: 1px solid #999;
+}
+
+.searchbox input[type="text"]:focus{
+    border-bottom: 1px solid #cc0066;
+}
+input[type="text"].postage{
+    font-weight: bold;
+    line-height: 1;
+    height: 15px;
+    vertical-align: text-bottom;
+    width:20px;
+    border-bottom: solid 1px #999;
+}
+input[type="text"].postage:focus{
+
+    border-bottom: solid 1px #cc0066;
+}
+
 
 .order--received input, .order--reckoning input{
     border:0;
@@ -312,25 +334,11 @@ input:-webkit-autofill {
     background-color: #ffcccc;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="password"]:focus {
-     border-bottom: 0;
-}
 
 
-input.postage{
-    font-weight: bold;
-    line-height: 1;
-    height: 15px;
-    vertical-align: text-bottom;
-    width:20px;
-    border-bottom: solid 1px #999;
-}
-input.postage:focus{
 
-    border-bottom: solid 1px #cc0066;
-}
+
+
 
 button {
     box-sizing: border-box;
