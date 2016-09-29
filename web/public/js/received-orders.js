@@ -136,7 +136,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
              arguments[3]();
              var succeed = arguments[4];
 
-            console.log('post request....');
 
             var ordersData = ko.mapping.toJS(self.orders()); //$.parseJSON(ko.toJSON(order));
 
@@ -154,6 +153,71 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 );
             }
 
+            return false;
+
+
+
+
+
+            var ordersData = $.parseJSON(ko.toJSON(self.orders())); //$.parseJSON(ko.toJSON(order));
+
+            if (Array.isArray(ordersData) && ordersData.length > 0) {
+
+                var changedOrders = ordersData.filter(function(order) {
+
+                    // var isReal = order.client == '' ? false : true;
+
+                    //if (isReal) {
+                    if (order.isChanged) {
+                        return true
+                    } else {
+                        var isChanged = false;
+                        for (var i = 0; i < order.items.length; i++) {
+                            if (order.items[i].isChanged) {
+                                isChanged = true;
+                                break;
+                            }
+
+                        }
+                        return isChanged;
+                    }
+
+                    // } else {
+                    //     return false;
+                    // }
+
+                })
+
+                if (changedOrders.length > 0) {
+                    $.post('/orders', { orders: changedOrders }, function(data, status) {
+
+
+                            self.orders().forEach(function(order) {
+
+
+                                var newOrder = data.find(function(newOrder) {
+                                    return newOrder._id == order._id();
+                                })
+
+                                if (newOrder) {
+                                    newOrder.items.forEach(function(item) {
+                                        item.historicTrades = [];
+                                    });
+                                    ko.mapping.fromJS(newOrder, {}, order);
+                                }
+
+                            })
+
+                            succeed();
+                        },
+                        'json'
+                    );
+                } else {
+                    succeed();
+                }
+
+
+            }
 
 
             return false;

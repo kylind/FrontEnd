@@ -386,7 +386,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             arguments[3]();
             var succeed = arguments[4];
 
-
             var ordersData = $.parseJSON(ko.toJSON(self.orders())); //$.parseJSON(ko.toJSON(order));
 
             if (Array.isArray(ordersData) && ordersData.length > 0) {
