@@ -69,8 +69,13 @@ router.get('/order/:id', function*() {
 function* saveOrder(order) {
     var res;
 
-    order.items=order.items.filter(function(item){
-        return item.name==''? false : true;
+
+    if (!Array.isArray(order.items) || order.items.length == 0) {
+        order.items = [];
+    }
+
+    order.items = order.items.filter(function(item) {
+        return item.name == '' ? false : true;
     })
 
     order.items.forEach(function(item) {
@@ -81,6 +86,9 @@ function* saveOrder(order) {
         delete item.profit;
         delete item.isChanged;
     });
+
+
+
 
     delete order.displayDate;
     delete order.total;
@@ -134,10 +142,10 @@ router.post('/orders', function*() {
 
     var req = this.request.body;
 
-    var orders=req.orders;
+    var orders = req.orders;
 
-    if(Array.isArray(orders) && orders.length>0){
-        for(var i=0;i<orders.length;i++){
+    if (Array.isArray(orders) && orders.length > 0) {
+        for (var i = 0; i < orders.length; i++) {
             yield saveOrder(orders[i]);
         }
 

@@ -58,6 +58,51 @@ var collection = {
 
     },
 
+    queryItemsByMark: function*() {
+
+        var db = yield MongoClient.connect(url);
+
+        var res = yield db.collection('orders').aggregate([{
+
+                $match: {
+                    status: '1RECEIVED'
+                }
+
+            }, {
+                $unwind: {
+
+                    path: '$items',
+
+                    preserveNullAndEmptyArrays: true
+                }
+            }, {
+                $group: {
+                    '_id': {
+                        'note': '$items.note',
+                        'name': '$items.name'
+
+                    },
+                    'quantity': {
+                        $sum: '$items.quantity'
+                    }
+                }
+            }, {
+
+                $project: {  note: '$items.note', name: '$items.name',  quantity: '$items.quantity'}
+
+            }
+
+        ], {
+            cursor: {
+                batchSize: 1
+            }
+        }).sort({ 'note': 1,'name':1 }).toArray();
+
+        return res;
+
+
+    },
+
     updateItemStatus: function*(itemName, status) {
 
         var db = yield MongoClient.connect(url);

@@ -23,9 +23,22 @@ router.get('/purchaseItems', function*() {
 
 });
 
+
+
 router.get('/purchaseItemsJson', function*() {
 
     var res = yield itemOperation.queryItems();
+
+    res = res && res.length > 0 ? res :[];
+
+    this.body = res;
+    this.status = 200;
+
+});
+
+router.get('/purchaseMarkedItemsJson', function*() {
+
+    var res = yield itemOperation.queryItemsByMark();
 
     res = res && res.length > 0 ? res :[];
 

@@ -71,6 +71,15 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     };
 
+    var MarkedItem = function(item) {
+
+        var self = this;
+        self.name = item ? item.name : '';
+        self.note = item ? item.note : '';
+        self.quantity = item ? item.quantity : '';
+
+    };
+
     var ItemsModel = function(items, swiper) {
 
         function init(items) {
@@ -179,7 +188,45 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
     }
 
 
+    var MarkedItem = function(item) {
 
-    return ItemsModel;
+        var self = this;
+        self.name = item ? item.name : '';
+        self.note = item ? item.note : '';
+        self.quantity = item ? item.quantity : '';
+
+    };
+    var MarkedItemsModel = function(items, swiper) {
+
+        function init(items) {
+            var observableItems = [];
+
+            if (Array.isArray(items) && items.length > 0) {
+                items.forEach(function(item) {
+
+                    observableItems.push(new Item(item));
+
+                })
+            }
+
+            return observableItems;
+        }
+
+        var observableItems = init(items);
+
+
+        var self = this;
+
+        self.items = ko.observableArray(observableItems);
+
+        self.setItems = function(items) {
+
+            self.items(init(items));
+
+        }
+
+    }
+
+    return { ItemsModel: ItemsModel, MarkedItemsModel: MarkedItemsModel };
 
 })

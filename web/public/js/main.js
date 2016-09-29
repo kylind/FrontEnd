@@ -171,15 +171,17 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
     });
 
 
-    require(['purchase-items', 'reckoning-orders', 'income-list', 'addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
+    require(['purchase-items', 'reckoning-orders', 'income-list', 'addresses', 'knockout', 'jquery'], function(itemsView, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
 
         var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel;
 
         $.getJSON('./purchaseItemsJson', function(items, status) {
-            itemsModel = new ItemsModel(items, swiper);
+
+            itemsModel = new itemsView.ItemsModel(items, swiper);
             ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
 
         });
+
 
         $.getJSON('./reckoningOrdersJson', function(orders, status) {
             reckoningOrdersModel = new OrdersModel(orders, swiper);
@@ -200,10 +202,13 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
         });
 
         $(document).on('keydown', function(event) {
-            if (event.keyCode == 13) {
+            if (event.keyCode == 13 && (swiper.activeIndex==0 || swiper.activeIndex==2)) {
                 //var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
                 $(document.activeElement).blur();
-                var $target = $('.action-enter');
+
+                var targetPage= swiper.activeIndex==0?'receivedOrders':'reckoningOrders'
+
+                var $target = $('#'+ targetPage + ' .action-enter');
                 setTimeout(function() {
                     $target.trigger('click')
                 }, 100);
@@ -232,6 +237,15 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
                     });
                     break;
+
+                    $.getJSON('./purchaseMarkedItemsJson', function(items, status) {
+
+                        markedItemsModel = new itemsView.MarkedItemsModel(items, swiper);
+                        ko.applyBindings(markedItemsModel, $('#purchaseItems')[0]);
+                    });
+
+
+
                 case 2:
                     $.getJSON('./reckoningOrdersJson', function(orders, status) {
 

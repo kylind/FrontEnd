@@ -2,24 +2,66 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     ko.mapping = mapping;
 
+
+    var Item = function(item) {
+        var self = this;
+
+
+        self.name = ko.observable(item && item.name ? item.name : '');
+        self.quantity = ko.observable(item && item.quantity ? item.quantity : '1');
+        self.note = ko.observable(item && item.note ? item.note : '');
+
+
+        self.isChanged = false;
+
+        self.name.subscribe(function() {
+            self.isChanged = true;
+        })
+        self.quantity.subscribe(function() {
+            self.isChanged = true;
+        })
+
+        self.note.subscribe(function() {
+            self.isChanged = true;
+        })
+
+
+    }
+
+
     var OrderModel = function(order) {
         var self = this;
         self._id = ko.observable(order && order._id ? order._id : '');
         self.client = ko.observable(order && order.client ? order.client : '');
         self.rate = order && order.rate ? order.rate : null;
-        self.items = ko.observableArray(order && Array.isArray(order.items)&&order.items.length>0 ? order.items : [{
-            name: '',
-            quantity: 1,
-            note: ''
-        }, {
-            name: '',
-            quantity: 1,
-            note: ''
-        }, {
-            name: '',
-            quantity: 1,
-            note: ''
-        }]);
+
+
+
+        var observableItems = [];
+
+        if (order && $.isArray(order.items) && order.items.length > 0) {
+            order.items.forEach(function(item) {
+                observableItems.push(new Item(item));
+            });
+
+        } else {
+            for (var i = 0; i < 3; i++) {
+                observableItems.push(new Item());
+            }
+
+        }
+
+
+        self.items = ko.observableArray(observableItems);
+
+        self.isChanged = false;
+        self.client.subscribe(function() {
+            self.isChanged = true;
+        });
+        self.items.subscribe(function() {
+            self.isChanged = true;
+        })
+
         self.createDate = order && order.createDate ? order.createDate : '';
         self.status = order && order.status ? order.status : '1RECEIVED';
         self.packingStatus = ko.observable(order && order.packingStatus ? order.packingStatus : '1ISREADY');
@@ -133,78 +175,67 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
 
         self.submitOrders = function() {
-             arguments[3]();
-             var succeed = arguments[4];
+            arguments[3]();
+            var succeed = arguments[4];
 
-
-            var ordersData = ko.mapping.toJS(self.orders()); //$.parseJSON(ko.toJSON(order));
-
-            if (Array.isArray(ordersData) && ordersData.length > 0) {
-
-                var realOrders = ordersData.filter(function(order) {
-                    return order.client == '' ? false : true;
-                })
-
-                $.post('/orders', { orders: realOrders }, function(data, status) {
-                        self.setOrders (data);
-                        succeed();
-                    },
-                    'json'
-                );
-            }
-
-            return false;
-
-
-
-
-
-            var ordersData = $.parseJSON(ko.toJSON(self.orders())); //$.parseJSON(ko.toJSON(order));
+            var orders = self.orders();
+            var ordersData = ko.mapping.toJS(orders); //$.parseJSON(ko.toJSON(order));
 
             if (Array.isArray(ordersData) && ordersData.length > 0) {
 
-                var changedOrders = ordersData.filter(function(order) {
+                var changedIndexs = [];
 
-                    // var isReal = order.client == '' ? false : true;
+                var changedOrders = ordersData.filter(function(order, index) {
 
-                    //if (isReal) {
-                    if (order.isChanged) {
-                        return true
-                    } else {
-                        var isChanged = false;
-                        for (var i = 0; i < order.items.length; i++) {
-                            if (order.items[i].isChanged) {
-                                isChanged = true;
-                                break;
+                    var isChanged = false;
+                    var isReal = order.client == '' ? false : true;
+
+                    if (isReal) {
+                        if (order.isChanged) {
+                            isChanged = true;
+                        } else {
+                            for (var i = 0; i < order.items.length; i++) {
+                                if (order.items[i].isChanged) {
+                                    isChanged = true;
+                                    break;
+                                }
                             }
-
                         }
-                        return isChanged;
                     }
 
-                    // } else {
-                    //     return false;
-                    // }
+                    if (isChanged) {
+                        changedIndexs.push(index);
+                    }
+
+                    return isChanged;
 
                 })
 
                 if (changedOrders.length > 0) {
-                    $.post('/orders', { orders: changedOrders }, function(data, status) {
+
+                    $.post('/orders', { orders: changedOrders }, function(rs, status) {
 
 
-                            self.orders().forEach(function(order) {
+                            rs.forEach(function(newOrder, index) {
+                                var orderIndex = changedIndexs[index];
 
-
-                                var newOrder = data.find(function(newOrder) {
-                                    return newOrder._id == order._id();
-                                })
-
-                                if (newOrder) {
-                                    newOrder.items.forEach(function(item) {
-                                        item.historicTrades = [];
-                                    });
-                                    ko.mapping.fromJS(newOrder, {}, order);
+                                if($.isArray(newOrder.items) && newOrder.items.length==0){
+                                    newOrder.items=[{},{},{}];
                                 }
+
+                                ko.mapping.fromJS(newOrder, {
+                                    items: {
+                                        create: function(option) {
+                                            return new Item(option.data);
+
+                                        }
+                                    }
+                                }, orders[orderIndex]);
+
+                                orders[orderIndex].isChanged=false;
+
+
+
 
                             })
 
@@ -215,10 +246,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 } else {
                     succeed();
                 }
-
-
             }
-
 
             return false;
 
@@ -280,7 +308,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             var order = new OrderModel();
 
             self.orders.unshift(order);
-             swiper.update();
+            swiper.update();
             $(window).scrollTop(0);
         };
 

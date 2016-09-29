@@ -448,22 +448,19 @@ button {
 
 .order-totalbox{
     border-bottom: 1px solid #cc0066;
+    padding-left: 5px;
 }
 
 
 .item{
     border-bottom: 1px solid #cc0066;
     margin-bottom: 0;
-    font-size: 0;
     display: block;
 
 }
 
 .order--received .item{
-    border-bottom: 1px solid #cc0066;
-    margin-bottom: 0;
     font-size: 0;
-    display: block;
 }
 
 .item:last-child{
@@ -553,31 +550,54 @@ button {
 .item-fields > input {
     margin-right: 0.5%
 }
+.historicbox{
+    display: none;
+    border-top: 1px solid #cc0066;
+}
 .historic{
     width:100%;
+
 }
 .historic-header{
     border-bottom: 1px solid #cc0066;
+     font-size: 0;
+     line-height: 0;
+     background-color: #ffcccc;
 }
 
 .historic-header > span{
     border-right: 1px solid #cc0066;
+    display: inline-block;
+    box-sizing: border-box;
+    padding-left: 5px;
+
+
 }
 .historic-header > span:last-child{
-    border-right: 1px solid #cc0066;
+    border-right: 0;
+}
+
+.historic-items{
+    background-color: #ffcccc;
 }
 
 .historic-item{
     border-bottom: 1px solid #cc0066;
+    font-size: 0;
+    line-height: 0;
 }
 .historic-item:last-child{
-    border-bottom: 1px solid #cc0066;
+    border-bottom: 0;
 }
 .historic-item > span{
     border-right: 1px solid #cc0066;
+    display: inline-block;
+    box-sizing: border-box;
+    padding-left: 5px
+
 }
 .historic-item > span:last-child{
-    border-right: 1px solid #cc0066;
+    border-right:0;
 }
 
 
@@ -600,8 +620,6 @@ button {
     box-sizing: border-box;
     font-weight: bold;
     color: #fff;
-    padding-top: 5px;
-    padding-bottom: 5px;
     padding-left: 5px;
 }
 
@@ -622,8 +640,7 @@ button {
     font-size: 1.3rem;
     display: inline-block;
     box-sizing: border-box;
-    padding-top: 5px;
-    padding-bottom: 5px;
+
     padding-left: 5px;
     border-right: 1px solid #cc0066;
     vertical-align: middle;

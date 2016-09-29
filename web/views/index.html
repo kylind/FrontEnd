@@ -19,7 +19,7 @@
                     </div>
                     <div class="order-items">
                         <div class="order-actionbox">
-                            <a href="#" class="icon icon-add"  data-bind="tap:$root.addItem"> </a>
+                            <a href="#" class="icon icon-add" data-bind="tap:$root.addItem"> </a>
                             <a href="#" class="icon icon-leaf action-submit" data-bind="tap: $root.markPackingStatus, css: orderPackingStatus"> </a>
                             <a href="#" class="icon action-submit" data-bind="tap: $root.markPackingStatus, css: orderReadyStatus"> </a>
                             <a href="#" class="icon icon-remove-sign action-submit action-delete" data-bind="tap: $root.removeOrder"></a>
@@ -35,7 +35,7 @@
                             <span class="w-p30">
                     <input  type="text" data-bind="value: note" placeholder="Note:" />
                 </span>
-                            <span class="w-p20 taRight rpadding-10"><!-- data-bind="css: { 'align-right': $index()%2==0 } -->
+                            <span class="w-p20 taRight rpadding-5"><!-- data-bind="css: { 'align-right': $index()%2==0 } -->
 
                      <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $root.removeItem"></a>
 
@@ -46,42 +46,66 @@
                 </section>
             </div>
         </section>
-        <section class="swiper-slide" id="purchaseItems">
-            <div class="orderitems tmargin-10">
-                <div class="orderitems-header">
-                    <span class="w-p40 taLeft">Name</span>
-                    <span class="w-p10 taLeft">Q</span>
-                    <span class="w-p50 taRight rpadding-5"> Done?</span>
-                </div>
-                <!-- ko foreach: items -->
-                <div class="orderitem">
-                    <div class="orderitem-cnt">
-                        <span class="taLeft w-p40" data-bind="text: _id"></span>
-                        <span class="taLeft w-p10" data-bind="text: quantity"></span>
-                        <span class="taRight w-p50 orderitem-cnt-btns">
+        <section class="swiper-slide">
+            <div id="viewSelection">
+                <input type="radio" name="itemview" value="name" data-bind="checked: itemview"/> By Name
+                <input type="radio" name="itemview" value="mark" data-bind="checked: itemview"/> By Mark
+            </div>
+            <div id="purchaseItems">
+                <div class="orderitems tmargin-10">
+                    <div class="orderitems-header">
+                        <span class="w-p40 taLeft">Name</span>
+                        <span class="w-p10 taLeft">Q</span>
+                        <span class="w-p50 taRight rpadding-5"> Done?</span>
+                    </div>
+                    <!-- ko foreach: items -->
+                    <div class="orderitem">
+                        <div class="orderitem-cnt">
+                            <span class="taLeft w-p40" data-bind="text: _id"></span>
+                            <span class="taLeft w-p10" data-bind="text: quantity"></span>
+                            <span class="taRight w-p50 orderitem-cnt-btns">
                             <a href="#" class="icon icon-search  rmargin-20 action-load" data-bind="tap: $root.getSubItems"></a>
                             <a href="#" class="icon icon-flag rmargin-5 action-submit" data-bind="tap: $root.markDone, css: markItemStatus() "></a>
                         </span>
-                    </div>
-                    <div class="orderitem-subItems">
-                        <!-- ko if: hasItemDetail() -->
-                        <div class="subItems">
-                            <div class="subItems-header">
-                                <span class="w-p40 taLeft">Client</span>
-                                <span class="w-p10 taLeft">Q</span>
-                                <span class="w-p25 taLeft">Note</span>
-                                <span class="w-p25 taRight rpadding-5">Date</span>
-                            </div>
-                            <div class="subItems-cnt" data-bind="template:{ name: 'subItem', foreach: subItems }">
-                            </div>
                         </div>
-                        <!-- /ko -->
-                        <!-- ko ifnot: hasItemDetail() -->
-                        <span>Somehow we cannot get item detail for now!</span>
-                        <!-- /ko -->
+                        <div class="orderitem-subItems">
+                            <!-- ko if: subItems().length>0 -->
+                            <div class="subItems">
+                                <div class="subItems-header">
+                                    <span class="w-p40 taLeft">Client</span>
+                                    <span class="w-p10 taLeft">Q</span>
+                                    <span class="w-p25 taLeft">Mark</span>
+                                    <span class="w-p25 taRight rpadding-5">Date</span>
+                                </div>
+                                <div class="subItems-cnt" data-bind="template:{ name: 'subItem', foreach: subItems }">
+                                </div>
+                            </div>
+                            <!-- /ko -->
+                            <!-- ko if: subItems().length==0 -->
+                            <p class="taCenter">Somehow we cannot get item detail for now!</p>
+                            <!-- /ko -->
+                        </div>
                     </div>
+                    <!-- /ko -->
                 </div>
-                <!-- /ko -->
+            </div>
+            <div id="purchaseMarkedItems">
+                <div class="orderitems tmargin-10">
+                    <div class="orderitems-header">
+                        <span class="w-p40 taLeft">Mark</span>
+                        <span class="w-p40 taLeft">Name</span>
+                        <span class="w-p20 taLeft">Q</span>
+                    </div>
+                    <!-- ko foreach: items -->
+                    <div class="orderitem">
+                        <div class="orderitem-cnt">
+                            <span class="taLeft w-p40" data-bind="text: note"></span>
+                            <span class="taLeft w-p40" data-bind="text: name"></span>
+                            <span class="taLeft w-p20" data-bind="text: quantity"></span>
+                        </div>
+                    </div>
+                    <!-- /ko -->
+                </div>
             </div>
             <script type="text/html" id="subItem">
                 <section class="subItems-item">
@@ -95,97 +119,84 @@
         </section>
         <section class="swiper-slide" id="reckoningOrders">
             <div class="searchbox">
-                <button type="button" text="Add" class="fl icon icon-add lmargin-5 rmargin-20" data-bind="tap:$root.addOrder"> Order </button>
+                <button type="button" text="Add" class="rmargin-20 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> Orders </button>
                 <a href="#" class="fl icon icon-eye" data-bind="tap: $root.toggleClientView"></a>
                 <div class="lmargin-150">
                     <input type="text" class="w-p100 input-search" name="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
                 </div>
             </div>
-            <div class="tmargin-40 orders" data-bind="foreach: orders">
-                <section class="order enterArea">
-                    <div class="order-head">
+            <div class="tmargin-40 orders  orders--reckoning" data-bind="foreach: orders">
+                <section class="order order--reckoning enterArea">
+                    <div class="order-client">
                         <input type="hidden" data-bind="value: _id" />
                         <input type="hidden" data-bind="value: rate" />
-                        <input type="text" data-bind="value: client" placeholder="Client Name" />
-                        <span data-bind="text: displayDate" class="vaMiddle font-white"></span>
-                        <div class="order-savebox">
-                            <!--
-                            <a href="#" class="icon icon-remove-sign font-white rmargin-20  action-submit" data-bind="tap: $parent.removeOrder"></a>-->
-                            <a href="#" class="icon icon-flag rmargin-20 font-white  action-submit" data-bind="tap: markDone, css: orderStatus"> </a>
-                            <a href="#" class="icon icon-save-sign font-white  action-submit action-enter" role="button" tabindex="0" data-key="true" data-bind="tap: submitOrder"> </a>
+                        <div class="order-clientbox">
+                            <input type="text" class="client" data-bind="value: client" placeholder="Client" />
+                        </div>
+                        <div class="taCenter">
+                            <span data-bind="text: displayDate"></span>
                         </div>
                     </div>
-                    <div class="order-addressbox tmargin-10">
-                        <div>
-                            <button type="button" class="icon icon-add" data-bind="tap:addAddress"> Address</button>
-                            <!-- ko if: _id() == '' -->
-                            <button type="button" class="icon icon-searchplus action-load" data-bind="tap:getAddresses"> Address</button>
-                            <!-- /ko -->
+                    <div class="order-items">
+                        <div class="order-actionbox">
+                            <a href="#" class="icon icon-add" data-bind="tap:addItem"> </a>
+                            <a href="#" class="icon icon-flag rmargin-20 action-submit" data-bind="tap: markDone, css: orderStatus"> </a>
+                            <a href="#" class="icon icon-remove-sign  action-submit action-delete" data-bind="tap: $parent.removeOrder"></a>
                         </div>
-                        <div class="addresses tmargin-10">
-                            <!-- ko foreach: addresses -->
-                            <fieldset class="address">
-                                <input type="hidden" data-bind="value: _id" />
-                                <input type="hidden" data-bind="value: client" />
-                                <input class="w-p43" type="text" data-bind="value: recipient" placeholder="Recipient" />
-                                <input class="w-p43" type="text" data-bind="value: phone" placeholder="Phone" />
-                                <input class="w-p87 tmargin-10" type="text" data-bind="value: address" placeholder="Address" />
-                                <div class="address-actions">
-                                    <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $parent.removeAddress"> </a>
-                                </div>
-                            </fieldset>
-                            <!-- /ko -->
-                            <!-- <button type="button" text="Add" data-bind="tap:submitAddresses">Submit </button> -->
-                        </div>
-                    </div>
-                    <div class="order-itembox">
-                        <div>
-                            <button type="button" text="Add" class="icon icon-add rmargin-5" data-bind="tap:addItem"> Item</button>
-                            <!-- ko if: _id() != '' -->
+                        <!-- ko if: _id() != '' -->
+                        <div class="order-totalbox">
                             <span class="font-bold font-red vaMiddle onlyForMe" data-bind="css:{'font-red': isComplete}">
                                 <span>B: </span><span class="rmargin-5" data-bind="text: formatPrice(buyPrice)"></span>
                             <span>S: </span><span class="rmargin-5" data-bind="text: formatPrice(sellPrice)"></span>
                             <span>P: </span><span class="rmargin-5" data-bind="text: formatPrice(profit)"></span>
                             <span>F: </span>
-                            <input type="text" class="w-30 font-bold postage" data-bind="value: postage,css:{'font-red': isComplete}" />
+                            <span><input type="text" class="w-30 font-bold postage" data-bind="value: postage,css:{'font-red': isComplete}" /></span>
                             </span>
-                            <span class="font-bold font-red vaMiddle onlyForClient">
+                            <span class="font-bold font-red vaMiddle onlyForClient" data-bind="css:{'font-red': isComplete}">
                                 <span>Total: </span><span data-bind="text: sellPrice"></span> + <span data-bind="text: postage"></span> = <span data-bind="text: total"></span>
                             </span>
-                            <!-- /ko -->
                         </div>
-                        <div class="items tmargin-10">
+                        <!-- /ko -->
+                        <div class="items">
                             <!-- ko foreach: items -->
                             <fieldset class="item">
                                 <div class="item-fields">
-                                    <input class="w-p20" type="text" data-bind="value: name" placeholder="Product" />
-                                    <input class="w-p10" type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
-                                    <input class="w-p15 onlyForMe" type="text" data-bind="value: buyPrice" placeholder="Buy" />
-                                    <input class="w-p15" type="text" data-bind="value: sellPrice" placeholder="Sell" />
-                                    <input class="w-p15 onlyForMe" type="text" readonly data-bind="value: profit" placeholder="Profit" />
-                                    <a href="#" class="icon icon-search  action-load" data-bind="tap: $parent.getHistoricTrades"></a>
-                                    <div class="item-actions">
-                                        <a href="#" class="icon icon-remove action-submit" data-bind="tap: $parent.removeItem"></a>
-                                    </div>
+                                    <span class="w-p20">
+                            <input  type="text" data-bind="value: name" placeholder="Product" />
+                        </span>
+                                    <span class="w-p10">
+                            <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
+                        </span>
+                                    <span class="w-p15 onlyForMe">
+                            <input  type="text" data-bind="value: buyPrice" placeholder="Buy" />
+                        </span>
+                                    <span class="w-p15">
+                            <input  type="text" data-bind="value: sellPrice" placeholder="Sell" />
+                        </span>
+                                    <span class="w-p15 onlyForMe">
+                            <input  type="text" readonly data-bind="value: profit" placeholder="Profit" />
+                        </span>
+                                    <span class="w-p25  taRight rpadding-5">
+                            <a href="#" class="icon icon-search  action-load" data-bind="tap: $parent.getHistoricTrades"></a>
+                            <a href="#" class="icon icon-remove action-submit" data-bind="tap: $parent.removeItem"></a>
+                        </span>
                                 </div>
-                                <div class="historicbox tmargin-10" style="display: none">
-                                    <!-- ko if: $parent.hasHistoricTrades -->
-                                    <table class="item-historicTrades">
-                                        <thead>
-                                            <tr>
-                                                <th class="w-p20 taLeft">Client</th>
-                                                <th class="w-p10 taLeft">Qua</th>
-                                                <th class="w-p15 taLeft">Buy</th>
-                                                <th class="w-p15 taLeft">Sell</th>
-                                                <th class="w-p40 taRight">Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">
-                                        </tbody>
-                                    </table>
+                                <div class="historicbox">
+                                    <!-- ko if: historicTrades().length>0 -->
+                                    <div class="historic">
+                                        <div class="historic-header">
+                                            <span class="w-p20 taLeft">Client</span>
+                                            <span class="w-p10 taLeft">Q</span>
+                                            <span class="w-p15 taLeft">Buy</span>
+                                            <span class="w-p15 taLeft">Sell</span>
+                                            <span class="w-p40 taLeft lpadding-5">Date</span>
+                                        </div>
+                                        <div class="historic-items" data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">
+                                        </div>
+                                    </div>
                                     <!-- /ko -->
-                                    <!-- ko ifnot: $parent.hasHistoricTrades -->
-                                    <p class="tmargin-10">we cannot get historic trades!</p>
+                                    <!-- ko if: historicTrades().length==0 -->
+                                    <p class="taCenter">we cannot get historic trades!</p>
                                     <!-- /ko -->
                                 </div>
                             </fieldset>
@@ -195,24 +206,14 @@
                 </section>
             </div>
             <script type="text/html" id="historicTrades">
-                <tr>
-                    <td class="taLeft">
-                        <input type="hidden" data-bind="text: name"></input>
-                        <span data-bind="text: client"></span>
-                    </td>
-                    <td class="taLeft">
-                        <span data-bind="text: quantity"></span>
-                    </td>
-                    <td class="taLeft">
-                        <span data-bind="text: buyPrice"></span>
-                    </td>
-                    <td class="taLeft">
-                        <span data-bind="text: sellPrice"></span>
-                    </td>
-                    <td class="taRight">
-                        <span data-bind="text: createDate"></span>
-                    </td>
-                </tr>
+                <section class="historic-item">
+                    <input type="hidden" data-bind="text: name"></input>
+                    <span class="w-p20 taLeft" data-bind="text: client"></span>
+                    <span class="w-p10 taLeft" data-bind="text: quantity"></span>
+                    <span class="w-p15 taLeft" data-bind="text: buyPrice"></span>
+                    <span class="w-p15 taLeft" data-bind="text: sellPrice"></span>
+                    <span class="w-p40 taLeft" data-bind="text: createDate"></span>
+                </section>
             </script>
         </section>
         <section class="swiper-slide" id="incomeList">

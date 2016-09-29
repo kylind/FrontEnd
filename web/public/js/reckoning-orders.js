@@ -25,10 +25,10 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.quantity.subscribe(function() {
             self.isChanged = true;
         })
-        self.buyPrice.subscribe(function() {
+        self.buyPrice.subscribe(function(newVal) {
             self.isChanged = true;
         })
-        self.sellPrice.subscribe(function() {
+        self.sellPrice.subscribe(function(newVal) {
             self.isChanged = true;
         })
 
@@ -149,14 +149,17 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             var $historicTrades = $(event.target).closest('.item').find('.historicbox');
 
             if (!item.isHistoricTradesOpen) {
-                arguments[3]();
+
                 var succeed = arguments[4]
 
                 if (itemData.name == '') return;
 
+                arguments[3]();
+
                 $.getJSON('./historictrades', { 'itemName': itemData.name }, function(res, status) {
 
                     status == 'success' ? item.historicTrades(res) : item.historicTrades([]);
+
 
                     $historicTrades.slideDown('fast', function() {
                         item.isHistoricTradesOpen = true;
@@ -368,7 +371,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             $(event.target).toggleClass('icon-eyeslash');
 
 
-            var $orders = $('#reckoningOrders').find('.orders');
+            var $orders = $('.orders--reckoning');
 
             if ($(event.target).hasClass('icon-eyeslash')) {
                 $orders.addClass("isClientView");
@@ -386,56 +389,69 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             arguments[3]();
             var succeed = arguments[4];
 
-            var ordersData = $.parseJSON(ko.toJSON(self.orders())); //$.parseJSON(ko.toJSON(order));
+            var orders = self.orders();
+            var ordersData = $.parseJSON(ko.toJSON(orders)); //$.parseJSON(ko.toJSON(order));
 
             if (Array.isArray(ordersData) && ordersData.length > 0) {
 
-                var changedOrders = ordersData.filter(function(order) {
+                var changedIndexs = [];
 
-                    // var isReal = order.client == '' ? false : true;
+                var changedOrders = ordersData.filter(function(order, index) {
 
-                    //if (isReal) {
+                    var isChanged = false;
+
                     if (order.isChanged) {
-                        return true
+                        isChanged = true;
                     } else {
-                        var isChanged = false;
                         for (var i = 0; i < order.items.length; i++) {
                             if (order.items[i].isChanged) {
                                 isChanged = true;
                                 break;
                             }
-
                         }
-                        return isChanged;
                     }
 
-                    // } else {
-                    //     return false;
-                    // }
+                    if (isChanged) {
+                        changedIndexs.push(index);
+                    }
+
+                    return isChanged;
 
                 })
 
                 if (changedOrders.length > 0) {
-                    $.post('/orders', { orders: changedOrders }, function(data, status) {
+                    $.post('/orders', { orders: changedOrders }, function(rs, status) {
 
+                            rs.forEach(function(newOrder, index) {
+                                var orderIndex = changedIndexs[index];
 
-                            self.orders().forEach(function(order) {
-
-
-                                var newOrder = data.find(function(newOrder) {
-                                    return newOrder._id == order._id();
-                                })
-
-                                if (newOrder) {
-                                    newOrder.items.forEach(function(item) {
-                                        item.historicTrades = [];
-                                    });
-                                    ko.mapping.fromJS(newOrder, {}, order);
+                                if($.isArray(newOrder.items) && newOrder.items.length==0){
+                                    newOrder.items=[{},{},{}];
                                 }
+
+                                newOrder.items.forEach(function(item) {
+                                    item.historicTrades = [];
+                                });
+
+                                ko.mapping.fromJS(newOrder, {
+                                    items: {
+                                        create: function(option) {
+                                            return new Item(option.data);
+
+                                        }
+                                    }
+                                }, orders[orderIndex]);
+
+                                orders[orderIndex].isChanged=false;
+                                // orders[orderIndex].items().forEach(function(item){
+                                //     item.isChanged=false;
+
+                                // })
 
                             })
 
                             succeed();
+
                         },
                         'json'
                     );

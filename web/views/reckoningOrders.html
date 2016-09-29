@@ -1,12 +1,11 @@
 <div class="searchbox">
-    <button type="button" text="Add" class="fl icon icon-add rmargin-5" data-bind="tap:$root.addOrder"> Order </button>
     <button type="button" text="Add" class="rmargin-20 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> Orders </button>
     <a href="#" class="fl icon icon-eye" data-bind="tap: $root.toggleClientView"></a>
-    <div class="lmargin-270">
+    <div class="lmargin-150">
         <input type="text" class="w-p100 input-search" name="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
     </div>
 </div>
-<div class="tmargin-40 orders" data-bind="foreach: orders">
+<div class="tmargin-40 orders  orders--reckoning" data-bind="foreach: orders">
     <section class="order order--reckoning enterArea">
         <div class="order-client">
             <input type="hidden" data-bind="value: _id" />
@@ -35,7 +34,7 @@
                 <span>F: </span>
                 <span><input type="text" class="w-30 font-bold postage" data-bind="value: postage,css:{'font-red': isComplete}" /></span>
                 </span>
-                <span class="font-bold font-red vaMiddle onlyForClient">
+                <span class="font-bold font-red vaMiddle onlyForClient" data-bind="css:{'font-red': isComplete}">
                                 <span>Total: </span><span data-bind="text: sellPrice"></span> + <span data-bind="text: postage"></span> = <span data-bind="text: total"></span>
                 </span>
 
@@ -51,22 +50,22 @@
                         <span class="w-p10">
                             <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
                         </span>
-                        <span class="w-p15">
-                            <input class="onlyForMe" type="text" data-bind="value: buyPrice" placeholder="Buy" />
+                        <span class="w-p15 onlyForMe">
+                            <input  type="text" data-bind="value: buyPrice" placeholder="Buy" />
                         </span>
                         <span class="w-p15">
                             <input  type="text" data-bind="value: sellPrice" placeholder="Sell" />
                         </span>
-                        <span class="w-p15">
-                            <input class="onlyForMe" type="text" readonly data-bind="value: profit" placeholder="Profit" />
+                        <span class="w-p15 onlyForMe">
+                            <input  type="text" readonly data-bind="value: profit" placeholder="Profit" />
                         </span>
                         <span class="w-p25  taRight rpadding-5">
                             <a href="#" class="icon icon-search  action-load" data-bind="tap: $parent.getHistoricTrades"></a>
                             <a href="#" class="icon icon-remove action-submit" data-bind="tap: $parent.removeItem"></a>
                         </span>
                     </div>
-                    <div class="historicbox" style="display: none">
-                        <!-- ko if: $parent.hasHistoricTrades -->
+                    <div class="historicbox" >
+                        <!-- ko if: historicTrades().length>0 -->
 
 
                         <div class="historic">
@@ -84,8 +83,8 @@
                         <!-- /ko -->
 
 
-                        <!-- ko ifnot: $parent.hasHistoricTrades -->
-                        <p>we cannot get historic trades!</p>
+                        <!-- ko if: historicTrades().length==0 -->
+                        <p class="taCenter">we cannot get historic trades!</p>
                         <!-- /ko -->
 
 
