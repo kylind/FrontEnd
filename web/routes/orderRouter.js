@@ -18,14 +18,7 @@ const EMPTY_ORDER = {
     _id: '',
     client: '',
     postage: '',
-    items: [{
-        name: "",
-        quantity: 1,
-        note: '',
-        buyPrice: '',
-        sellPrice: '',
-        isDone: false
-    }],
+    items: [],
     addresses: [{
         _id: '',
         client: '',
@@ -194,7 +187,7 @@ router.get('/index', function*() {
 
 
     var res = yield orderOperation.queryReceivedOrders();
-    res = res && res.length > 0 ? res : [EMPTY_ORDER];
+    res = res && res.length > 0 ? res : [];
 
     yield this.render('index', {
         orders: res,
@@ -211,7 +204,7 @@ router.get('/receivedOrders', function*() {
 
 
     var res = yield orderOperation.queryReceivedOrders();
-    res = res && res.length > 0 ? res : [EMPTY_ORDER];
+    res = res && res.length > 0 ? res : [];
 
     yield this.render('receivedOrders', {
         orders: res,
@@ -227,7 +220,7 @@ router.get('/receivedOrdersJson', function*() {
 
 
     var res = yield orderOperation.queryReceivedOrders();
-    res = res && res.length > 0 ? res : [EMPTY_ORDER];
+    res = res && res.length > 0 ? res : [];
 
     this.body = res;
     this.status = 200;
@@ -320,7 +313,7 @@ router.get('/incomeListJson', function*() {
 function* getReckoningOrders() {
     var res = null;
     res = yield orderOperation.queryReckoningOrders();
-    res = res && res.length > 0 ? res : [EMPTY_ORDER];
+    res = res && res.length > 0 ? res : [];
 
     res.forEach(function(order) {
 

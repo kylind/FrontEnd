@@ -88,7 +88,7 @@ var collection = {
                 }
             }, {
 
-                $project: {  note: '$items.note', name: '$items.name',  quantity: '$items.quantity'}
+                $project: { '_id':0, note: '$_id.note', name: '$_id.name',  quantity: '$quantity'}
 
             }
 

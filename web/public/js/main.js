@@ -153,9 +153,9 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
                 case 3:
                     bulletName = 'Income';
                     break;
-                case 4:
+               /* case 4:
                     bulletName = 'Delivery';
-                    break;
+                    break;*/
             }
             return '<span class="' + className + '">' + bulletName + '</span>';
         }
@@ -171,13 +171,13 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
     });
 
 
-    require(['purchase-items', 'reckoning-orders', 'income-list', 'addresses', 'knockout', 'jquery'], function(itemsView, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
+    require(['purchase-items', 'reckoning-orders', 'income-list', 'addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
 
         var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel;
 
-        $.getJSON('./purchaseItemsJson', function(items, status) {
+        $.getJSON('./purchaseItemsJson', function(rs, status) {
 
-            itemsModel = new itemsView.ItemsModel(items, swiper);
+            itemsModel = new ItemsModel(rs.items,rs.markedItems, swiper);
             ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
 
         });
@@ -231,20 +231,12 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
                     });
                     break;
                 case 1:
-                    $.getJSON('./purchaseItemsJson', function(items, status) {
-                        itemsModel.setItems(items);
+                    $.getJSON('./purchaseItemsJson', function(rs, status) {
+                        itemsModel.setItems(rs.items,rs.markedItems);
                         swiper.update();
 
                     });
                     break;
-
-                    $.getJSON('./purchaseMarkedItemsJson', function(items, status) {
-
-                        markedItemsModel = new itemsView.MarkedItemsModel(items, swiper);
-                        ko.applyBindings(markedItemsModel, $('#purchaseItems')[0]);
-                    });
-
-
 
                 case 2:
                     $.getJSON('./reckoningOrdersJson', function(orders, status) {
