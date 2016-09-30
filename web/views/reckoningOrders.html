@@ -28,14 +28,17 @@
             <div class="order-totalbox">
 
                 <span class="font-bold font-red vaMiddle onlyForMe" data-bind="css:{'font-red': isComplete}">
-                                <span>B: </span><span class="rmargin-5" data-bind="text: formatPrice(buyPrice)"></span>
-                <span>S: </span><span class="rmargin-5" data-bind="text: formatPrice(sellPrice)"></span>
-                <span>P: </span><span class="rmargin-5" data-bind="text: formatPrice(profit)"></span>
-                <span>F: </span>
-                <span><input type="text" class="w-30 font-bold postage" data-bind="value: postage,css:{'font-red': isComplete}" /></span>
+                    <span class="w-p20">Total</span>
+                    <span class="w-p10"><input type="text" class="w-30 font-bold postage" placeholder='Fee' data-bind="value: postage,css:{'font-red': isComplete}" /></span>
+                    <span class="w-p15" data-bind="text: formatPrice(buyPrice)"></span>
+                    <span class="w-p15" data-bind="text: formatPrice(sellPrice)"></span>
+                    <span class="w-p15" data-bind="text: formatPrice(profit)"></span>
+                    <span class="w-p25"></span>
+
                 </span>
+
                 <span class="font-bold font-red vaMiddle onlyForClient" data-bind="css:{'font-red': isComplete}">
-                                <span>Total: </span><span data-bind="text: sellPrice"></span> + <span data-bind="text: postage"></span> = <span data-bind="text: total"></span>
+                    <span class="lmargin-5">Total: </span><span data-bind="text: sellPrice"></span> + <span data-bind="text: postage"></span> = <span data-bind="text: total"></span>
                 </span>
 
             </div>

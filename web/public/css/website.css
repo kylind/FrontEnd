@@ -311,16 +311,14 @@ input[type="password"]:focus {
 }
 input[type="text"].postage{
     font-weight: bold;
-    line-height: 1;
+   /* line-height: 1;
     height: 15px;
     vertical-align: text-bottom;
     width:20px;
-    border-bottom: solid 1px #999;
+    border-bottom: solid 1px #999;*/
+    padding-left:0;
 }
-input[type="text"].postage:focus{
 
-    border-bottom: solid 1px #cc0066;
-}
 
 
 .order--received input, .order--reckoning input{
@@ -448,7 +446,28 @@ button {
 
 .order-totalbox{
     border-bottom: 1px solid #cc0066;
+
+}
+.order-totalbox > .onlyForMe {
+    display: block;
+    font-size: 0;
+    line-height: 0;
+}
+.order-totalbox > .onlyForMe span{
+    display: inline-block;
+
+    border-right: 1px solid #cc0066;
     padding-left: 5px;
+    box-sizing: border-box;
+    vertical-align: top;
+}
+.order-totalbox > .onlyForMe span:nth-child(2){
+    line-height: 0;
+}
+.order-totalbox > .onlyForMe span:last-child{
+
+
+    border-right: 0;
 }
 
 

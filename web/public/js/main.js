@@ -195,11 +195,11 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
         });
 
-        $.getJSON('./addressesJson', function(addresses, status) {
-            addressesModel = new AddressesModel(addresses, swiper);
-            ko.applyBindings(addressesModel, $('#addresses')[0]);
+        // $.getJSON('./addressesJson', function(addresses, status) {
+        //     addressesModel = new AddressesModel(addresses, swiper);
+        //     ko.applyBindings(addressesModel, $('#addresses')[0]);
 
-        });
+        // });
 
         $(document).on('keydown', function(event) {
             if (event.keyCode == 13 && (swiper.activeIndex==0 || swiper.activeIndex==2)) {
