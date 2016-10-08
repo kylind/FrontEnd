@@ -336,6 +336,13 @@ input[type="text"].postage {
     padding-left: 0;
 }
 
+.postagebox{
+    display: inline-block;
+    width:20px;
+    font-size: 0;
+    vertical-align: top;
+}
+
 .order--received input,
 .order--reckoning input {
     border: 0;
