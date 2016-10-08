@@ -158,7 +158,7 @@
 
                             <span class="font-bold font-red vaMiddle onlyForClient" data-bind="css:{'font-red': isComplete}">
                                 <span class="lmargin-5">Total: </span><span data-bind="text: formatPrice(sellPrice)"></span> +
-                                <span class="w-p15 postagebox" ><input type="text" class="w-30 font-bold postage"  data-bind="value: postage" /></span> = <span data-bind="text: total"></span>
+                                <span class="w-p15 postagebox" ><input type="text" class="w-30 font-bold postage"  data-bind="value: postage,css:{'font-red': isComplete}" /></span> = <span data-bind="text: total"></span>
                             </span>
 
                         </div>
