@@ -107,9 +107,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             return [observableItems,observableMarkedItems] ;
         }
 
-        var [observableItems,observableMarkedItems]  = init(items, markedItems);
-
-
+        var items = init(items, markedItems);
+        var observableItems  = items[0];
+        var observableMarkedItems  = items[1];
 
         var self = this;
 
