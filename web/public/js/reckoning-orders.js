@@ -19,10 +19,10 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.isChanged = false;
 
-        self.name.subscribe(function() {
+        self.name.subscribe(function(newValue) {
             self.isChanged = true;
         })
-        self.quantity.subscribe(function() {
+        self.quantity.subscribe(function(newValue) {
             self.isChanged = true;
         })
         self.buyPrice.subscribe(function(newVal) {

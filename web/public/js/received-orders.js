@@ -14,16 +14,18 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.isChanged = false;
 
-        self.name.subscribe(function() {
+        self.name.subscribe(function(newValue) {
             self.isChanged = true;
         })
-        self.quantity.subscribe(function() {
+        self.quantity.subscribe(function(newValue) {
             self.isChanged = true;
         })
 
-        self.note.subscribe(function() {
+        self.note.subscribe(function(newValue) {
             self.isChanged = true;
         })
+
+
 
 
     }
@@ -55,10 +57,10 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.items = ko.observableArray(observableItems);
 
         self.isChanged = false;
-        self.client.subscribe(function() {
+        self.client.subscribe(function(newValue) {
             self.isChanged = true;
         });
-        self.items.subscribe(function() {
+        self.items.subscribe(function(newValue) {
             self.isChanged = true;
         })
 
@@ -209,7 +211,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     return isChanged;
 
-                })
+                });
 
                 if (changedOrders.length > 0) {
 
