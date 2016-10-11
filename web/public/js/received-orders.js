@@ -2,37 +2,90 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     ko.mapping = mapping;
 
+
+    var Item = function(item) {
+        var self = this;
+
+
+        self.name = ko.observable(item && item.name ? item.name : '');
+        self.quantity = ko.observable(item && item.quantity ? item.quantity : '1');
+        self.note = ko.observable(item && item.note ? item.note : '');
+
+
+        self.isChanged = false;
+
+        self.name.subscribe(function(newValue) {
+            self.isChanged = true;
+        })
+        self.quantity.subscribe(function(newValue) {
+            self.isChanged = true;
+        })
+
+        self.note.subscribe(function(newValue) {
+            self.isChanged = true;
+        })
+
+
+
+
+    }
+
+
     var OrderModel = function(order) {
         var self = this;
         self._id = ko.observable(order && order._id ? order._id : '');
         self.client = ko.observable(order && order.client ? order.client : '');
         self.rate = order && order.rate ? order.rate : null;
-        self.items = ko.observableArray(order && Array.isArray(order.items) ? order.items : [{
-            name: '',
-            quantity: 1,
-            note: ''
-        }]);
+
+
+
+        var observableItems = [];
+
+        if (order && $.isArray(order.items) && order.items.length > 0) {
+            order.items.forEach(function(item) {
+                observableItems.push(new Item(item));
+            });
+
+        } else {
+            for (var i = 0; i < 3; i++) {
+                observableItems.push(new Item());
+            }
+
+        }
+
+
+        self.items = ko.observableArray(observableItems);
+
+        self.isChanged = false;
+        self.client.subscribe(function(newValue) {
+            self.isChanged = true;
+        });
+        self.items.subscribe(function(newValue) {
+            self.isChanged = true;
+        })
+
         self.createDate = order && order.createDate ? order.createDate : '';
         self.status = order && order.status ? order.status : '1RECEIVED';
-        self.packingStatus=   ko.observable(order && order.packingStatus ? order.packingStatus : '1ISREADY');
+        self.packingStatus = ko.observable(order && order.packingStatus ? order.packingStatus : '1ISREADY');
 
         self.orderPackingStatus = ko.pureComputed(function() {
             if (self.packingStatus() == '3PACKED') {
                 return 'font-green';
             } else if (self.packingStatus() == '2NOTREADY') {
                 return 'font-yellow';
-            }else{
-                return 'font-white';
+            } else {
+                return 'font-black';
             }
         });
 
         self.orderReadyStatus = ko.pureComputed(function() {
             if (self.packingStatus() == '2NOTREADY') {
-                return 'icon-thumbsdown font-darkyellow';
-            }else{
-                return 'icon-thumbsup';
+                return 'icon-thumbsdown font-yellow';
+            } else {
+                return 'icon-thumbsup font-black';
             }
         });
+
 
     };
 
@@ -46,11 +99,22 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var observableOrders = [];
 
-            orders.forEach(function(order) {
+            if (Array.isArray(orders) && orders.length > 0) {
+                orders.forEach(function(order) {
 
-                observableOrders.push(new OrderModel(order));
+                    observableOrders.push(new OrderModel(order));
 
-            })
+                })
+            } else {
+
+                for (var i = 0; i < 30; i++) {
+                    observableOrders.push(new OrderModel());
+
+                }
+
+            }
+
+
 
             return observableOrders;
         }
@@ -112,6 +176,84 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         };
 
+        self.submitOrders = function() {
+            arguments[3]();
+            var succeed = arguments[4];
+
+            var orders = self.orders();
+            var ordersData = ko.mapping.toJS(orders); //$.parseJSON(ko.toJSON(order));
+
+            if (Array.isArray(ordersData) && ordersData.length > 0) {
+
+                var changedIndexs = [];
+
+                var changedOrders = ordersData.filter(function(order, index) {
+
+                    var isChanged = false;
+                    var isReal = order.client == '' ? false : true;
+
+                    if (isReal) {
+                        if (order.isChanged) {
+                            isChanged = true;
+                        } else {
+                            for (var i = 0; i < order.items.length; i++) {
+                                if (order.items[i].isChanged) {
+                                    isChanged = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (isChanged) {
+                        changedIndexs.push(index);
+                    }
+
+                    return isChanged;
+
+                });
+
+                if (changedOrders.length > 0) {
+
+                    $.post('/orders', { orders: changedOrders }, function(rs, status) {
+
+
+                            rs.forEach(function(newOrder, index) {
+                                var orderIndex = changedIndexs[index];
+
+                                if($.isArray(newOrder.items) && newOrder.items.length==0){
+                                    newOrder.items=[{},{},{}];
+                                }
+
+                                ko.mapping.fromJS(newOrder, {
+                                    items: {
+                                        create: function(option) {
+                                            return new Item(option.data);
+
+                                        }
+                                    }
+                                }, orders[orderIndex]);
+
+                                orders[orderIndex].isChanged=false;
+
+
+
+
+                            })
+
+                            succeed();
+                        },
+                        'json'
+                    );
+                } else {
+                    succeed();
+                }
+            }
+
+            return false;
+
+        };
+
 
 
         self.markPackingStatus = function(order) {
@@ -122,26 +264,26 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var packingStatus = order.packingStatus()
 
-             $target = $(arguments[2].target);
+            $target = $(arguments[2].target);
 
-             var newStatus = '';
+            var newStatus = '';
 
-             if($target.hasClass('icon-leaf')){
-                if(packingStatus=="1ISREADY"){
+            if ($target.hasClass('icon-leaf')) {
+                if (packingStatus == "1ISREADY") {
                     newStatus = '3PACKED';
-                }else if(packingStatus=="3PACKED"){
+                } else if (packingStatus == "3PACKED") {
                     newStatus = '1ISREADY';
                 }
-             }else{
-                if(packingStatus=="1ISREADY" || packingStatus=="3PACKED"){
+            } else {
+                if (packingStatus == "1ISREADY" || packingStatus == "3PACKED") {
                     newStatus = '2NOTREADY';
-                }else{
+                } else {
                     newStatus = '1ISREADY';
                 }
-             }
+            }
 
 
-            if(newStatus==""){
+            if (newStatus == "") {
                 succeed();
                 return;
             }
@@ -216,8 +358,13 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 return order.client().indexOf(keywords) >= 0;
             });
 
+
             self.orders(searchedOrders);
-            swiper.update();
+
+
+            setTimeout(function() {
+                swiper.update();
+            }, 100)
 
 
         };
@@ -228,9 +375,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     return OrdersModel;
 
-    //var ordersModel = new OrdersModel(<%- JSON.stringify(orders) %>);
-
-    //ko.applyBindings(ordersModel);
 
 
 })

@@ -1,89 +1,96 @@
-<div>
-    <button type="button" text="Add" class="fl icon icon-add" data-bind="click:$root.addOrder"> Add Order </button>
+<div class="searchbox">
+    <button type="button" text="Add" class="rmargin-20 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> Orders </button>
+    <a href="#" class="fl icon icon-eye" data-bind="tap: $root.toggleClientView"></a>
     <div class="lmargin-150">
-        <input type="text" class="w-p100 input-search" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
+        <input type="text" class="w-p100 input-search" name="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
     </div>
 </div>
-<div class="tmargin-10" data-bind="foreach: orders">
-    <section class="order">
-        <div class="order-head">
+<div class="tmargin-40 orders  orders--reckoning" data-bind="foreach: orders">
+    <section class="order order--reckoning enterArea">
+        <div class="order-client">
             <input type="hidden" data-bind="value: _id" />
             <input type="hidden" data-bind="value: rate" />
-            <input type="text" data-bind="value: client" placeholder="Client Name" />
-            <span data-bind="text: displayDate()" class="vaMiddle font-white"></span>
-            <div class="order-savebox">
-                <a href="#" class="icon icon-remove-sign font-white rmargin-20" data-bind="click: $parent.removeOrder"></a>
-                <a href="#" class="icon icon-flag rmargin-20 font-white" data-bind="click: markDone, css: { 'font-green': status() == '3DONE' }"> </a>
-                <a href="#" class="icon icon-save-sign font-white" data-bind="click: submitOrder"> </a>
+            <div class="order-clientbox">
+                <input type="text" class="client" data-bind="value: client" placeholder="Client" />
+
             </div>
+            <div  class="taCenter">
+             <span data-bind="text: displayDate"></span>
+         </div>
         </div>
-        <div class="order-addressbox tmargin-10">
-            <div>
-                <button type="button" class="icon icon-add" data-bind="click:addAddress"> Add Address</button>
-                <!-- ko if: _id() == '' -->
-                <button type="button" class="icon icon-address" data-bind="click:getAddresses"> Get Addresses</button>
-                <!-- /ko -->
+        <div class="order-items">
+            <div class="order-actionbox">
+                <a href="#" class="icon icon-add" data-bind="tap:addItem"> </a>
+                <a href="#" class="icon icon-flag rmargin-20 action-submit" data-bind="tap: markDone, css: orderStatus"> </a>
+                <a href="#" class="icon icon-remove-sign  action-submit action-delete" data-bind="tap: $parent.removeOrder"></a>
             </div>
-            <div class="addresses tmargin-10">
-                <!-- ko foreach: addresses -->
-                <fieldset class="address">
-                    <input type="hidden" data-bind="value: _id" />
-                    <input type="hidden" data-bind="value: client" />
-                    <input class="w-p43" type="text" data-bind="value: recipient" placeholder="Recipient" />
-                    <input class="w-p43" type="text" data-bind="value: phone" placeholder="Phone" />
-                    <input class="w-p87" type="text" data-bind="value: address" placeholder="Address" />
-                    <div class="address-actions">
-                        <a href="#" class="icon icon-remove" data-bind="click: $parent.removeAddress.bind(this,$data)"> </a>
-                    </div>
-                </fieldset>
-                <!-- /ko -->
-                <!-- <button type="button" text="Add" data-bind="click:submitAddresses">Submit </button> -->
-            </div>
-        </div>
-        <div class="order-itembox">
-            <div>
-                <button type="button" text="Add" class="icon icon-add rmargin-20" data-bind="click:addItem"> Add Item</button>
-                <!-- ko if: _id() != '' -->
-                <span class="font-bold font-red vaMiddle">
-                    <span>B: </span><span class="rmargin-5" data-bind="text: buyPrice"></span>
-                <span>S: </span><span class="rmargin-5" data-bind="text: sellPrice"></span>
-                <span>P: </span><span data-bind="text: profit"></span>
+             <!-- ko if: _id() != '' -->
+            <div class="order-totalbox">
+
+                <span class="font-bold font-red vaMiddle onlyForMe" data-bind="css:{'font-red': isComplete}">
+                    <span class="w-p20">Total</span>
+                    <span class="w-p10"><input type="text" class="w-30 font-bold postage" placeholder='Fee' data-bind="value: postage,css:{'font-red': isComplete}" /></span>
+                    <span class="w-p15" data-bind="text: formatPrice(buyPrice)"></span>
+                    <span class="w-p15" data-bind="text: formatPrice(sellPrice)"></span>
+                    <span class="w-p15" data-bind="text: formatPrice(profit)"></span>
+                    <span class="w-p25"></span>
+
                 </span>
-                <!-- /ko -->
+
+                <span class="font-bold font-red vaMiddle onlyForClient" data-bind="css:{'font-red': isComplete}">
+                    <span class="lmargin-5">Total: </span><span data-bind="text: sellPrice"></span> + <span data-bind="text: postage"></span> = <span data-bind="text: total"></span>
+                </span>
+
             </div>
-            <div class="items tmargin-10">
+             <!-- /ko -->
+            <div class="items">
                 <!-- ko foreach: items -->
                 <fieldset class="item">
                     <div class="item-fields">
-                        <input class="w-p30" type="text" data-bind="value: name" placeholder="Product Name" />
-                        <input class="w-p10" type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
-                        <input class="w-p15" type="text" data-bind="value: buyPrice" placeholder="Buy" />
-                        <input class="w-p15" type="text" data-bind="value: sellPrice" placeholder="Sell" />
-                        <input class="w-p15" type="text" readonly data-bind="value: profit" placeholder="Profit" />
-                        <a href="#" class="icon icon-search" data-bind="click: $parent.getHistoricTrades"></a>
-                        <div class="item-actions">
-                            <a href="#" class="icon icon-remove" data-bind="click: $parent.removeItem"></a>
-                        </div>
+                        <span class="w-p20">
+                            <input  type="text" data-bind="value: name" placeholder="Product" />
+                        </span>
+                        <span class="w-p10">
+                            <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
+                        </span>
+                        <span class="w-p15 onlyForMe">
+                            <input  type="text" data-bind="value: buyPrice" placeholder="Buy" />
+                        </span>
+                        <span class="w-p15">
+                            <input  type="text" data-bind="value: sellPrice" placeholder="Sell" />
+                        </span>
+                        <span class="w-p15 onlyForMe">
+                            <input  type="text" readonly data-bind="value: profit" placeholder="Profit" />
+                        </span>
+                        <span class="w-p25  taRight rpadding-5">
+                            <a href="#" class="icon icon-search  action-load" data-bind="tap: $parent.getHistoricTrades"></a>
+                            <a href="#" class="icon icon-remove action-submit" data-bind="tap: $parent.removeItem"></a>
+                        </span>
                     </div>
-                    <div class="historicbox tmargin-10" style="display: none">
-                        <!-- ko if: $parent.hasHistoricTrades -->
-                        <table class="item-historicTrades">
-                            <thead>
-                                <tr>
-                                    <th class="w-p30 taLeft">Client</th>
-                                    <th class="w-p10 taLeft">Qua</th>
-                                    <th class="w-p15 taLeft">Buy</th>
-                                    <th class="w-p15 taLeft">Sell</th>
-                                    <th class="w-p30 taRight">Date</th>
-                                </tr>
-                            </thead>
-                            <tbody data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">
-                            </tbody>
-                        </table>
+                    <div class="historicbox" >
+                        <!-- ko if: historicTrades().length>0 -->
+
+
+                        <div class="historic">
+                            <div class="historic-header">
+                                <span class="w-p20 taLeft">Client</span>
+                                <span class="w-p10 taLeft">Q</span>
+                                <span class="w-p15 taLeft">Buy</span>
+                                <span class="w-p15 taLeft">Sell</span>
+                                <span class="w-p40 taLeft lpadding-5">Date</span>
+                            </div>
+                            <div class="historic-items" data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">
+
+                            </div>
+                        </div>
                         <!-- /ko -->
-                        <!-- ko ifnot: $parent.hasHistoricTrades -->
-                        <p class="tmargin-10">we cannot get historic trades!</p>
+
+
+                        <!-- ko if: historicTrades().length==0 -->
+                        <p class="taCenter">we cannot get historic trades!</p>
                         <!-- /ko -->
+
+
                     </div>
                 </fieldset>
                 <!-- /ko -->
@@ -91,417 +98,31 @@
         </div>
     </section>
 </div>
+
+<div class="prompt">
+    <span class="prompt-submitting"><i class="fa fa-spinner fa-pulse"></i> <span>Submit...</span></span>
+    <span class="prompt-succeed disappeared icon icon-peace"> Succeed!</span>
+</div>
+
+<div class="confirm">
+    <button type="button" class="confirm-submit taCenter ">Confirm</button>
+    <button type="button" class="confirm-cancel taCenter lmargin-5">Cancel</button>
+</div>
+
 <script type="text/html" id="historicTrades">
-    <tr>
-        <td class="taLeft">
+   <section class="historic-item">
             <input type="hidden" data-bind="text: name"></input>
-            <span data-bind="text: client"></span>
-        </td>
-        <td class="taLeft">
-            <span data-bind="text: quantity"></span>
-        </td>
-        <td class="taLeft">
-            <span data-bind="text: buyPrice"></span>
-        </td>
-        <td class="taLeft">
-            <span data-bind="text: sellPrice"></span>
-        </td>
-        <td class="taRight">
-            <span data-bind="text: createDate"></span>
-        </td>
-    </tr>
+            <span class="w-p20 taLeft" data-bind="text: client"></span>
+            <span class="w-p10 taLeft" data-bind="text: quantity"></span>
+            <span class="w-p15 taLeft" data-bind="text: buyPrice"></span>
+            <span class="w-p15 taLeft" data-bind="text: sellPrice"></span>
+            <span class="w-p40 taLeft" data-bind="text: createDate"></span>
+
+    </section>
+
+
 </script>
 <script>
-var Item = function(item) {
-    var self = this;
-
-
-    self.name = item && item.name ? item.name : '';
-    self.quantity = item && item.quantity ? item.quantity : '1';
-    self.buyPrice = item && item.buyPrice ? item.buyPrice : '';
-    self.sellPrice = item && item.sellPrice ? item.sellPrice : '';
-    self.profit = item && item.profit ? item.profit : '';
-    self.note = item && item.note ? item.note : '';
-    self.isDone = item && item.isDone ? item.isDone : false;
-    self.historicTrades = ko.observableArray([]);
-
-    self.isHistoricTradesOpen = false;
-
-}
-
-var OrderModel = function(order) {
-    var self = this;
-
-    self._id = ko.observable(order ? order._id : '');
-    self.client = ko.observable(order ? order.client : '');
-
-
-    var observableItems = [];
-
-    if (order && $.isArray(order.items) && order.items.length > 0) {
-        order.items.forEach(function(item) {
-            observableItems.push(new Item(item));
-        });
-
-    } else {
-        observableItems.push(new Item());
-    }
-
-
-    self.items = ko.observableArray(observableItems);
-
-    self.addresses = ko.observableArray(order ? order.addresses : [{
-        _id: '',
-        client: order ? order.client : '',
-        recipient: '',
-        address: '',
-        phone: ''
-    }]); //to do
-
-    self.createDate = ko.observable(order ? order.createDate : '');
-
-    self.rate = order ? order.rate : '';
-
-    self.buyPrice = ko.observable(order ? order.buyPrice : '');
-    self.sellPrice = ko.observable(order ? order.sellPrice : '');
-    self.profit = ko.observable(order ? order.profit : '');
-
-
-    var dateFormatting = {
-        month: "2-digit",
-        day: "numeric",
-        weekday: "short"
-    };
-
-
-    self.displayDate = function() {
-
-        var createDate = self.createDate()
-
-        return createDate ? new Date(createDate).toLocaleDateString("en-US", dateFormatting) : '';
-
-    };
-
-    self.status = ko.observable(order ? order.status : '1RECEIVED');
-
-    self.getHistoricTrades = function(item, event) {
-        var itemData = ko.mapping.toJS(item);
-
-        var $historicTrades = $(event.target).parent().next('.historicbox');
-
-        if (!item.isHistoricTradesOpen) {
-
-            if (itemData.name == '') return;
-
-            $.getJSON('./historictrades/' + itemData.name, function(res, status) {
-
-                status == 'success' ? item.historicTrades(res) : item.historicTrades([]);
-
-                $historicTrades.slideDown('fast', function() {
-                    item.isHistoricTradesOpen = true;
-                });
-
-            });
-
-        } else {
-
-            $historicTrades.slideUp('fast', function() {
-                item.isHistoricTradesOpen = false;
-            });
-        }
-    };
-    self.hasHistoricTrades = function(item) {
-
-        return item.historicTrades().length > 0 ? true : false;
-
-    };
-
-    self.addItem = function() {
-
-        self.items.unshift(new Item());
-    };
-
-    self.removeItem = function(item) {
-        self.items.remove(item);
-    };
-
-
-
-    self.addAddress = function(address) {
-
-        self.addresses.unshift({
-            _id: "",
-            client: self.client(),
-            recipient: "",
-            address: "",
-            phone: ""
-        });
-
-    };
-
-    self.getAddresses = function(order) {
-
-        var client = order.client();
-
-        if (client == '') return;
-
-
-        $.getJSON('./addressesByClient', {
-            client: client
-        }, function(res, status) {
-
-            status == 'success' ? order.addresses(res) : order.addresses([]);
-
-        });
-
-
-    };
-
-    var removedAddresses = [];
-
-    self.removeAddress = function(address) {
-
-        if (address._id != '') {
-
-            removedAddresses.push(address._id);
-
-        }
-
-        self.addresses.remove(address);
-
-
-    };
-
-    self.submitAddresses = function(order) {
-
-        var addressesData = ko.mapping.toJS(order.addresses);
-
-
-        $.post('./addresses', {
-                "client": order.client,
-                "addresses": addressesData
-            }, function(addresses, status) {
-
-                order.addresses(addresses);
-            },
-            'json'
-        );
-
-        return false;
-
-    };
-
-    self.markDone = function() {
-        var id = self._id();
-
-        var orderStatus = self.status() == '1RECEIVED' ? '3DONE' : '1RECEIVED'
-
-        $.ajax('./orderStatus/' + id, {
-            success: function(data, status) {
-
-                self.status(orderStatus)
-
-            },
-            data: {
-                'status': orderStatus
-            },
-            dataType: 'json',
-            type: 'PUT'
-
-        });
-
-    }
-
-    self.submitOrder = function(order) {
-
-        console.log('post request....');
-
-        var orderData = $.parseJSON(ko.toJSON(order));
-
-        $.post('./order', orderData, function(data, status) {
-
-                data.items.forEach(function(item) {
-
-                    item.historicTrades = [];
-
-                });
-
-                console.log('get post result');
-                ko.mapping.fromJS(data, {}, order);
-
-                var addressesData = ko.mapping.toJS(order.addresses);
-
-                for (var i = 0; i < addressesData.length; i++) {
-                    addressesData[i].client = order.client();
-                }
-
-                $.post('./addresses', {
-                        "client": order.client(),
-                        "addresses": addressesData,
-                        "removedAddresses": removedAddresses
-                    }, function(addresses, status) {
-
-                        order.addresses(addresses);
-                    },
-                    'json'
-                );
-
-            },
-            'json'
-        );
-
-        return false;
-
-    };
-
-};
-
-
-
-var OrdersModel = function(orders) {
-
-
-    var self = this;
-
-
-    self.getObservableOrders = function(orders) {
-        var observableOrders = [];
-
-        orders.forEach(function(order) {
-
-            observableOrders.push(new OrderModel(order));
-
-        })
-        return observableOrders;
-
-    };
-
-    var observableOrders = self.getObservableOrders(orders);
-
-    self.orders = ko.observableArray(observableOrders);
-
-
-    self.addOrder = function() {
-
-        var order = new OrderModel();
-
-        self.orders.unshift(order);
-    };
-    self.removeOrder = function(order) {
-        var id = order._id();
-        self.orders.remove(order);
-        if (id == '') return;
-
-        $.ajax('./order/' + id, {
-            success: function(data, status) {
-
-                console.log(data);
-
-            },
-            dataType: 'json',
-            type: 'DELETE'
-
-        });
-
-    };
-
-
-
-    var orders = null;
-    self.searchOrders = function(data, event) {
-        if (orders == null) {
-            orders = self.orders();
-        }
-
-        var keywords = $(event.target).val();
-
-        var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D\w]+)/;
-
-
-        var matchedRes = keywords.match(regex);
-
-        window.alert(matchedRes);
-
-        if (matchedRes != null) {
-            if (matchedRes[1] == "") {
-                searchCurrentOrders(matchedRes[2])
-
-            } else {
-                searchGlobalOrders(matchedRes[2])
-            }
-
-        } else {
-            self.orders(orders);
-        }
-
-    }
-
-    function searchCurrentOrders(keywords) {
-
-
-        var searchedOrders = orders.filter(function(order) {
-
-            return order.client().indexOf(keywords) >= 0;
-        });
-
-        self.orders(searchedOrders);
-    }
-
-    var timeoutIds = [];
-
-    var newKeywords = '';
-
-    function searchGlobalOrders(keywords) {
-
-        if (orders == null) {
-            orders = self.orders();
-        }
-
-        newKeywords = keywords;
-
-        var id = setTimeout(function() {
-
-
-            for (var i = 1; i < timeoutIds.length; i++) {
-                clearTimeout(timeoutIds[i]);
-            }
-
-            timeoutIds = [];
-
-            if (newKeywords != '') {
-
-                $.ajax('./ordersByName', {
-                    data: {
-                        client: newKeywords
-                    },
-                    type: 'GET',
-                    success: function(data, status) {
-
-                        self.orders(self.getObservableOrders(data));
-
-                    },
-
-                    dataType: 'json'
-
-                });
-
-
-
-            }
-
-        }, 1000);
-
-        timeoutIds.push(id);
-
-
-    }
-
-
-};
-
-var ordersModel = new OrdersModel(<%- JSON.stringify(orders) %>);
-
-/*$('.input-search').on('change',ordersModel.searchOrders);*/
-
-ko.applyBindings(ordersModel);
+var orders = <%- JSON.stringify(orders) %>; //
 </script>
+<script data-main="/js/main-reckoning" src="/js/require.js"></script>

@@ -10,7 +10,9 @@
     float: left;
 }
 
-
+.fr {
+    float: right;
+}
 
 .taLeft {
     text-align: left;
@@ -47,9 +49,11 @@
 .w-p20 {
     width: 20%;
 }
+
 .w-p25 {
     width: 25%;
 }
+
 .w-30 {
     width: 30px;
 }
@@ -61,9 +65,11 @@
 .w-p40 {
     width: 40%;
 }
+
 .w-p50 {
     width: 50%;
 }
+
 .w-p43 {
     width: 43%;
 }
@@ -83,11 +89,21 @@
 .tmargin-10 {
     margin-top: 10px;
 }
+
 .tmargin-40 {
     margin-top: 40px;
 }
+
 .lmargin-150 {
     margin-left: 175px;
+}
+
+.lmargin-220 {
+    margin-left: 220px;
+}
+
+.lmargin-270 {
+    margin-left: 270px;
 }
 
 .lmargin-5 {
@@ -110,6 +126,10 @@
     padding-right: 5px;
 }
 
+.rpadding-10 {
+    padding-right: 10px;
+}
+
 .font-white {
     color: #fff;
 }
@@ -129,6 +149,7 @@
 .font-yellow {
     color: #ffff00;
 }
+
 .font-darkyellow {
     color: #ffcc00;
 }
@@ -193,15 +214,16 @@ footer {
     font-family: FontAwesome;
     display: inline-block;
     font-size: 1.5rem;
-    line-height: 17px;
+    line-height: 18px;
     font-weight: normal;
 }
 
 a.icon {
     text-align: center;
     width: 30px;
-    height: 20px;
+    height: 18px;
     display: inline-block;
+    cursor: pointer;
 }
 
 a.icon:before {}
@@ -224,6 +246,10 @@ a.icon:before {}
 
 .icon-save:before {
     content: "\f00c";
+}
+
+.icon-save-all:before {
+    content: "\f0c7";
 }
 
 .icon-remove-sign:before {
@@ -258,12 +284,15 @@ a.icon:before {}
 .icon-eyeslash:before {
     content: "\f070";
 }
+
 .icon-leaf:before {
     content: "\f06c";
 }
+
 .icon-thumbsup:before {
     content: "\f164";
 }
+
 .icon-thumbsdown:before {
     content: "\f165";
 }
@@ -272,10 +301,7 @@ input[type="text"],
 input[type="number"],
 input[type="password"] {
     box-sizing: border-box;
-    border-top: 1px solid #fff;
-    border-left: 1px solid #fff;
-    border-right: 1px solid #fff;
-    border-bottom: 1px solid #999;
+    border: 0;
     padding: 0 0 0 5px;
     font-size: 1.3rem;
     line-height: 18px;
@@ -289,16 +315,44 @@ input:-webkit-autofill {
 input[type="text"]:focus,
 input[type="number"]:focus,
 input[type="password"]:focus {
+    border-bottom: 0;
+}
+
+.searchbox input, input.input-line {
+    border-bottom: 1px solid #999;
+}
+
+.searchbox input[type="text"]:focus, input.input-line:focus {
     border-bottom: 1px solid #cc0066;
 }
 
-input.postage{
+input[type="text"].postage {
     font-weight: bold;
-    line-height: 1;
+    /* line-height: 1;
     height: 15px;
     vertical-align: text-bottom;
+    width:20px;
+    border-bottom: solid 1px #999;*/
+    padding-left: 0;
+}
 
+.postagebox{
+    display: inline-block;
+    width:20px;
+    font-size: 0;
+    vertical-align: top;
+}
 
+.order--received input,
+.order--reckoning input {
+    border: 0;
+    width: 100%;
+}
+
+.order--received input.client,
+.order--reckoning input.client {
+    text-align: center;
+    background-color: #ffcccc;
 }
 
 button {
@@ -314,16 +368,20 @@ button {
     /*border-radius: 8px;*/
     /*text-transform: uppercase;*/
     /*box-shadow: 2px 2px 3px;*/
+    cursor: pointer;
+    height: 20px;
 }
-.searchbox{
+
+.searchbox {
     position: absolute;
-    padding-top:10px;
-    width:100%;
-    top:0;
-    left:0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    top: 0;
+    left: 0;
     z-index: 999;
     background-color: #fff;
-    padding-bottom: 10px;
+
 }
 
 .orders.isClientView .onlyForMe {
@@ -340,50 +398,142 @@ button {
 
 .order {
     position: relative;
-    border: 1px solid #cc0066;
-    border-top: none;
-    margin-bottom: 10px;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
+    border-top: 1px solid #cc0066;
+    border-left: 1px solid #cc0066;
+    border-right: 1px solid #cc0066;
+    width: 100%;
+    box-sizing: border-box;
+    display: table;
 }
+
+.order--received {}
 
 .order:last-child {
-    margin-bottom: 0;
+    border-bottom: 1px solid #cc0066;
 }
 
-.order-head {
-    background-color: #cc0066;
-    height: 26px;
+.order--received .order-clientbox,
+.order--reckoning .order-clientbox {
+    background-color: #ffcccc;
+    border-bottom: 1px solid #cc0066;
+    font-size: 0;
+}
+
+.order--received .order-client,
+.order--reckoning .order-client {
+    width: 30%;
+    display: table-cell;
+    border-right: 1px solid #cc0066;
+}
+
+.order--reckoning .order-client {
+    width: 20%;
+}
+
+.order-actionbox {
     padding-left: 5px;
+    padding-right: 5px;
+    text-align: justify;
+    border-bottom: 1px solid #cc0066;
+    line-height: 0;
+    font-size: 0;
+    background-color: #ffcccc;
 }
 
-.order-head:after {
+.order-actionbox:after {
     content: '';
     display: inline-block;
-    height: 100%;
-    vertical-align: middle;
+    width: 100%;
+    height: 0;
 }
 
-.order-head input {
-    border-bottom: solid 1px #fff;
-    width: 125px;
+.order-actionbox > icon {
+    vertical-align: top;
+}
+
+.order--received .order-items {
+    width: 70%;
+    display: table-cell;
+    vertical-align: top;
+}
+
+.order--reckoning .order-items {
+    width: 80%;
+    display: table-cell;
+    vertical-align: top;
+}
+
+.order-totalbox {
+    border-bottom: 1px solid #cc0066;
+}
+
+.order-totalbox > .onlyForMe {
+    display: block;
+    font-size: 0;
+    line-height: 0;
+}
+
+.order-totalbox > .onlyForMe span {
+    display: inline-block;
+    border-right: 1px solid #cc0066;
+    padding-left: 5px;
     box-sizing: border-box;
-    vertical-align: middle;
+    vertical-align: top;
 }
 
-.order-head input:focus {
-    border-bottom: solid 1px #fff;
+.order-totalbox > .onlyForMe span:nth-child(2) {
+    line-height: 0;
 }
 
-.order-head button {
-    border: solid 1px #fff;
+.order-totalbox > .onlyForMe span:last-child {
+    border-right: 0;
 }
 
-.order-savebox {
-    line-height: normal;
-    position: absolute;
-    right: 5px;
-    top: 4px;
+.item {
+    border-bottom: 1px solid #cc0066;
+    margin-bottom: 0;
+    display: block;
+}
+
+.order--received .item {
+    font-size: 0;
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+.order--received .item:last-child {
+    border-bottom: none;
+}
+
+.item > span {
+    border-right: 1px solid #cc0066;
+    display: inline-block;
+    box-sizing: border-box;
+    font-size: 0;
+}
+
+.order--received .item > span {
+    border-right: 1px solid #cc0066;
+    display: inline-block;
+    box-sizing: border-box;
+    font-size: 0;
+}
+
+.order--reckoning .item-fields > span {
+    border-right: 1px solid #cc0066;
+    display: inline-block;
+    box-sizing: border-box;
+    font-size: 0;
+}
+
+.order--received .item > span:last-child {
+    border-right: 0;
+}
+
+.order--reckoning .item-fields > span:last-child {
+    border-right: 0;
 }
 
 .order-addressbox,
@@ -411,13 +561,22 @@ button {
 
 .item {
     position: relative;
-    margin-bottom: 10px;
 }
 
 .item-actions {
     position: absolute;
     right: 0;
     top: 1px;
+}
+
+.order--received .item-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.order--received .leftPosition {
+    left: 0;
 }
 
 .item-fields {
@@ -429,30 +588,71 @@ button {
     margin-right: 0.5%
 }
 
-.item-historicTrades {
-    width: 100%;
-    border: 1px solid #cc0066;
-    box-sizing: border-box;
+.historicbox {
+    display: none;
+    border-top: 1px solid #cc0066;
 }
 
-.item-historicTrades td,
-.item-historicTrades th {
-    border: 1px solid #cc0066;
+.historic {
+    width: 100%;
+}
+
+.historic-header {
+    border-bottom: 1px solid #cc0066;
+    font-size: 0;
+    line-height: 0;
+    background-color: #ffcccc;
+}
+
+.historic-header > span {
+    border-right: 1px solid #cc0066;
+    display: inline-block;
+    box-sizing: border-box;
     padding-left: 5px;
 }
 
-.item-historicTrades td:last-child,
-.item-historicTrades th:last-child {
-    padding-right: 5px;
-    padding-left: 0;
+.historic-header > span:last-child {
+    border-right: 0;
 }
 
-.item-historicTrades th {
-    font-weight: normal;
+.historic-items {
+    background-color: #ffcccc;
+}
+
+.historic-item {
+    border-bottom: 1px solid #cc0066;
+    font-size: 0;
+    line-height: 0;
+}
+
+.historic-item:last-child {
+    border-bottom: 0;
+}
+
+.historic-item > span {
+    border-right: 1px solid #cc0066;
+    display: inline-block;
+    box-sizing: border-box;
+    padding-left: 5px
+}
+
+.historic-item > span:last-child {
+    border-right: 0;
 }
 
 
 /**** items.html ***/
+
+.box-viewselection {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.box-viewselection input[type="radio"] {
+    -webkit-appearance: radio;
+    appearance: radio;
+    margin: 0;
+}
 
 .orderitems {
     width: 100%;
@@ -471,8 +671,6 @@ button {
     box-sizing: border-box;
     font-weight: bold;
     color: #fff;
-    padding-top: 5px;
-    padding-bottom: 5px;
     padding-left: 5px;
 }
 
@@ -493,11 +691,10 @@ button {
     font-size: 1.3rem;
     display: inline-block;
     box-sizing: border-box;
-    padding-top: 5px;
-    padding-bottom: 5px;
     padding-left: 5px;
     border-right: 1px solid #cc0066;
     vertical-align: middle;
+    height: 18px;
 }
 
 span.orderitem-cnt-btns {
@@ -653,7 +850,7 @@ span.orderitem-cnt-btns {
 /***** login ****/
 
 .form-login {
-    text-align: center;
+    /*text-align: center;*/
     position: absolute;
     top: 50%;
     width: 360px;
@@ -662,6 +859,7 @@ span.orderitem-cnt-btns {
     padding-right: 10px;
     left: 50%;
     margin-left: -180px;
+    margin-top:-115px;
 }
 
 .form-login button {
@@ -756,7 +954,9 @@ span.orderitem-cnt-btns {
     content: "\f110";
 }
 
+
 /**** incomeList ***/
+
 .incomelist {
     width: 100%;
     border: 1px solid #cc0066;
@@ -802,6 +1002,29 @@ span.orderitem-cnt-btns {
     border-right: 1px solid #cc0066;
     vertical-align: middle;
 }
+
+
+/*** confirm **/
+
+.confirm {
+    font-size: 0;
+    width: 205px;
+    padding: 5px;
+    background-color: #cc0066;
+    line-height: 0;
+    display: none;
+    position: absolute;
+    left: 50%;
+    margin-left: -102.5px;
+    z-index: 1;
+}
+
+.box-mynote{
+    text-align: left;
+    display: inline-block;
+
+}
+
 
 /**** registration *****/
 .registration.ng-enter{

@@ -1,15 +1,15 @@
-<div>
-    <button class="icon icon-add" data-bind="click: addAddress"> Add Address </button>
+<div class="tmargin-10">
+    <button class="icon icon-add" data-bind="tap: addAddress"> Address </button>
 </div>
 <div class="tmargin-10 alladdresses" data-bind="foreach: addresses">
-    <section class="address">
+    <section class="address enterArea">
         <input type="hidden" data-bind="value: _id" />
         <input type="text" class="w-p30" data-bind="value: client" placeholder="Client" />
         <input type="text" class="w-p30" data-bind="value: recipient" placeholder="Recipient" />
         <input type="text" class="w-p30" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" />
         <input type="text" class="address-inputaddress" min="0" max="100" step="1" data-bind="value: address" placeholder="Address" />
-        <a href="#" class="address-remove icon icon-remove" data-bind="click: $root.removeAddress.bind(this, $data)"> </a>
-        <a href="#" class="address-save icon icon-save" data-bind="css:{ 'font-red': isSend() },click: $root.submitAddress"> </a>
+        <a href="#" class="address-remove icon icon-remove action-submit" data-bind="tap: $root.removeAddress"> </a>
+        <a href="#" class="address-save icon icon-save  action-submit action-enter" data-bind="css:{ 'font-red': isSend() },tap: $root.submitAddress"> </a>
     </section>
 </div>
 <script>
@@ -22,12 +22,6 @@ var AddressModel = function(address) {
     self.phone = ko.observable(address ? address.phone : '');
     self.isSend = ko.observable(address ? address.isSend : '');
 
-
-    /*this.isChanged = ko.pureComputed(function() {
-
-        return address && address.client == self.client() && address.recipient == self.recipient() && address.address == self.address() && address.phone == self.phone() ? false : true;
-
-    }, this);*/
 };
 
 var AddressesModel = function(addresses) {

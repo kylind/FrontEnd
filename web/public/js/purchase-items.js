@@ -71,9 +71,19 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     };
 
-    var ItemsModel = function(items, swiper) {
 
-        function init(items) {
+    var MarkedItem = function(item) {
+
+        var self = this;
+        self.name = item ? item.name : '';
+        self.note = item ? item.note : '';
+        self.quantity = item ? item.quantity : '';
+
+    };
+
+    var ItemsModel = function(items, markedItems, swiper) {
+
+        function init(items,markedItems) {
             var observableItems = [];
 
             if (Array.isArray(items) && items.length > 0) {
@@ -84,20 +94,37 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 })
             }
 
-            return observableItems;
+            var observableMarkedItems = [];
+
+            if (Array.isArray(markedItems) && markedItems.length > 0) {
+                markedItems.forEach(function(item) {
+
+                    observableMarkedItems.push(new MarkedItem(item));
+
+                })
+            }
+
+            return [observableItems,observableMarkedItems] ;
         }
 
-        var observableItems = init(items);
-
-
+        var items = init(items, markedItems);
+        var observableItems  = items[0];
+        var observableMarkedItems  = items[1];
 
         var self = this;
 
+        self.itemview=ko.observable('name')
+
         self.items = ko.observableArray(observableItems);
+        self.markedItems = ko.observableArray(observableMarkedItems);
 
-        self.setItems = function(items) {
 
-            self.items(init(items));
+
+        self.setItems = function(items,markedItems) {
+            var [items, markedItems]=init(items,markedItems)
+
+            self.items(items);
+            self.markedItems(markedItems);
 
         }
 
@@ -177,8 +204,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         };
 
     }
-
-
 
     return ItemsModel;
 

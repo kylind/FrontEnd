@@ -8,13 +8,16 @@ var itemOperation = require('../data_access/item.js').collection
 router = new Router();
 router.get('/purchaseItems', function*() {
 
-    var res = yield itemOperation.queryItems();
+    var items = yield itemOperation.queryItems();
 
-    res = res && res.length > 0 ? res : [];
+    var markedItems = yield itemOperation.queryItemsByMark();
+
+    items = Array.isArray(items) && items.length > 0 ? items : [];
+    markedItems = Array.isArray(markedItems) && markedItems.length > 0 ? markedItems : [];
 
     yield this.render('purchaseItems', {
-        items: res,
-        css:'',
+        items:{ items: items, markedItems: markedItems },
+        css: '',
         script: 'mvvm',
         header: 'specific',
         footer: ''
@@ -23,11 +26,28 @@ router.get('/purchaseItems', function*() {
 
 });
 
+
+
 router.get('/purchaseItemsJson', function*() {
 
-    var res = yield itemOperation.queryItems();
+    var items = yield itemOperation.queryItems();
 
-    res = res && res.length > 0 ? res :[];
+    var markedItems = yield itemOperation.queryItemsByMark();
+
+    items = Array.isArray(items) && items.length > 0 ? items : [];
+    markedItems = Array.isArray(markedItems) && markedItems.length > 0 ? markedItems : [];
+
+
+    this.body = { items: items, markedItems: markedItems };
+    this.status = 200;
+
+});
+
+router.get('/purchaseMarkedItemsJson', function*() {
+
+    var res = yield itemOperation.queryItemsByMark();
+
+    res = res && res.length > 0 ? res : [];
 
     this.body = res;
     this.status = 200;
@@ -53,7 +73,7 @@ router.post('/item', function*() {
 
 router.get('/subitems', function*() {
 
-     var req = this.request.query;
+    var req = this.request.query;
 
     var itemName = req.itemName;
 
@@ -65,9 +85,9 @@ router.get('/subitems', function*() {
         weekday: "short"
     };
 
-    res.forEach(function(subItem){
+    res.forEach(function(subItem) {
 
-         subItem.createDate = subItem.createDate.toLocaleDateString("en-US", dateFormatting);
+        subItem.createDate = subItem.createDate.toLocaleDateString("en-US", dateFormatting);
 
     })
 

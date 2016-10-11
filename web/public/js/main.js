@@ -39,8 +39,43 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
                 $target = $(event.target);
                 var $submitting = $('.prompt-submitting');
                 var $succeed = $('.prompt-succeed');
+                var $confirm = $('.confirm');
 
-                if ($target.hasClass('action-submit')) {
+                if ($target.hasClass('action-delete') && $target.hasClass('action-submit')) {
+                    var offset = $target.offset();
+
+                    $('.confirm-submit').one('click', function() {
+
+                        $confirm.fadeOut('slow');
+                        handler(bindingContext.$data, bindingContext.$parent, event, function() {
+                            $submitting.children('span').text("Submitting...");
+                            var offset = $target.offset();
+                            $('.prompt').css('top', offset.top).show();
+
+                        }, function() {
+
+                            $submitting.addClass('disappeared')
+                            $succeed.removeClass('disappeared')
+
+                            $('.prompt').delay(600).fadeOut('slow', function() {
+                                $submitting.removeClass('disappeared')
+                                $succeed.addClass('disappeared')
+                            });
+
+                        });
+
+                    })
+
+                    $('.confirm-cancel').one('click', function() {
+
+                        $confirm.fadeOut('slow');
+
+                    })
+
+                    $('.confirm').css('top', offset.top).fadeIn('slow');
+
+
+                } else if ($target.hasClass('action-submit')) {
 
                     handler(bindingContext.$data, bindingContext.$parent, event, function() {
                         $submitting.children('span').text("Submitting...");
@@ -96,9 +131,9 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
         spaceBetween: 30,
         pagination: '.swiper-pagination',
         paginationClickable: true,
-        simulateTouch:false,
-        shortSwipes:false,
-        longSwipes:false,
+        simulateTouch: false,
+        shortSwipes: false,
+        longSwipes: false,
         paginationBulletRender: function(index, className) {
             var bulletName = '';
             switch (index) {
@@ -118,9 +153,9 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
                 case 3:
                     bulletName = 'Income';
                     break;
-                case 4:
+               /* case 4:
                     bulletName = 'Delivery';
-                    break;
+                    break;*/
             }
             return '<span class="' + className + '">' + bulletName + '</span>';
         }
@@ -131,20 +166,22 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
     $(window).scroll(function() {
         var top = $(window).scrollTop();
-       $(".searchbox").css("top",top);
+        $(".searchbox").css("top", top);
 
     });
 
 
-    require(['purchase-items', 'reckoning-orders','income-list', 'addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel,IncomeListModel, AddressesModel, ko, $) {
+    require(['purchase-items', 'reckoning-orders', 'income-list', 'addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
 
         var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel;
 
-        $.getJSON('./purchaseItemsJson', function(items, status) {
-            itemsModel = new ItemsModel(items, swiper);
+        $.getJSON('./purchaseItemsJson', function(rs, status) {
+
+            itemsModel = new ItemsModel(rs.items,rs.markedItems, swiper);
             ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
 
         });
+
 
         $.getJSON('./reckoningOrdersJson', function(orders, status) {
             reckoningOrdersModel = new OrdersModel(orders, swiper);
@@ -158,19 +195,24 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
         });
 
-        $.getJSON('./addressesJson', function(addresses, status) {
-            addressesModel = new AddressesModel(addresses, swiper);
-            ko.applyBindings(addressesModel, $('#addresses')[0]);
+        // $.getJSON('./addressesJson', function(addresses, status) {
+        //     addressesModel = new AddressesModel(addresses, swiper);
+        //     ko.applyBindings(addressesModel, $('#addresses')[0]);
 
-        });
+        // });
 
         $(document).on('keydown', function(event) {
-            if (event.keyCode == 13) {
-                var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
+            if (event.keyCode == 13 && (swiper.activeIndex==0 || swiper.activeIndex==2)) {
+                //var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
                 $(document.activeElement).blur();
+
+                var targetPage= swiper.activeIndex==0?'receivedOrders':'reckoningOrders'
+
+                var $target = $('#'+ targetPage + ' .action-enter');
                 setTimeout(function() {
                     $target.trigger('click')
                 }, 100);
+                return false;
 
             }
 
@@ -189,12 +231,13 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
                     });
                     break;
                 case 1:
-                    $.getJSON('./purchaseItemsJson', function(items, status) {
-                        itemsModel.setItems(items);
+                    $.getJSON('./purchaseItemsJson', function(rs, status) {
+                        itemsModel.setItems(rs.items,rs.markedItems);
                         swiper.update();
 
                     });
                     break;
+
                 case 2:
                     $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
