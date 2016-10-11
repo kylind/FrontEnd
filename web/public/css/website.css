@@ -802,3 +802,13 @@ span.orderitem-cnt-btns {
     border-right: 1px solid #cc0066;
     vertical-align: middle;
 }
+
+/**** registration *****/
+.registration.ng-enter{
+
+
+}
+
+.registration.ng-enter-active{
+
+}
