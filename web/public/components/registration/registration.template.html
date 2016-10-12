@@ -1,8 +1,28 @@
-
 <div class="registration" ng-show="!$ctrl.saved">
-    <input type="text" placeholder="Name used to login" ng-model="$ctrl.name">
-    <input type="password" placeholder="Password"  ng-model="$ctrl.password">
-    <input type="password" placeholder="Password Confirmation"  ng-model="$ctrl.passwordConfirmation">
-    <button ng-click="$ctrl.saveUser()">Submit</button>
+    <h3>Submit your application:</h3>
+    <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="Name used to login" ng-model="$ctrl.name">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="password" placeholder="Password" ng-model="$ctrl.password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="password" placeholder="Password Confirmation" ng-model="$ctrl.passwordConfirmation">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button ng-click="$ctrl.saveUser()">Submit</button>
+                </td>
+            </tr>
+
+    </table>
 </div>
-<p  class="success" ng-show="$ctrl.saved">Please contact with Qinglin by wechat: xiaoviba to activate your account</p>
+<div class="success" ng-show="$ctrl.saved">Please contact with Qinglin by wechat: xiaoviba to activate your account</div>
+

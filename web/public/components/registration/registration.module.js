@@ -1,4 +1,4 @@
-angular.module('registration', ['ngResource']);
+angular.module('registration', ['ngResource','ngAnimate']);
 angular.module('registration').controller('registrationController', function($scope){
 
     $scope.name='Yolanda';

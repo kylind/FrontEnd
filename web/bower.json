@@ -23,9 +23,13 @@
     "tests"
   ],
   "devDependencies": {
-    "angular": "^1.5.8"
+    "angular": "^1.5.8",
+    "angular-resource": "^1.5.8",
+    "angular-animate": "^1.5.8"
   },
   "dependencies": {
-    "angular-resource": "^1.5.8"
+    "angular": "^1.5.8",
+    "angular-resource": "^1.5.8",
+    "angular-animate": "^1.5.8"
   }
 }

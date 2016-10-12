@@ -22,6 +22,7 @@ angular.module('registration').component('registration', {
             })*/
 
               User.save(null, user).$promise.then(function(rs){
+
                  self.saved=true;
 
                  console.log(`New user: ${rs}`)
