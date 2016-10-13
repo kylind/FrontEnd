@@ -1031,12 +1031,13 @@ span.orderitem-cnt-btns {
 .box-registration {}
 
 .registration {
+    width:200px;
     display: inline-block;
     position: absolute;
     top: 50%;
     margin-top: -50px;
     left: 50%;
-    margin-left: -90px;
+    margin-left: -100px;
     transition: all 300ms linear;
 }
 
@@ -1050,8 +1051,9 @@ span.orderitem-cnt-btns {
     top: 50%;
     margin-top: -9px;
     left: 50%;
-    margin-left: -207px;
+    margin-left: -217px;
     opacity: 0;
+    padding:10px;
 
 }
 
@@ -1072,5 +1074,41 @@ span.orderitem-cnt-btns {
         opacity: 1;
 
     }
+
+}
+
+.heading-16{
+    color:#cc0066;
+    font-weight: bold;
+    border-bottom: 1px solid #cc0066;
+}
+.blank input{
+    border-bottom: 1px solid #ccc;
+    width:100%;
+}
+.blank input:focus{
+    border-bottom: 1px solid #cc0066;
+}
+button.ispure{
+    text-align: center;
+    padding-left:0;
+}
+
+.warning{
+    font-style: italic;
+    color:#cc0066;
+    font-size: 1.1rem;
+    display: block;
+    overflow: hidden;
+    transition: height 500ms linear;
+
+}
+.warning.ng-hide{
+    height: 0;
+
+}
+.warning:not(.ng-hide){
+    height: 15px;
+
 
 }
