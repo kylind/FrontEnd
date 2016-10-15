@@ -898,21 +898,26 @@ span.orderitem-cnt-btns {
 .prompt-submitting {
     left: 0;
     color: #cc0066;
-    transition: left 300ms;
+    transition: left 300ms 300ms;
+    z-index: 1;
 }
 
 .prompt-submitting.disappeared {
     left: -100px;
+
 }
 
 .prompt-succeed {
     color: #33CC00;
     right: 0;
-    transition: right 600ms;
+     z-index: 2;
+    transition: right 300ms 0.3s;
 }
 
 .prompt-succeed.disappeared {
     right: -100px;
+
+
 }
 
 .fa {
