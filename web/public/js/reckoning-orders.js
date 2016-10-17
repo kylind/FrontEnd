@@ -8,8 +8,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.name = ko.observable(item && item.name ? item.name : '');
         self.quantity = ko.observable(item && item.quantity ? item.quantity : '1');
-        self.buyPrice = ko.observable(item && item.buyPrice ? item.buyPrice : '');
-        self.sellPrice = ko.observable(item && item.sellPrice ? item.sellPrice : '');
+        self.buyPrice = ko.observable(item && !isNaN(item.buyPrice) ? item.buyPrice : '');
+        self.sellPrice = ko.observable(item && !isNaN(item.sellPrice) ? item.sellPrice : '');
         self.profit = item && item.profit ? item.profit : '';
         self.note = item && item.note ? item.note : '';
         self.isDone = item && item.isDone ? item.isDone : false;
