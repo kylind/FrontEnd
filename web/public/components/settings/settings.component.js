@@ -1,40 +1,42 @@
 angular.module('settings', []).directive('myValidation', function() {
 
-
     return {
-        compile: {
 
-            pre:function(){
+        link: function preLink(scope, ele, attrs, controller) {
+            var floatRegex = /^\d?\.?\d+$/;
 
-            }
+            var target = attrs.targetId;
+            var type = attrs.type;
 
+            scope.isLegal = true;
 
+            if (type == 'float') {
 
-        }function(scope, elem, attrs) {
-            var floatRegex = /^[a-zA-Z]{6,}$/;
-
-
-            var fieldType = attrs.myValidation;
-
-
-            if (fieldType == 'float') {
-
-                elem.on('blur', function() {
+                $('#' + target).on('blur', function() {
                     var floatValue = $(this).val();
-                    var isLegal = floatRegex.test(floatValue);
-                    if(!isLegal){
-
+                    if (floatValue == '') {
+                        scope.isLegal = true;
+                    } else {
+                        scope.isLegal = floatRegex.test(floatValue);
                     }
+
                 })
 
             } else {
 
             }
 
-        }
-    }
+        },
+        scope: {
+            targetId: '@targetId',
+            type: '@'
 
+        },
+        transclude: true,
+        templateUrl: "/components/settings/validation.template.html"
+    }
 });
+
 
 
 
@@ -43,12 +45,11 @@ angular.module('settings', []).directive('myValidation', function() {
 
 angular.module('settings').component('settings', {
     templateUrl: '/components/settings/settings.template.html',
-    controller: ['$resource', function($resource) {
+    controller: [function() {
 
-        var User = $resource('/user/:_id');
 
         var self = this;
-        self.name = '';
+        self.rate = '';
         self.password = '';
         self.passwordConfirmation = '';
         self.saved = false;
@@ -57,28 +58,8 @@ angular.module('settings').component('settings', {
         self.isConfirmed = true;
 
 
-        self.verifyPassword = function() {
-            var regex = /^(?!([a-zA-Z]+|\d+)$)[\S]{8,}$/;
-            self.isLegalPassword = regex.test(self.password);
-        }
-        self.verifyConfirmPassword = function() {
-            self.isConfirmed = self.password == self.passwordConfirmation;
-        }
 
         self.saveUser = function() {
-
-            if (self.isLegalName && self.isConfirmed && self.isLegalPassword) {
-                var user = { name: self.name, password: self.password, status: '0NEW' };
-
-                User.save(null, user).$promise.then(function(rs) {
-
-                    self.saved = true;
-
-                    console.log(`New user: ${rs}`)
-
-                });
-            }
-
 
 
         }

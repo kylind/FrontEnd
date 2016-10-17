@@ -1031,7 +1031,7 @@ span.orderitem-cnt-btns {
 .box-registration {}
 
 .registration {
-    width:200px;
+    width: 200px;
     display: inline-block;
     position: absolute;
     top: 50%;
@@ -1045,7 +1045,8 @@ span.orderitem-cnt-btns {
     margin-top: -100px;
     opacity: 0;
 }
-.success{
+
+.success {
     display: inline-block;
     position: absolute;
     top: 50%;
@@ -1053,62 +1054,65 @@ span.orderitem-cnt-btns {
     left: 50%;
     margin-left: -217px;
     opacity: 0;
-    padding:10px;
-
+    padding: 10px;
 }
 
-.success:not(.ng-hide){
+.success:not(.ng-hide) {
     animation: fade-in 0.5s linear 0.3s;
     animation-fill-mode: forwards;
-
 }
-
-
 
 @keyframes fade-in {
     from {
         opacity: 0;
-
     }
     to {
         opacity: 1;
-
     }
-
 }
 
-.heading-16{
-    color:#cc0066;
+.heading-16 {
+    color: #cc0066;
     font-weight: bold;
     border-bottom: 1px solid #cc0066;
 }
-.blank input{
+
+.blank input {
     border-bottom: 1px solid #ccc;
-    width:100%;
-}
-.blank input:focus{
-    border-bottom: 1px solid #cc0066;
-}
-button.ispure{
-    text-align: center;
-    padding-left:0;
+    width: 100%;
 }
 
-.warning{
+.blank input[type="checkbox"] {
+    -webkit-appearance: checkbox;
+    border-bottom: none;
+    width: auto;
+}
+
+.blank input:focus {
+    border-bottom: 1px solid #cc0066;
+}
+
+.blank label{
+    display: inline-block;
+}
+button.ispure {
+    text-align: center;
+    padding-left: 0;
+}
+
+.warning {
     font-style: italic;
-    color:#cc0066;
+    color: #cc0066;
     font-size: 1.1rem;
     display: block;
     overflow: hidden;
     transition: height 500ms linear;
-
 }
-.warning.ng-hide{
+
+.warning.ng-hide {
     height: 0;
-
 }
-.warning:not(.ng-hide){
+
+.warning:not(.ng-hide) {
     height: 15px;
-
-
 }

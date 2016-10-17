@@ -15,6 +15,18 @@ router.get('/register', function*() {
 
 });
 
+router.get('/settings', function*() {
+
+    yield this.render('settings', {
+        css:'',
+        script: '',
+        header: '',
+        footer: ''
+
+    });
+
+});
+
 router.post('/user', function*() {
 
     var user = this.request.body;
