@@ -2,34 +2,39 @@ angular.module('settings', []).directive('myValidation', function() {
 
     return {
 
-        link: function preLink(scope, ele, attrs, controller) {
+        link: function(scope, iElement, iAttrs, controller) {
             var floatRegex = /^\d?\.?\d+$/;
 
-            var target = attrs.targetId;
-            var type = attrs.type;
+            var target = iAttrs.targetId;
+            var type = iAttrs.targetType;
 
             scope.isLegal = true;
 
-            if (type == 'float') {
+            scope.$watch(scope.targetValue, function(value) {
 
-                $('#' + target).on('blur', function() {
-                    var floatValue = $(this).val();
-                    if (floatValue == '') {
+                if (type == 'float') {
+                    if (value == '') {
                         scope.isLegal = true;
                     } else {
-                        scope.isLegal = floatRegex.test(floatValue);
+                        scope.isLegal = floatRegex.test(value);
                     }
 
-                })
+                } else {
 
-            } else {
+                }
 
-            }
+            });
+
+        },
+
+        controller: function($scope, $element, $attrs, $transclude) {
+
 
         },
         scope: {
-            targetId: '@targetId',
-            type: '@'
+            targetId: '<targetId',
+            targetType: '@',
+            targetValue: '@',
 
         },
         transclude: true,
@@ -49,7 +54,7 @@ angular.module('settings').component('settings', {
 
 
         var self = this;
-        self.rate = '';
+        self.rate = '9';
         self.password = '';
         self.passwordConfirmation = '';
         self.saved = false;

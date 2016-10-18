@@ -3,7 +3,7 @@
     <h3 class="heading-16" >New User?</h3>
     <label  class="tmargin-10">Exchange Rate</label>
     <input id="rate" type="text"  ng-model="$ctrl.rate" >
-    <my-validation target-id="rate" type="float">Require float value</my-validation>
+    <my-validation target-id="rate" target-type="float" target-value="$ctrl.rate">Require float value {{ $ctrl.rate }}</my-validation>
 
     <label>Intelligent Computing </label> <label for="buy">Buy </label><input type="checkbox" name="buy"/> <label for="buy">Sell </label> <input type="checkbox" />
 
