@@ -245,7 +245,7 @@ router.get('/ordersByName', function*() {
         order.rate = order.rate ? order.rate : RATE;
 
         //util.sumarizeOrder(order);
-
+        order.displayDate = order.createDate ? new Date(order.createDate).toLocaleDateString("en-US", dateFormatting) : '';
         if (Array.isArray(order.addresses) && order.addresses.length > 0);
         else {
 
