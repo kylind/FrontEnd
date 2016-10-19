@@ -10,7 +10,7 @@ angular.module('settings', []).directive('myValidation', function() {
 
             scope.isLegal = true;
 
-            scope.$watch(scope.targetValue, function(value) {
+            scope.$watch('targetValue', function(value) {
 
                 if (type == 'float') {
                     if (value == '') {
