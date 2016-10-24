@@ -10,7 +10,7 @@ angular.module('settings', []).directive('myValidation', function() {
 
             scope.isLegal = true;
 
-            scope.$watch('targetValue', function(value) {
+            scope.$watch('targetValue', function(value, oldValue) {
 
                 if (type == 'float') {
                     if (value == '') {
@@ -54,7 +54,7 @@ angular.module('settings').component('settings', {
 
 
         var self = this;
-        self.rate = '9';
+        self.rate = '';
         self.password = '';
         self.passwordConfirmation = '';
         self.saved = false;
