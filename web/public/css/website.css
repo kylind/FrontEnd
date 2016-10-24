@@ -1116,3 +1116,38 @@ button.ispure {
 .warning:not(.ng-hide) {
     height: 15px;
 }
+/**** settings ****/
+.w-150{
+    width:150px;
+}
+.inline-block{
+    display: inline-block;
+}
+.taRight{
+    text-align: right;
+}
+
+.rmargin-15{
+    margin-right: 15px;
+}
+
+.settings .field{
+    width:100%;
+    display: block;
+    position: relative;
+}
+
+.field > label{
+    display: inline-block;
+
+}
+
+
+.field > label{
+    width:150px;
+    text-align: right;
+    margin-right: 15px;
+}
+.field > input{
+    width:150px;
+}
