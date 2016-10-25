@@ -1,9 +1,10 @@
-angular.module('settings', []).directive('myValidation', function() {
+angular.module('settings').directive('myValidation', function() {
 
     return {
 
         link: function(scope, iElement, iAttrs, controller) {
             var floatRegex = /^\d?\.?\d+$/;
+            var passwordRegex = /^(?!([a-zA-Z]+|\d+)$)[\S]{8,}$/;
 
             var target = iAttrs.targetId;
             var type = iAttrs.targetType;
@@ -12,14 +13,17 @@ angular.module('settings', []).directive('myValidation', function() {
 
             scope.$watch('targetValue', function(value, oldValue) {
 
-                if (type == 'float') {
-                    if (value == '') {
-                        scope.isLegal = true;
-                    } else {
-                        scope.isLegal = floatRegex.test(value);
-                    }
+                switch (type) {
 
-                } else {
+                    case 'float':
+                        scope.isLegal = value == '' ? true : floatRegex.test(value);
+                        break;
+                    case 'password':
+                        scope.isLegal = value == '' ? true : passwordRegex.test(value);
+                        break;
+                    case 'password-confirm':
+                        scope.isLegal = value == '' ? true : value == scope.comparingValue;
+                        break;
 
                 }
 
@@ -32,10 +36,9 @@ angular.module('settings', []).directive('myValidation', function() {
 
         },
         scope: {
-            targetId: '<targetId',
             targetType: '@',
             targetValue: '@',
-
+            comparingValue: '@?'
         },
         transclude: true,
         templateUrl: "/components/settings/validation.template.html"
@@ -46,17 +49,22 @@ angular.module('settings', []).directive('myValidation', function() {
 
 
 
-
-
 angular.module('settings').component('settings', {
     templateUrl: '/components/settings/settings.template.html',
-    controller: [function() {
+    controller: ['$resource',function($resource) {
+var self = this;
+        var User = $resource('/user/:_id');
 
+        User.get({_id:''}).$promise.then(function(user){
+            self._id = user._id;
+            self.rate=user.rate;
+            self.buyComputing=user.buyComputing;
+            self.sellComputing=user.sellComputing;
+        })
 
-        var self = this;
-        self.rate = '';
         self.password = '';
         self.passwordConfirmation = '';
+
         self.saved = false;
         self.isLegalName = true;
         self.isLegalPassword = true;

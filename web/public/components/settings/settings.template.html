@@ -1,21 +1,31 @@
 <div class="settings blank" ng-show="!$ctrl.saved">
     <h3 class="heading-16">Settings</h3>
+
+    <input type="hidden" ng-model="$ctrl._Id"/>
     <span class="field tmargin-10">
     <label>Exchange Rate: </label>
     <input id="rate" type="text"  ng-model="$ctrl.rate" >
-    <my-validation target-id="rate" target-type="float" target-value="{{ $ctrl.rate }}">Require float value {{ $ctrl.rate }}</my-validation>
+    <my-validation  target-type="float" target-value="{{ $ctrl.rate }}">Require float value</my-validation>
     </span>
     <div class="tmargin-10">
-        <span class="w-150 taRight rmargin-15 inline-block">Intelligent Computing </span> <span>Buy </span><input type="checkbox" name="buy"/> <span for="buy">Sell </span> <input type="checkbox" />
+        <span class="w-150 taRight rmargin-15 inline-block">Intelligent Computing </span>
+        <span>Buy </span><input type="checkbox" name="buy"  ng-model="$ctrl.buyComputing"/>
+        <span>Sell </span> <input type="checkbox"  ng-model="$ctrl.sellComputing"/>
     </div>
     <span class="field tmargin-10">
     <label >Password: </label>
     <input type="password"  ng-model="$ctrl.password">
     </span>
+
+    <my-validation  target-type="password" target-value="{{ $ctrl.password }}">Require 8 letters or numbers at least </my-validation>
+
     <span class=" field tmargin-10">
             <label  class="tmargin-10">Password Confirmation: </label>
     <input type="password"  ng-model="$ctrl.passwordConfirmation" >
     </span>
+    <my-validation  target-type="password-confirm" target-value="{{ $ctrl.passwordConfirmation }}" comparing-value="{{ $ctrl.password }}">the input is not same with password</my-validation>
+    <div class="taCenter tmargin-10">
     <button class="ispure" ng-click="$ctrl.saveUser()">Submit</button>
+    </div>
 </div>
-<div class="success" ng-show="$ctrl.saved">Submit Successfully!</div>
+

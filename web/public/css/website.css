@@ -1131,14 +1131,22 @@ button.ispure {
     margin-right: 15px;
 }
 
+.settings{
+    width:315px;
+
+}
+
 .settings .field{
     width:100%;
     display: block;
     position: relative;
+    font-size: 0;
 }
 
 .field > label{
     display: inline-block;
+    font-size: 13px;
+    vertical-align: middle;
 
 }
 
@@ -1150,4 +1158,10 @@ button.ispure {
 }
 .field > input{
     width:150px;
+    vertical-align: middle;
+}
+.settings .warning{
+    text-align: right;
+    display: inline-block;
+    width:100%;
 }
