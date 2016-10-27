@@ -17,11 +17,14 @@ router.get('/register', function*() {
 
 router.get('/settings', function*() {
 
+    var _id=this.req.user._id;
+
     yield this.render('settings', {
         css:'',
         script: '',
         header: '',
-        footer: ''
+        footer: '',
+        _id:_id
 
     });
 

@@ -55,12 +55,12 @@ angular.module('settings').component('settings', {
 var self = this;
         var User = $resource('/user/:_id');
 
-        User.get({_id:''}).$promise.then(function(user){
+        /*User.get({_id:''}).$promise.then(function(user){
             self._id = user._id;
             self.rate=user.rate;
             self.buyComputing=user.buyComputing;
             self.sellComputing=user.sellComputing;
-        })
+        })*/
 
         self.password = '';
         self.passwordConfirmation = '';

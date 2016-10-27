@@ -21,7 +21,22 @@ var collection = {
         return new Promise(function(resolve, reject) {
 
             MongoClient.connect(url, function(err, db) {
-                db.collection('siteusers').findOne({ name: userName }).then(function(rs){
+                db.collection('siteusers').findOne({ name: userName }).then(function(rs) {
+
+                    resolve(rs);
+                });
+
+            });
+
+        })
+
+    },
+    queryUserById: function(_id) {
+
+        return new Promise(function(resolve, reject) {
+
+            MongoClient.connect(url, function(err, db) {
+                db.collection('siteusers').findOne({ _id: new ObjectID(_id) }).then(function(rs) {
 
                     resolve(rs);
                 });
