@@ -51,28 +51,48 @@ angular.module('settings').directive('myValidation', function() {
 
 angular.module('settings').component('settings', {
     templateUrl: '/components/settings/settings.template.html',
-    controller: ['$resource',function($resource) {
-var self = this;
+    controller: ['$scope','$resource', 'USER_ID', function($scope,$resource, id) {
+        var self = this;
         var User = $resource('/user/:_id');
 
-        /*User.get({_id:''}).$promise.then(function(user){
-            self._id = user._id;
-            self.rate=user.rate;
-            self.buyComputing=user.buyComputing;
-            self.sellComputing=user.sellComputing;
-        })*/
+        var user=User.get({ _id: id });
+        user.$promise.then(function(user) {
+/*            self._id = user._id;
+            self.rate = user.rate;
+            self.buyComputing = user.buyComputing;
+            self.sellComputing = user.sellComputing;*/
+            self.user=user;
+            self.user.password = '';
+        })
 
-        self.password = '';
+
         self.passwordConfirmation = '';
-
         self.saved = false;
         self.isLegalName = true;
         self.isLegalPassword = true;
         self.isConfirmed = true;
+        self.myClasses='';
+
+
 
 
 
         self.saveUser = function() {
+
+            self.myClasses='isActive';
+
+            user.$save().then(function(rs){
+
+                self.myClasses='isSuccess';
+
+                setTimeout(function(){
+                    $scope.$apply(function(){
+                        self.myClasses='';
+                    });
+
+                },900)
+
+            });
 
 
         }

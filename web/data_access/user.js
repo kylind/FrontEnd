@@ -15,7 +15,21 @@ var collection = {
         return res;
 
     },
+    updateOne: function*(user) {
+        var db = yield MongoClient.connect(url);
 
+        var id = user._id;
+        delete user._id;
+
+        var res = yield db.collection('siteusers').replaceOne({
+            "_id": new ObjectID(id)
+        }, user);
+
+        user._id = id;
+
+        return res;
+
+    },
     queryUser: function(userName) {
 
         return new Promise(function(resolve, reject) {
