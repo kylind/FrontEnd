@@ -145,22 +145,18 @@
                         </div>
                         <!-- ko if: _id() != '' -->
                         <div class="order-totalbox">
-
                             <span class="font-bold font-red vaMiddle onlyForMe" data-bind="css:{'font-red': isComplete}">
                                 <span class="w-p20">总共：</span>
-                                <span class="w-p10"><input type="text" class="w-30 font-bold postage" placeholder='Fee' data-bind="value: postage,css:{'font-red': isComplete}" /></span>
-                                <span class="w-p15" data-bind="text: formatPrice(buyPrice)"></span>
-                                <span class="w-p15" data-bind="text: formatPrice(sellPrice)"></span>
-                                <span class="w-p15" data-bind="text: formatPrice(profit)"></span>
-                                <span class="w-p25"></span>
-
+                            <span class="w-p10"><input type="text" class="w-30 font-bold postage" placeholder='Fee' data-bind="value: postage,css:{'font-red': isComplete}" /></span>
+                            <span class="w-p15" data-bind="text: formatPrice(buyPrice)"></span>
+                            <span class="w-p15" data-bind="text: formatPrice(sellPrice)"></span>
+                            <span class="w-p15" data-bind="text: formatPrice(profit)"></span>
+                            <span class="w-p25"></span>
                             </span>
-
                             <span class="font-bold font-red vaMiddle onlyForClient" data-bind="css:{'font-red': isComplete}">
                                 <span class="lmargin-5">总共： </span><span data-bind="text: formatPrice(sellPrice)"></span> +
-                                <span class="w-p15 postagebox" ><input type="text" class="w-30 font-bold postage"  data-bind="value: postage,css:{'font-red': isComplete}" /></span> = <span data-bind="text: total"></span>
+                            <span class="w-p15 postagebox"><input type="text" class="w-30 font-bold postage"  data-bind="value: postage,css:{'font-red': isComplete}" /></span> = <span data-bind="text: total"></span>
                             </span>
-
                         </div>
                         <!-- /ko -->
                         <div class="items">
@@ -226,31 +222,42 @@
             <div class="incomelist  tmargin-10">
                 <div class="incomelist-header">
                     <span class="w-p15 taLeft">Year</span>
-                    <span class="w-p15 taLeft">Week</span>
-                    <span class="w-p25 taRight rpadding-5">Cost</span>
-                    <span class="w-p25 taRight  rpadding-5">Revenue</span>
+                    <span class="w-p10 taLeft">Week</span>
+                    <span class="w-p15 taLeft">Period</span>
+                    <span class="w-p20 taRight rpadding-5">Cost</span>
+                    <span class="w-p20 taRight  rpadding-5">Revenue</span>
                     <span class="w-p20 taRight rpadding-5"> Income</span>
                 </div>
                 <!-- ko foreach: incomeList -->
                 <div class="orderitem">
                     <div class="orderitem-cnt">
                         <span class="taLeft w-p15" data-bind="text: year"></span>
-                        <span class="taLeft w-p15" data-bind="text: week"></span>
-                        <span class="taRight w-p25 rpadding-5" data-bind="text: $root.formatPrice(cost)"></span>
-                        <span class="taRight w-p25 rpadding-5" data-bind="text: $root.formatPrice(revenue)"></span>
+                        <span class="taLeft w-p10" data-bind="text: week"></span>
+                        <span class="taLeft w-p15">
+                            <!-- ko if: ($index() + 1) != ($root.incomeList().length) -->
+
+                                <i data-bind="text: firstDate"></i> -
+                                <i data-bind="text: lastDate"></i>
+                            <!-- /ko -->
+
+                            <!-- ko if: ($index() + 1) == $root.incomeList().length -->
+                                <i>总共:</i>
+                            <!-- /ko -->
+                         </span>
+                        <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(cost)"></span>
+                        <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(revenue)"></span>
                         <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(income)"></span>
                     </div>
                 </div>
                 <!-- /ko -->
             </div>
         </section>
-
     </div>
 </div>
 <div class="taCenter">
-<div class="box-mynote taLeft tmargin-10">
-<p>我是薇爸, 我的生活就是：</p>
-<code><pre>
+    <div class="box-mynote taLeft tmargin-10">
+        <p>我是薇爸, 我的生活就是：</p>
+        <code><pre>
 for (var i = 0; i < Infinity; i++) {
     //TODO:采购;
     背货;
@@ -263,8 +270,8 @@ for (var i = 0; i < Infinity; i++) {
 }
 </pre>
 </code>
-</div>
     </div>
+</div>
 <div class="prompt">
     <span class="prompt-submitting"><i class="fa fa-spinner fa-pulse"></i> <span>Submit...</span></span>
     <span class="prompt-succeed disappeared icon icon-peace"> Succeed!</span>
