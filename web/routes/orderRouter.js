@@ -9,7 +9,7 @@ var dateFormatting = {
     weekday: "short"
 };
 
-const RATE = 0.87;
+const RATE = 0.88;
 
 
 const RECEIVED = '1RECEIVED'
@@ -245,7 +245,7 @@ router.get('/ordersByName', function*() {
         order.rate = order.rate ? order.rate : RATE;
 
         //util.sumarizeOrder(order);
-
+        order.displayDate = order.createDate ? new Date(order.createDate).toLocaleDateString("en-US", dateFormatting) : '';
         if (Array.isArray(order.addresses) && order.addresses.length > 0);
         else {
 

@@ -180,8 +180,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             arguments[3]();
             var succeed = arguments[4];
 
+
+
             var orders = self.orders();
-            var ordersData = ko.mapping.toJS(orders); //$.parseJSON(ko.toJSON(order));
+            //var ordersData = ko.mapping.toJS(orders); //$.parseJSON(ko.toJSON(order));
+            var ordersData = $.parseJSON(ko.toJSON(orders))
 
             if (Array.isArray(ordersData) && ordersData.length > 0) {
 
@@ -221,8 +224,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                             rs.forEach(function(newOrder, index) {
                                 var orderIndex = changedIndexs[index];
 
-                                if($.isArray(newOrder.items) && newOrder.items.length==0){
-                                    newOrder.items=[{},{},{}];
+                                if ($.isArray(newOrder.items) && newOrder.items.length == 0) {
+                                    newOrder.items = [{}, {}, {}];
                                 }
 
                                 ko.mapping.fromJS(newOrder, {
@@ -234,7 +237,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                                     }
                                 }, orders[orderIndex]);
 
-                                orders[orderIndex].isChanged=false;
+                                orders[orderIndex].isChanged = false;
 
 
 
@@ -249,6 +252,10 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     succeed();
                 }
             }
+
+
+
+
 
             return false;
 

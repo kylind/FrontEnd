@@ -77,22 +77,33 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
                 } else if ($target.hasClass('action-submit')) {
 
-                    handler(bindingContext.$data, bindingContext.$parent, event, function() {
-                        $submitting.children('span').text("Submitting...");
-                        var offset = $target.offset();
-                        $('.prompt').css('top', offset.top).show();
+                    setTimeout(function() {
 
-                    }, function() {
+                        handler(bindingContext.$data, bindingContext.$parent, event, function() {
+                            $submitting.children('span').text("Submitting...");
+                            var offset = $target.offset();
+                            $('.prompt').css('top', offset.top).show();
 
-                        $submitting.addClass('disappeared')
-                        $succeed.removeClass('disappeared')
+                        }, function() {
 
-                        $('.prompt').delay(600).fadeOut('slow', function() {
-                            $submitting.removeClass('disappeared')
-                            $succeed.addClass('disappeared')
+                            $submitting.addClass('disappeared')
+                            $succeed.removeClass('disappeared')
+
+
+                            $('.prompt').delay(1200).fadeOut('slow', function() {
+                                $submitting.removeClass('disappeared')
+                                $succeed.addClass('disappeared')
+
+                            });
+
+
+
                         });
 
-                    });
+
+                    }, 100);
+
+
 
                 } else if ($target.hasClass('action-load')) {
 
@@ -153,9 +164,9 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
                 case 3:
                     bulletName = 'Income';
                     break;
-               /* case 4:
-                    bulletName = 'Delivery';
-                    break;*/
+                    /* case 4:
+                         bulletName = 'Delivery';
+                         break;*/
             }
             return '<span class="' + className + '">' + bulletName + '</span>';
         }
@@ -177,7 +188,7 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
 
         $.getJSON('./purchaseItemsJson', function(rs, status) {
 
-            itemsModel = new ItemsModel(rs.items,rs.markedItems, swiper);
+            itemsModel = new ItemsModel(rs.items, rs.markedItems, swiper);
             ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
 
         });
@@ -202,13 +213,13 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
         // });
 
         $(document).on('keydown', function(event) {
-            if (event.keyCode == 13 && (swiper.activeIndex==0 || swiper.activeIndex==2)) {
+            if (event.keyCode == 13 && (swiper.activeIndex == 0 || swiper.activeIndex == 2)) {
                 //var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
                 $(document.activeElement).blur();
 
-                var targetPage= swiper.activeIndex==0?'receivedOrders':'reckoningOrders'
+                var targetPage = swiper.activeIndex == 0 ? 'receivedOrders' : 'reckoningOrders'
 
-                var $target = $('#'+ targetPage + ' .action-enter');
+                var $target = $('#' + targetPage + ' .action-enter');
                 setTimeout(function() {
                     $target.trigger('click')
                 }, 100);
@@ -232,7 +243,7 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
                     break;
                 case 1:
                     $.getJSON('./purchaseItemsJson', function(rs, status) {
-                        itemsModel.setItems(rs.items,rs.markedItems);
+                        itemsModel.setItems(rs.items, rs.markedItems);
                         swiper.update();
 
                     });
