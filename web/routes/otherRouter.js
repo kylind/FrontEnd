@@ -43,7 +43,7 @@ router.post('/user', function*() {
     }
 
 
-    this.body = rs;
+    this.body = user;
     this.status = 200;
 
 });

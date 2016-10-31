@@ -5,7 +5,7 @@ var util = require('./util.js').util;
 
 var dateFormatting = {
     month: "2-digit",
-    day: "numeric",
+    day: "2-digit",
     weekday: "short"
 };
 
@@ -290,6 +290,21 @@ router.get('/reckoningOrdersJson', function*() {
 router.get('/incomeList', function*() {
 
     var res = yield orderOperation.summarizeProfit();
+    var formatting = {
+        month: "2-digit",
+        day: "2-digit"
+    };
+    var total = { income: 0, revenue: 0, cost: 0, year: '', week: '', firstDate: '', lastDate: '' };
+    if (Array.isArray(res)) {
+        res.forEach(function(item) {
+            item.firstDate = item.firstDate ? new Date(item.firstDate).toLocaleDateString("en-US", formatting) : '';
+            item.lastDate = item.lastDate ? new Date(item.lastDate).toLocaleDateString("en-US", formatting) : '';
+            total.income += item.income;
+            total.revenue += item.revenue;
+            total.cost += item.cost;
+        });
+        res.push(total);
+    }
 
     yield this.render('incomeList', {
         profitList: res,
@@ -304,6 +319,25 @@ router.get('/incomeList', function*() {
 router.get('/incomeListJson', function*() {
 
     var res = yield orderOperation.summarizeProfit();
+    var formatting = {
+        month: "2-digit",
+        day: "2-digit"
+    }
+
+    var total = { income: 0, revenue: 0, cost: 0, year: '', week: '', firstDate: '', lastDate: '' };
+    if (Array.isArray(res)) {
+        res.forEach(function(item) {
+            item.firstDate = item.firstDate ? new Date(item.firstDate).toLocaleDateString("en-US", formatting) : '';
+            item.lastDate = item.lastDate ? new Date(item.lastDate).toLocaleDateString("en-US", formatting) : '';
+            total.income += item.income;
+            total.revenue += item.revenue;
+            total.cost += item.cost;
+
+
+        });
+
+        res.push(total);
+    }
 
     this.body = res;
     this.status = 200;
@@ -347,7 +381,7 @@ router.get('/historictrades', function*() {
 
     var res = yield orderOperation.getHistoricTrades(itemName);
 
-    var options = { year: "2-digit", month: "2-digit", day: "numeric" };
+    var options = { year: "2-digit", month: "2-digit", day: "2-digit" };
 
     res.forEach(function(item) {
         item.createDate = new Date(item.createDate).toLocaleDateString("en-US", options);
@@ -364,3 +398,6 @@ router.get('/historictrades', function*() {
 
 
 exports.router = router;
+
+
+var s = [{ "firstDate": "10/24", "lastDate": "10/30", "cost": 14393, "revenue": 18800, "income": 6278.09, "year": 2016, "week": 43 }, { "firstDate": "10/22", "lastDate": "10/23", "cost": 10378, "revenue": 12330, "income": 3322.8900000000003, "year": 2016, "week": 42 }, { "firstDate": "10/13", "lastDate": "10/16", "cost": 17834, "revenue": 22218, "income": 6702.419999999998, "year": 2016, "week": 41 }, { "firstDate": "10/06", "lastDate": "10/09", "cost": 12749, "revenue": 16157, "income": 5155.85, "year": 2016, "week": 40 }, { "firstDate": "09/26", "lastDate": "09/29", "cost": 646, "revenue": 732, "income": 169.98, "year": 2016, "week": 39 }, { "firstDate": "09/23", "lastDate": "09/25", "cost": 22526, "revenue": 28660, "income": 9062.38, "year": 2016, "week": 38 }, { "firstDate": "09/17", "lastDate": "09/17", "cost": 7015, "revenue": 8550, "income": 2352.95, "year": 2016, "week": 37 }, { "firstDate": "09/05", "lastDate": "09/11", "cost": 8559, "revenue": 10895, "income": 3449.070000000001, "year": 2016, "week": 36 }, { "firstDate": "08/29", "lastDate": "09/04", "cost": 27474, "revenue": 32276, "income": 8648.36, "year": 2016, "week": 35 }, { "firstDate": "08/28", "lastDate": "08/28", "cost": 10658, "revenue": 13690, "income": 3879.120000000001, "year": 2016, "week": 34 }, { "firstDate": "08/16", "lastDate": "08/21", "cost": 14136, "revenue": 17542, "income": 5233.4800000000005, "year": 2016, "week": 33 }, { "firstDate": "08/13", "lastDate": "08/14", "cost": 7254, "revenue": 9021, "income": 2782.5600000000004, "year": 2016, "week": 32 }, { "firstDate": "08/04", "lastDate": "08/07", "cost": 11258, "revenue": 14324, "income": 4754.699999999999, "year": 2016, "week": 31 }, { "income": 61791.85, "revenue": 205195, "cost": 164880, "year": "", "week": "", "firstDate": "", "lastDate": "" }]

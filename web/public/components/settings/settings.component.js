@@ -74,9 +74,6 @@ angular.module('settings').component('settings', {
         self.myClasses='';
 
 
-
-
-
         self.saveUser = function() {
 
             self.myClasses='isActive';
@@ -93,6 +90,7 @@ angular.module('settings').component('settings', {
                 },900)
 
             });
+            return false;
 
 
         }

@@ -1,7 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectID = require('mongodb').ObjectID;
-var url = 'mongodb://127.0.0.1:27017/orders';
+var url = 'mongodb://website:zombie.123@120.24.63.42:27017/orders';
 
 
 var collection = {
@@ -169,11 +169,26 @@ var collection = {
                     profit: 1,
                     createDate: 1,
                     localWeek: { $let: { vars: { localDate: { $add: ['$createDate', 28800000] } }, in : { $week: '$$localDate' } } },
-                    localYear: { $let: { vars: { localDate: { $add: ['$createDate', 28800000] } }, in : { $year: '$$localDate' } } }
+                    localYear: { $let: { vars: { localDate: { $add: ['$createDate', 28800000] } }, in : { $year: '$$localDate' } } },
+                    dayOfWeek: { $let: { vars: { localDate: { $add: ['$createDate', 28800000] } }, in : { $dayOfWeek: '$$localDate' } } }
                 }
-            }, {
+            },  {
+                $project: {
+                    _id: 0,
+                    client: 1,
+                    status: 1,
+                    buyPrice: 1,
+                    sellPrice: 1,
+                    profit: 1,
+                    createDate: 1,
+                    localWeek: {$cond:[{$eq:["$dayOfWeek",1]},{$subtract:["$localWeek",1]},'$localWeek']},
+                    localYear: 1
+                }
+            },{
                 $group: {
                     _id: { 'year': '$localYear', 'week': '$localWeek' },
+                    firstDate:{ '$first':'$createDate'},
+                    lastDate:{ '$last':'$createDate'},
                     cost: {
                         $sum: '$buyPrice'
 
@@ -187,7 +202,7 @@ var collection = {
                     }
                 }
             }, {
-                $project: { _id: 0, year: '$_id.year', week: '$_id.week', cost: 1, revenue: 1, income: 1 }
+                $project: { _id: 0, year: '$_id.year', week: '$_id.week',firstDate:'$firstDate',lastDate:'$lastDate', cost: 1, revenue: 1, income: 1 }
 
             }
 
