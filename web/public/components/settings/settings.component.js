@@ -46,9 +46,6 @@ angular.module('settings').directive('myValidation', function() {
 });
 
 
-
-
-
 angular.module('settings').component('settings', {
     templateUrl: '/components/settings/settings.template.html',
     controller: ['$scope','$resource', 'USER_ID', function($scope,$resource, id) {

@@ -30,5 +30,9 @@
     "koa-send": "^3.2.0",
     "mongodb": "^2.1.18",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.0.2"
   }
 }
