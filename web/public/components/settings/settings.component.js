@@ -48,19 +48,20 @@ angular.module('settings').directive('myValidation', function() {
 
 angular.module('settings').component('settings', {
     templateUrl: '/components/settings/settings.template.html',
-    controller: ['$scope','$resource', 'USER_ID', function($scope,$resource, id) {
+    controller: ['$scope', '$resource', 'USER_ID', function($scope, $resource, id) {
         var self = this;
-        var User = $resource('/user/:_id');
 
-        var user=User.get({ _id: id });
-        user.$promise.then(function(user) {
-/*            self._id = user._id;
-            self.rate = user.rate;
-            self.buyComputing = user.buyComputing;
-            self.sellComputing = user.sellComputing;*/
-            self.user=user;
+
+        self.findUser = function(id) {
+            var User = $resource('/user/:_id');
+            var user = User.get({ _id: id });
+            return user.$promise;
+        }
+
+        self.findUser(id).then(function(user) {
+            self.user = user;
             self.user.password = '';
-        })
+        });
 
 
         self.passwordConfirmation = '';
@@ -68,23 +69,23 @@ angular.module('settings').component('settings', {
         self.isLegalName = true;
         self.isLegalPassword = true;
         self.isConfirmed = true;
-        self.myClasses='';
+        self.myClasses = '';
 
 
         self.saveUser = function() {
 
-            self.myClasses='isActive';
+            self.myClasses = 'isActive';
 
-            user.$save().then(function(rs){
+            self.user.$save().then(function(rs) {
 
-                self.myClasses='isSuccess';
+                self.myClasses = 'isSuccess';
 
-                setTimeout(function(){
-                    $scope.$apply(function(){
-                        self.myClasses='';
+                setTimeout(function() {
+                    $scope.$apply(function() {
+                        self.myClasses = '';
                     });
 
-                },900)
+                }, 900)
 
             });
             return false;
