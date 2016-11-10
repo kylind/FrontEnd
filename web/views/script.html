@@ -1,11 +1,30 @@
 
 
-<% if(script && script == 'mvvm'){ %>
+<% if(name && name == 'mvvm'){ %>
 
     <script src="/js/jquery-2.2.3.min.js"></script>
-
     <script src="/js/knockout-3.4.0.js"></script>
     <script src="/js/knockout.mapping.2.4.1.js"></script>
 
+<% else if (name == 'settings' %>
+
+
+    <script>
+    var USER_ID = '<%- _id %>';
+    </script>
+
+    <script src="/js/jquery-2.2.3.min.js"></script>
+    <script src="/components/angular/angular.js"></script>
+    <script src="/components/angular-resource/angular-resource.js"></script>
+    <script src="/components/angular-animate/angular-animate.js"></script>
+    <script src="/components/settings/settings.module.js"></script>
+    <script src="/components/settings/settings.component.js"></script>
+
+    <!-- bower:js -->
+    <!-- endinject -->
+
+
+    <!-- settings:js -->
+    <!-- endinject -->
 
 <% } %>

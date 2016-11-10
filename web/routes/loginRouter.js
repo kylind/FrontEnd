@@ -11,7 +11,7 @@ router.get('/', function*() {
     } else {
 
         yield this.render('login', {
-            script: '',
+            name: '',
             css: '',
             header: 'specific',
             footer: ''
@@ -29,7 +29,7 @@ router.get('/login', function*() {
     } else {
 
         yield this.render('login', {
-            script: '',
+            name: '',
             css: '',
             header: 'specific',
             footer: ''

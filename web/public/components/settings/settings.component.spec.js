@@ -1,15 +1,17 @@
 describe('Settings controller', function() {
-    var $injector, settings;
+    var $injector, settings, scope, deferred;
 
-    beforeEach(function(done) {
-        angular.module('settings');
-        angular.module('ngMock');
-        $injector = angular.injector(['ng', 'ngMock', 'settings']);
+    beforeEach(function() {
+        module('settings');
 
-        $injector.invoke(function($componentController) {
+        inject(function($componentController, $q, $rootScope,userService) {
 
-            settings = $componentController('settings');
-            done();
+            deferred = $q.defer();
+            spyOn(userService, 'findUser').and.returnValue(deferred.promise);
+
+            settings = $componentController('settings',{userService: userService});
+
+            scope = $rootScope.$new();
 
         });
 
@@ -20,20 +22,15 @@ describe('Settings controller', function() {
         expect(settings.saved).toBeFalsy();
     });
 
-    it('should find user by id', function(done) {
+    it('should find user by id', function() {
 
-        var promise=settings.findUser('57a94cff8bcabf9155df7afb');
+        deferred.resolve({ name: 'yolanda' })
 
-        promise.then(function(user){
-            expect(user._id).toBe('57a94cff8bcabf9155df7afb');
-            expect(user.name).toEqual('yolanda');
-            done();
+        scope.$apply();
 
-        })
+        expect(settings.user).toBeDefined();
+        expect(settings.user.name).toBe('yolanda');
 
-    }, 10000);
-
-
-
+    });
 
 });

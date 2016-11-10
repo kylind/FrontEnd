@@ -45,23 +45,20 @@ angular.module('settings').directive('myValidation', function() {
     }
 });
 
+angular.module('settings').service('userService', function($resource) {
+    this.findUser = function(id) {
+        var User = $resource('http://127.0.0.1:3000/user/:_id');
+        var user = User.get({ _id: id });
+        return user.$promise;
+    }
+
+});
+
 
 angular.module('settings').component('settings', {
     templateUrl: '/components/settings/settings.template.html',
-    controller: ['$scope', '$resource', 'USER_ID', function($scope, $resource, id) {
+    controller: ['$scope', 'userService', 'USER_ID', function($scope, userService, id) {
         var self = this;
-
-
-        self.findUser = function(id) {
-            var User = $resource('/user/:_id');
-            var user = User.get({ _id: id });
-            return user.$promise;
-        }
-
-        self.findUser(id).then(function(user) {
-            self.user = user;
-            self.user.password = '';
-        });
 
 
         self.passwordConfirmation = '';
@@ -70,6 +67,11 @@ angular.module('settings').component('settings', {
         self.isLegalPassword = true;
         self.isConfirmed = true;
         self.myClasses = '';
+
+        userService.findUser(id).then(function(user) {
+            self.user = user;
+            self.user.password = '';
+        });
 
 
         self.saveUser = function() {

@@ -7,7 +7,7 @@ router.get('/register', function*() {
 
     yield this.render('register', {
         css: '',
-        script: '',
+        name: '',
         header: '',
         footer: ''
 
@@ -21,7 +21,7 @@ router.get('/settings', function*() {
 
     yield this.render('settings', {
         css: '',
-        script: '',
+        name: 'settings',
         header: '',
         footer: '',
         _id: _id

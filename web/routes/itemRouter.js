@@ -18,7 +18,7 @@ router.get('/purchaseItems', function*() {
     yield this.render('purchaseItems', {
         items:{ items: items, markedItems: markedItems },
         css: '',
-        script: 'mvvm',
+        name: 'mvvm',
         header: 'specific',
         footer: ''
 
