@@ -1,23 +1,23 @@
 requirejs.config({
 
-    basicUrl: './js',
+    baseUrl: './components',
 
     paths: {
-        jquery: 'jquery-2.2.3.min',
-        'knockout': 'knockout-3.4.0',
-        'knockout.mapping': 'knockout.mapping.2.4.1',
-        'swiper': 'swiper.jquery.min'
+        jquery: 'jquery/dist/jquery.min',
+        'knockout': 'knockout/dist/knockout',
+        'knockout.mapping': '/js/knockout.mapping.2.4.1',
+        'swiper': 'Swiper/dist/js/swiper.jquery.min',
 
     },
     shim: {
-        'swiper': ['jquery']
+        'swiper': ['jquery'],
+        'knockout.mapping':['knockout']
     }
 
 });
 
 
-
-require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersModel, ko, $, Swiper) {
+require(['/js/received-orders.js', 'knockout', 'jquery', 'swiper'], function(OrdersModel, ko, $, Swiper) {
 
     var isTouch = ('ontouchstart' in document.documentElement) ? 'touchstart' : 'click';
     var _on = $.fn.on;
@@ -25,8 +25,6 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
         arguments[0] = (arguments[0] === 'click') ? isTouch : arguments[0];
         return _on.apply(this, arguments);
     };
-
-
 
     ko.bindingHandlers.tap = {
 
@@ -182,7 +180,7 @@ require(['received-orders', 'knockout', 'jquery', 'swiper'], function(OrdersMode
     });
 
 
-    require(['purchase-items', 'reckoning-orders', 'income-list', 'addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
+    require(['/js/purchase-items.js', '/js/reckoning-orders.js', '/js/income-list.js', '/js/addresses.js', 'knockout', 'jquery'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
 
         var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel;
 

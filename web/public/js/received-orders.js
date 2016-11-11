@@ -1,6 +1,6 @@
 define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
-    ko.mapping = mapping;
+    //ko.mapping = mapping;
 
 
     var Item = function(item) {

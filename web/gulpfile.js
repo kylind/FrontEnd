@@ -5,7 +5,8 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var filesize = require('gulp-filesize');
 const sourcemaps = require('gulp-sourcemaps');
-var inject=require('gulp-inject');
+var inject = require('gulp-inject');
+var uglifycss = require('gulp-uglifycss');
 
 const babel = require('gulp-babel');
 var Server = require('karma').Server;
@@ -18,23 +19,59 @@ gulp.task('test', function(done) {
 
 });
 
-gulp.task('clean', function (done) {
-  return gulp.src('dist', {read: false})
-    .pipe(clean());
+gulp.task('clean', function(done) {
+    return gulp.src('dist', { read: false })
+        .pipe(clean());
     done();
 });
 
-gulp.task('settings', function() {
-    gulp.src(['public/components/settings/*.module.js', 'public/components/settings/*.component.js'])
-        .pipe(sourcemaps.init())
-        .pipe(babel({presets:['babel-preset-es2015']}))
-        .pipe(concat('settings.min.js'))
-        .pipe(uglify())
-        .pipe(sourcemaps.write('.', {includeContent:true}))
-        .pipe(gulp.dest('dist/public/components'));
 
-    gulp.src(['public/components/settings/*.template.html'])
-        .pipe(sourcemaps.init())
-        .pipe(gulp.dest('dist/public/components'));
+
+gulp.task('components',['copy'], function() {
+
+    var components = ['settings', 'registration'];
+
+    components.forEach(function(name) {
+        gulp.src([`public/js/${name}/*.module.js`, `public/js/${name}/*.component.js`],{base:'./'})
+            .pipe(sourcemaps.init())
+            .pipe(babel({ presets: ['babel-preset-es2015'] }))
+            .pipe(concat(`${name}.min.js`))
+            .pipe(uglify())
+            .pipe(sourcemaps.write('.', { includeContent: true }))
+            .pipe(gulp.dest(`dist/public/js/${name}`));
+
+        gulp.src([`public/js/${name}/*.template.html`],{base:'./'})
+            .pipe(gulp.dest('dist'));
+
+    });
+
+
+});
+
+gulp.task('css',['clean'],function() {
+
+        gulp.src([`public/css/*.css`, `!public/css/font-awesome.css`],{base:'./'})
+            .pipe(concat(`public/css/all.min.js`))
+            .pipe(uglifycss())
+            .pipe(gulp.dest(`dist`));
+});
+
+gulp.task('js',['clean'], function() {
+
+
+        gulp.src([`public/js/${name}/*.module.js`, `public/js/${name}/*.component.js`],{base:'./'})
+            .pipe(sourcemaps.init())
+            .pipe(babel({ presets: ['babel-preset-es2015'] }))
+            .pipe(concat(`${name}.min.js`))
+            .pipe(uglify())
+            .pipe(sourcemaps.write('.', { includeContent: true }))
+            .pipe(gulp.dest(`dist/public/js/${name}`));
+
+
+});
+
+gulp.task('copy', ['clean'], function() {
+    gulp.src(['views/*.html', 'data_access/*.js', 'routes/*.js', 'public/fonts/*.*'], { base: './' })
+        .pipe(gulp.dest('dist'));
 
 });
