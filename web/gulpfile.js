@@ -51,7 +51,7 @@ gulp.task('components',['copy'], function() {
 gulp.task('css',['clean'],function() {
 
         gulp.src([`public/css/*.css`, `!public/css/font-awesome.css`],{base:'./'})
-            .pipe(concat(`public/css/all.min.js`))
+            .pipe(concat(`public/css/all.min.css`))
             .pipe(uglifycss())
             .pipe(gulp.dest(`dist`));
 });
@@ -59,13 +59,13 @@ gulp.task('css',['clean'],function() {
 gulp.task('js',['clean'], function() {
 
 
-        gulp.src([`public/js/${name}/*.module.js`, `public/js/${name}/*.component.js`],{base:'./'})
+        gulp.src([`public/js/*.js`, `!public/js/*.min.js`,`!public/js/main-*.js`,`public/js/knockout.mapping.2.4.1.min.js`],{base:'./'})
             .pipe(sourcemaps.init())
             .pipe(babel({ presets: ['babel-preset-es2015'] }))
-            .pipe(concat(`${name}.min.js`))
+            .pipe(concat(`all.min.js`))
             .pipe(uglify())
             .pipe(sourcemaps.write('.', { includeContent: true }))
-            .pipe(gulp.dest(`dist/public/js/${name}`));
+            .pipe(gulp.dest(`dist/public/js`));
 
 
 });
