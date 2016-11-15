@@ -20,6 +20,21 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             }
         }
 
+        self.toggleTotalView = function(data, parent, event) {
+
+            $(event.target).toggleClass('icon-eyeopen');
+
+
+            var $order = $(event.target).closest('.orderitem-cnt');
+
+            if ($(event.target).hasClass('icon-eyeopen')) {
+                $order.addClass("isShow");
+            } else {
+                $order.removeClass("isShow");
+            }
+
+        }
+
     }
     return IncomeListModel;
 })

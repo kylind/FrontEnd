@@ -229,20 +229,16 @@
                     <span class="w-p20 taRight rpadding-5"> Income</span>
                 </div>
                 <!-- ko foreach: incomeList -->
+                <!-- ko if: ($index() + 1) != ($root.incomeList().length) -->
                 <div class="orderitem">
                     <div class="orderitem-cnt">
                         <span class="taLeft w-p15" data-bind="text: year"></span>
                         <span class="taLeft w-p10" data-bind="text: week"></span>
                         <span class="taLeft w-p15">
-                            <!-- ko if: ($index() + 1) != ($root.incomeList().length) -->
 
                                 <i data-bind="text: firstDate"></i> -
                                 <i data-bind="text: lastDate"></i>
-                            <!-- /ko -->
 
-                            <!-- ko if: ($index() + 1) == $root.incomeList().length -->
-                                <i>总共:</i>
-                            <!-- /ko -->
                          </span>
                         <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(cost)"></span>
                         <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(revenue)"></span>
@@ -250,10 +246,22 @@
                     </div>
                 </div>
                 <!-- /ko -->
+                <!-- ko if: ($index() + 1) == $root.incomeList().length -->
+                <div class="orderitem">
+                    <div class="orderitem-cnt total">
+                        <span class="taRight w-p40  rpadding-5"><label class="vaMiddle">Check Out Total?</label><a class="icon icon-eyeslash vaMiddle" data-bind="tap: $root.toggleTotalView"></a></span>
+                        <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(cost)"></span>
+                        <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(revenue)"></span>
+                        <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(income)"></span>
+                    </div>
+                </div>
+                <!-- /ko -->
+                <!-- /ko -->
             </div>
         </section>
     </div>
 </div>
+<!--
 <div class="taCenter">
     <div class="box-mynote taLeft tmargin-10">
         <p>我是薇爸, 我的生活就是：</p>
@@ -272,6 +280,7 @@ for (var i = 0; i < Infinity; i++) {
 </code>
     </div>
 </div>
+    -->
 <div class="prompt">
     <span class="prompt-submitting"><i class="fa fa-spinner fa-pulse"></i> <span>Submit...</span></span>
     <span class="prompt-succeed disappeared icon icon-peace"> Succeed!</span>
