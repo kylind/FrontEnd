@@ -285,6 +285,10 @@ a.icon:before {}
     content: "\f070";
 }
 
+.icon-eyeopen:before {
+    content: "\f06e";
+}
+
 .icon-leaf:before {
     content: "\f06c";
 }
@@ -705,6 +709,12 @@ span.orderitem-cnt-btns {
 
 .orderitem-cnt span:last-child {
     border-right: none;
+}
+.orderitem-cnt.total > span:nth-child(n+2){
+    color:#ffcccc;
+}
+.orderitem-cnt.total.isShow > span:nth-child(n+2){
+    color:#333;
 }
 
 .orderitem-subItems {
