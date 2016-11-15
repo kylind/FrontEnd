@@ -421,6 +421,7 @@ button {
     background-color: #ffcccc;
     border-bottom: 1px solid #cc0066;
     font-size: 0;
+    height: 18px;
 }
 
 .order--received .order-client,
