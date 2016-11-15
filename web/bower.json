@@ -1,36 +1,54 @@
 {
-  "name": "easygoing",
-  "description": "this is for my wife's business, she is running HK purchasing agency, as the order quantity is going up, it becomes difficulty for her to handle each order manually, I hope easygoing can help her!",
-  "main": "index.js",
-  "authors": [
-    "Kylin Dai"
-  ],
-  "license": "MIT",
-  "keywords": [
-    "easygoing",
-    "hk",
-    "purchase",
-    "agency"
-  ],
-  "homepage": "https://github.com/kylind/FrontEnd",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "public/components",
-    "test",
-    "tests"
-  ],
-  "devDependencies": {
-    "angular": "^1.5.8",
-    "angular-resource": "^1.5.8",
-    "angular-animate": "^1.5.8",
-    "requirejs": "2.2.0"
-  },
-  "dependencies": {
-    "angular": "^1.5.8",
-    "angular-resource": "^1.5.8",
-    "angular-animate": "^1.5.8"
-  }
+    "name": "easygoing",
+    "description": "this is for my wife's business, she is running HK purchasing agency, as the order quantity is going up, it becomes difficulty for her to handle each order manually, I hope easygoing can help her!",
+    "main": "index.js",
+    "authors": [
+        "Kylin Dai"
+    ],
+    "license": "MIT",
+    "keywords": [
+        "easygoing",
+        "hk",
+        "purchase",
+        "agency"
+    ],
+    "homepage": "https://github.com/kylind/FrontEnd",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "public/components",
+        "test",
+        "tests"
+    ],
+    "devDependencies": {
+        "angular": "^1.5.8",
+        "angular-resource": "^1.5.8",
+        "angular-animate": "^1.5.8",
+        "requirejs": "2.2.0"
+    },
+    "dependencies": {
+        "requirejs": "^2.2.0",
+        "jquery":"^3.1.1",
+        "knockout":"^3.4.1",
+        "Swiper": "3.3.1",
+        "angular": "^1.5.8",
+        "angular-resource": "^1.5.8",
+        "angular-animate": "^1.5.8"
+    },
+    "overrides": {
+        "angular": {
+            "main": "angular.min.js"
+        },
+
+        "requirejs": {
+            "main": "require.min.js"
+
+        }
+    },
+    "group": {
+        "settings": ["angular", "angular-resource", "angular-animate"],
+        "index": ["requirejs"]
+    }
 }
