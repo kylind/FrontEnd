@@ -357,6 +357,7 @@ input[type="text"].postage {
 .order--reckoning input.client {
     text-align: center;
     background-color: #ffcccc;
+    height: 18px;
 }
 
 button {
@@ -421,7 +422,8 @@ button {
     background-color: #ffcccc;
     border-bottom: 1px solid #cc0066;
     font-size: 0;
-    height: 18px;
+    height: 19px;
+    box-sizing: border-box;
 }
 
 .order--received .order-client,
