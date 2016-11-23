@@ -48,7 +48,8 @@
         }
     },
     "group": {
-        "settings": ["angular", "angular-resource", "angular-animate"],
-        "index": ["requirejs"]
+        "common": ["jquery", "knockout"],
+        "angular": ["angular", "angular-resource", "angular-animate"],
+        "require": ["requirejs"]
     }
 }

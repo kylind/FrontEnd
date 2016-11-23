@@ -1,0 +1,91 @@
+
+
+<% if(name && name == 'receivedOrders'){ %>
+
+
+
+
+    <!-- receivedOrders:js -->
+    <script src="/components/jquery/dist/jquery.js"></script>
+    <script src="/components/knockout/dist/knockout.js"></script>
+    <script src="/js/common.min.js"></script>
+    <script src="/js/receivedOrders.js"></script>
+    <!-- endinject -->
+
+
+<% }else if (name == 'common') {%>
+
+
+
+
+
+    <!-- common:js -->
+    <script src="/components/jquery/dist/jquery.js"></script>
+    <script src="/components/knockout/dist/knockout.js"></script>
+    <script src="/js/common.min.js"></script>
+    <!-- endinject -->
+
+
+<% }else if (name == 'index') {%>
+
+
+<!--data-main="/js/main" -->
+
+    <!-- index:js -->
+    <script src="/components/requirejs/require.min.js"></script>
+    <!-- endinject -->
+    <script>
+        require(['js/main']);
+    </script>
+
+<% }else if (name == 'reckoning-orders') {%>
+<!--data-main="/js/main" -->
+
+    <!-- reckoning-orders:js -->
+    <script src="/components/requirejs/require.min.js"></script>
+    <!-- endinject -->
+    <script>
+        require(['js/main-reckoning']);
+    </script>
+
+<% }else if (name == 'settings') {%>
+
+
+    <script>
+    var USER_ID = '<%- _id %>';
+    </script>
+
+
+
+
+
+
+
+
+    <!-- settings:js -->
+    <script src="/components/angular/angular.min.js"></script>
+    <script src="/components/angular-resource/angular-resource.js"></script>
+    <script src="/components/angular-animate/angular-animate.js"></script>
+    <script src="/js/settings/settings.min.js"></script>
+    <!-- endinject -->
+<% }else if (name == 'registration') {%>
+
+
+    <script>
+    var USER_ID = '<%- _id %>';
+    </script>
+
+
+
+
+
+
+
+
+    <!-- registration:js -->
+    <script src="/components/angular/angular.min.js"></script>
+    <script src="/components/angular-resource/angular-resource.js"></script>
+    <script src="/components/angular-animate/angular-animate.js"></script>
+    <script src="/js/registration/registration.min.js"></script>
+    <!-- endinject -->
+<% } %>
