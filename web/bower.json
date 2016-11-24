@@ -45,6 +45,10 @@
         "requirejs": {
             "main": "require.min.js"
 
+        },
+        "jquery": {
+            "main": "dist/jquery.min.js"
+
         }
     },
     "group": {

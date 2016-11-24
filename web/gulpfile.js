@@ -10,6 +10,7 @@ var uglifycss = require('gulp-uglifycss');
 var bowerFiles = require('main-bower-files');
 var series = require('stream-series');
 var replace = require('gulp-replace');
+var gnf=require('gulp-npm-files');
 
 
 const babel = require('gulp-babel');
@@ -31,11 +32,11 @@ gulp.task('clean', function(done) {
 
 
 
-gulp.task('inject',function(done) { //['copy','commonjs','pagejs','bower-components','components'],
+gulp.task('inject',['clean', 'copy', 'commonjs', 'pagejs', 'css', 'bower-components', 'components'],function(done) { //['copy','commonjs','pagejs','bower-components','components'],
 //['clean', 'copy', 'commonjs', 'pagejs', 'css', 'bower-components', 'components','inject']
     //component page
     var views = ['settings', 'registration'];
-    var stream = gulp.src(`dist/views/script.html`, { base: './' });
+    var stream = gulp.src(`views/script.html`, { base: './' });
 
     stream.pipe(replace(/[ ]*<script.+<\/script>[ ]*/img,''));
     views.forEach(function(name) {
@@ -68,7 +69,7 @@ gulp.task('inject',function(done) { //['copy','commonjs','pagejs','bower-compone
     var appStream = gulp.src(`dist/public/js/common.min.js`, { read: false });
     stream.pipe(inject(series(bowerStream, appStream), { name: `common`, ignorePath: ['/dist/public', '/public'] }))
 
-    stream.pipe(gulp.dest('./'));
+    stream.pipe(gulp.dest('./dist'));
 
     done();
 
@@ -110,7 +111,7 @@ gulp.task('components', function(done) {
 
 gulp.task('commonjs', function(done) {
 
-    gulp.src(['public/js/knockout.mapping.2.4.1.min.js', 'public/js/common.js'], { base: './' })
+    gulp.src(['public/js/common.js'], { base: './' })
         .pipe(sourcemaps.init())
         .pipe(babel({ presets: ['babel-preset-es2015'] }))
         .pipe(concat(`common.min.js`))
@@ -123,7 +124,7 @@ gulp.task('commonjs', function(done) {
 
 gulp.task('pagejs', function(done) {
 
-    gulp.src([`public/js/*.js`, `!public/js/*.min.js`,`!public/js/common.js`], { base: './' })
+    gulp.src([`public/js/*.js`,`!public/js/!(knockout.mapping.2.4.1).min.js`,`!public/js/common.js`], { base: './' })
         .pipe(sourcemaps.init())
         .pipe(babel({ presets: ['babel-preset-es2015'] }))
         //.pipe(concat(`all.min.js`))
@@ -146,58 +147,16 @@ gulp.task('css', function(done) {
 });
 
 
-
-
 gulp.task('copy', ['clean'], function(done) {
-    gulp.src(['./app.js','./process.json','./package.json','views/*.html', 'data_access/*.js', 'routes/*.js', 'public/fonts/*.*' , 'node_modules/**/*.*'], { base: './' })
+    gulp.src(['./app.js','./process.json','./package.json','views/*.html','!views/script.html', 'data_access/*.js', 'routes/*.js', 'public/fonts/*.*'], { base: './' })
         .pipe(gulp.dest('dist'));
 
+   gulp.src(gnf(), {base:'./'}).pipe(gulp.dest('./dist'));
 
     done();
 
 });
 
-gulp.task('default', ['clean', 'copy', 'commonjs', 'pagejs', 'css', 'bower-components', 'components'],function(done){
-
-    var views = ['settings', 'registration'];
-    var stream = gulp.src(`dist/views/script.html`, { base: './' });
-
-    stream.pipe(replace(/[ ]*<script.+<\/script>[ ]*/img,''));
-    views.forEach(function(name) {
-        var bowerStream = gulp.src(bowerFiles({ group: 'angular' }), { read: false });
-        var appStream = gulp.src(`dist/public/js/${name}/${name}.min.js`, { read: false });
-        stream.pipe(inject(series(bowerStream, appStream), { name: `${name}`, ignorePath: ['/dist/public', '/public'] }))
-    });
-
-
-    //require page
-    var requiredViews = ['index', 'reckoning-orders'];
-    requiredViews.forEach(function(name) {
-        var bowerStream = gulp.src(bowerFiles({ group: `require` }), { read: false });
-        stream.pipe(inject(bowerStream, { name: `${name}`, ignorePath: ['/dist/public', '/public'] }))
-    });
-
-
-    //common page with customized script
-    var mvvmViews = ['receivedOrders'];
-    mvvmViews.forEach(function(name) {
-        var bowerStream = gulp.src(bowerFiles({ group: `common` }), { read: false });
-        var appStream = gulp.src([`dist/public/js/common.min.js`,`dist/public/js/${name}.js`], { read: false });
-        stream.pipe(inject(series(bowerStream, appStream), { name: `${name}`, ignorePath: ['/dist/public', '/public'] }))
-    });
-    stream.pipe(gulp.dest('./'));
-
-    //common page  without customized script
-
-    var bowerStream = gulp.src(bowerFiles({ group: `common` }), { read: false });
-    var appStream = gulp.src(`dist/public/js/common.min.js`, { read: false });
-    stream.pipe(inject(series(bowerStream, appStream), { name: `common`, ignorePath: ['/dist/public', '/public'] }))
-
-    stream.pipe(gulp.dest('./'));
-
-
-
-
+gulp.task('default', ['clean', 'copy', 'commonjs', 'pagejs', 'css', 'bower-components', 'components','inject'], function(done){
     done();
-
 });
