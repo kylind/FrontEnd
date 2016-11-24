@@ -48,7 +48,9 @@
         },
         "jquery": {
             "main": "dist/jquery.min.js"
-
+        },
+        "Swiper": {
+            "main": "dist/js/swiper.min.js"
         }
     },
     "group": {
