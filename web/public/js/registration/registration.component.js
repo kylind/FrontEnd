@@ -1,5 +1,5 @@
 angular.module('registration').component('registration', {
-    templateUrl: '/components/registration/registration.template.html',
+    templateUrl: '/js/registration/registration.template.html',
     controller: ['$resource', function($resource) {
 
         var User = $resource('/user/:_id');

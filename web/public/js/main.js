@@ -11,7 +11,7 @@ requirejs.config({
         'IncomeList': '/js/income-list',
         'Addresses': '/js/addresses',
         'ItemsModel':'/js/purchase-items',
-        'swiper': 'Swiper/dist/js/swiper.jquery.min'
+        'swiper': 'swiper/dist/js/swiper.jquery.min'
 
 
     },
@@ -40,7 +40,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
             $(element).on('click', function(event) {
 
-                $target = $(event.target);
+                var $target = $(event.target);
                 var $submitting = $('.prompt-submitting');
                 var $succeed = $('.prompt-succeed');
                 var $confirm = $('.confirm');

@@ -41,7 +41,7 @@ angular.module('settings').directive('myValidation', function() {
             comparingValue: '@?'
         },
         transclude: true,
-        templateUrl: "/components/settings/validation.template.html"
+        templateUrl: "/js/settings/validation.template.html"
     }
 });
 
@@ -56,7 +56,7 @@ angular.module('settings').service('userService', function($resource) {
 
 
 angular.module('settings').component('settings', {
-    templateUrl: '/components/settings/settings.template.html',
+    templateUrl: '/js/settings/settings.template.html',
     controller: ['$scope', 'userService', 'USER_ID', function($scope, userService, id) {
         var self = this;
 
@@ -98,5 +98,3 @@ angular.module('settings').component('settings', {
     }]
 });
 
-
-// <span>Hello, {{ $ctrl.name }}</span>
