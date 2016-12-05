@@ -11,13 +11,13 @@ requirejs.config({
         'IncomeList': '/js/income-list',
         'Addresses': '/js/addresses',
         'ItemsModel':'/js/purchase-items',
-        'swiper': 'swiper/dist/js/swiper.jquery.min'
-
-
+        'swiper': 'swiper/dist/js/swiper.jquery.min',
+        'colorbox':'jquery-colorbox/jquery.colorbox'
     },
     shim: {
         'swiper': ['jquery'],
-        'knockout.mapping':['knockout']
+        'knockout.mapping':['knockout'],
+        'colorbox':['jquery']
     }
 
 });
@@ -286,4 +286,18 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
     });
 
 
+    require(['jquery','colorbox'],function($, colorbox){
+
+        $('.icon-cog').colorbox({
+            iframe:true,
+            width:315,
+            height:500,
+            scrolling:false
+        })
+
+    })
+
+
 });
+
+

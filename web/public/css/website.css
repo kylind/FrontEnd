@@ -300,7 +300,9 @@ a.icon:before {}
 .icon-thumbsdown:before {
     content: "\f165";
 }
-
+.icon-cog:before {
+  content: "\f013";
+}
 input[type="text"],
 input[type="number"],
 input[type="password"] {
@@ -1237,4 +1239,12 @@ button.ispure {
 
 .progress.isSuccess > .progress-success {
     right: 0;
+}
+
+/*** colorbox ***/
+#colorbox{
+
+    z-index: 1000;
+    background-color: #fff;
+
 }
