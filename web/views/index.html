@@ -1,7 +1,11 @@
 
 
 <div class="swiper-container">
-    <div class="swiper-pagination"></div>
+    <div class='cogbox'>
+        <a href="./settings" class="icon icon-cog"></a>
+    </div>
+    <div class="swiper-pagination">
+    </div>
     <div class="swiper-wrapper">
         <section class="swiper-slide" id="receivedOrders">
             <div class="searchbox">
@@ -262,6 +266,7 @@
             </div>
         </section>
     </div>
+
 </div>
 <!--
 <div class="taCenter">
@@ -291,9 +296,7 @@ for (var i = 0; i < Infinity; i++) {
     <button type="button" class="confirm-submit taCenter ">Confirm</button>
     <button type="button" class="confirm-cancel taCenter lmargin-5">Cancel</button>
 </div>
-<div>
-<a href="./settings" class="icon icon-cog"></a>
-</div>
+
 <script>
 var orders = <%- JSON.stringify(orders) %>
 </script>

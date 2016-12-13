@@ -10,14 +10,14 @@ requirejs.config({
         'ReckoningOrders': '/js/reckoning-orders',
         'IncomeList': '/js/income-list',
         'Addresses': '/js/addresses',
-        'ItemsModel':'/js/purchase-items',
+        'ItemsModel': '/js/purchase-items',
         'swiper': 'swiper/dist/js/swiper.jquery.min',
-        'colorbox':'jquery-colorbox/jquery.colorbox'
+        'colorbox': 'jquery-colorbox/jquery.colorbox'
     },
     shim: {
         'swiper': ['jquery'],
-        'knockout.mapping':['knockout'],
-        'colorbox':['jquery']
+        'knockout.mapping': ['knockout'],
+        'colorbox': ['jquery']
     }
 
 });
@@ -286,18 +286,40 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
     });
 
 
-    require(['jquery','colorbox'],function($, colorbox){
+    require(['jquery', 'colorbox'], function($, colorbox) {
 
         $('.icon-cog').colorbox({
-            iframe:true,
-            width:315,
-            height:500,
-            scrolling:false
-        })
+            iframe: true,
+            width: 335,
+            height: 200,
+            scrolling: false,
+            close: '',
+            top:0
+        });
+
+        $(window).scroll(function() {
+            var top = $(window).scrollTop();
+            $(".cogbox").css("top", top + 10);
+
+        });
+
+        setInterval(function() {
+
+            var iframe = $('.cboxIframe')[0];
+
+            if (iframe) {
+                var doc = iframe.contentDocument || iframe.document;
+
+                var height = doc.body.clientHeight || doc.documentElement.scrollHeight;
+
+                $.colorbox.resize({ height: height });
+            }
+
+
+        }, 200)
+
 
     })
 
 
 });
-
-

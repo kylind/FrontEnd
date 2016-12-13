@@ -221,7 +221,9 @@
     /*border-top: 10px solid #cc0066;*/
     z-index: 100;
     background-color: #fff;
+
 }
+
 
 .swiper-pagination.swiper-pagination-hidden {
     opacity: 0;
