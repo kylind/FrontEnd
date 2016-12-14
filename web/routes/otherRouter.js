@@ -7,7 +7,7 @@ router.get('/register', function*() {
 
     yield this.render('register', {
         css: '',
-        name: '',
+        name: 'registration',
         header: '',
         footer: ''
 

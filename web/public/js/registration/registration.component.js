@@ -9,9 +9,15 @@ angular.module('registration').component('registration', {
         self.password = '';
         self.passwordConfirmation = '';
         self.saved = false;
+        self.isOpen = false;
         self.isLegalName = true;
         self.isLegalPassword = true;
         self.isConfirmed = true;
+
+        self.registerToggle = function() {
+
+            self.isOpen = !self.isOpen;
+        }
 
         self.verifyName = function() {
             var regex = /^[a-zA-Z]{6,}$/;
