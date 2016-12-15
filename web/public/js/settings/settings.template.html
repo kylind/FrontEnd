@@ -1,10 +1,10 @@
 <div class="settings blank">
-    <h3 class="heading-16">Settings</h3>
+    <h3 class="heading-15">Settings</h3>
     <input type="hidden" ng-model="$ctrl.user._Id" />
     <span class="field tmargin-10">
     <label>Exchange Rate: </label>
     <input id="rate" type="text"  ng-model="$ctrl.user.rate" >
-    <my-validation  target-type="float" target-value="{{ $ctrl.user.rate }}">Require float value</my-validation>
+    <my-validation  target-type="float" target-value="{{ $ctrl.user.rate }}" on-validate="$ctrl.validate(targetName,targetValue,isLegal)">Require float value</my-validation>
     </span>
     <div class="tmargin-10">
         <span class="w-150 taRight rmargin-15 inline-block">Intelligent Computing </span>

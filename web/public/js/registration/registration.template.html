@@ -1,7 +1,9 @@
 <div class="registration blank" ng-show="!$ctrl.saved">
-    <h3 class="heading-16" ><a ng-click="$ctrl.registerToggle()">New user?</a></h3>
 
-    <div ng-show="$ctrl.isOpen">
+
+    <a class="font-b15 font-red" ng-click="$ctrl.registerToggle()" href="">New User?</a>
+
+    <div class="fieldsbox" ng-class="$ctrl.statusClass">
         <input class="tmargin-10" type="text" placeholder="Name" ng-model="$ctrl.name" ng-blur="$ctrl.verifyName()">
         <label class="warning" ng-show="!$ctrl.isLegalName">Require 6 letters at least</label>
         <input class="tmargin-10" type="password" placeholder="Password" ng-model="$ctrl.password" ng-blur="$ctrl.verifyPassword()">

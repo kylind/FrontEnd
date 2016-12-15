@@ -11,7 +11,7 @@ router.get('/', function*() {
     } else {
 
         yield this.render('login', {
-            name: '',
+            name: 'registration',
             css: '',
             header: 'specific',
             footer: ''

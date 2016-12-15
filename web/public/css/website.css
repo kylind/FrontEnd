@@ -154,6 +154,11 @@
     color: #ffcc00;
 }
 
+.font-b15{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
 html {
     font-family: helvetica, arial, "\5b8b\4f53", sans-serif;
     font-size: 10px;
@@ -884,13 +889,17 @@ span.orderitem-cnt-btns {
     /*text-align: center;*/
     position: absolute;
     top: 50%;
-    width: 360px;
+    width: 240px;
     box-sizing: border-box;
-    padding-left: 10px;
-    padding-right: 10px;
     left: 50%;
-    margin-left: -180px;
+    margin-left: -120px;
     margin-top: -115px;
+}
+
+.form-login  span{
+    /*text-align: center;*/
+
+    font-size:0;
 }
 
 .form-login button {
@@ -900,6 +909,24 @@ span.orderitem-cnt-btns {
     box-shadow: none;
 }
 
+.form-login .input-line{
+    width:104px;
+    box-sizing: border-box;
+}
+.registration .fieldsbox{
+    display: block;
+    height: 0;
+    transition: height 300ms linear;
+    overflow: hidden;
+
+
+}
+
+
+.registration .fieldsbox.isActive{
+    height: 160px;
+    border-top:1px solid #cc0066;
+}
 
 /*** prompt ***/
 
@@ -1066,18 +1093,18 @@ span.orderitem-cnt-btns {
 .box-registration {}
 
 .registration {
-    width: 200px;
+    width: 240px;
     display: inline-block;
     position: absolute;
     top: 50%;
-    margin-top: -50px;
+    margin-top: -80px;
     left: 50%;
-    margin-left: -100px;
+    margin-left: -120px;
     transition: all 300ms linear;
+    text-align: center;
 }
 
 .registration.ng-hide {
-    margin-top: -100px;
     opacity: 0;
 }
 
@@ -1085,7 +1112,7 @@ span.orderitem-cnt-btns {
     display: inline-block;
     position: absolute;
     top: 50%;
-    margin-top: -9px;
+    margin-top: -80px;
     left: 50%;
     margin-left: -217px;
     opacity: 0;
@@ -1106,9 +1133,10 @@ span.orderitem-cnt-btns {
     }
 }
 
-.heading-16 {
+.heading-15 {
     color: #cc0066;
     font-weight: bold;
+    font-size: 1.5rem;
     border-bottom: 1px solid #cc0066;
 }
 
@@ -1153,7 +1181,9 @@ button.ispure {
     height: 15px;
 }
 
-
+.form-register{
+    border-top: 1px solid #cc0066;
+}
 /**** settings ****/
 
 .w-150 {

@@ -15,8 +15,9 @@ angular.module('registration').component('registration', {
         self.isConfirmed = true;
 
         self.registerToggle = function() {
+            self.isOpen=!self.isOpen;
 
-            self.isOpen = !self.isOpen;
+            self.statusClass= self.isOpen?'isActive':'';
         }
 
         self.verifyName = function() {
@@ -33,8 +34,8 @@ angular.module('registration').component('registration', {
 
         self.saveUser = function() {
 
-            if (self.isLegalName && self.isConfirmed && self.isLegalPassword) {
-                var user = { name: self.name, password: self.password, status: '0NEW' };
+            if (self.isLegalName && self.isConfirmed && self.isLegalPassword && self.password!="") {
+                var user = { name: self.name, password: self.password, status: 'NEW', collection: self.name+"_orders" };
 
                 /*            User.save(null, user, function(rs){
                                 self.saved=true;

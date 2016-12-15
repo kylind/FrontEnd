@@ -27,6 +27,9 @@ angular.module('settings').directive('myValidation', function() {
 
                 }
 
+                scope.onValidate({targetName: scope.targetName, targetValue:scope.targetValue,isLegal:scope.isLegal})
+
+
             });
 
         },
@@ -36,9 +39,11 @@ angular.module('settings').directive('myValidation', function() {
 
         },
         scope: {
+            targetName:'@',
             targetType: '@',
             targetValue: '@',
-            comparingValue: '@?'
+            comparingValue: '@?',
+            onValidate:'&'
         },
         transclude: true,
         templateUrl: "/js/settings/validation.template.html"
@@ -62,11 +67,18 @@ angular.module('settings').component('settings', {
 
 
         self.passwordConfirmation = '';
-        self.saved = false;
-        self.isLegalName = true;
-        self.isLegalPassword = true;
-        self.isConfirmed = true;
+
         self.myClasses = '';
+
+        var ver
+        self.validate=function(name, value, isLegal){
+
+            self.isLegal=isLegal;
+
+
+        };
+
+
 
         userService.findUser(id).then(function(user) {
             self.user = user;

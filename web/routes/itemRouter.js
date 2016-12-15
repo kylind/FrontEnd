@@ -1,11 +1,19 @@
 var Router = require('koa-router');
 var ObjectID = require('mongodb').ObjectID;
 
-var itemOperation = require('../data_access/item.js').collection
+var Collection = require('../data_access/item.js').Collection
 
-
+var itemOperation;
 
 router = new Router();
+
+router.use(function*(next){
+
+    itemOperation = new Collection(this.req.user.collection);
+    yield next;
+
+})
+
 router.get('/purchaseItems', function*() {
 
     var items = yield itemOperation.queryItems();
