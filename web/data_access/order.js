@@ -8,7 +8,7 @@ var url = 'mongodb://127.0.0.1:27017/orders'; //'mongodb://website:zombie.123@12
 var Collection = function(_name) {
 
     return {
-        name:_name,
+
         insert: function(order) {
 
             return new Promise(function(resolve, reject) {
@@ -16,7 +16,7 @@ var Collection = function(_name) {
                 MongoClient.connect(url, function(err, db) {
 
                     if (db) {
-                        db.collection(this.name).insertOne(order, function(err, res) {
+                        db.collection(_name).insertOne(order, function(err, res) {
 
                             if (res) {
                                 resolve(res);
@@ -42,7 +42,7 @@ var Collection = function(_name) {
             var id = order._id;
             delete order._id;
 
-            var res = yield db.collection(this.name).replaceOne({
+            var res = yield db.collection(_name).replaceOne({
                 "_id": new ObjectID(id)
             }, order);
 
@@ -56,7 +56,7 @@ var Collection = function(_name) {
             var db = yield MongoClient.connect(url);
 
 
-            var res = yield db.collection(this.name).updateOne({
+            var res = yield db.collection(_name).updateOne({
                 "_id": new ObjectID(id)
             }, { $set: { "status": status } });
 
@@ -68,7 +68,7 @@ var Collection = function(_name) {
             var db = yield MongoClient.connect(url);
 
 
-            var res = yield db.collection(this.name).updateOne({
+            var res = yield db.collection(_name).updateOne({
                 "_id": new ObjectID(id)
             }, { $set: { "packingStatus": status } });
 
@@ -79,7 +79,7 @@ var Collection = function(_name) {
 
             var db = yield MongoClient.connect(url);
 
-            var res = yield db.collection(this.name).find({ status: '1RECEIVED' }).sort({ 'packingStatus': 1, 'createDate': -1 }).toArray();
+            var res = yield db.collection(_name).find({ status: '1RECEIVED' }).sort({ 'packingStatus': 1, 'createDate': -1 }).toArray();
 
             return res;
 
@@ -90,7 +90,7 @@ var Collection = function(_name) {
 
                 var db = yield MongoClient.connect(url);
 
-                var res = yield db.collection(this.name).find(filter).toArray();
+                var res = yield db.collection(_name).find(filter).toArray();
 
                 return res;
 
@@ -103,7 +103,7 @@ var Collection = function(_name) {
 
             var db = yield MongoClient.connect(url);
 
-            var res = yield db.collection(this.name).aggregate([{
+            var res = yield db.collection(_name).aggregate([{
                     $match: { $text: { $search: text } }
                 },
 
@@ -138,7 +138,7 @@ var Collection = function(_name) {
 
             var db = yield MongoClient.connect(url);
 
-            var res = yield db.collection(this.name).aggregate([{
+            var res = yield db.collection(_name).aggregate([{
                     $match: { $or: [{ status: '1RECEIVED' }, { status: '2SENT' }, { createDate: { $gt: startDate } }] }
                 },
 
@@ -161,7 +161,7 @@ var Collection = function(_name) {
 
             var db = yield MongoClient.connect(url);
 
-            var res = yield db.collection(this.name).aggregate([{
+            var res = yield db.collection(_name).aggregate([{
                     $match: { $or: [{ status: '3DONE' }, { status: '2SENT' }] }
                 }, {
                     $project: {
@@ -224,7 +224,7 @@ var Collection = function(_name) {
 
             var db = yield MongoClient.connect(url);
 
-            var res = yield db.collection(this.name).deleteOne({
+            var res = yield db.collection(_name).deleteOne({
                 '_id': new ObjectID(id)
             });
 
@@ -234,7 +234,7 @@ var Collection = function(_name) {
 
             var db = yield MongoClient.connect(url);
 
-            var res = yield db.collection(this.name).aggregate([{
+            var res = yield db.collection(_name).aggregate([{
 
                     $match: { $or: [{ status: '2SENT' }, { status: '3DONE' }], 'items.name': itemName }
 

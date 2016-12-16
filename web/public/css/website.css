@@ -154,7 +154,7 @@
     color: #ffcc00;
 }
 
-.font-b15{
+.font-b15 {
     font-size: 1.5rem;
     font-weight: bold;
 }
@@ -196,15 +196,13 @@ main,
     margin-right: auto;
 }
 
-main.main-bare{
-
-    margin-left:0;
-    margin-right:0;
+main.main-bare {
+    margin-left: 0;
+    margin-right: 0;
     width: 315px;
     min-width: 0;
-    padding:10px;
+    padding: 10px;
     background-color: #fff;
-
 }
 
 @media all and (max-width: 660px) {
@@ -215,8 +213,6 @@ main.main-bare{
         margin-left: 10px;
         margin-right: 10px;
     }
-
-
 }
 
 footer {
@@ -320,9 +316,11 @@ a.icon:before {}
 .icon-thumbsdown:before {
     content: "\f165";
 }
+
 .icon-cog:before {
-  content: "\f013";
+    content: "\f013";
 }
+
 input[type="text"],
 input[type="number"],
 input[type="password"] {
@@ -735,11 +733,13 @@ span.orderitem-cnt-btns {
 .orderitem-cnt span:last-child {
     border-right: none;
 }
-.orderitem-cnt.total > span:nth-child(n+2){
-    color:#ffcccc;
+
+.orderitem-cnt.total > span:nth-child(n+2) {
+    color: #ffcccc;
 }
-.orderitem-cnt.total.isShow > span:nth-child(n+2){
-    color:#333;
+
+.orderitem-cnt.total.isShow > span:nth-child(n+2) {
+    color: #333;
 }
 
 .orderitem-subItems {
@@ -896,10 +896,9 @@ span.orderitem-cnt-btns {
     margin-top: -115px;
 }
 
-.form-login  span{
+.form-login span {
     /*text-align: center;*/
-
-    font-size:0;
+    font-size: 0;
 }
 
 .form-login button {
@@ -909,24 +908,23 @@ span.orderitem-cnt-btns {
     box-shadow: none;
 }
 
-.form-login .input-line{
-    width:104px;
+.form-login .input-line {
+    width: 104px;
     box-sizing: border-box;
 }
-.registration .fieldsbox{
+
+.registration .fieldsbox {
     display: block;
     height: 0;
     transition: height 300ms linear;
     overflow: hidden;
-
-
 }
 
-
-.registration .fieldsbox.isActive{
+.registration .fieldsbox.isActive {
     height: 160px;
-    border-top:1px solid #cc0066;
+    border-top: 1px solid #cc0066;
 }
+
 
 /*** prompt ***/
 
@@ -962,20 +960,17 @@ span.orderitem-cnt-btns {
 
 .prompt-submitting.disappeared {
     left: -100px;
-
 }
 
 .prompt-succeed {
     color: #33CC00;
     right: 0;
-     z-index: 2;
+    z-index: 2;
     transition: right 300ms 0.3s;
 }
 
 .prompt-succeed.disappeared {
     right: -100px;
-
-
 }
 
 .fa {
@@ -1181,9 +1176,11 @@ button.ispure {
     height: 15px;
 }
 
-.form-register{
+.form-register {
     border-top: 1px solid #cc0066;
 }
+
+
 /**** settings ****/
 
 .w-150 {
@@ -1286,41 +1283,77 @@ button.ispure {
     right: 0;
 }
 
+
 /*** colorbox ***/
-.cogbox{
+
+.cogbox {
     position: absolute;
-    top:10px;
-    right:6px;
+    top: 10px;
+    right: 6px;
     z-index: 1001;
 }
-#colorbox{
 
+#colorbox {
     z-index: 1000;
     /*background-color: #fff;*/
     box-shadow: 10px 10px 10px #ffcccc;
-
 }
-.cboxIframe{
-    width:100%;
+
+.cboxIframe {
+    width: 100%;
     height: 100%;
 }
 
 #cboxClose {
-    border:none;
-    right:10px;
-    top:5px;
+    border: none;
+    right: 10px;
+    top: 5px;
     position: absolute;
-    width:auto;
+    width: auto;
     min-width: 0;
-
-
 }
-#cboxClose:before{
 
+#cboxClose:before {
     font-family: FontAwesome;
     display: inline-block;
     font-size: 1.5rem;
     line-height: 18px;
     font-weight: normal;
     content: "\f00d";
+}
+
+
+/**** print **/
+
+@media print {
+    .swiper-pagination {
+        display: none !important;
+    }
+    .cogbox {
+        display: none;
+    }
+    .searchbox {
+        display: none;
+    }
+    .box-viewselection {
+        display: none;
+    }
+    .orderitems {
+        border-color:  #000 !important;
+    }
+    .orderitem-cnt-btns > a {
+        display: none;
+    }
+    .orderitems-header {
+        background-color: #fff;
+        border-bottom: 1px solid #000 !important;
+
+    }
+    .orderitem {
+        background-color: #fff;
+        border-bottom: 1px solid #000;
+    }
+    .orderitem-cnt span {
+        border-right: 1px solid #000;
+    }
 }

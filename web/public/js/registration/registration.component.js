@@ -35,7 +35,7 @@ angular.module('registration').component('registration', {
         self.saveUser = function() {
 
             if (self.isLegalName && self.isConfirmed && self.isLegalPassword && self.password!="") {
-                var user = { name: self.name, password: self.password, status: 'NEW', collection: self.name+"_orders" };
+                var user = { name: self.name, password: self.password };
 
                 /*            User.save(null, user, function(rs){
                                 self.saved=true;

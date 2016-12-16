@@ -11,13 +11,11 @@ var Collection = function(_name) {
 
     return {
 
-        name: _name,
-
         queryItems: function*() {
 
             var db = yield MongoClient.connect(url);
 
-            var res = yield db.collection(this.name).aggregate([{
+            var res = yield db.collection(_name).aggregate([{
 
                     $match: {
                         status: '1RECEIVED'
@@ -70,7 +68,7 @@ var Collection = function(_name) {
 
             var db = yield MongoClient.connect(url);
 
-            var res = yield db.collection(this.name).aggregate([{
+            var res = yield db.collection(_name).aggregate([{
 
                     $match: {
                         status: '1RECEIVED'
@@ -116,7 +114,7 @@ var Collection = function(_name) {
             var db = yield MongoClient.connect(url);
 
 
-            var res = yield db.collection(this.name).updateMany({
+            var res = yield db.collection(_name).updateMany({
                 'items.name': itemName
 
             }, {
@@ -132,7 +130,7 @@ var Collection = function(_name) {
 
             var db = yield MongoClient.connect(url);
 
-            var res = yield db.collection(this.name).aggregate([{
+            var res = yield db.collection(_name).aggregate([{
 
                     $match: {
                         status: '1RECEIVED',
@@ -190,7 +188,7 @@ var Collection = function(_name) {
 
             var db = yield MongoClient.connect(url);
 
-            var res = yield db.collection(this.name).aggregate([{
+            var res = yield db.collection(_name).aggregate([{
 
                     $match: { status: '1RECEIVED', 'items.name': itemName }
 

@@ -16,7 +16,7 @@ angular.module('settings').directive('myValidation', function() {
                 switch (type) {
 
                     case 'float':
-                        scope.isLegal = value == '' ? true : floatRegex.test(value);
+                        scope.isLegal = floatRegex.test(value);
                         break;
                     case 'password':
                         scope.isLegal = value == '' ? true : passwordRegex.test(value);
@@ -70,15 +70,12 @@ angular.module('settings').component('settings', {
 
         self.myClasses = '';
 
-        var ver
+        var verifiedRS={};
         self.validate=function(name, value, isLegal){
 
-            self.isLegal=isLegal;
-
+            verifiedRS[name]=isLegal;
 
         };
-
-
 
         userService.findUser(id).then(function(user) {
             self.user = user;
@@ -88,23 +85,35 @@ angular.module('settings').component('settings', {
 
         self.saveUser = function() {
 
-            self.myClasses = 'isActive';
+            var isReady =true;
 
-            self.user.$save().then(function(rs) {
+            for(let prop in verifiedRS){
+                if(!verifiedRS[prop]){
+                    isReady=false;
+                    break;
+                }
+            }
 
-                self.myClasses = 'isSuccess';
+            if(isReady){
 
-                setTimeout(function() {
-                    $scope.$apply(function() {
-                        self.myClasses = '';
-                    });
+                self.myClasses = 'isActive';
 
-                }, 900)
+                self.user.$save().then(function(rs) {
 
-            });
+                    self.myClasses = 'isSuccess';
+
+                    setTimeout(function() {
+                        $scope.$apply(function() {
+                            self.myClasses = '';
+                        });
+
+                    }, 900)
+
+                });
+
+            }
+
             return false;
-
-
         }
 
     }]
