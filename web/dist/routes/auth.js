@@ -18,7 +18,7 @@ passport.deserializeUser(function(_id, done) {
 passport.use(new LocalStrategy(function(username, password, done) {
 
     operation.queryUser(username).then(function(user) {
-        if (user && user.password == password) {
+        if (user && user.password == password && user.status=='ACTIVE' ){
             done(null, user);
 
         } else {

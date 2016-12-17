@@ -4,7 +4,7 @@
     <span class="field tmargin-10">
     <label>Exchange Rate: </label>
     <input id="rate" type="text"  ng-model="$ctrl.user.rate" >
-    <my-validation  target-type="float" target-value="{{ $ctrl.user.rate }}">Require float value</my-validation>
+    <my-validation target-name='rate' target-type="float" target-value="{{ $ctrl.user.rate }}" on-validate="$ctrl.validate(targetName,targetValue,isLegal)">Require float value</my-validation>
     </span>
     <div class="tmargin-10">
         <span class="w-150 taRight rmargin-15 inline-block">Intelligent Computing </span>
@@ -17,12 +17,12 @@
     <label >Password: </label>
     <input type="password"  ng-model="$ctrl.user.password">
     </span>
-    <my-validation target-type="password" target-value="{{ $ctrl.user.password }}">Require 8 letters or numbers at least </my-validation>
+    <my-validation target-type="password" target-name='password' target-value="{{ $ctrl.user.password }}"  on-validate="$ctrl.validate(targetName,targetValue,isLegal)">Require 8 letters or numbers at least </my-validation>
     <span class=" field tmargin-10">
             <label  class="tmargin-10">Password Confirmation: </label>
     <input type="password"  ng-model="$ctrl.passwordConfirmation" >
     </span>
-    <my-validation target-type="password-confirm" target-value="{{ $ctrl.passwordConfirmation }}" comparing-value="{{ $ctrl.user.password }}">the input is not same with password</my-validation>
+    <my-validation target-type="password-confirm" target-name='passwordconfirm' target-value="{{ $ctrl.passwordConfirmation }}" comparing-value="{{ $ctrl.user.password }}"  on-validate="$ctrl.validate(targetName,targetValue,isLegal)">the input is not same with password</my-validation>
     <div class="taCenter tmargin-10">
         <button class="ispure" ng-click="$ctrl.saveUser()">Submit</button>
     </div>

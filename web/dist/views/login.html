@@ -1,15 +1,17 @@
 <form action="/login" method="post" class="form-login">
-    <div class="taCenter">
+    <div>
         <span>
-        <input class='input-line w-p30' type="text"  name="username" value="" placeholder="Name" />
+        <input class='input-line' type="text"  name="username" value="" placeholder="Name" />
     </span>
         <span>
-        <input class='input-line w-p30' type="password" name="password" value="" placeholder="Password" />
+        <input class='input-line lmargin-5' type="password" name="password" value="" placeholder="Password" />
     </span>
-        <span>
+        <span class="taRight">
     <button type="submit" class="icon icon-signin"></button>
     </span>
     </div>
+
+<!--
     <div class="taCenter">
         <div class="box-mynote taLeft tmargin-10">
             <p>我是薇爸, 我的生活就是：</p>
@@ -27,5 +29,14 @@ for (var i = 0; i < Infinity; i++) {
 </pre>
 </code>
         </div>
-    </div>
+    </div>-->
 </form>
+
+<div class="registrationbox">
+    <div ng-app="registration">
+
+        <registration></registration>
+
+
+    </div>
+</div>

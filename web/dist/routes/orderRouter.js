@@ -1,6 +1,6 @@
 var Router = require('koa-router');
 var ObjectID = require('mongodb').ObjectID;
-var orderOperation = require('../data_access/order.js').collection;
+var Collection = require('../data_access/order.js').Collection;
 var util = require('./util.js').util;
 
 var dateFormatting = {
@@ -9,7 +9,7 @@ var dateFormatting = {
     weekday: "short"
 };
 
-const RATE = 0.9;
+var RATE = 0.9;
 
 
 const RECEIVED = '1RECEIVED'
@@ -31,7 +31,17 @@ const EMPTY_ORDER = {
     status: RECEIVED
 }
 
+var orderOperation;
+
 router = new Router();
+
+router.use(function*(next){
+
+    orderOperation = new Collection(this.req.user.collection);
+    RATE=this.req.user.rate||0.9;
+    yield next
+
+})
 
 router.get('/order/:id', function*() {
     var res = null;

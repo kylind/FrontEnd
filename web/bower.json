@@ -36,7 +36,8 @@
     "swiper": "3.3.1",
     "angular": "^1.5.8",
     "angular-resource": "^1.5.8",
-    "angular-animate": "^1.5.8"
+    "angular-animate": "^1.5.8",
+    "jquery-colorbox": "colorbox#^1.6.4"
   },
   "overrides": {
     "jquery": {
@@ -44,6 +45,9 @@
     },
     "swiper": {
       "main": "dist/js/swiper.jquery.min.js"
+    },
+    "jquery-colorbox": {
+      "main":"jquery.colorbox-min.js"
     }
   },
   "group": {

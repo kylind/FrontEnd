@@ -12,7 +12,7 @@ requirejs.config({
         'Addresses': '/js/addresses',
         'ItemsModel': '/js/purchase-items',
         'swiper': 'swiper/dist/js/swiper.jquery.min',
-        'colorbox': 'jquery-colorbox/jquery.colorbox'
+        'colorbox': 'jquery-colorbox/jquery.colorbox-min'
     },
     shim: {
         'swiper': ['jquery'],
@@ -154,19 +154,19 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             switch (index) {
                 case 0:
 
-                    bulletName = 'Receiving';
+                    bulletName = '接单';
                     break;
 
                 case 1:
-                    bulletName = 'Purchase';
+                    bulletName = '采购';
                     break;
 
                 case 2:
-                    bulletName = 'Reckoning';
+                    bulletName = '算账';
                     break;
 
                 case 3:
-                    bulletName = 'Income';
+                    bulletName = '收益';
                     break;
                     /* case 4:
                          bulletName = 'Delivery';
