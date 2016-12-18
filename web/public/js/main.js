@@ -12,12 +12,23 @@ requirejs.config({
         'Addresses': '/js/addresses',
         'ItemsModel': '/js/purchase-items',
         'swiper': 'swiper/dist/js/swiper.jquery.min',
-        'colorbox': 'jquery-colorbox/jquery.colorbox-min'
+        'colorbox': 'jquery-colorbox/jquery.colorbox-min',
+        'angular':'angular/angular.min.js',
+        'angular-resource':'','angular-resource/angular-resource.min'
+        'angular-animate':'angular-animate/angular-animate.min',
+        'settings.component':'/js/settings/settings.component',
+        'settings.module':'/js/settings/settings.module',
+        'settings':'/js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
         'knockout.mapping': ['knockout'],
-        'colorbox': ['jquery']
+        'colorbox': ['jquery'],
+        'angular-resource':['angular'],
+        'angular-animate':['angular'],
+        'settings.component':['angular','angular-animate','angular-resource'],
+        'settings.module':['angular'],
+        'settings':['angular','angular-animate','angular-resource']
     }
 
 });
@@ -294,7 +305,25 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             height: 200,
             scrolling: false,
             close: '',
-            top:0
+            top: 0,
+            onComplete: function() {
+                setInterval(function() {
+
+                    var iframe = $('.cboxIframe')[0];
+
+                    if (iframe) {
+                        var doc = iframe.contentDocument || iframe.document;
+
+                        var height = Math.max(doc.body? doc.body.clientHeight: 0 , doc.documentElement.scrollHeight);
+
+                        height = height<200?200:height;
+
+                        $.colorbox.resize({ height: height });
+                    }
+
+
+                }, 200)
+            }
         });
 
         $(window).scroll(function() {
@@ -302,22 +331,6 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             $(".cogbox").css("top", top + 10);
 
         });
-
-        setInterval(function() {
-
-            var iframe = $('.cboxIframe')[0];
-
-            if (iframe) {
-                var doc = iframe.contentDocument || iframe.document;
-
-                var height = doc.body.clientHeight || doc.documentElement.scrollHeight;
-
-                $.colorbox.resize({ height: height });
-            }
-
-
-        }, 200)
-
 
     })
 

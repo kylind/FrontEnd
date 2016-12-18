@@ -52,7 +52,7 @@ angular.module('settings').directive('myValidation', function() {
 
 angular.module('settings').service('userService', function($resource) {
     this.findUser = function(id) {
-        var User = $resource('http://127.0.0.1:3000/user/:_id');
+        var User = $resource('/user/:_id');
         var user = User.get({ _id: id });
         return user.$promise;
     }

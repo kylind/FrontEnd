@@ -1,7 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectID = require('mongodb').ObjectID;
-var url = 'mongodb://website:zombie.123@120.24.63.42:27017/orders';
+var url = 'mongodb://127.0.0.1:27017/orders';
 
 
 var collection = {
@@ -63,6 +63,8 @@ var collection = {
 
     },
     queryUserById: function(_id) {
+
+        console.log('user id:' + _id);
 
         return new Promise(function(resolve, reject) {
 

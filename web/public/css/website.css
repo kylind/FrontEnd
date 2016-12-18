@@ -1351,7 +1351,7 @@ button.ispure {
 
 #colorbox {
     z-index: 1000;
-    /*background-color: #fff;*/
+    background-color: #fff;
     box-shadow: 10px 10px 10px #ffcccc;
 }
 

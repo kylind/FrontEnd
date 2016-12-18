@@ -48,6 +48,18 @@
     },
     "jquery-colorbox": {
       "main":"jquery.colorbox-min.js"
+    },
+    "angular":{
+      "main":"angular.min.js"
+    },
+    "angular-resource":{
+      "main":"angular-resource.min.js"
+    },
+    "angular-animate":{
+      "main":"angular-animate.min.js"
+    },
+    "requirejs":{
+      "main":"require.min.js"
     }
   },
   "group": {

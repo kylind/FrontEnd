@@ -380,6 +380,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 $orders.removeClass("isClientView");
             }
 
+            swiper.update();
+
 
         };
 
