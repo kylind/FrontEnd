@@ -13,22 +13,25 @@ requirejs.config({
         'ItemsModel': '/js/purchase-items',
         'swiper': 'swiper/dist/js/swiper.jquery.min',
         'colorbox': 'jquery-colorbox/jquery.colorbox-min',
-        'angular':'angular/angular.min.js',
-        'angular-resource':'','angular-resource/angular-resource.min'
-        'angular-animate':'angular-animate/angular-animate.min',
-        'settings.component':'/js/settings/settings.component',
-        'settings.module':'/js/settings/settings.module',
-        'settings':'/js/settings/settings.min'
+        'angular': 'angular/angular.min',
+        'ngResource': 'angular-resource/angular-resource.min',
+        'ngAnimate': 'angular-animate/angular-animate.min',
+        'settings.module': '/js/settings/settings.module',
+        'settings.component': '/js/settings/settings.component'
+            //'settings':'/js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
         'knockout.mapping': ['knockout'],
         'colorbox': ['jquery'],
-        'angular-resource':['angular'],
-        'angular-animate':['angular'],
-        'settings.component':['angular','angular-animate','angular-resource'],
-        'settings.module':['angular'],
-        'settings':['angular','angular-animate','angular-resource']
+
+        'angular': { exports: 'angular' },
+        'ngResource': { deps: ['angular'], exports: 'angular' },
+        'ngAnimate': { deps: ['angular'], exports: 'angular' },
+
+        'settings.module': ['angular', 'ngResource', 'ngAnimate'],
+        'settings.component': ['settings.module']
+            //'settings':['angular','angular-animate','angular-resource']
     }
 
 });
@@ -297,10 +300,12 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
     });
 
 
-    require(['jquery', 'colorbox'], function($, colorbox) {
+    require(['jquery', 'angular', 'settings.component','colorbox'], function($, angular) {
+
+        angular.bootstrap($('#settings')[0], ['settings']);
 
         $('.icon-cog').colorbox({
-            iframe: true,
+            inline: true,
             width: 335,
             height: 200,
             scrolling: false,
@@ -314,9 +319,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                     if (iframe) {
                         var doc = iframe.contentDocument || iframe.document;
 
-                        var height = Math.max(doc.body? doc.body.clientHeight: 0 , doc.documentElement.scrollHeight);
+                        var height = Math.max(doc.body ? doc.body.clientHeight : 0, doc.documentElement.scrollHeight);
 
-                        height = height<200?200:height;
+                        height = height < 200 ? 200 : height;
 
                         $.colorbox.resize({ height: height });
                     }
