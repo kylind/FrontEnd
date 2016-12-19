@@ -121,7 +121,7 @@ gulp.task('commonjs', function(done) {
         .pipe(babel({ presets: ['babel-preset-es2015'] }))
         .pipe(concat(`common.min.js`))
         .pipe(uglify())
-        .pipe(uglify({mangle:false}))
+        // .pipe(uglify({mangle:false}))
         .pipe(sourcemaps.write('.', { includeContent: true }))
         .pipe(gulp.dest(`dist/public/js`));
 
@@ -134,8 +134,8 @@ gulp.task('pagejs', function(done) {
         .pipe(sourcemaps.init())
         .pipe(babel({ presets: ['babel-preset-es2015'] }))
         //.pipe(concat(`all.min.js`))
-/*        .pipe(uglify())
-        .pipe(uglify({mangle:false}))*/
+       .pipe(uglify())
+        /* .pipe(uglify({mangle:false}))*/
         .pipe(sourcemaps.write('.', { includeContent: true }))
         .pipe(gulp.dest(`dist`));
 
