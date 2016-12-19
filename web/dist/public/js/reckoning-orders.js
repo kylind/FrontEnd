@@ -1,2 +1,553 @@
-"use strict";define(["jquery","knockout","knockout.mapping"],function(e,t,s){t.mapping=s;var r=function(e){var s=this;s.name=t.observable(e&&e.name?e.name:""),s.quantity=t.observable(e&&e.quantity?e.quantity:"1"),s.buyPrice=t.observable(e&&!isNaN(e.buyPrice)?e.buyPrice:""),s.sellPrice=t.observable(e&&!isNaN(e.sellPrice)?e.sellPrice:""),s.profit=e&&e.profit?e.profit:"",s.note=e&&e.note?e.note:"",s.isDone=!(!e||!e.isDone)&&e.isDone,s.historicTrades=t.observableArray([]),s.isHistoricTradesOpen=!1,s.isChanged=!1,s.name.subscribe(function(e){s.isChanged=!0}),s.quantity.subscribe(function(e){s.isChanged=!0}),s.buyPrice.subscribe(function(e){s.isChanged=!0}),s.sellPrice.subscribe(function(e){s.isChanged=!0})},i=function(s,i){var n=this;n._id=t.observable(s?s._id:""),n.client=t.observable(s?s.client:""),n.postage=t.observable(s&&s.postage?s.postage:0);var a=[];if(s&&e.isArray(s.items)&&s.items.length>0)s.items.forEach(function(e){a.push(new r(e))});else for(var o=0;o<3;o++)a.push(new r);n.isChanged=!1,n.items=t.observableArray(a),n.items.subscribe(function(e){n.isChanged=!0}),n.client.subscribe(function(e){n.isChanged=!0}),n.postage.subscribe(function(e){n.isChanged=!0}),n.createDate=t.observable(s?s.createDate:""),n.displayDate=t.observable(s?s.displayDate:""),n.rate=s?s.rate:"",n.buyPrice=t.observable(s&&s.buyPrice?s.buyPrice:""),n.sellPrice=t.observable(s&&s.sellPrice?s.sellPrice:""),n.profit=t.observable(s&&s.profit?s.profit:""),n.isComplete=t.observable(!(!s||!s.isComplete)&&s.isComplete),n.formatPrice=function(e){if(!e)return"?";var t=e();return t?(+t).toFixed(1):"?"},n.total=t.pureComputed(function(){var e=parseFloat(this.sellPrice()),t=parseFloat(this.postage());return isNaN(e)||isNaN(t)?"?":(e+t).toFixed(1)},n);n.status=t.observable(s?s.status:"1RECEIVED"),n.packingStatus=s?s.packingStatus:"1ISREADY",n.orderStatus=t.pureComputed(function(){return"3DONE"==n.status()?"font-green":"2SENT"==n.status()?"font-yellow":void 0}),n.getHistoricTrades=function(s,r,n){var a=t.mapping.toJS(s),o=e(n.target).closest(".item").find(".historicbox");if(s.isHistoricTradesOpen)o.slideUp("fast",function(){s.isHistoricTradesOpen=!1,i.update()});else{var u=arguments[4];if(""==a.name)return;arguments[3](),e.getJSON("./historictrades",{itemName:a.name},function(e,t){"success"==t?s.historicTrades(e):s.historicTrades([]),o.slideDown("fast",function(){s.isHistoricTradesOpen=!0,u(),i.update()})})}},n.hasHistoricTrades=function(e){return e.historicTrades().length>0},n.addItem=function(){n.items.unshift(new r),i.update()},n.removeItem=function(e){n.items.remove(e),i.update()},n.addAddress=function(e){n.addresses.unshift({_id:"",client:n.client(),recipient:"",address:"",phone:""}),i.update()},n.getAddresses=function(t){arguments[3]();var s=arguments[4],r=t.client();""!=r&&e.getJSON("./addressesByClient",{client:r},function(e,r){"success"==r?t.addresses(e):t.addresses([]),i.update(),s()})};var u=[];n.removeAddress=function(e){""!=e._id&&u.push(e._id),n.addresses.remove(e),i.update()},n.submitAddresses=function(s){arguments[3]();var r=arguments[4],n=t.mapping.toJS(s.addresses);return e.post("./addresses",{client:s.client,addresses:n},function(e,t){s.addresses(e),i.update(),r()},"json"),!1},n.markDone=function(){arguments[3]();var t=arguments[4],s=arguments[1],r=n._id(),a=n.status(),o="1RECEIVED";"1RECEIVED"==a?o="2SENT":"2SENT"==a&&(o="3DONE"),e.ajax("./orderStatus/"+r,{success:function(e,r){n.status(o),"3DONE"==o||"3DONE"==a&&s.addExistingOrder(n),t(),i.update()},data:{status:o},dataType:"json",type:"PUT"})},n.submitOrder=function(s){arguments[3]();var r=(arguments[4],e.parseJSON(t.toJSON(s)));return e.post("./order",r,function(e,r){e.items.forEach(function(e){e.historicTrades=[]}),console.log("get post result"),t.mapping.fromJS(e,{},s)},"json"),!1}},n=function(s,n){function a(e){var t=s.filter(function(t){return t.client().indexOf(e)>=0});u.orders(t),setTimeout(function(){n.update()},100)}function o(t){l=t;var s=setTimeout(function(){for(var t=1;t<c.length;t++)clearTimeout(c[t]);c=[],""!=l&&e.ajax("./ordersByName",{data:{client:l},type:"GET",success:function(e,t){u.orders(u.getObservableOrders(e)),setTimeout(function(){n.update()},100)},dataType:"json"}),console.log("i am searching "+l)},1e3);c.push(s)}var u=this;u.getObservableOrders=function(e){var t=[];return e.forEach(function(e){t.push(new i(e,n))}),t};var d=u.getObservableOrders(s);u.orders=t.observableArray(d),u.toggleClientView=function(t,s,r){e(r.target).toggleClass("icon-eyeslash");var i=e(".orders--reckoning");e(r.target).hasClass("icon-eyeslash")?i.addClass("isClientView"):i.removeClass("isClientView"),n.update()},u.submitOrders=function(){arguments[3]();var s=arguments[4],i=u.orders(),n=e.parseJSON(t.toJSON(i));if(Array.isArray(n)&&n.length>0){var a=[],o=n.filter(function(e,t){var s=!1;if(e.isChanged)s=!0;else for(var r=0;r<e.items.length;r++)if(e.items[r].isChanged){s=!0;break}return s&&a.push(t),s});o.length>0?e.post("/orders",{orders:o},function(n,o){n.forEach(function(s,n){var o=a[n];e.isArray(s.items)&&0==s.items.length&&(s.items=[{},{},{}]),s.items.forEach(function(e){e.historicTrades=[]}),t.mapping.fromJS(s,{items:{create:function(e){return new r(e.data)}}},i[o]),i[o].isChanged=!1}),s()},"json"):s()}return!1},u.addOrder=function(){var t=new i(null,n);u.orders.unshift(t),n.update(),e(window).scrollTop(0)},u.addExistingOrder=function(e){if(null!=s){var t=s.find(function(t){return t._id==e._id});t||s.unshift(e)}},u.removeDoneOrder=function(e){var t=e._id();if(null!=s){var r=s.filter(function(e){return e._id()!=t});s=r}u.orders.remove(e)},u.removeOrder=function(t){arguments[3]();var s=arguments[4],r=t._id();return u.orders.remove(t),""==r?(s(),void n.update()):(e.ajax("./order/"+r,{success:function(e,t){s()},dataType:"json",type:"DELETE"}),void n.update())};var s=null;u.searchOrders=function(t,r){null==s&&(s=u.orders());var i=e(r.target).val(),d=/(\s*)([\u4E00-\u9FA5\uF900-\uFA2D\w]+[\u4E00-\u9FA5\uF900-\uFA2D\w ]*)/,c=i.match(d);null!=c?""==c[1]?a(c[2]):o(c[2]):null!=s&&(l="",u.orders(s),setTimeout(function(){n.update()},100))};var c=[],l=""};return n});
+'use strict';
+
+define(['jquery', 'knockout', 'knockout.mapping'], function ($, ko, mapping) {
+
+    ko.mapping = mapping;
+
+    var Item = function Item(item) {
+        var self = this;
+
+        self.name = ko.observable(item && item.name ? item.name : '');
+        self.quantity = ko.observable(item && item.quantity ? item.quantity : '1');
+        self.buyPrice = ko.observable(item && !isNaN(item.buyPrice) ? item.buyPrice : '');
+        self.sellPrice = ko.observable(item && !isNaN(item.sellPrice) ? item.sellPrice : '');
+        self.profit = item && item.profit ? item.profit : '';
+        self.note = item && item.note ? item.note : '';
+        self.isDone = item && item.isDone ? item.isDone : false;
+        self.historicTrades = ko.observableArray([]);
+
+        self.isHistoricTradesOpen = false;
+
+        self.isChanged = false;
+
+        self.name.subscribe(function (newValue) {
+            self.isChanged = true;
+        });
+        self.quantity.subscribe(function (newValue) {
+            self.isChanged = true;
+        });
+        self.buyPrice.subscribe(function (newVal) {
+            self.isChanged = true;
+        });
+        self.sellPrice.subscribe(function (newVal) {
+            self.isChanged = true;
+        });
+    };
+
+    var OrderModel = function OrderModel(order, swiper) {
+        var self = this;
+
+        self._id = ko.observable(order ? order._id : '');
+        self.client = ko.observable(order ? order.client : '');
+        self.postage = ko.observable(order && order.postage ? order.postage : 0);
+
+        var observableItems = [];
+
+        if (order && $.isArray(order.items) && order.items.length > 0) {
+            order.items.forEach(function (item) {
+                observableItems.push(new Item(item));
+            });
+        } else {
+            for (var i = 0; i < 3; i++) {
+                observableItems.push(new Item());
+            }
+        }
+
+        self.isChanged = false;
+
+        self.items = ko.observableArray(observableItems);
+
+        self.items.subscribe(function (newValue) {
+            self.isChanged = true;
+        });
+        self.client.subscribe(function (newValue) {
+
+            self.isChanged = true;
+        });
+        self.postage.subscribe(function (newValue) {
+            self.isChanged = true;
+        });
+
+        self.createDate = ko.observable(order ? order.createDate : '');
+        self.displayDate = ko.observable(order ? order.displayDate : '');
+
+        self.rate = order ? order.rate : '';
+
+        self.buyPrice = ko.observable(order && order.buyPrice ? order.buyPrice : '');
+        self.sellPrice = ko.observable(order && order.sellPrice ? order.sellPrice : '');
+        self.profit = ko.observable(order && order.profit ? order.profit : '');
+        self.isComplete = ko.observable(order && order.isComplete ? order.isComplete : false);
+
+        self.formatPrice = function (price) {
+
+            if (!price) return '?';
+
+            var purePrice = price();
+            if (purePrice) {
+                return (+purePrice).toFixed(1);
+            } else {
+                return '?';
+            }
+        };
+
+        self.total = ko.pureComputed(function () {
+            var sellPrice = parseFloat(this.sellPrice());
+            var postage = parseFloat(this.postage());
+            if (isNaN(sellPrice) || isNaN(postage)) {
+                return '?';
+            } else {
+                return (sellPrice + postage).toFixed(1);
+            }
+        }, self);
+
+        var dateFormatting = {
+            month: "2-digit",
+            day: "numeric",
+            weekday: "short"
+        };
+
+        /*self.displayDate = function() {
+             var createDate = self.createDate()
+             return createDate ? new Date(createDate).toLocaleDateString("en-US", dateFormatting) : '';
+         };*/
+
+        self.status = ko.observable(order ? order.status : '1RECEIVED');
+
+        self.packingStatus = order ? order.packingStatus : '1ISREADY';
+
+        self.orderStatus = ko.pureComputed(function () {
+            if (self.status() == '3DONE') {
+                return 'font-green';
+            } else if (self.status() == '2SENT') {
+                return 'font-yellow';
+            }
+        });
+
+        self.getHistoricTrades = function (item, parent, event) {
+
+            var itemData = ko.mapping.toJS(item);
+
+            var $historicTrades = $(event.target).closest('.item').find('.historicbox');
+
+            if (!item.isHistoricTradesOpen) {
+
+                var succeed = arguments[4];
+
+                if (itemData.name == '') return;
+
+                arguments[3]();
+
+                $.getJSON('./historictrades', { 'itemName': itemData.name }, function (res, status) {
+
+                    status == 'success' ? item.historicTrades(res) : item.historicTrades([]);
+
+                    $historicTrades.slideDown('fast', function () {
+                        item.isHistoricTradesOpen = true;
+
+                        succeed();
+                        swiper.update();
+                    });
+                });
+            } else {
+
+                $historicTrades.slideUp('fast', function () {
+                    item.isHistoricTradesOpen = false;
+                    swiper.update();
+                });
+            }
+        };
+
+        self.hasHistoricTrades = function (item) {
+
+            return item.historicTrades().length > 0 ? true : false;
+        };
+
+        self.addItem = function () {
+
+            self.items.unshift(new Item());
+            swiper.update();
+        };
+
+        self.removeItem = function (item) {
+            self.items.remove(item);
+            swiper.update();
+        };
+
+        self.addAddress = function (address) {
+
+            self.addresses.unshift({
+                _id: "",
+                client: self.client(),
+                recipient: "",
+                address: "",
+                phone: ""
+            });
+            swiper.update();
+        };
+
+        self.getAddresses = function (order) {
+            arguments[3]();
+            var succeed = arguments[4];
+
+            var client = order.client();
+
+            if (client == '') return;
+
+            $.getJSON('./addressesByClient', {
+                client: client
+            }, function (res, status) {
+
+                status == 'success' ? order.addresses(res) : order.addresses([]);
+                swiper.update();
+                succeed();
+            });
+        };
+
+        var removedAddresses = [];
+
+        self.removeAddress = function (address) {
+
+            if (address._id != '') {
+
+                removedAddresses.push(address._id);
+            }
+
+            self.addresses.remove(address);
+            swiper.update();
+        };
+
+        self.submitAddresses = function (order) {
+            arguments[3]();
+            var succeed = arguments[4];
+
+            var addressesData = ko.mapping.toJS(order.addresses);
+
+            $.post('./addresses', {
+                "client": order.client,
+                "addresses": addressesData
+            }, function (addresses, status) {
+
+                order.addresses(addresses);
+                swiper.update();
+                succeed();
+            }, 'json');
+
+            return false;
+        };
+
+        self.markDone = function () {
+            arguments[3]();
+            var succeed = arguments[4];
+            var parent = arguments[1];
+            var id = self._id();
+
+            var orderStatus = self.status();
+
+            var newStatus = '1RECEIVED';
+
+            if (orderStatus == '1RECEIVED') {
+                newStatus = '2SENT';
+            } else if (orderStatus == '2SENT') {
+                newStatus = '3DONE';
+            }
+
+            $.ajax('./orderStatus/' + id, {
+                success: function success(data, status) {
+
+                    self.status(newStatus);
+                    if (newStatus == '3DONE') {
+                        //parent.removeDoneOrder(self)
+                    } else if (orderStatus == '3DONE') {
+                        parent.addExistingOrder(self);
+                    }
+                    succeed();
+                    swiper.update();
+                },
+                data: {
+                    'status': newStatus
+                },
+                dataType: 'json',
+                type: 'PUT'
+
+            });
+        };
+
+        self.submitOrder = function (order) {
+            arguments[3]();
+            var succeed = arguments[4];
+
+            var orderData = $.parseJSON(ko.toJSON(order));
+
+            $.post('./order', orderData, function (data, status) {
+
+                data.items.forEach(function (item) {
+
+                    item.historicTrades = [];
+                });
+
+                console.log('get post result');
+                ko.mapping.fromJS(data, {}, order);
+            }, 'json');
+
+            return false;
+        };
+    };
+
+    var OrdersModel = function OrdersModel(orders, swiper) {
+
+        var self = this;
+
+        self.getObservableOrders = function (orders) {
+            var observableOrders = [];
+
+            orders.forEach(function (order) {
+
+                observableOrders.push(new OrderModel(order, swiper));
+            });
+            return observableOrders;
+        };
+
+        var observableOrders = self.getObservableOrders(orders);
+
+        self.orders = ko.observableArray(observableOrders);
+
+        self.toggleClientView = function (data, parent, event) {
+
+            $(event.target).toggleClass('icon-eyeslash');
+
+            var $orders = $('.orders--reckoning');
+
+            if ($(event.target).hasClass('icon-eyeslash')) {
+                $orders.addClass("isClientView");
+            } else {
+                $orders.removeClass("isClientView");
+            }
+
+            swiper.update();
+        };
+
+        self.submitOrders = function () {
+            arguments[3]();
+            var succeed = arguments[4];
+
+            var orders = self.orders();
+            var ordersData = $.parseJSON(ko.toJSON(orders)); //$.parseJSON(ko.toJSON(order));
+
+            if (Array.isArray(ordersData) && ordersData.length > 0) {
+
+                var changedIndexs = [];
+
+                var changedOrders = ordersData.filter(function (order, index) {
+
+                    var isChanged = false;
+
+                    if (order.isChanged) {
+                        isChanged = true;
+                    } else {
+                        for (var i = 0; i < order.items.length; i++) {
+                            if (order.items[i].isChanged) {
+                                isChanged = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (isChanged) {
+                        changedIndexs.push(index);
+                    }
+
+                    return isChanged;
+                });
+
+                if (changedOrders.length > 0) {
+                    $.post('/orders', { orders: changedOrders }, function (rs, status) {
+
+                        rs.forEach(function (newOrder, index) {
+                            var orderIndex = changedIndexs[index];
+
+                            if ($.isArray(newOrder.items) && newOrder.items.length == 0) {
+                                newOrder.items = [{}, {}, {}];
+                            }
+
+                            newOrder.items.forEach(function (item) {
+                                item.historicTrades = [];
+                            });
+
+                            ko.mapping.fromJS(newOrder, {
+                                items: {
+                                    create: function create(option) {
+                                        return new Item(option.data);
+                                    }
+                                }
+                            }, orders[orderIndex]);
+
+                            orders[orderIndex].isChanged = false;
+                            // orders[orderIndex].items().forEach(function(item){
+                            //     item.isChanged=false;
+
+                            // })
+                        });
+
+                        succeed();
+                    }, 'json');
+                } else {
+                    succeed();
+                }
+            }
+
+            return false;
+        };
+
+        self.addOrder = function () {
+
+            var order = new OrderModel(null, swiper);
+
+            self.orders.unshift(order);
+            swiper.update();
+            $(window).scrollTop(0);
+        };
+        self.addExistingOrder = function (order) {
+            if (orders != null) {
+
+                var existingOrder = orders.find(function (ele) {
+                    return ele._id == order._id;
+                });
+
+                if (!existingOrder) {
+                    orders.unshift(order);
+                }
+            }
+            //self.orders.push(order);
+        };
+        self.removeDoneOrder = function (doneOrder) {
+
+            var id = doneOrder._id();
+
+            if (orders != null) {
+
+                var newOrders = orders.filter(function (order) {
+
+                    return order._id() != id;
+                });
+
+                orders = newOrders;
+            }
+
+            self.orders.remove(doneOrder);
+        };
+        self.removeOrder = function (order) {
+
+            arguments[3]();
+            var succeed = arguments[4];
+
+            var id = order._id();
+            self.orders.remove(order);
+
+            if (id == '') {
+
+                succeed();
+                swiper.update();
+                return;
+            }
+
+            $.ajax('./order/' + id, {
+                success: function success(data, status) {
+
+                    succeed();
+                },
+                dataType: 'json',
+                type: 'DELETE'
+
+            });
+            swiper.update();
+        };
+
+        var orders = null;
+        self.searchOrders = function (data, event) {
+            if (orders == null) {
+                orders = self.orders();
+            }
+
+            var keywords = $(event.target).val();
+
+            var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D\w]+[\u4E00-\u9FA5\uF900-\uFA2D\w ]*)/;
+
+            var matchedRes = keywords.match(regex);
+
+            if (matchedRes != null) {
+
+                if (matchedRes[1] == "") {
+                    searchCurrentOrders(matchedRes[2]);
+                } else {
+                    searchGlobalOrders(matchedRes[2]);
+                }
+            } else if (orders != null) {
+
+                newKeywords = '';
+
+                self.orders(orders);
+                setTimeout(function () {
+                    swiper.update();
+                }, 100);
+            }
+        };
+
+        function searchCurrentOrders(keywords) {
+
+            var searchedOrders = orders.filter(function (order) {
+
+                return order.client().indexOf(keywords) >= 0;
+            });
+
+            self.orders(searchedOrders);
+            setTimeout(function () {
+                swiper.update();
+            }, 100);
+        }
+
+        var timeoutIds = [];
+
+        var newKeywords = '';
+
+        function searchGlobalOrders(keywords) {
+
+            newKeywords = keywords;
+
+            var id = setTimeout(function () {
+
+                for (var i = 1; i < timeoutIds.length; i++) {
+                    clearTimeout(timeoutIds[i]);
+                }
+
+                timeoutIds = [];
+
+                if (newKeywords != '') {
+
+                    $.ajax('./ordersByName', {
+                        data: {
+                            client: newKeywords
+                        },
+                        type: 'GET',
+                        success: function success(data, status) {
+
+                            self.orders(self.getObservableOrders(data));
+                            setTimeout(function () {
+                                swiper.update();
+                            }, 100);
+                        },
+
+                        dataType: 'json'
+
+                    });
+                }
+
+                console.log('i am searching ' + newKeywords);
+            }, 1000);
+
+            timeoutIds.push(id);
+        }
+    };
+
+    return OrdersModel;
+});
 //# sourceMappingURL=reckoning-orders.js.map

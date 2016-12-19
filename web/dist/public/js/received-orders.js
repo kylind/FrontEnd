@@ -1,2 +1,329 @@
-"use strict";define(["jquery","knockout","knockout.mapping"],function(e,t,n){var r=function(e){var n=this;n.name=t.observable(e&&e.name?e.name:""),n.quantity=t.observable(e&&e.quantity?e.quantity:"1"),n.note=t.observable(e&&e.note?e.note:""),n.isChanged=!1,n.name.subscribe(function(e){n.isChanged=!0}),n.quantity.subscribe(function(e){n.isChanged=!0}),n.note.subscribe(function(e){n.isChanged=!0})},a=function(n){var a=this;a._id=t.observable(n&&n._id?n._id:""),a.client=t.observable(n&&n.client?n.client:""),a.rate=n&&n.rate?n.rate:null;var i=[];if(n&&e.isArray(n.items)&&n.items.length>0)n.items.forEach(function(e){i.push(new r(e))});else for(var s=0;s<3;s++)i.push(new r);a.items=t.observableArray(i),a.isChanged=!1,a.client.subscribe(function(e){a.isChanged=!0}),a.items.subscribe(function(e){a.isChanged=!0}),a.createDate=n&&n.createDate?n.createDate:"",a.status=n&&n.status?n.status:"1RECEIVED",a.packingStatus=t.observable(n&&n.packingStatus?n.packingStatus:"1ISREADY"),a.orderPackingStatus=t.pureComputed(function(){return"3PACKED"==a.packingStatus()?"font-green":"2NOTREADY"==a.packingStatus()?"font-yellow":"font-black"}),a.orderReadyStatus=t.pureComputed(function(){return"2NOTREADY"==a.packingStatus()?"icon-thumbsdown font-yellow":"icon-thumbsup font-black"})},i=function(n,i){function s(e){var t=[];if(Array.isArray(e)&&e.length>0)e.forEach(function(e){t.push(new a(e))});else for(var n=0;n<30;n++)t.push(new a);return t}var o=i,u=this;u.setSwiper=function(e){o=e};var c=s(n);u.orders=t.observableArray(c),u.setOrders=function(e){u.orders(s(e))},u.addItem=function(e){e.items.unshift({name:"",quantity:1,note:"",buyPrice:"",sellPrice:"",isDone:!1}),o.update()},u.removeItem=function(e,t){t.items.remove(e),o.update()},u.submitOrder=function(n){arguments[3]();var r=arguments[4];console.log("post request....");var a=t.mapping.toJS(n);return e.post("/order",a,function(e,a){console.log("get post result"),t.mapping.fromJS(e,{},n),r()},"json"),!1},u.submitOrders=function(){arguments[3]();var n=arguments[4],a=u.orders(),i=e.parseJSON(t.toJSON(a));if(Array.isArray(i)&&i.length>0){var s=[],o=i.filter(function(e,t){var n=!1,r=""!=e.client;if(r)if(e.isChanged)n=!0;else for(var a=0;a<e.items.length;a++)if(e.items[a].isChanged){n=!0;break}return n&&s.push(t),n});o.length>0?e.post("/orders",{orders:o},function(i,o){i.forEach(function(n,i){var o=s[i];e.isArray(n.items)&&0==n.items.length&&(n.items=[{},{},{}]),t.mapping.fromJS(n,{items:{create:function(e){return new r(e.data)}}},a[o]),a[o].isChanged=!1}),n()},"json"):n()}return!1},u.markPackingStatus=function(t){arguments[3]();var n=arguments[4],r=(arguments[1],t._id()),a=t.packingStatus();$target=e(arguments[2].target);var i="";return $target.hasClass("icon-leaf")?"1ISREADY"==a?i="3PACKED":"3PACKED"==a&&(i="1ISREADY"):i="1ISREADY"==a||"3PACKED"==a?"2NOTREADY":"1ISREADY",""==i?void n():void e.ajax("./packingStatus/"+r,{success:function(e,r){t.packingStatus(i),n()},data:{packingStatus:i},dataType:"json",type:"PUT"})},u.addOrder=function(){var t=new a;u.orders.unshift(t),o.update(),e(window).scrollTop(0)},u.removeOrder=function(t){arguments[3]();var n=arguments[4],r=t._id();return u.orders.remove(t),""==r?(o.update(),void n()):(e.ajax("./order/"+r,{success:function(e,t){n()},dataType:"json",type:"DELETE"}),void o.update())};var n=null;u.searchOrders=function(t,r){var a=e(r.target).val();null==n&&(n=u.orders());var i=n.filter(function(e){return e.client().indexOf(a)>=0});u.orders(i),setTimeout(function(){o.update()},100)}};return i});
+'use strict';
+
+define(['jquery', 'knockout', 'knockout.mapping'], function ($, ko, mapping) {
+
+    //ko.mapping = mapping;
+
+
+    var Item = function Item(item) {
+        var self = this;
+
+        self.name = ko.observable(item && item.name ? item.name : '');
+        self.quantity = ko.observable(item && item.quantity ? item.quantity : '1');
+        self.note = ko.observable(item && item.note ? item.note : '');
+
+        self.isChanged = false;
+
+        self.name.subscribe(function (newValue) {
+            self.isChanged = true;
+        });
+        self.quantity.subscribe(function (newValue) {
+            self.isChanged = true;
+        });
+
+        self.note.subscribe(function (newValue) {
+            self.isChanged = true;
+        });
+    };
+
+    var OrderModel = function OrderModel(order) {
+        var self = this;
+        self._id = ko.observable(order && order._id ? order._id : '');
+        self.client = ko.observable(order && order.client ? order.client : '');
+        self.rate = order && order.rate ? order.rate : null;
+
+        var observableItems = [];
+
+        if (order && $.isArray(order.items) && order.items.length > 0) {
+            order.items.forEach(function (item) {
+                observableItems.push(new Item(item));
+            });
+        } else {
+            for (var i = 0; i < 3; i++) {
+                observableItems.push(new Item());
+            }
+        }
+
+        self.items = ko.observableArray(observableItems);
+
+        self.isChanged = false;
+        self.client.subscribe(function (newValue) {
+            self.isChanged = true;
+        });
+        self.items.subscribe(function (newValue) {
+            self.isChanged = true;
+        });
+
+        self.createDate = order && order.createDate ? order.createDate : '';
+        self.status = order && order.status ? order.status : '1RECEIVED';
+        self.packingStatus = ko.observable(order && order.packingStatus ? order.packingStatus : '1ISREADY');
+
+        self.orderPackingStatus = ko.pureComputed(function () {
+            if (self.packingStatus() == '3PACKED') {
+                return 'font-green';
+            } else if (self.packingStatus() == '2NOTREADY') {
+                return 'font-yellow';
+            } else {
+                return 'font-black';
+            }
+        });
+
+        self.orderReadyStatus = ko.pureComputed(function () {
+            if (self.packingStatus() == '2NOTREADY') {
+                return 'icon-thumbsdown font-yellow';
+            } else {
+                return 'icon-thumbsup font-black';
+            }
+        });
+    };
+
+    var OrdersModel = function OrdersModel(orders, mySwiper) {
+
+        var swiper = mySwiper;
+
+        function init(orders) {
+
+            var observableOrders = [];
+
+            if (Array.isArray(orders) && orders.length > 0) {
+                orders.forEach(function (order) {
+
+                    observableOrders.push(new OrderModel(order));
+                });
+            } else {
+
+                for (var i = 0; i < 30; i++) {
+                    observableOrders.push(new OrderModel());
+                }
+            }
+
+            return observableOrders;
+        }
+
+        var self = this;
+
+        self.setSwiper = function (mySwiper) {
+
+            swiper = mySwiper;
+        };
+
+        var observableOrders = init(orders);
+
+        self.orders = ko.observableArray(observableOrders);
+
+        self.setOrders = function (orders) {
+
+            self.orders(init(orders));
+        };
+
+        self.addItem = function (data) {
+
+            data.items.unshift({
+                name: "",
+                quantity: 1,
+                note: '',
+                buyPrice: '',
+                sellPrice: '',
+                isDone: false
+            });
+            swiper.update();
+        };
+
+        self.removeItem = function (data, parent) {
+            parent.items.remove(data);
+            swiper.update();
+        };
+
+        self.submitOrder = function (order) {
+            arguments[3]();
+            var succeed = arguments[4];
+
+            console.log('post request....');
+
+            var orderData = ko.mapping.toJS(order); //$.parseJSON(ko.toJSON(order));
+
+            $.post('/order', orderData, function (data, status) {
+
+                console.log('get post result');
+                ko.mapping.fromJS(data, {}, order);
+                succeed();
+            }, 'json');
+
+            return false;
+        };
+
+        self.submitOrders = function () {
+            arguments[3]();
+            var succeed = arguments[4];
+
+            var orders = self.orders();
+            //var ordersData = ko.mapping.toJS(orders); //$.parseJSON(ko.toJSON(order));
+            var ordersData = $.parseJSON(ko.toJSON(orders));
+
+            if (Array.isArray(ordersData) && ordersData.length > 0) {
+
+                var changedIndexs = [];
+
+                var changedOrders = ordersData.filter(function (order, index) {
+
+                    var isChanged = false;
+                    var isReal = order.client == '' ? false : true;
+
+                    if (isReal) {
+                        if (order.isChanged) {
+                            isChanged = true;
+                        } else {
+                            for (var i = 0; i < order.items.length; i++) {
+                                if (order.items[i].isChanged) {
+                                    isChanged = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (isChanged) {
+                        changedIndexs.push(index);
+                    }
+
+                    return isChanged;
+                });
+
+                if (changedOrders.length > 0) {
+
+                    $.post('/orders', { orders: changedOrders }, function (rs, status) {
+
+                        rs.forEach(function (newOrder, index) {
+                            var orderIndex = changedIndexs[index];
+
+                            if ($.isArray(newOrder.items) && newOrder.items.length == 0) {
+                                newOrder.items = [{}, {}, {}];
+                            }
+
+                            ko.mapping.fromJS(newOrder, {
+                                items: {
+                                    create: function create(option) {
+                                        return new Item(option.data);
+                                    }
+                                }
+                            }, orders[orderIndex]);
+
+                            orders[orderIndex].isChanged = false;
+                        });
+
+                        succeed();
+                    }, 'json');
+                } else {
+                    succeed();
+                }
+            }
+
+            return false;
+        };
+
+        self.markPackingStatus = function (order) {
+            arguments[3]();
+            var succeed = arguments[4];
+            var parent = arguments[1];
+            var id = order._id();
+
+            var packingStatus = order.packingStatus();
+
+            $target = $(arguments[2].target);
+
+            var newStatus = '';
+
+            if ($target.hasClass('icon-leaf')) {
+                if (packingStatus == "1ISREADY") {
+                    newStatus = '3PACKED';
+                } else if (packingStatus == "3PACKED") {
+                    newStatus = '1ISREADY';
+                }
+            } else {
+                if (packingStatus == "1ISREADY" || packingStatus == "3PACKED") {
+                    newStatus = '2NOTREADY';
+                } else {
+                    newStatus = '1ISREADY';
+                }
+            }
+
+            if (newStatus == "") {
+                succeed();
+                return;
+            }
+
+            $.ajax('./packingStatus/' + id, {
+                success: function success(data, status) {
+
+                    order.packingStatus(newStatus);
+                    succeed();
+                },
+                data: {
+                    'packingStatus': newStatus
+                },
+                dataType: 'json',
+                type: 'PUT'
+
+            });
+        };
+
+        self.addOrder = function () {
+
+            var order = new OrderModel();
+
+            self.orders.unshift(order);
+            swiper.update();
+            $(window).scrollTop(0);
+        };
+
+        self.removeOrder = function (order) {
+
+            arguments[3]();
+            var succeed = arguments[4];
+
+            var id = order._id();
+            self.orders.remove(order);
+
+            if (id == '') {
+                swiper.update();
+                succeed();
+
+                return;
+            }
+
+            $.ajax('./order/' + id, {
+                success: function success(data, status) {
+
+                    succeed();
+                },
+                dataType: 'json',
+                type: 'DELETE'
+
+            });
+            swiper.update();
+        };
+
+        var orders = null;
+        self.searchOrders = function (data, event) {
+
+            var keywords = $(event.target).val();
+            if (orders == null) {
+                orders = self.orders();
+            }
+
+            var searchedOrders = orders.filter(function (order) {
+
+                return order.client().indexOf(keywords) >= 0;
+            });
+
+            self.orders(searchedOrders);
+
+            setTimeout(function () {
+                swiper.update();
+            }, 100);
+        };
+    };
+
+    return OrdersModel;
+});
 //# sourceMappingURL=received-orders.js.map

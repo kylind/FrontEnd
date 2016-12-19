@@ -1,2 +1,4 @@
-"use strict";var sss=88888;
+"use strict";
+
+var sss = 88888;
 //# sourceMappingURL=receivedOrders.js.map

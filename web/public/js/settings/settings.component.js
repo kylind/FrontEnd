@@ -1,4 +1,11 @@
+
 define(['angular','ngAnimate','ngResource'], function(angular) {
+
+    angular.module('settings', ['ngResource','ngAnimate']);
+
+    var userId = USER_ID || '';
+
+    angular.module('settings').constant('USER_ID', userId );
 
     angular.module('settings').directive('myValidation', function() {
 

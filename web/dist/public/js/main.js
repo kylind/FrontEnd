@@ -1,2 +1,289 @@
-"use strict";requirejs.config({baseUrl:"./components",paths:{jquery:"jquery/dist/jquery.min",knockout:"knockout/dist/knockout","knockout.mapping":"/js/knockout.mapping.2.4.1.min",ReceivedOrders:"/js/received-orders",ReckoningOrders:"/js/reckoning-orders",IncomeList:"/js/income-list",Addresses:"/js/addresses",ItemsModel:"/js/purchase-items",swiper:"swiper/dist/js/swiper.jquery.min",colorbox:"jquery-colorbox/jquery.colorbox-min"},shim:{swiper:["jquery"],"knockout.mapping":["knockout"],colorbox:["jquery"]}}),require(["ReceivedOrders","knockout","jquery","swiper"],function(e,n,o,t){var s="ontouchstart"in document.documentElement?"touchstart":"click",i=o.fn.on;o.fn.on=function(){return arguments[0]="click"===arguments[0]?s:arguments[0],i.apply(this,arguments)},n.bindingHandlers.tap={init:function(e,n,t,s,i){var r=n();o(e).on("click",function(e){var n=o(e.target),t=o(".prompt-submitting"),s=o(".prompt-succeed"),a=o(".confirm");if(n.hasClass("action-delete")&&n.hasClass("action-submit")){var c=n.offset();o(".confirm-submit").one("click",function(){a.fadeOut("slow"),r(i.$data,i.$parent,e,function(){t.children("span").text("Submitting...");var e=n.offset();o(".prompt").css("top",e.top).show()},function(){t.addClass("disappeared"),s.removeClass("disappeared"),o(".prompt").delay(600).fadeOut("slow",function(){t.removeClass("disappeared"),s.addClass("disappeared")})})}),o(".confirm-cancel").one("click",function(){a.fadeOut("slow")}),o(".confirm").css("top",c.top).fadeIn("slow")}else n.hasClass("action-submit")?setTimeout(function(){r(i.$data,i.$parent,e,function(){t.children("span").text("Submitting...");var e=n.offset();o(".prompt").css("top",e.top).show()},function(){t.addClass("disappeared"),s.removeClass("disappeared"),o(".prompt").delay(1200).fadeOut("slow",function(){t.removeClass("disappeared"),s.addClass("disappeared")})})},100):n.hasClass("action-load")?r(i.$data,i.$parent,e,function(){t.children("span").text("Loading...");var e=n.offset();o(".prompt").css("top",e.top).show()},function(){o(".prompt").delay(600).fadeOut("slow")}):r(i.$data,i.$parent,e);return!1})},update:function(e,n,o,t,s){}};var r=new e(orders);n.applyBindings(r,o("#receivedOrders")[0]);var a=new t(".swiper-container",{autoHeight:!0,spaceBetween:30,pagination:".swiper-pagination",paginationClickable:!0,simulateTouch:!1,shortSwipes:!1,longSwipes:!1,paginationBulletRender:function(e,n){var o="";switch(e){case 0:o="接单";break;case 1:o="采购";break;case 2:o="算账";break;case 3:o="收益"}return'<span class="'+n+'">'+o+"</span>"}});r.setSwiper(a),o(window).scroll(function(){var e=o(window).scrollTop();o(".searchbox").css("top",e)}),require(["ItemsModel","ReckoningOrders","IncomeList","Addresses","knockout","jquery"],function(e,n,o,t,s,i){var c,d,p,u;i.getJSON("./purchaseItemsJson",function(n,o){c=new e(n.items,n.markedItems,a),s.applyBindings(c,i("#purchaseItems")[0])}),i.getJSON("./reckoningOrdersJson",function(e,o){d=new n(e,a),s.applyBindings(d,i("#reckoningOrders")[0])}),i.getJSON("./incomeListJson",function(e,n){p=new o(e,a),s.applyBindings(p,i("#incomeList")[0])}),i(document).on("keydown",function(e){if(13==e.keyCode&&(0==a.activeIndex||2==a.activeIndex)){i(document.activeElement).blur();var n=0==a.activeIndex?"receivedOrders":"reckoningOrders",o=i("#"+n+" .action-enter");return setTimeout(function(){o.trigger("click")},100),!1}}),a.params.onSlideChangeStart=function(e){switch(e.activeIndex){case 0:i.getJSON("./receivedOrdersJson",function(n,o){r.setOrders(n),e.update()});break;case 1:i.getJSON("./purchaseItemsJson",function(n,o){c.setItems(n.items,n.markedItems),e.update()});break;case 2:i.getJSON("./reckoningOrdersJson",function(n,o){var t=d.getObservableOrders(n);d.orders(t),e.update()});break;case 3:i.getJSON("./incomeListJson",function(n,o){p.setIncomeList(n),e.update()});break;case 4:i.getJSON("./addressesJson",function(n,o){u.setAddresses(n),e.update()})}i(window).scrollTop(0)}}),require(["jquery","colorbox"],function(e,n){e(".icon-cog").colorbox({iframe:!0,width:335,height:200,scrolling:!1,close:"",top:0,onComplete:function(){setInterval(function(){var n=e(".cboxIframe")[0];if(n){var o=n.contentDocument||n.document,t=Math.max(o.body?o.body.clientHeight:0,o.documentElement.scrollHeight);t=t<200?200:t,e.colorbox.resize({height:t})}},200)}}),e(window).scroll(function(){var n=e(window).scrollTop();e(".cogbox").css("top",n+10)})})});
+'use strict';
+
+requirejs.config({
+
+    baseUrl: './components',
+
+    paths: {
+        jquery: 'jquery/dist/jquery.min',
+        'knockout': 'knockout/dist/knockout',
+        'knockout.mapping': '/js/knockout.mapping.2.4.1.min',
+        'ReceivedOrders': '/js/received-orders',
+        'ReckoningOrders': '/js/reckoning-orders',
+        'IncomeList': '/js/income-list',
+        'Addresses': '/js/addresses',
+        'ItemsModel': '/js/purchase-items',
+        'swiper': 'swiper/dist/js/swiper.jquery.min',
+        'colorbox': 'jquery-colorbox/jquery.colorbox-min',
+        'angular': 'angular/angular.min',
+        'ngResource': 'angular-resource/angular-resource.min',
+        'ngAnimate': 'angular-animate/angular-animate.min',
+        //'settings.module': '/js/settings/settings.module',
+        //'settings.component': '/js/settings/settings.component'
+        'settings.component': '/js/settings/settings.min'
+    },
+    shim: {
+        'swiper': ['jquery'],
+        'knockout.mapping': ['knockout'],
+        'colorbox': ['jquery'],
+
+        'angular': { exports: 'angular' },
+        'ngResource': { deps: ['angular'], exports: 'angular' },
+        'ngAnimate': { deps: ['angular'], exports: 'angular' }
+    }
+
+});
+
+require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function (OrdersModel, ko, $, Swiper) {
+
+    var isTouch = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
+    var _on = $.fn.on;
+    $.fn.on = function () {
+        arguments[0] = arguments[0] === 'click' ? isTouch : arguments[0];
+        return _on.apply(this, arguments);
+    };
+
+    ko.bindingHandlers.tap = {
+
+        init: function init(element, valueAccessor, allBindings, viewModel, bindingContext) {
+
+            var handler = valueAccessor();
+
+            $(element).on('click', function (event) {
+
+                var $target = $(event.target);
+                var $submitting = $('.prompt-submitting');
+                var $succeed = $('.prompt-succeed');
+                var $confirm = $('.confirm');
+
+                if ($target.hasClass('action-delete') && $target.hasClass('action-submit')) {
+                    var offset = $target.offset();
+
+                    $('.confirm-submit').one('click', function () {
+
+                        $confirm.fadeOut('slow');
+                        handler(bindingContext.$data, bindingContext.$parent, event, function () {
+                            $submitting.children('span').text("Submitting...");
+                            var offset = $target.offset();
+                            $('.prompt').css('top', offset.top).show();
+                        }, function () {
+
+                            $submitting.addClass('disappeared');
+                            $succeed.removeClass('disappeared');
+
+                            $('.prompt').delay(600).fadeOut('slow', function () {
+                                $submitting.removeClass('disappeared');
+                                $succeed.addClass('disappeared');
+                            });
+                        });
+                    });
+
+                    $('.confirm-cancel').one('click', function () {
+
+                        $confirm.fadeOut('slow');
+                    });
+
+                    $('.confirm').css('top', offset.top).fadeIn('slow');
+                } else if ($target.hasClass('action-submit')) {
+
+                    setTimeout(function () {
+
+                        handler(bindingContext.$data, bindingContext.$parent, event, function () {
+                            $submitting.children('span').text("Submitting...");
+                            var offset = $target.offset();
+                            $('.prompt').css('top', offset.top).show();
+                        }, function () {
+
+                            $submitting.addClass('disappeared');
+                            $succeed.removeClass('disappeared');
+
+                            $('.prompt').delay(1200).fadeOut('slow', function () {
+                                $submitting.removeClass('disappeared');
+                                $succeed.addClass('disappeared');
+                            });
+                        });
+                    }, 100);
+                } else if ($target.hasClass('action-load')) {
+
+                    handler(bindingContext.$data, bindingContext.$parent, event, function () {
+                        $submitting.children('span').text("Loading...");
+                        var offset = $target.offset();
+                        $('.prompt').css('top', offset.top).show();
+                    }, function () {
+
+                        $('.prompt').delay(600).fadeOut('slow');
+                    });
+                } else {
+                    handler(bindingContext.$data, bindingContext.$parent, event);
+                }
+                return false;
+            });
+        },
+        update: function update(element, valueAccessor, allBindings, viewModel, bindingContext) {}
+    };
+
+    var ordersModel = new OrdersModel(orders);
+    ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
+
+    var swiper = new Swiper('.swiper-container', {
+        autoHeight: true,
+        spaceBetween: 30,
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        simulateTouch: false,
+        shortSwipes: false,
+        longSwipes: false,
+        paginationBulletRender: function paginationBulletRender(index, className) {
+            var bulletName = '';
+            switch (index) {
+                case 0:
+
+                    bulletName = '接单';
+                    break;
+
+                case 1:
+                    bulletName = '采购';
+                    break;
+
+                case 2:
+                    bulletName = '算账';
+                    break;
+
+                case 3:
+                    bulletName = '收益';
+                    break;
+                /* case 4:
+                     bulletName = 'Delivery';
+                     break;*/
+            }
+            return '<span class="' + className + '">' + bulletName + '</span>';
+        }
+
+    });
+
+    ordersModel.setSwiper(swiper);
+
+    $(window).scroll(function () {
+        var top = $(window).scrollTop();
+        $(".searchbox").css("top", top);
+    });
+
+    require(['ItemsModel', 'ReckoningOrders', 'IncomeList', 'Addresses', 'knockout', 'jquery'], function (ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
+
+        var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel;
+
+        $.getJSON('./purchaseItemsJson', function (rs, status) {
+
+            itemsModel = new ItemsModel(rs.items, rs.markedItems, swiper);
+            ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
+        });
+
+        $.getJSON('./reckoningOrdersJson', function (orders, status) {
+            reckoningOrdersModel = new OrdersModel(orders, swiper);
+            ko.applyBindings(reckoningOrdersModel, $('#reckoningOrders')[0]);
+        });
+
+        $.getJSON('./incomeListJson', function (incomeList, status) {
+            incomeListModel = new IncomeListModel(incomeList, swiper);
+            ko.applyBindings(incomeListModel, $('#incomeList')[0]);
+        });
+
+        // $.getJSON('./addressesJson', function(addresses, status) {
+        //     addressesModel = new AddressesModel(addresses, swiper);
+        //     ko.applyBindings(addressesModel, $('#addresses')[0]);
+
+        // });
+
+        $(document).on('keydown', function (event) {
+            if (event.keyCode == 13 && (swiper.activeIndex == 0 || swiper.activeIndex == 2)) {
+                //var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
+                $(document.activeElement).blur();
+
+                var targetPage = swiper.activeIndex == 0 ? 'receivedOrders' : 'reckoningOrders';
+
+                var $target = $('#' + targetPage + ' .action-enter');
+                setTimeout(function () {
+                    $target.trigger('click');
+                }, 100);
+                return false;
+            }
+        });
+
+        swiper.params.onSlideChangeStart = function (swiper) {
+
+            switch (swiper.activeIndex) {
+                case 0:
+                    $.getJSON('./receivedOrdersJson', function (orders, status) {
+
+                        ordersModel.setOrders(orders);
+                        swiper.update();
+                    });
+                    break;
+                case 1:
+                    $.getJSON('./purchaseItemsJson', function (rs, status) {
+                        itemsModel.setItems(rs.items, rs.markedItems);
+                        swiper.update();
+                    });
+                    break;
+
+                case 2:
+                    $.getJSON('./reckoningOrdersJson', function (orders, status) {
+
+                        var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+                        reckoningOrdersModel.orders(observableOrders);
+                        swiper.update();
+                    });
+                    break;
+                case 3:
+                    $.getJSON('./incomeListJson', function (incomeList, status) {
+                        incomeListModel.setIncomeList(incomeList);
+                        swiper.update();
+                    });
+                    break;
+                case 4:
+                    $.getJSON('./addressesJson', function (addresses, status) {
+                        addressesModel.setAddresses(addresses);
+                        swiper.update();
+                    });
+                    break;
+            }
+            $(window).scrollTop(0);
+        };
+    });
+
+    require(['jquery', 'angular', 'settings.component', 'colorbox'], function ($, angular) {
+
+        angular.bootstrap($('#settings')[0], ['settings']);
+
+        $('.icon-cog').colorbox({
+            inline: true,
+            width: 335,
+            height: 200,
+            scrolling: false,
+            close: '',
+            top: 0,
+            onComplete: function onComplete() {
+                setInterval(function () {
+
+                    var iframe = $('.cboxIframe')[0];
+
+                    if (iframe) {
+                        var doc = iframe.contentDocument || iframe.document;
+
+                        var height = Math.max(doc.body ? doc.body.clientHeight : 0, doc.documentElement.scrollHeight);
+
+                        height = height < 200 ? 200 : height;
+
+                        $.colorbox.resize({ height: height });
+                    }
+                }, 200);
+            }
+        });
+
+        $(window).scroll(function () {
+            var top = $(window).scrollTop();
+            $(".cogbox").css("top", top + 10);
+        });
+    });
+});
 //# sourceMappingURL=main.js.map

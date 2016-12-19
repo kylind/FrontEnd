@@ -195,6 +195,8 @@ router.delete('/order/:id', function*() {
 
 router.get('/index', function*() {
 
+     var _id = this.req.user._id;
+
     var res = yield orderOperation.queryReceivedOrders();
     res = res && res.length > 0 ? res : [];
 
@@ -203,7 +205,8 @@ router.get('/index', function*() {
         name: 'index',
         css: 'swiper',
         header: 'specific',
-        footer: ''
+        footer: '',
+        _id:_id
 
     });
 

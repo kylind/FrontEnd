@@ -12,12 +12,19 @@
     <script src="/js/common.min.js"></script>
     <!-- endinject -->
 <% }else if (name == 'index') {%>
+
+    <script>
+        var USER_ID = '<%- _id %>';
+    </script>
+
     <!-- index:js -->
     <script src="/components/requirejs/require.min.js"></script>
     <!-- endinject -->
     <script>
     require(['js/main']);
     </script>
+
+
 <% }else if (name == 'reckoning-orders') {%>
     <!--data-main="/js/main" -->
     <!-- reckoning-orders:js -->

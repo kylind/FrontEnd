@@ -271,7 +271,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var packingStatus = order.packingStatus()
 
-            $target = $(arguments[2].target);
+            var $target = $(arguments[2].target);
 
             var newStatus = '';
 
