@@ -18,8 +18,7 @@
         },
         name: "main"
     }]
-})*/
-
+})
 
 
 ({
@@ -47,8 +46,9 @@
     dir: "../../dist/public/js"
 
 })
+*/
 
-/*({
+({
     baseUrl: ".",
 
     paths: {
@@ -61,4 +61,4 @@
     name: "main-received",
     out: "../../dist/public/js/main-received.js"
 
-})*/
+})

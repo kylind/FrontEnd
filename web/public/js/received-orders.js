@@ -124,6 +124,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.setSwiper = function(mySwiper) {
 
             swiper = mySwiper;
+            swiper.update();
 
         }
 

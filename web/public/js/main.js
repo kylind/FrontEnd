@@ -17,8 +17,8 @@ requirejs.config({
         'ngResource': 'angular-resource/angular-resource.min',
         'ngAnimate': 'angular-animate/angular-animate.min',
         //'settings.module': '/js/settings/settings.module',
-         //'settings.component': '/js/settings/settings.component'
-        'settings.component':'/js/settings/settings.min'
+        //'settings.component': '/js/settings/settings.component'
+        'settings.component': '/js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
@@ -76,6 +76,8 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                                 $succeed.addClass('disappeared')
                             });
 
+                            updateAllData();
+
                         });
 
                     })
@@ -110,9 +112,13 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                             });
 
-
+                            if ($target.hasClass('action-enter')) {
+                                updateAllData();
+                            }
 
                         });
+
+
 
 
                     }, 100);
@@ -148,8 +154,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
     }
 
 
-    var ordersModel = new OrdersModel(orders);
-    ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
+
 
     var swiper = new Swiper('.swiper-container', {
         autoHeight: true,
@@ -186,6 +191,11 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
         }
 
     });
+    var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel;
+
+    var ordersModel = new OrdersModel(orders);
+
+    ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
 
     ordersModel.setSwiper(swiper);
 
@@ -196,9 +206,46 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
     });
 
 
+    function updateAllData() {
+        if (swiper.activeIndex != 0) {
+
+            $.getJSON('./receivedOrdersJson', function(orders, status) {
+                ordersModel.setOrders(orders);
+            });
+
+        }
+
+        if (swiper.activeIndex != 1) {
+
+            $.getJSON('./purchaseItemsJson', function(rs, status) {
+                itemsModel.setItems(rs.items, rs.markedItems);
+            });
+
+        }
+
+        if (swiper.activeIndex != 2) {
+
+            $.getJSON('./reckoningOrdersJson', function(orders, status) {
+
+                var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+                reckoningOrdersModel.orders(observableOrders);
+
+            })
+
+        }
+
+        if (swiper.activeIndex != 3) {
+
+            $.getJSON('./incomeListJson', function(incomeList, status) {
+                incomeListModel.setIncomeList(incomeList);
+            })
+
+        }
+    }
+
+
     require(['ItemsModel', 'ReckoningOrders', 'IncomeList', 'Addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
 
-        var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel;
 
         $.getJSON('./purchaseItemsJson', function(rs, status) {
 
@@ -226,6 +273,8 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         // });
 
+
+
         $(document).on('keydown', function(event) {
             if (event.keyCode == 13 && (swiper.activeIndex == 0 || swiper.activeIndex == 2)) {
                 //var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
@@ -246,49 +295,48 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         swiper.params.onSlideChangeStart = function(swiper) {
 
-            switch (swiper.activeIndex) {
-                case 0:
-                    $.getJSON('./receivedOrdersJson', function(orders, status) {
+            // switch (swiper.activeIndex) {
+            //     case 0:
+            //         $.getJSON('./receivedOrdersJson', function(orders, status) {
 
-                        ordersModel.setOrders(orders);
-                        swiper.update();
+            //             ordersModel.setOrders(orders);
+            //             swiper.update();
 
-                    });
-                    break;
-                case 1:
-                    $.getJSON('./purchaseItemsJson', function(rs, status) {
-                        itemsModel.setItems(rs.items, rs.markedItems);
-                        swiper.update();
+            //         });
+            //         break;
+            //     case 1:
+            //         $.getJSON('./purchaseItemsJson', function(rs, status) {
+            //             itemsModel.setItems(rs.items, rs.markedItems);
+            //             swiper.update();
 
-                    });
-                    break;
+            //         });
+            //         break;
 
-                case 2:
-                    $.getJSON('./reckoningOrdersJson', function(orders, status) {
+            //     case 2:
+            //         $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
-                        var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
-                        reckoningOrdersModel.orders(observableOrders);
-                        swiper.update();
+            //             var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+            //             reckoningOrdersModel.orders(observableOrders);
+            //             swiper.update();
 
-                    })
-                    break;
-                case 3:
-                    $.getJSON('./incomeListJson', function(incomeList, status) {
-                        incomeListModel.setIncomeList(incomeList);
-                        swiper.update();
+            //         })
+            //         break;
+            //     case 3:
+            //         $.getJSON('./incomeListJson', function(incomeList, status) {
+            //             incomeListModel.setIncomeList(incomeList);
+            //             swiper.update();
 
-                    })
-                    break;
-                case 4:
-                    $.getJSON('./addressesJson', function(addresses, status) {
-                        addressesModel.setAddresses(addresses);
-                        swiper.update();
+            //         })
+            //         break;
+            //     case 4:
+            //         $.getJSON('./addressesJson', function(addresses, status) {
+            //             addressesModel.setAddresses(addresses);
+            //             swiper.update();
 
-                    })
-                    break;
-            }
+            //         })
+            //         break;
+            // }
             $(window).scrollTop(0);
-
 
         }
 
@@ -296,7 +344,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
     });
 
 
-    require(['jquery', 'angular', 'settings.component','colorbox'], function($, angular) {
+    require(['jquery', 'angular', 'settings.component', 'colorbox'], function($, angular) {
 
         angular.bootstrap($('#settings')[0], ['settings']);
 
@@ -310,7 +358,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             onComplete: function() {
                 setInterval(function() {
 
-                    var iframe = $('.cboxIframe')[0];
+/*                    var iframe = $('.cboxIframe')[0];
 
                     if (iframe) {
                         var doc = iframe.contentDocument || iframe.document;
@@ -320,7 +368,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                         height = height < 200 ? 200 : height;
 
                         $.colorbox.resize({ height: height });
-                    }
+                    }*/
+
+                    $.colorbox.resize();
 
 
                 }, 200)

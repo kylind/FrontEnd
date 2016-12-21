@@ -1261,6 +1261,7 @@ button.ispure {
 .settings {
     width: 315px;
     position: relative;
+    padding:10px;
 }
 
 .settings .field {
@@ -1366,7 +1367,7 @@ button.ispure {
 #cboxClose {
     border: none;
     right: 10px;
-    top: 0;
+    top: 5px;
     position: absolute;
     width: auto;
     min-width: 0;
