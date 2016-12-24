@@ -14,13 +14,14 @@ app.use(session({
         host: "120.24.63.42",
         db: "orders",
         user: "website",
-        password: "zombie.123",
+        password: "zombie.123", 
+        
     }),
     cookie: {
         maxage: 604800000,
         overwrite:true
     }
-}));
+})); 
 
 
 require('./routes/auth.js');
@@ -92,3 +93,4 @@ app.listen(3000);
 
 console.log(process.env.NODE_ENV);
 console.log(process.env.db);
+//test
