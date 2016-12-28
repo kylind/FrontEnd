@@ -2,7 +2,7 @@
 
 <div class="swiper-container">
     <div class='cogbox'>
-     <a href="#settings" class="icon icon-cog"></a>
+         <a href="#settings" class="icon icon-cog"></a>
         <a href="./logout" class="icon icon-signout"></a>
 
     </div>
@@ -22,20 +22,20 @@
                     <div class="order-client">
                         <input type="hidden" data-bind="value: _id" />
                         <div class="order-clientbox">
-                            <input type="text" class="client" data-bind="value: client" placeholder="Client" />
+                            <input type="text" class="client oneline" data-bind="value: client" placeholder="Client" />
                         </div>
                     </div>
                     <div class="order-items">
                         <div class="order-actionbox">
                             <a href="#" class="icon icon-add" data-bind="tap:$root.addItem"> </a>
-                            <a href="#" class="icon icon-leaf action-submit" data-bind="tap: $root.markPackingStatus, css: orderPackingStatus"> </a>
-                            <a href="#" class="icon action-submit" data-bind="tap: $root.markPackingStatus, css: orderReadyStatus"> </a>
+                            <a href="#" class="icon icon-leaf action-submit action-mark" data-bind="tap: $root.markPackingStatus, css: orderPackingStatus"> </a>
+                            <a href="#" class="icon action-submit action-mark" data-bind="tap: $root.markPackingStatus, css: orderReadyStatus"> </a>
                             <a href="#" class="icon icon-remove-sign action-submit action-delete" data-bind="tap: $root.removeOrder"></a>
                         </div>
                         <!-- ko foreach: items -->
                         <fieldset class="item">
                             <span class="w-p40">
-                    <input  type="text" data-bind="value: name" placeholder="Product" />
+                    <input  type="text" class="oneline" data-bind="value: name" placeholder="Product" />
                 </span>
                             <span class="w-p10">
                     <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
@@ -69,7 +69,7 @@
                 <!-- ko foreach: items -->
                 <div class="orderitem">
                     <div class="orderitem-cnt">
-                        <span class="taLeft w-p40" data-bind="text: _id"></span>
+                        <span class="taLeft w-p40 oneline" data-bind="text: _id"></span>
                         <span class="taLeft w-p10" data-bind="text: quantity"></span>
                         <span class="taRight w-p50 orderitem-cnt-btns">
                             <a href="#" class="icon icon-search  rmargin-20 action-load" data-bind="tap: $root.getSubItems"></a>
@@ -100,8 +100,8 @@
             <!-- ko if: itemview()=='mark' -->
             <div class="orderitems">
                 <div class="orderitems-header">
-                    <span class="w-p40 taLeft">Mark</span>
-                    <span class="w-p40 taLeft">Name</span>
+                    <span class="w-p40 taLeft oneline">Mark</span>
+                    <span class="w-p40 taLeft oneline">Name</span>
                     <span class="w-p20 taLeft">Q</span>
                 </div>
                 <!-- ko foreach: markedItems -->
@@ -118,7 +118,7 @@
             <script type="text/html" id="subItem">
                 <section class="subItems-item">
                     <input type="hidden" data-bind="value: _id" />
-                    <span class="w-p40" data-bind="text: client"> </span>
+                    <span class="w-p40 oneline" data-bind="text: client"> </span>
                     <span class="w-p10" data-bind="text: quantity"> </span>
                     <span class="w-p25 taLeft" data-bind="text: note"> </span>
                     <span class="w-p25 taRight rpadding-5" data-bind="text: createDate"> </span>
@@ -139,7 +139,7 @@
                         <input type="hidden" data-bind="value: _id" />
                         <input type="hidden" data-bind="value: rate" />
                         <div class="order-clientbox">
-                            <input type="text" class="client" data-bind="value: client" placeholder="Client" />
+                            <input type="text" class="client oneline" data-bind="value: client" placeholder="Client" />
                         </div>
                         <div class="taCenter">
                             <span data-bind="text: displayDate"></span>
@@ -148,7 +148,7 @@
                     <div class="order-items">
                         <div class="order-actionbox">
                             <a href="#" class="icon icon-add" data-bind="tap:addItem"> </a>
-                            <a href="#" class="icon icon-flag rmargin-20 action-submit" data-bind="tap: markDone, css: orderStatus"> </a>
+                            <a href="#" class="icon icon-flag rmargin-20 action-submit action-mark" data-bind="tap: markDone, css: orderStatus"> </a>
                             <a href="#" class="icon icon-remove-sign  action-submit action-delete" data-bind="tap: $parent.removeOrder"></a>
                         </div>
                         <!-- ko if: _id() != '' -->
@@ -172,7 +172,7 @@
                             <fieldset class="item">
                                 <div class="item-fields">
                                     <span class="w-p20">
-                            <input  type="text" data-bind="value: name" placeholder="Product" />
+                            <input  type="text" class="oneline" data-bind="value: name" placeholder="Product" />
                         </span>
                                     <span class="w-p10">
                             <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
@@ -218,7 +218,7 @@
             <script type="text/html" id="historicTrades">
                 <section class="historic-item">
                     <input type="hidden" data-bind="text: name"></input>
-                    <span class="w-p20 taLeft" data-bind="text: client"></span>
+                    <span class="w-p20 oneline taLeft vaTop" data-bind="text: client"></span>
                     <span class="w-p10 taLeft" data-bind="text: quantity"></span>
                     <span class="w-p15 taLeft" data-bind="text: buyPrice"></span>
                     <span class="w-p15 taLeft" data-bind="text: sellPrice"></span>

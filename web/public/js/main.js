@@ -16,9 +16,9 @@ requirejs.config({
         'angular': 'angular/angular.min',
         'ngResource': 'angular-resource/angular-resource.min',
         'ngAnimate': 'angular-animate/angular-animate.min',
-        //'settings.module': '/js/settings/settings.module',
-        //'settings.component': '/js/settings/settings.component'
-        'settings.component': '/js/settings/settings.min'
+        'settings.module': '/js/settings/settings.module',
+        'settings.component': '/js/settings/settings.component'
+        //'settings.component': '/js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
@@ -112,9 +112,12 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                             });
 
-                            if ($target.hasClass('action-enter')) {
-                                updateAllData();
+                            if ($target.hasClass('action-mark')) {
+                                updateCurrentData();
                             }
+
+                            updateAllData();
+
 
                         });
 
@@ -199,14 +202,40 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
     ordersModel.setSwiper(swiper);
 
-    $(window).scroll(function() {
-        var top = $(window).scrollTop();
-        $(".searchbox").css("top", top);
 
-    });
+    function updateCurrentData() {
 
+        if (swiper.activeIndex == 0) {
+
+            $.getJSON('./receivedOrdersJson', function(orders, status) {
+                ordersModel.setOrders(orders);
+            });
+
+        }
+
+        if (swiper.activeIndex == 2) {
+
+            $.getJSON('./reckoningOrdersJson', function(orders, status) {
+
+                var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+                reckoningOrdersModel.orders(observableOrders);
+
+            })
+
+        }
+
+    }
 
     function updateAllData() {
+
+        if (swiper.activeIndex == 0) {
+
+            $.getJSON('./receivedOrdersJson', function(orders, status) {
+                ordersModel.setOrders(orders);
+            });
+
+        }
+
         if (swiper.activeIndex != 0) {
 
             $.getJSON('./receivedOrdersJson', function(orders, status) {
@@ -222,7 +251,16 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             });
 
         }
+        if (swiper.activeIndex == 2) {
 
+            $.getJSON('./reckoningOrdersJson', function(orders, status) {
+
+                var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+                reckoningOrdersModel.orders(observableOrders);
+
+            })
+
+        }
         if (swiper.activeIndex != 2) {
 
             $.getJSON('./reckoningOrdersJson', function(orders, status) {
@@ -380,6 +418,8 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
         $(window).scroll(function() {
             var top = $(window).scrollTop();
             $(".cogbox").css("top", top + 10);
+            $(".swiper-pagination").css('top', top);
+            $(".searchbox").css("top", top);
 
         });
 
