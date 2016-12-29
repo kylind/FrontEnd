@@ -14,7 +14,7 @@
                 <button type="button" text="Add" class="fl icon icon-add" data-bind="tap:$root.addOrder"> Order </button>
                 <button type="button" text="Add" class="lmargin-5 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> Orders </button>
                 <div class="lmargin-220">
-                    <input type="text" class="w-p100 input-search" name="search-receivedOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
+                    <input type="text" class="w-p100 input-search" id="search-receivedOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
                 </div>
             </div>
             <div class="tmargin-40" data-bind="foreach: orders">

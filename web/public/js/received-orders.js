@@ -93,6 +93,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         var swiper = mySwiper;
 
+        var needRefresh = false;
+
 
 
         function init(orders) {
@@ -300,7 +302,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 success: function(data, status) {
 
                     order.packingStatus(newStatus)
-                    succeed();
+                     needRefresh = $('#search-receivedOrders').val()==''?true:false;
+                    succeed(needRefresh);
 
                 },
                 data: {

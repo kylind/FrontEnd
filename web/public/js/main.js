@@ -17,9 +17,9 @@ requirejs.config({
         'angular': './angular/angular.min',
         'ngResource': './angular-resource/angular-resource.min',
         'ngAnimate': './angular-animate/angular-animate.min',
-        //'settings.module': '../js/settings/settings.module',
-        //'settings.component': '../js/settings/settings.component'
-        'settings.component': '/js/settings/settings.min'
+        'settings.module': '../js/settings/settings.module',
+        'settings.component': '../js/settings/settings.component'
+        //'settings.component': '/js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
@@ -94,6 +94,13 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                 } else if ($target.hasClass('action-submit')) {
 
+                    var activeElement = $(document.activeElement);
+
+                    if(!activeElement.hasClass('action-submit')){
+                        activeElement.blur();
+
+                    }
+
                     setTimeout(function() {
 
                         handler(bindingContext.$data, bindingContext.$parent, event, function() {
@@ -101,7 +108,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                             var offset = $target.offset();
                             $('.prompt').css('top', offset.top).show();
 
-                        }, function() {
+                        }, function(needRefresh) {
 
                             $submitting.addClass('disappeared')
                             $succeed.removeClass('disappeared')
@@ -113,7 +120,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                             });
 
-                            if ($target.hasClass('action-mark')) {
+                            if ($target.hasClass('action-mark') && needRefresh) {
                                 updateCurrentData();
                             }
 
