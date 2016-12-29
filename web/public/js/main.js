@@ -17,9 +17,9 @@ requirejs.config({
         'angular': './angular/angular.min',
         'ngResource': './angular-resource/angular-resource.min',
         'ngAnimate': './angular-animate/angular-animate.min',
-        'settings.module': '../js/settings/settings.module',
-        'settings.component': '../js/settings/settings.component'
-        //'settings.component': '/js/settings/settings.min'
+        //'settings.module': '../js/settings/settings.module',
+        //'settings.component': '../js/settings/settings.component'
+        'settings.component': '/js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
@@ -210,6 +210,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
             $.getJSON('./receivedOrdersJson', function(orders, status) {
                 ordersModel.setOrders(orders);
+                swiper.update();
             });
 
         }
@@ -220,6 +221,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                 var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
                 reckoningOrdersModel.orders(observableOrders);
+                swiper.update();
 
             })
 
@@ -229,13 +231,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
     function updateAllData() {
 
-        if (swiper.activeIndex == 0) {
 
-            $.getJSON('./receivedOrdersJson', function(orders, status) {
-                ordersModel.setOrders(orders);
-            });
-
-        }
 
         if (swiper.activeIndex != 0) {
 
@@ -252,16 +248,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             });
 
         }
-        if (swiper.activeIndex == 2) {
 
-            $.getJSON('./reckoningOrdersJson', function(orders, status) {
-
-                var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
-                reckoningOrdersModel.orders(observableOrders);
-
-            })
-
-        }
         if (swiper.activeIndex != 2) {
 
             $.getJSON('./reckoningOrdersJson', function(orders, status) {
@@ -375,7 +362,12 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             //         })
             //         break;
             // }
-            $(window).scrollTop(0);
+
+            setTimeout(function(){
+                $(window).scrollTop(0);
+                swiper.update();
+            },100);
+
 
         }
 

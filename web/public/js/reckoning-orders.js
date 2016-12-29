@@ -293,14 +293,14 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 success: function(data, status) {
 
                     self.status(newStatus)
-                    if (newStatus == '3DONE') {
+/*                    if (newStatus == '3DONE') {
                         //parent.removeDoneOrder(self)
                     } else if (orderStatus == '3DONE') {
                         parent.addExistingOrder(self)
 
-                    }
+                    }*/
                     succeed();
-                    swiper.update();
+                    //swiper.update();
 
                 },
                 data: {
