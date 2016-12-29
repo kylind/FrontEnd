@@ -171,35 +171,36 @@
                             <!-- ko foreach: items -->
                             <fieldset class="item">
                                 <div class="item-fields">
-                                    <span class="w-p20">
-                            <input  type="text" data-bind="value: name" placeholder="Product" />
-                        </span>
-                                    <span class="w-p10">
-                            <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
-                        </span>
+                                    <span class="w-p20 name">
+                                        <input  type="text" data-bind="value: name" placeholder="Product" />
+                                    </span>
+                                    <span class="w-p10 quantity">
+                                        <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
+                                    </span>
+
                                     <span class="w-p15 onlyForMe">
-                            <input  type="text" data-bind="value: buyPrice" placeholder="Buy" />
-                        </span>
-                                    <span class="w-p15">
-                            <input  type="text" data-bind="value: sellPrice" placeholder="Sell" />
-                        </span>
+                                        <input  type="text" data-bind="value: buyPrice" placeholder="Buy" />
+                                    </span>
+                                    <span class="w-p15 sell">
+                                        <input  type="text" data-bind="value: sellPrice" placeholder="Sell" />
+                                    </span>
                                     <span class="w-p15 onlyForMe">
-                            <input  type="text" readonly data-bind="value: profit" placeholder="Profit" />
-                        </span>
+                                        <input  type="text" readonly data-bind="value: profit" placeholder="Profit" />
+                                    </span>
                                     <span class="w-p25  taRight rpadding-5">
-                            <a href="#" class="icon icon-search  action-load" data-bind="tap: $parent.getHistoricTrades"></a>
-                            <a href="#" class="icon icon-remove action-submit" data-bind="tap: $parent.removeItem"></a>
-                        </span>
+                                        <a href="#" class="icon icon-search  action-load" data-bind="tap: $parent.getHistoricTrades"></a>
+                                        <a href="#" class="icon icon-remove action-submit" data-bind="tap: $parent.removeItem"></a>
+                                    </span>
                                 </div>
                                 <div class="historicbox">
                                     <!-- ko if: historicTrades().length>0 -->
                                     <div class="historic">
                                         <div class="historic-header">
-                                            <span class="w-p20 taLeft">Client</span>
-                                            <span class="w-p10 taLeft">Q</span>
-                                            <span class="w-p15 taLeft">Buy</span>
-                                            <span class="w-p15 taLeft">Sell</span>
-                                            <span class="w-p40 taLeft lpadding-5">Date</span>
+                                            <span class="w-p20 taLeft client">Client</span>
+                                            <span class="w-p10 taLeft quantity">Q</span>
+                                            <span class="w-p15 taLeft buy">Buy</span>
+                                            <span class="w-p15 taLeft sell">Sell</span>
+                                            <span class="w-p40 taLeft lpadding-5 date">Date</span>
                                         </div>
                                         <div class="historic-items" data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">
                                         </div>
@@ -218,11 +219,11 @@
             <script type="text/html" id="historicTrades">
                 <section class="historic-item">
                     <input type="hidden" data-bind="text: name"></input>
-                    <span class="w-p20 taLeft" data-bind="text: client"></span>
-                    <span class="w-p10 taLeft" data-bind="text: quantity"></span>
-                    <span class="w-p15 taLeft" data-bind="text: buyPrice"></span>
-                    <span class="w-p15 taLeft" data-bind="text: sellPrice"></span>
-                    <span class="w-p40 taLeft" data-bind="text: createDate"></span>
+                    <span class="w-p20 taLeft name" data-bind="text: client"></span>
+                    <span class="w-p10 taLeft quantity" data-bind="text: quantity"></span>
+                    <span class="w-p15 taLeft buy" data-bind="text: buyPrice"></span>
+                    <span class="w-p15 taLeft sell" data-bind="text: sellPrice"></span>
+                    <span class="w-p40 taLeft date" data-bind="text: createDate"></span>
                 </section>
             </script>
         </section>

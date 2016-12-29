@@ -11,6 +11,7 @@ var bowerFiles = require('main-bower-files');
 var series = require('stream-series');
 var replace = require('gulp-replace');
 var gnf = require('gulp-npm-files');
+var requirejsOptimize = require('gulp-requirejs-optimize');
 
 
 const babel = require('gulp-babel');
@@ -112,6 +113,15 @@ gulp.task('components', function(done) {
     done();
 
 
+});
+
+gulp.task('requirejs', function () {
+    return gulp.src('./public/js/main.js')
+        .pipe(requirejsOptimize({
+            mainConfigFile: './public/js/main.js',
+            optimize: "none"
+        }))
+        .pipe(gulp.dest('dist/public/js/main.js'));
 });
 
 gulp.task('commonjs', function(done) {

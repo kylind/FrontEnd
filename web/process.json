@@ -6,7 +6,7 @@
     "exec_mode"  : "cluster",
     "instances"  : 3,
     "env": {
-      "NODE_ENV": "development",
+      "NODE_ENV": "production",
        "db":"127.0.0.1"
     },
     "env_production" : {

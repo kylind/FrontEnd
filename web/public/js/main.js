@@ -3,22 +3,22 @@ requirejs.config({
     baseUrl: './components',
 
     paths: {
-        jquery: 'jquery/dist/jquery.min',
-        'knockout': 'knockout/dist/knockout',
-        'knockout.mapping': '/js/knockout.mapping.2.4.1.min',
-        'ReceivedOrders': '/js/received-orders',
-        'ReckoningOrders': '/js/reckoning-orders',
-        'IncomeList': '/js/income-list',
-        'Addresses': '/js/addresses',
-        'ItemsModel': '/js/purchase-items',
-        'swiper': 'swiper/dist/js/swiper.jquery.min',
-        'colorbox': 'jquery-colorbox/jquery.colorbox-min',
-        'angular': 'angular/angular.min',
-        'ngResource': 'angular-resource/angular-resource.min',
-        'ngAnimate': 'angular-animate/angular-animate.min',
-        //'settings.module': '/js/settings/settings.module',
-        //'settings.component': '/js/settings/settings.component'
-        'settings.component': '/js/settings/settings.min'
+        'jquery': './jquery/dist/jquery.min',
+        'knockout': './knockout/dist/knockout',
+        'knockout.mapping': '../js/knockout.mapping.2.4.1.min',
+        'ReceivedOrders': '../js/received-orders',
+        'ReckoningOrders': '../js/reckoning-orders',
+        'IncomeList': '../js/income-list',
+        'Addresses': '../js/addresses',
+        'ItemsModel': '../js/purchase-items',
+        'swiper': './swiper/dist/js/swiper.jquery.min',
+        'colorbox': './jquery-colorbox/jquery.colorbox-min',
+        'angular': './angular/angular.min',
+        'ngResource': './angular-resource/angular-resource.min',
+        'ngAnimate': './angular-animate/angular-animate.min',
+        'settings.module': '../js/settings/settings.module',
+        'settings.component': '../js/settings/settings.component'
+        //'settings.component': '/js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
