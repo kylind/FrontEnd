@@ -93,7 +93,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         var swiper = mySwiper;
 
-        var needRefresh = false;
+        var isFreshed = true;
 
 
 
@@ -119,6 +119,12 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
             return observableOrders;
+        }
+
+        function sortOrders(orders){
+
+
+
         }
 
         var self = this;
@@ -302,8 +308,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 success: function(data, status) {
 
                     order.packingStatus(newStatus)
-                     needRefresh = $('#search-receivedOrders').val()==''?true:false;
-                    succeed(needRefresh);
+                     isFreshed = $('#search-receivedOrders').val()==''?true:false;
+
+                    succeed(false);
 
                 },
                 data: {
@@ -368,6 +375,12 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                 return order.client().indexOf(keywords) >= 0;
             });
+
+            if(!isFreshed){
+
+            }
+
+
 
 
             self.orders(searchedOrders);
