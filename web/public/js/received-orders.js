@@ -93,10 +93,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         var swiper = mySwiper;
 
-        var isFreshed = true;
-
-
-
         function init(orders) {
 
             var observableOrders = [];
@@ -116,14 +112,25 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             }
 
-
-
             return observableOrders;
         }
 
-        function sortOrders(orders){
+        function sortOrders (orders){
 
+            orders.sort(function( orderA, orderB){
 
+                var aStatus = orderA.packingStatus();
+                var bStatus = orderB.packingStatus()
+
+                if(aStatus==bStatus){
+
+                    return orderA.createDate <= orderB.createDate ? 1 : -1;
+
+                }else{
+                    return aStatus<bStatus ? -1: 1;
+                }
+
+            })
 
         }
 
@@ -143,6 +150,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.setOrders = function(orders) {
 
             self.orders(init(orders));
+            swiper.update();
+
 
         }
 
@@ -176,7 +185,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     console.log('get post result');
                     ko.mapping.fromJS(data, {}, order);
-                    succeed();
+                    succeed(true);
                 },
                 'json'
             );
@@ -253,7 +262,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                             })
 
-                            succeed();
+                            succeed(true);
                         },
                         'json'
                     );
@@ -308,9 +317,18 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 success: function(data, status) {
 
                     order.packingStatus(newStatus)
-                     isFreshed = $('#search-receivedOrders').val()==''?true:false;
 
-                    succeed(false);
+                    if($('#search-receivedOrders').val()==''){
+
+                        var  orders= self.orders();
+
+                        sortOrders(orders);
+
+                         self.orders(orders);
+
+                    }
+
+                    succeed();
 
                 },
                 data: {
@@ -342,7 +360,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
             if (id == '') {
-                swiper.update();
                 succeed();
 
                 return;
@@ -351,7 +368,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             $.ajax('./order/' + id, {
                 success: function(data, status) {
 
-                    succeed();
+                    succeed(true);
 
                 },
                 dataType: 'json',
@@ -371,16 +388,19 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 orders = self.orders();
             }
 
-            var searchedOrders = orders.filter(function(order) {
 
-                return order.client().indexOf(keywords) >= 0;
-            });
+            if(keywords==''){
 
-            if(!isFreshed){
+                sortOrders(orders);
 
+                var searchedOrders = orders;
+
+            }else{
+                var searchedOrders = orders.filter(function(order) {
+
+                    return order.client().indexOf(keywords) >= 0;
+                });
             }
-
-
 
 
             self.orders(searchedOrders);

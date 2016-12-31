@@ -153,7 +153,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     $(event.target).parents('.orderitem-cnt').next().slideDown('fast', function() {
                         item.isSubItemsOpen = true;
-                        swiper.update();
                         succeed();
                     });
 

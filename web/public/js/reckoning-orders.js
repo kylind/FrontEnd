@@ -2,6 +2,20 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     ko.mapping = mapping;
 
+
+    function getDoneOrderStartDate() {
+
+        var currentMiliSeconds = Date.now();
+
+        var currentDay = new Date().getDay();
+
+        var startMiliSeconds = currentMiliSeconds - ((currentDay + 7) * 24 * 60 * 60 * 1000);
+
+        var startDate = new Date(new Date(startMiliSeconds).setHours(0, 0, 0, 0));
+
+        return startDate;
+    }
+
     var Item = function(item) {
         var self = this;
 
@@ -36,6 +50,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     var OrderModel = function(order, swiper) {
         var self = this;
+
+        var startDate = getDoneOrderStartDate();
 
         self._id = ko.observable(order ? order._id : '');
         self.client = ko.observable(order ? order.client : '');
@@ -80,7 +96,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.createDate = ko.observable(order ? order.createDate : '');
         self.displayDate = ko.observable(order ? order.displayDate : '');
-
 
 
 
@@ -156,7 +171,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                 arguments[3]();
 
-                $.getJSON('./historictrades', { 'itemName': itemData.name }, function(res, status) {
+                $.getJSON('./historictrades', {
+                    'itemName': itemData.name
+                }, function(res, status) {
 
                     status == 'success' ? item.historicTrades(res) : item.historicTrades([]);
 
@@ -165,7 +182,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                         item.isHistoricTradesOpen = true;
 
                         succeed();
-                        swiper.update();
                     });
 
                 });
@@ -224,7 +240,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             }, function(res, status) {
 
                 status == 'success' ? order.addresses(res) : order.addresses([]);
-                swiper.update();
                 succeed();
 
             });
@@ -261,7 +276,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 }, function(addresses, status) {
 
                     order.addresses(addresses);
-                    swiper.update();
+
                     succeed();
                 },
                 'json'
@@ -293,14 +308,27 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 success: function(data, status) {
 
                     self.status(newStatus)
-/*                    if (newStatus == '3DONE') {
-                        //parent.removeDoneOrder(self)
-                    } else if (orderStatus == '3DONE') {
-                        parent.addExistingOrder(self)
 
-                    }*/
-                    succeed();
-                    //swiper.update();
+
+                    if ($('#search-reckoningOrders').val() == '') {
+
+                        if (newStatus == '3DONE' && self.createDate() < startDate) {
+                            parent.removeDoneOrder(self)
+
+                        } else if (orderStatus == '3DONE' && self.createDate() < startDate) {
+                            parent.addExistingOrder(self)
+
+                        }
+
+                        var orders = parent.orders();
+
+                        parent.sortOrders(orders);
+
+                        parent.orders(orders);
+
+                    }
+
+                    succeed(true);
 
                 },
                 data: {
@@ -349,6 +377,31 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         var self = this;
 
+
+        function updateReservedOrders(orders) {
+
+            reservedOrders = orders;
+
+        }
+
+        self.sortOrders = function(orders) {
+
+            orders.sort(function(orderA, orderB) {
+
+                var aStatus = orderA.status();
+                var bStatus = orderB.status()
+
+                if (aStatus == bStatus) {
+
+                    return orderA.createDate() <= orderB.createDate() ? 1 : -1;
+
+                } else {
+                    return aStatus < bStatus ? -1 : 1;
+                }
+
+            })
+
+        }
 
         self.getObservableOrders = function(orders) {
             var observableOrders = [];
@@ -422,13 +475,15 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 })
 
                 if (changedOrders.length > 0) {
-                    $.post('/orders', { orders: changedOrders }, function(rs, status) {
+                    $.post('/orders', {
+                            orders: changedOrders
+                        }, function(rs, status) {
 
                             rs.forEach(function(newOrder, index) {
                                 var orderIndex = changedIndexs[index];
 
-                                if($.isArray(newOrder.items) && newOrder.items.length==0){
-                                    newOrder.items=[{},{},{}];
+                                if ($.isArray(newOrder.items) && newOrder.items.length == 0) {
+                                    newOrder.items = [{}, {}, {}];
                                 }
 
                                 newOrder.items.forEach(function(item) {
@@ -444,7 +499,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                                     }
                                 }, orders[orderIndex]);
 
-                                orders[orderIndex].isChanged=false;
+                                orders[orderIndex].isChanged = false;
                                 // orders[orderIndex].items().forEach(function(item){
                                 //     item.isChanged=false;
 
@@ -452,7 +507,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                             })
 
-                            succeed();
+                            succeed(true);
 
                         },
                         'json'
@@ -471,44 +526,60 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.addOrder = function() {
 
+
+            updateReservedOrders()
+
             var order = new OrderModel(null, swiper);
 
             self.orders.unshift(order);
+
+            updateReservedOrders(self.orders());
+
             swiper.update();
             $(window).scrollTop(0);
         };
         self.addExistingOrder = function(order) {
-            if (orders != null) {
+            // if (reservedOrders != null) {
 
-                var existingOrder = orders.find(function(ele) {
-                    return ele._id == order._id;
-                });
+            //     var existingOrder = reservedOrders.find(function(ele) {
+            //         return ele._id == order._id;
+            //     });
 
-                if (!existingOrder) {
-                    orders.unshift(order);
-                }
+            //     if (!existingOrder) {
+            //         reservedOrders.unshift(order);
+            //     }
 
-            }
-            //self.orders.push(order);
+            // }
+
+
+
+            self.orders.push(doneOrder);
+
+            updateReservedOrders(self.orders());
+
+
 
         };
         self.removeDoneOrder = function(doneOrder) {
 
-            var id = doneOrder._id();
+            // var id = doneOrder._id();
 
-            if (orders != null) {
+            // if (reservedOrders != null) {
 
-                var newOrders = orders.filter(function(order) {
+            //     var newOrders = reservedOrders.filter(function(order) {
 
-                    return order._id() != id;
+            //         return order._id() != id;
 
-                });
+            //     });
 
-                orders = newOrders;
+            //     reservedOrders = newOrders;
 
-            }
+            // }
+
+
 
             self.orders.remove(doneOrder);
+            updateReservedOrders(self.orders());
 
 
         };
@@ -523,7 +594,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             if (id == '') {
 
                 succeed();
-                swiper.update();
                 return;
             }
 
@@ -532,24 +602,26 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             $.ajax('./order/' + id, {
                 success: function(data, status) {
 
-                    succeed();
+                    succeed(true);
+
 
                 },
                 dataType: 'json',
                 type: 'DELETE'
 
             });
+
+            updateReservedOrders(self.orders());
+
             swiper.update();
 
         };
 
 
 
-        var orders = null;
+        var reservedOrders = null;
         self.searchOrders = function(data, event) {
-            if (orders == null) {
-                orders = self.orders();
-            }
+
 
             var keywords = $(event.target).val();
 
@@ -557,6 +629,18 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
             var matchedRes = keywords.match(regex);
+
+            if (reservedOrders == null) {
+
+                reservedOrders = self.orders();
+
+            }
+
+            if (matchedRes == null) {
+                self.sortOrders(reservedOrders);
+
+                self.orders(reservedOrders);
+            }
 
             if (matchedRes != null) {
 
@@ -567,11 +651,13 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     searchGlobalOrders(matchedRes[2])
                 }
 
-            } else if (orders != null) {
+            } else if (reservedOrders != null) {
 
                 newKeywords = '';
 
-                self.orders(orders);
+
+
+                self.orders(reservedOrders);
                 setTimeout(function() {
                     swiper.update();
                 }, 100)
@@ -582,7 +668,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         function searchCurrentOrders(keywords) {
 
 
-            var searchedOrders = orders.filter(function(order) {
+            var searchedOrders = reservedOrders.filter(function(order) {
 
                 return order.client().indexOf(keywords) >= 0;
             });

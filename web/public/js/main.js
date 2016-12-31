@@ -17,18 +17,26 @@ requirejs.config({
         'angular': './angular/angular.min',
         'ngResource': './angular-resource/angular-resource.min',
         'ngAnimate': './angular-animate/angular-animate.min',
-        'settings.module': '../js/settings/settings.module',
-        'settings.component': '../js/settings/settings.component'
-        //'settings.component': '/js/settings/settings.min'
+        //'settings.module': '../js/settings/settings.module',
+        //'settings.component': '../js/settings/settings.component'
+            'settings.component': '/js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
         'knockout.mapping': ['knockout'],
         'colorbox': ['jquery'],
 
-        'angular': { exports: 'angular' },
-        'ngResource': { deps: ['angular'], exports: 'angular' },
-        'ngAnimate': { deps: ['angular'], exports: 'angular' },
+        'angular': {
+            exports: 'angular'
+        },
+        'ngResource': {
+            deps: ['angular'],
+            exports: 'angular'
+        },
+        'ngAnimate': {
+            deps: ['angular'],
+            exports: 'angular'
+        },
     }
 
 });
@@ -96,7 +104,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                     var activeElement = $(document.activeElement);
 
-                    if(!activeElement.hasClass('action-submit')){
+                    if (!activeElement.hasClass('action-submit')) {
                         activeElement.blur();
 
                     }
@@ -108,7 +116,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                             var offset = $target.offset();
                             $('.prompt').css('top', offset.top).show();
 
-                        }, function(needRefresh) {
+                        }, function(needRefreshRest, needRefreshCurrent) {
 
                             $submitting.addClass('disappeared')
                             $succeed.removeClass('disappeared')
@@ -120,15 +128,17 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                             });
 
-                            if ($target.hasClass('action-mark') && needRefresh) {
+
+                            if (needRefreshCurrent) {
                                 updateCurrentData();
                             }
 
-                            updateAllData();
+                            if (needRefreshRest) {
+                                updateAllData();
+                            }
 
 
                         });
-
 
 
 
@@ -146,6 +156,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                     }, function() {
 
                         $('.prompt').delay(600).fadeOut('slow');
+                        swiper.update();
 
                     });
 
@@ -163,7 +174,6 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         }
     }
-
 
 
 
@@ -217,7 +227,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
             $.getJSON('./receivedOrdersJson', function(orders, status) {
                 ordersModel.setOrders(orders);
-                swiper.update();
+                setTimeout(function() {
+                    swiper.update();
+                }, 100);
             });
 
         }
@@ -228,7 +240,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                 var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
                 reckoningOrdersModel.orders(observableOrders);
-                swiper.update();
+                setTimeout(function() {
+                    swiper.update();
+                }, 100);
 
             })
 
@@ -244,6 +258,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
             $.getJSON('./receivedOrdersJson', function(orders, status) {
                 ordersModel.setOrders(orders);
+                setTimeout(function() {
+                    swiper.update();
+                }, 100);
             });
 
         }
@@ -252,6 +269,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
             $.getJSON('./purchaseItemsJson', function(rs, status) {
                 itemsModel.setItems(rs.items, rs.markedItems);
+                setTimeout(function() {
+                    swiper.update();
+                }, 100);
             });
 
         }
@@ -262,6 +282,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                 var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
                 reckoningOrdersModel.orders(observableOrders);
+                setTimeout(function() {
+                    swiper.update();
+                }, 100);
 
             })
 
@@ -272,6 +295,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             $.getJSON('./incomeListJson', function(incomeList, status) {
                 incomeListModel.setIncomeList(incomeList);
             })
+            setTimeout(function() {
+                swiper.update();
+            }, 100);
 
         }
     }
@@ -370,10 +396,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             //         break;
             // }
 
-            setTimeout(function(){
+            setTimeout(function() {
                 $(window).scrollTop(0);
-                swiper.update();
-            },100);
+            }, 100);
 
 
         }
@@ -396,17 +421,17 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             onComplete: function() {
                 setInterval(function() {
 
-/*                    var iframe = $('.cboxIframe')[0];
+                    /*                    var iframe = $('.cboxIframe')[0];
 
-                    if (iframe) {
-                        var doc = iframe.contentDocument || iframe.document;
+                                        if (iframe) {
+                                            var doc = iframe.contentDocument || iframe.document;
 
-                        var height = Math.max(doc.body ? doc.body.clientHeight : 0, doc.documentElement.scrollHeight);
+                                            var height = Math.max(doc.body ? doc.body.clientHeight : 0, doc.documentElement.scrollHeight);
 
-                        height = height < 200 ? 200 : height;
+                                            height = height < 200 ? 200 : height;
 
-                        $.colorbox.resize({ height: height });
-                    }*/
+                                            $.colorbox.resize({ height: height });
+                                        }*/
 
                     $.colorbox.resize();
 

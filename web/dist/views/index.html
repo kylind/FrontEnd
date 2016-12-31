@@ -130,7 +130,7 @@
                 <button type="button" text="Add" class="rmargin-20 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> Orders </button>
                 <a href="#" class="fl icon icon-eye" data-bind="tap: $root.toggleClientView"></a>
                 <div class="lmargin-150">
-                    <input type="text" class="w-p100 input-search" name="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
+                    <input type="text" class="w-p100 input-search" id="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
                 </div>
             </div>
             <div class="tmargin-40 orders  orders--reckoning" data-bind="foreach: orders">
