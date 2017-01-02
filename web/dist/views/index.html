@@ -148,7 +148,7 @@
                     <div class="order-items">
                         <div class="order-actionbox">
                             <a href="#" class="icon icon-add" data-bind="tap:addItem"> </a>
-                            <a href="#" class="icon icon-flag rmargin-20 action-submit action-mark" data-bind="tap: markDone, css: orderStatus"> </a>
+                            <a href="#" class="icon icon-flag rmargin-20 action-submit action-mark" data-bind="tap:$parent.markDone, css: orderStatus"> </a>
                             <a href="#" class="icon icon-remove-sign  action-submit action-delete" data-bind="tap: $parent.removeOrder"></a>
                         </div>
                         <!-- ko if: _id() != '' -->

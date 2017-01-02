@@ -659,8 +659,12 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
                     var observableOrders = self.getObservableOrders(orders);
+
+                    reservedOrders=observableOrders;
                     needRefresh=false;
+
                     self.orders(observableOrders);
+
                     setTimeout(function() {
                         swiper.update();
                     }, 100);
