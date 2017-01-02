@@ -51,8 +51,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
     var OrderModel = function(order, swiper) {
         var self = this;
 
-        var startDate = getDoneOrderStartDate();
-
         self._id = ko.observable(order ? order._id : '');
         self.client = ko.observable(order ? order.client : '');
         self.postage = ko.observable(order && order.postage ? order.postage : 0);
@@ -286,60 +284,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         };
 
-        self.markDone = function() {
-            arguments[3]();
-            var succeed = arguments[4];
-            var parent = arguments[1];
-            var id = self._id();
-
-            var orderStatus = self.status();
-
-            var newStatus = '1RECEIVED';
-
-            if (orderStatus == '1RECEIVED') {
-                newStatus = '2SENT'
-
-            } else if (orderStatus == '2SENT') {
-                newStatus = '3DONE'
-
-            }
-
-            $.ajax('./orderStatus/' + id, {
-                success: function(data, status) {
-
-                    self.status(newStatus)
-
-
-                    if ($('#search-reckoningOrders').val() == '') {
-
-                        if (newStatus == '3DONE' && self.createDate() < startDate) {
-                            parent.removeDoneOrder(self)
-
-                        } else if (orderStatus == '3DONE' && self.createDate() < startDate) {
-                            parent.addExistingOrder(self)
-
-                        }
-
-                        var orders = parent.orders();
-
-                        parent.sortOrders(orders);
-
-                        parent.orders(orders);
-
-                    }
-
-                    succeed(true);
-
-                },
-                data: {
-                    'status': newStatus
-                },
-                dataType: 'json',
-                type: 'PUT'
-
-            });
-
-        }
 
         self.submitOrder = function(order) {
             arguments[3]();
@@ -377,8 +321,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         var self = this;
 
+        var startDate = getDoneOrderStartDate();
 
-        function updateReservedOrders(orders) {
+        self.updateReservedOrders = function (orders) {
 
             reservedOrders = orders;
 
@@ -438,6 +383,68 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         };
 
+        self.markDone = function(order) {
+            arguments[3]();
+            var succeed = arguments[4];
+            var parent = arguments[1];
+            var id = order._id();
+
+            var orderStatus = order.status();
+
+            var newStatus = '1RECEIVED';
+
+            if (orderStatus == '1RECEIVED') {
+                newStatus = '2SENT'
+
+            } else if (orderStatus == '2SENT') {
+                newStatus = '3DONE'
+
+            }
+
+            $.ajax('./orderStatus/' + id, {
+                success: function(data, status) {
+
+                    order.status(newStatus)
+
+                    var orders = self.orders();
+
+                    if ($('#search-reckoningOrders').val() == '') {
+
+                        if (newStatus == '3DONE' && order.createDate() < startDate) {
+                            self.removeDoneOrder(order)
+
+                        }
+
+                        //  else if (orderStatus == '3DONE' && self.createDate() < startDate) {
+                        //     self.addExistingOrder(self)
+
+                        // }
+
+                        self.sortOrders(orders);
+
+                        self.orders(orders);
+
+                        self.updateReservedOrders(orders);
+
+                    }else{
+                        needRefresh=true;
+                    }
+
+
+
+
+                    succeed(true);
+
+                },
+                data: {
+                    'status': newStatus
+                },
+                dataType: 'json',
+                type: 'PUT'
+
+            });
+
+        }
 
 
         self.submitOrders = function() {
@@ -527,13 +534,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.addOrder = function() {
 
 
-            updateReservedOrders()
-
             var order = new OrderModel(null, swiper);
 
             self.orders.unshift(order);
 
-            updateReservedOrders(self.orders());
+            self.updateReservedOrders(self.orders());
 
             swiper.update();
             $(window).scrollTop(0);
@@ -554,8 +559,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
             self.orders.push(doneOrder);
-
-            updateReservedOrders(self.orders());
 
 
 
@@ -579,7 +582,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
             self.orders.remove(doneOrder);
-            updateReservedOrders(self.orders());
 
 
         };
@@ -611,7 +613,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             });
 
-            updateReservedOrders(self.orders());
+            self.updateReservedOrders(self.orders());
 
             swiper.update();
 
@@ -620,6 +622,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
         var reservedOrders = null;
+        var needRefresh= false;
         self.searchOrders = function(data, event) {
 
 
@@ -636,11 +639,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             }
 
-            if (matchedRes == null) {
-                self.sortOrders(reservedOrders);
+            // if (matchedRes == null) {
+            //     self.sortOrders(reservedOrders);
 
-                self.orders(reservedOrders);
-            }
+            //     self.orders(reservedOrders);
+            // }
 
             if (matchedRes != null) {
 
@@ -651,12 +654,24 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     searchGlobalOrders(matchedRes[2])
                 }
 
-            } else if (reservedOrders != null) {
+            } else if (needRefresh){
+
+                $.getJSON('./reckoningOrdersJson', function(orders, status) {
+
+                    var observableOrders = self.getObservableOrders(orders);
+                    needRefresh=false;
+                    self.orders(observableOrders);
+                    setTimeout(function() {
+                        swiper.update();
+                    }, 100);
+
+                })
+
+            }else if (reservedOrders != null) {
 
                 newKeywords = '';
 
-
-
+                self.sortOrders(reservedOrders);
                 self.orders(reservedOrders);
                 setTimeout(function() {
                     swiper.update();

@@ -17,9 +17,9 @@ requirejs.config({
         'angular': './angular/angular.min',
         'ngResource': './angular-resource/angular-resource.min',
         'ngAnimate': './angular-animate/angular-animate.min',
-        //'settings.module': '../js/settings/settings.module',
-        //'settings.component': '../js/settings/settings.component'
-            'settings.component': '/js/settings/settings.min'
+        'settings.module': '../js/settings/settings.module',
+        'settings.component': '../js/settings/settings.component'
+           // 'settings.component': '/js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
