@@ -526,6 +526,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             }
 
+            if ($('#search-reckoningOrders').val() != '') {
+
+                needRefresh=true;
+            }
+
 
             return false;
 
