@@ -4,7 +4,7 @@
     "script"      : "app.js",
     "watch"       : true,
     "exec_mode"  : "cluster",
-    "instances"  : 5,
+    "instances"  : 6,
     "env": {
       "NODE_ENV": "production",
        "db":"127.0.0.1"
