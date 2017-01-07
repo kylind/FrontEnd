@@ -1,3 +1,7 @@
-mongodump --archive=/home/kylin/easygoing/orders.2017-1-5.gz --gzip --db orders
+#!/bin/bash
+owner=daiqinglin
+filename=/home/$owner/easygoing/easygoing.$(date +%Y%m%d).gz
 
-echo "Nightly Backup Successful: $(date +%F)" >> /tmp/mybackup.log
+mongodump --archive=$filename --gzip --db orders
+
+echo "Nightly Backup Successful: $(date +%F)" >> /home/$owner/easygoing/easygoing.log

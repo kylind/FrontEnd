@@ -74,7 +74,15 @@ function* saveOrder(order) {
 
 
     if (!Array.isArray(order.items) || order.items.length == 0) {
-        order.items = [];
+
+        if(typeof order.items == 'object'){
+
+            order.items = Object.keys(order.items).map(function(key) { return order.items[key] });
+
+        }else{
+             order.items = [];
+        }
+
     }
 
     order.items = order.items.filter(function(item) {

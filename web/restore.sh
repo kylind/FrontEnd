@@ -1,1 +1,5 @@
-mongorestore --gzip --archive=/home/kylin/easygoing/orders.2017-1-6.gz --db orders
+#!/bin/bash
+owner=daiqinglin
+filename=/home/$owner/easygoing/easygoing.$(date +%Y%m%d).gz
+
+mongorestore --gzip --archive=$filename --db orders
