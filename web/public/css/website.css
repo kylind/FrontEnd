@@ -405,6 +405,7 @@ input[type="text"].postage {
     width:20px;
     border-bottom: solid 1px #999;*/
     padding-left: 0;
+    height: 18px
 }
 
 .postagebox {
@@ -412,6 +413,8 @@ input[type="text"].postage {
     width: 20px;
     font-size: 0;
     vertical-align: top;
+    height: 18px
+
 }
 
 .order--received input,
@@ -553,6 +556,7 @@ button {
     padding-left: 5px;
     box-sizing: border-box;
     vertical-align: top;
+    height: 18px;
 }
 
 .order-totalbox > .onlyForMe span:nth-child(2) {
@@ -562,6 +566,19 @@ button {
 .order-totalbox > .onlyForMe span:last-child {
     border-right: 0;
 }
+
+.order-totalbox > .onlyForClient {
+    font-size: 0;
+    line-height: 0;
+}
+.order-totalbox > .onlyForClient > span {
+
+    display: inline-block;
+    vertical-align: top;
+    line-height: 18px;
+    height: 18px;
+}
+
 
 .item {
     border-bottom: 1px solid #cc0066;

@@ -121,7 +121,12 @@
                     <span class="w-p40 oneline" data-bind="text: client"> </span>
                     <span class="w-p10" data-bind="text: quantity"> </span>
                     <span class="w-p25 taLeft" data-bind="text: note"> </span>
-                    <span class="w-p25 taRight rpadding-5" data-bind="text: createDate"> </span>
+
+                    <span class="taRight w-p25">
+                        <a href="#" class="icon icon-flag rmargin-5 action-submit" data-bind="tap: $parent.markSubItemDone, css: $parent.markSubItemStatus() "></a>
+                    </span>
+
+                    <!-- <span class="w-p25 taRight rpadding-5" data-bind="text: createDate"> </span> -->
                 </section>
             </script>
         </section>
@@ -162,8 +167,12 @@
                             <span class="w-p25"></span>
                             </span>
                             <span class="font-bold font-red vaTop onlyForClient" data-bind="css:{'font-red': isComplete}">
-                                <span class="lmargin-5">总共： </span><span data-bind="text: formatPrice(sellPrice)"></span> +
-                            <span class="w-p15 postagebox"><input type="text" class="w-30 font-bold postage"  data-bind="value: postage,css:{'font-red': isComplete}" /></span> = <span data-bind="text: total"></span>
+                                <span class="lmargin-5">总共： &nbsp;</span>
+                                <span data-bind="text: formatPrice(sellPrice)"></span>
+                                <span>&nbsp;+ &nbsp;</span>
+                                <span class="w-p15 postagebox"><input type="text" class="w-30 font-bold postage"  data-bind="value: postage,css:{'font-red': isComplete}" /></span>
+                                <span>&nbsp;=&nbsp;</span>
+                                <span data-bind="text: total"></span>
                             </span>
                         </div>
                         <!-- /ko -->

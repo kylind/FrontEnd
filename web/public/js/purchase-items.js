@@ -15,17 +15,15 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         };
 
-        self.displaySubItems = ko.computed(function() {
+        self.displaySubItems = ko.pureComputed(function() {
 
             return self.subItems().length > 0;
 
         });
 
-        self.markDone = function() {
 
-        }
 
-        self.markItemStatus = function() {
+        self.markItemStatus = ko.pureComputed(function() {
 
             var purchaseDetail = self.purchaseDetail();
 
@@ -53,18 +51,47 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
 
+        })
+
+        self.markSubItemDone = function() {
+
+            arguments[3]();
+            var succeed = arguments[4];
+
+            var itemData = ko.mapping.toJS(item);
+
+            var isPurchased = true;
+
+
+            itemData.purchaseDetail.forEach(function(item) {
+
+                if (!item.isDone) {
+                    isPurchased = false;
+                }
+
+            });
+
+            $.post('/item', {
+                    itemName: itemData._id,
+                    isDone: !isPurchased
+                }, function(res, status) {
+
+                    item.purchaseDetail(res.purchaseDetail);
+                    succeed();
+                },
+                'json'
+            );
+
         }
 
         self.markSubItemStatus = function(item) {
 
             if (item.isDone) {
-                return 'font-red';
+                return 'font-green';
 
             } else {
                 return "";
             }
-
-
         }
 
         self.isSubItemsOpen = false;
