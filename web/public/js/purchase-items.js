@@ -23,7 +23,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
 
-        self.markItemStatus = ko.pureComputed(function() {
+        self.markItemStatus = function() {
 
             var purchaseDetail = self.purchaseDetail();
 
@@ -51,7 +51,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
 
-        })
+        }
 
         self.markSubItemDone = function() {
 
