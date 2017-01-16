@@ -1,7 +1,7 @@
 define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     ko.mapping = mapping;
-    var Item = function(item) {
+    var Item = function(item,swiper) {
         var self = this;
         self._id = ko.observable(item ? item._id : '');
         self.quantity = ko.observable(item ? item.quantity : '');
@@ -15,15 +15,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         };
 
-        self.displaySubItems = ko.pureComputed(function() {
-
-            return self.subItems().length > 0;
-
-        });
-
-
-
-        self.markItemStatus = function() {
+        self.restCount= ko.pureComputed(function() {
 
             var purchaseDetail = self.purchaseDetail();
 
@@ -32,28 +24,34 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             purchaseDetail.forEach(function(item) {
                 if (item.isDone) {
-                    isDone = item.quantity;
+                    isDone=item.quantity;
 
                 } else {
-                    notDone = item.quantity;
+                    notDone=item.quantity;
 
                 }
 
             })
+            if(isDone<self.quantity() && isDone !=0){
 
-            if (notDone == self.quantity()) {
+                return self.quantity() - isDone;
+
+            }else{
+
                 return '';
-            } else if (notDone == 0) {
-                return 'font-green';
-            } else {
-                return "font-yellow";
             }
 
+        });
+
+        self.displaySubItems = ko.pureComputed(function() {
+
+            return self.subItems().length > 0;
+
+        });
 
 
-        }
 
-        self.markSubItemDone = function() {
+        self.markDone = function(item,parent,event) {
 
             arguments[3]();
             var succeed = arguments[4];
@@ -77,12 +75,79 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 }, function(res, status) {
 
                     item.purchaseDetail(res.purchaseDetail);
+
+                    var flagColor=(!isPurchased) ? "font-green" : "";
+
+                    if(self.displaySubItems){
+                        var $subItems= $(event.target).closest('.orderitem').find('.subItems-cnt .icon-flag');
+                        if(flagColor==""){
+                            $subItems.removeClass('font-green');
+                        }else{
+                            $subItems.addClass('font-green');
+                        }
+                    }
+                    succeed();
+                },
+                'json'
+            );
+
+        };
+
+        self.markItemStatus = function() {
+
+            var purchaseDetail = self.purchaseDetail();
+
+            var isDone = 0,
+                notDone = 0;
+
+            purchaseDetail.forEach(function(item) {
+                if (item.isDone) {
+                    isDone=item.quantity;
+
+                } else {
+                    notDone=item.quantity;
+
+                }
+
+            })
+
+            if (notDone == self.quantity()) {
+                return '';
+            } else if (isDone == self.quantity()) {
+                return 'font-green';
+            }else{
+                return 'font-yellow';
+            }
+
+
+
+        }
+
+        self.markSubItemDone = function(subItem, parent,event) {
+
+            arguments[3]();
+            var succeed = arguments[4];
+
+            var subItemData = ko.mapping.toJS(subItem);
+            subItemData.isDone=!subItemData.isDone;
+
+
+
+            $.post('/subitem', subItemData, function(res, status) {
+
+                    subItem.isDone=!subItem.isDone;
+
+                    $(event.target).toggleClass('font-green');
+
+                    self.purchaseDetail(res.purchaseDetail);
                     succeed();
                 },
                 'json'
             );
 
         }
+
+
 
         self.markSubItemStatus = function(item) {
 
@@ -94,66 +159,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             }
         }
 
-        self.isSubItemsOpen = false;
-
-    };
-
-
-    var MarkedItem = function(item) {
-
-        var self = this;
-        self.name = item ? item.name : '';
-        self.note = item ? item.note : '';
-        self.quantity = item ? item.quantity : '';
-
-    };
-
-    var ItemsModel = function(items, markedItems, swiper) {
-
-        function init(items,markedItems) {
-            var observableItems = [];
-
-            if (Array.isArray(items) && items.length > 0) {
-                items.forEach(function(item) {
-
-                    observableItems.push(new Item(item));
-
-                })
-            }
-
-            var observableMarkedItems = [];
-
-            if (Array.isArray(markedItems) && markedItems.length > 0) {
-                markedItems.forEach(function(item) {
-
-                    observableMarkedItems.push(new MarkedItem(item));
-
-                })
-            }
-
-            return [observableItems,observableMarkedItems] ;
-        }
-
-        var items = init(items, markedItems);
-        var observableItems  = items[0];
-        var observableMarkedItems  = items[1];
-
-        var self = this;
-
-        self.itemview=ko.observable('name')
-
-        self.items = ko.observableArray(observableItems);
-        self.markedItems = ko.observableArray(observableMarkedItems);
-
-
-
-        self.setItems = function(items,markedItems) {
-            var [items, markedItems]=init(items,markedItems)
-
-            self.items(items);
-            self.markedItems(markedItems);
-
-        }
 
         self.getSubName = function(item) {
 
@@ -199,35 +204,70 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         };
 
-        self.markDone = function(item) {
-            arguments[3]();
-            var succeed = arguments[4];
+        self.isSubItemsOpen = false;
 
-            var itemData = ko.mapping.toJS(item);
-
-            var isPurchased = true;
+    };
 
 
-            itemData.purchaseDetail.forEach(function(item) {
+    var MarkedItem = function(item) {
 
-                if (!item.isDone) {
-                    isPurchased = false;
-                }
+        var self = this;
+        self.name = item ? item.name : '';
+        self.note = item ? item.note : '';
+        self.quantity = item ? item.quantity : '';
 
-            });
+    };
 
-            $.post('/item', {
-                    itemName: itemData._id,
-                    isDone: !isPurchased
-                }, function(res, status) {
+    var ItemsModel = function(items, markedItems, swiper) {
 
-                    item.purchaseDetail(res.purchaseDetail);
-                    succeed();
-                },
-                'json'
-            );
+        function init(items,markedItems) {
+            var observableItems = [];
 
-        };
+            if (Array.isArray(items) && items.length > 0) {
+                items.forEach(function(item) {
+
+                    observableItems.push(new Item(item,swiper));
+
+                })
+            }
+
+            var observableMarkedItems = [];
+
+            if (Array.isArray(markedItems) && markedItems.length > 0) {
+                markedItems.forEach(function(item) {
+
+                    observableMarkedItems.push(new MarkedItem(item,swiper));
+
+                })
+            }
+
+            return [observableItems,observableMarkedItems] ;
+        }
+
+        var items = init(items, markedItems);
+        var observableItems  = items[0];
+        var observableMarkedItems  = items[1];
+
+        var self = this;
+
+        self.itemview=ko.observable('name')
+
+        self.items = ko.observableArray(observableItems);
+        self.markedItems = ko.observableArray(observableMarkedItems);
+
+
+
+        self.setItems = function(items,markedItems) {
+            var [items, markedItems]=init(items,markedItems)
+
+            self.items(items);
+            self.markedItems(markedItems);
+
+        }
+
+
+
+
 
     }
 

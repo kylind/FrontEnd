@@ -1,10 +1,7 @@
-
-
 <div class="swiper-container">
     <div class='cogbox'>
-         <a href="#settings" class="icon icon-cog"></a>
+        <a href="#settings" class="icon icon-cog"></a>
         <a href="./logout" class="icon icon-signout"></a>
-
     </div>
     <div class="swiper-pagination">
     </div>
@@ -71,32 +68,35 @@
                     <div class="orderitem-cnt">
                         <span class="taLeft w-p40 oneline" data-bind="text: _id"></span>
                         <span class="taLeft w-p10" data-bind="text: quantity"></span>
-                        <span class="taRight w-p50 orderitem-cnt-btns">
-                            <a href="#" class="icon icon-search  rmargin-20 action-load" data-bind="tap: $root.getSubItems"></a>
-                            <a href="#" class="icon icon-flag rmargin-5 action-submit" data-bind="tap: $root.markDone, css: markItemStatus() "></a>
+                        <span class="taRight w-p40 orderitem-cnt-btns">
+                            <a href="#" class="icon icon-search  rmargin-20 action-load" data-bind="tap: getSubItems"></a>
+                            <a href="#" class="icon icon-flag rmargin-5 action-submit" data-bind="tap: markDone, css: markItemStatus()"></a>
+                        </span>
+                        <span class="taRight w-p10" data-bind="text: restCount">
+
                         </span>
                     </div>
                     <div class="orderitem-subItems">
                         <!-- ko if: subItems().length>0 -->
                         <div class="subItems">
-                            <div class="subItems-header">
-                                <span class="w-p40 taLeft">Client</span>
-                                <span class="w-p10 taLeft">Q</span>
-                                <span class="w-p25 taLeft">Mark</span>
-                                <span class="w-p25 taRight rpadding-5">Date</span>
-                            </div>
-                            <div class="subItems-cnt" data-bind="template:{ name: 'subItem', foreach: subItems }">
-                            </div>
+                            <span class="w-p30 taLeft">客户</span>
+                            <span class="w-p10 taLeft">Q</span>
+                            <span class="w-p20 taLeft">备注</span>
+                            <span class="w-p30 taRight rpadding-5"></span>
+                            <span class="w-p10 taRight rpadding-5"></span>
                         </div>
-                        <!-- /ko -->
-                        <!-- ko if: subItems().length==0 -->
-                        <p class="taCenter">Somehow we cannot get item detail for now!</p>
-                        <!-- /ko -->
+                        <div class="subItems-cnt" data-bind="template:{ name: 'subItem', foreach: subItems }">
+                        </div>
                     </div>
+                    <!-- /ko -->
+                    <!-- ko if: subItems().length==0 -->
+                    <p class="taCenter">Somehow we cannot get item detail for now!</p>
+                    <!-- /ko -->
                 </div>
-                <!-- /ko -->
             </div>
             <!-- /ko -->
+            <!-- /ko -->
+
             <!-- ko if: itemview()=='mark' -->
             <div class="orderitems">
                 <div class="orderitems-header">
@@ -118,14 +118,13 @@
             <script type="text/html" id="subItem">
                 <section class="subItems-item">
                     <input type="hidden" data-bind="value: _id" />
-                    <span class="w-p40 oneline" data-bind="text: client"> </span>
+                    <span class="w-p30 oneline" data-bind="text: client"> </span>
                     <span class="w-p10" data-bind="text: quantity"> </span>
-                    <span class="w-p25 taLeft" data-bind="text: note"> </span>
-
-                    <span class="taRight w-p25">
-                        <a href="#" class="icon icon-flag rmargin-5 action-submit" data-bind="tap: $parent.markSubItemDone, css: $parent.markSubItemStatus() "></a>
+                    <span class="w-p20 taLeft" data-bind="text: note"> </span>
+                    <span class="taRight w-p30">
+                        <a href="#" class="icon icon-flag rmargin-5 action-submit" data-bind="tap: $parent.markSubItemDone, css: {'font-green': isDone}"></a>
                     </span>
-
+                    <span class="w-p10 taRight rpadding-5"></span>
                     <!-- <span class="w-p25 taRight rpadding-5" data-bind="text: createDate"> </span> -->
                 </section>
             </script>
@@ -168,11 +167,11 @@
                             </span>
                             <span class="font-bold font-red vaTop onlyForClient" data-bind="css:{'font-red': isComplete}">
                                 <span class="lmargin-5">总共： &nbsp;</span>
-                                <span data-bind="text: formatPrice(sellPrice)"></span>
-                                <span>&nbsp;+ &nbsp;</span>
-                                <span class="w-p15 postagebox"><input type="text" class="w-30 font-bold postage"  data-bind="value: postage,css:{'font-red': isComplete}" /></span>
-                                <span>&nbsp;=&nbsp;</span>
-                                <span data-bind="text: total"></span>
+                            <span data-bind="text: formatPrice(sellPrice)"></span>
+                            <span>&nbsp;+ &nbsp;</span>
+                            <span class="w-p15 postagebox"><input type="text" class="w-30 font-bold postage"  data-bind="value: postage,css:{'font-red': isComplete}" /></span>
+                            <span>&nbsp;=&nbsp;</span>
+                            <span data-bind="text: total"></span>
                             </span>
                         </div>
                         <!-- /ko -->
@@ -180,15 +179,12 @@
                             <!-- ko foreach: items -->
                             <fieldset class="item">
                                 <div class="item-fields">
-
                                     <span class="w-p20 name">
                                         <input  type="text" class="oneline" data-bind="value: name" placeholder="Product" />
                                     </span>
                                     <span class="w-p10 quantity">
                                         <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
                                     </span>
-
-
                                     <span class="w-p15 onlyForMe">
                                         <input  type="text" data-bind="value: buyPrice" placeholder="Buy" />
                                     </span>
@@ -235,7 +231,6 @@
                     <span class="w-p15 taLeft buy" data-bind="text: buyPrice"></span>
                     <span class="w-p15 taLeft sell" data-bind="text: sellPrice"></span>
                     <span class="w-p40 taLeft date" data-bind="text: createDate"></span>
-
                 </section>
             </script>
         </section>
@@ -281,7 +276,6 @@
             </div>
         </section>
     </div>
-
 </div>
 <!--
 <div class="taCenter">
@@ -311,14 +305,11 @@ for (var i = 0; i < Infinity; i++) {
     <button type="button" class="confirm-submit taCenter ">Confirm</button>
     <button type="button" class="confirm-cancel taCenter lmargin-5">Cancel</button>
 </div>
-
 <div class="dNone">
-    <div id="settings" >
+    <div id="settings">
         <settings></settings>
     </div>
 </div>
-
 <script>
 var orders = <%- JSON.stringify(orders) %>
 </script>
-

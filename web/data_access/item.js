@@ -126,6 +126,24 @@ var Collection = function(_name) {
             return res;
 
         },
+        updateSubItemStatus: function*(id, itemName, status) {
+
+            var db = yield MongoClient.connect(url);
+
+
+            var res = yield db.collection(_name).updateMany({
+                '_id':new ObjectID(id),
+                'items.name': itemName
+
+            }, {
+                $set: {
+                    'items.$.isDone': status
+                }
+            });
+
+            return res;
+
+        },
         queryItemStatus: function*(itemName) {
 
             var db = yield MongoClient.connect(url);

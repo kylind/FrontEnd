@@ -78,7 +78,21 @@ router.post('/item', function*() {
     this.status = 200;
 
 });
+router.post('/subitem', function*() {
 
+    var subItem = this.request.body;
+
+
+    subItem.isDone = subItem.isDone == 'true' ? true : false;
+
+    var updatedRes = yield itemOperation.updateSubItemStatus(subItem._id, subItem.name, subItem.isDone);
+
+    var res = yield itemOperation.queryItemStatus(subItem.name);
+
+    this.body = res[0];
+    this.status = 200;
+
+});
 router.get('/subitems', function*() {
 
     var req = this.request.query;

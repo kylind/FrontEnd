@@ -5,7 +5,7 @@ requirejs.config({
     paths: {
 
         'jquery': './jquery/dist/jquery.min',
-        'knockout': './knockout/dist/knockout',
+        'knockout': './knockout/dist/knockout.debug',
         'knockout.mapping': '../js/knockout.mapping.2.4.1.min',
         'ReceivedOrders': '../js/received-orders',
         'ReckoningOrders': '../js/reckoning-orders',
