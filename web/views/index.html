@@ -66,7 +66,10 @@
                 <!-- ko foreach: items -->
                 <div class="orderitem">
                     <div class="orderitem-cnt">
-                        <span class="taLeft w-p40 oneline" data-bind="text: _id"></span>
+                        <span class="taLeft w-p10" data-bind="text: _id">
+                            <input  type="text" data-bind="value: tag" class="input-tag" />
+                        </span>
+                        <span class="taLeft w-p30 oneline" data-bind="text: _id"></span>
                         <span class="taLeft w-p10" data-bind="text: quantity"></span>
                         <span class="taRight w-p40 orderitem-cnt-btns">
                             <a href="#" class="icon icon-search  rmargin-20 action-load" data-bind="tap: getSubItems"></a>
@@ -80,25 +83,24 @@
                         <!-- ko if: subItems().length>0 -->
                         <div class="subItems">
                             <div class="subItems-header">
-                            <span class="w-p30 taLeft">客户</span>
-                            <span class="w-p10 taLeft">Q</span>
-                            <span class="w-p20 taLeft">备注</span>
-                            <span class="w-p30 taRight rpadding-5"></span>
-                            <span class="w-p10 taRight rpadding-5"></span>
+                                <span class="w-p30 taLeft">客户</span>
+                                <span class="w-p10 taLeft">Q</span>
+                                <span class="w-p20 taLeft">备注</span>
+                                <span class="w-p30 taRight rpadding-5"></span>
+                                <span class="w-p10 taRight rpadding-5"></span>
+                            </div>
+                            <div class="subItems-cnt" data-bind="template:{ name: 'subItem', foreach: subItems }">
+                            </div>
                         </div>
-                        <div class="subItems-cnt" data-bind="template:{ name: 'subItem', foreach: subItems }">
-                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: subItems().length==0 -->
+                        <p class="taCenter">Somehow we cannot get item detail for now!</p>
+                        <!-- /ko -->
                     </div>
-                    <!-- /ko -->
-                    <!-- ko if: subItems().length==0 -->
-                    <p class="taCenter">Somehow we cannot get item detail for now!</p>
-                    <!-- /ko -->
                 </div>
+                <!-- /ko -->
             </div>
             <!-- /ko -->
-            </div>
-            <!-- /ko -->
-
             <!-- ko if: itemview()=='mark' -->
             <div class="orderitems">
                 <div class="orderitems-header">

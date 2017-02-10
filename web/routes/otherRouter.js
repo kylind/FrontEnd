@@ -30,4 +30,21 @@ router.get('/user/:id', function*() {
     this.status = 200;
 
 });
+
+
+router.get('/tag', function*() {
+
+    var _id = this.req.user._id;
+
+    yield this.render('tag', {
+        css: '',
+        name: 'common',
+        header: '',
+        footer: ''
+
+    });
+
+});
+
+
 exports.router = router;
