@@ -929,18 +929,45 @@ span.orderitem-cnt-btns {
     border-right: none;
 }
 
-
-.tag-label{
-    display: none;
-}
 .tag{
     position: relative;
+}
+.tag-label{
+    display: none;
+    cursor: pointer;
 }
 
 .tag-inputbox{
     display: none;
 
 }
+
+.tag.isActive .tag-label{
+    display: none;
+}
+.tag.isActive .tag-inputbox{
+    display: inline-block;
+}
+
+.tag.isLabel .tag-label{
+    display: inline-block;
+}
+.tag.isLabel .tag-inputbox{
+    display: none;
+}
+
+
+.tag.isEmpty .tag-label{
+    display: inline-block;
+    width:100px;
+    height: 24px;
+    background-color:#ff00aa;
+}
+.tag.isEmpty .tag-inputbox{
+    display: none;
+}
+
+
 .ol-tags{
     position: absolute;
     left:0;

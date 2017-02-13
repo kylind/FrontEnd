@@ -22,27 +22,40 @@
                 return settings.tags;
             }
 
-            $(document).bind('click', function() {
+            $(document).bind('click', function(event) {
 
 
 
 
-                $('.ol-tags').each(function() {
+                // $('.ol-tags').each(function() {
 
-                    if ($(this).prev('.tag-input').hasClass('isActive'));
+                //     if ($(this).prev('.tag-input').hasClass('isActive'));
 
-                    else {
-                        $(this).remove();
+                //     else {
+                //         $(this).remove();
+
+                //     }
+
+
+
+                // });
+
+                var $target = $(event.target);
+
+                if ($target.hasClass('tag-input') || $target.hasClass('tag-label') || $target.hasClass('ol-option'));
+                else {
+                    var $active = $('.tag.isActive');
+                    var $input = $active.find('.tag-input');
+
+                    if ($input.val() == '') {
+                        $('.tag').addClass('.isEmpty');
+
+                    } else {
+                        $('.tag').addClass('.isLabel');
                     }
 
-
-
-                });
-
-
-
-
-
+                    $active.removeClass('isActive');
+                }
 
 
             });
@@ -60,15 +73,19 @@
                 var $input = $tag.find('.tag-input');
 
                 $label.bind('click', function() {
-                    $label.hide();
-                    $inputbox.show();
+                    $tag.removeClass('isLabel');
+                    $tag.removeClass('isEmpty');
+
+                    $('.tag').removeClass('isActive');
+                    $tag.addClass('isActive');
+
                     $input.focus();
                 });
 
                 $input.bind('focus', function() {
+
                     $('.ol-tags').remove();
 
-                    $(this).addClass('isActive');
 
                     var tags = getTags();
 
@@ -82,28 +99,43 @@
 
                     var $ol = $(olHtml);
 
-                    $ol.find('li').on('click', function() {
+
+
+                    $ol.children('li').one('click', function() {
                         $input.val($(this).text());
                         $label.text($(this).text());
 
                         if ($input.val() != '') {
 
-                            $inputbox.hide();
+                            //$inputbox.hide();
 
-                            $label.show();
+                            //$label.show();
+                            $tag.removeClass('isActive');
+                            $tag.addClass('isLabel');
                         }
 
                         $input.next('.ol-tags').remove();
 
                     });
-
                     $(this).after($ol);
+
+
+
 
                 });
 
-                $input.bind('blur', function() {
+                $input.bind('blur', function(event) {
+
+                    if ($(this).hasClass('isActive')) {
+
+
+                    } else {
+
+
+                    }
 
                     $(this).removeClass('isActive');
+
 
                 });
 
@@ -111,11 +143,13 @@
                 $this.after($tag);
 
                 if (tagVal != '') {
-                    //$this.next('.tag-label').show();
-                    $label.show();
+
+                    //$label.show();
+                    $tag.addClass('isLabel');
 
                 } else {
-                    $inputbox.show();
+                    //$inputbox.show();
+                    $tag.addClass('isEmpty');
                 }
 
             });
