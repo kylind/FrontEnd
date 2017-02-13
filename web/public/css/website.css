@@ -930,6 +930,25 @@ span.orderitem-cnt-btns {
 }
 
 
+.tag-label{
+    display: none;
+}
+.tag{
+    position: relative;
+}
+
+.tag-inputbox{
+    display: none;
+
+}
+.ol-tags{
+    position: absolute;
+    left:0;
+    top:24px;
+}
+.ol-tags li{
+    cursor: pointer;
+}
 /**** addresses ***/
 
 .alladdresses {
