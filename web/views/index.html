@@ -59,19 +59,21 @@
             <!-- ko if: itemview()=='name' -->
             <div class="orderitems">
                 <div class="orderitems-header">
-                    <span class="w-p40 taLeft">Name</span>
+                    <span class="w-p30 taLeft">Tag</span>
+                    <span class="w-p30 taLeft">Name</span>
                     <span class="w-p10 taLeft">Q</span>
-                    <span class="w-p50 taRight rpadding-5"> Done?</span>
+                    <span class="w-p20 taLeft">Actions</span>
+                    <span class="w-p10 taRight rpadding-5">差</span>
                 </div>
                 <!-- ko foreach: items -->
                 <div class="orderitem">
                     <div class="orderitem-cnt">
-                        <span class="taLeft w-p10" data-bind="text: _id">
-                            <input  type="text" data-bind="value: tag" class="input-tag" />
+                        <span class="taLeft w-p30">
+                            <input  type="hidden" data-bind="value: tag" class="hidden-tag" />
                         </span>
                         <span class="taLeft w-p30 oneline" data-bind="text: _id"></span>
                         <span class="taLeft w-p10" data-bind="text: quantity"></span>
-                        <span class="taRight w-p40 orderitem-cnt-btns">
+                        <span class="taRight w-p20 orderitem-cnt-btns">
                             <a href="#" class="icon icon-search  rmargin-20 action-load" data-bind="tap: getSubItems"></a>
                             <a href="#" class="icon icon-flag rmargin-5 action-submit" data-bind="tap: markDone, css: markItemStatus()"></a>
                         </span>

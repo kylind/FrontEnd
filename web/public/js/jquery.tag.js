@@ -178,4 +178,4 @@
 })(jQuery || avajQuery);
 
 
-$('.hidden-tag').tag();
+//$('.hidden-tag').tag();

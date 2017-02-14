@@ -5,6 +5,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         var self = this;
         self._id = ko.observable(item ? item._id : '');
         self.quantity = ko.observable(item ? item.quantity : '');
+        self.tag = ko.observable((item && item.tag) ? item.tag : '');
         self.purchaseDetail = ko.observableArray(item ? item.purchaseDetail : []);
 
         self.subItems = ko.observableArray([]);
