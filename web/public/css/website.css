@@ -931,36 +931,43 @@ span.orderitem-cnt-btns {
 
 .tag{
     position: relative;
+    width:100%;
+    max-width: 150px;
 }
 .tag-label{
-    display: none;
     cursor: pointer;
+    width:100%;
+    text-align: center;
+    display: inline-block;
+    height: 24px;
+}
+
+.tag-input{
+    width:100%;
+    text-align: center;
+    display: inline-block;
 }
 
 .tag-inputbox{
     display: none;
-
+    width:100%;
 }
 
-.tag.isActive .tag-label{
-    display: none;
-}
 .tag.isActive .tag-inputbox{
     display: inline-block;
 }
-
-.tag.isLabel .tag-label{
-    display: inline-block;
+.tag.isActive .tag-label{
+    display: none;
 }
+
+
 .tag.isLabel .tag-inputbox{
     display: none;
 }
 
 
 .tag.isEmpty .tag-label{
-    display: inline-block;
-    width:100px;
-    height: 24px;
+
     background-color:#ff00aa;
 }
 .tag.isEmpty .tag-inputbox{
@@ -972,9 +979,14 @@ span.orderitem-cnt-btns {
     position: absolute;
     left:0;
     top:24px;
+    background-color: green;
+    z-index: 3;
+    list-style:none;
+    width:100%;
 }
 .ol-tags li{
     cursor: pointer;
+    text-align: center;
 }
 /**** addresses ***/
 

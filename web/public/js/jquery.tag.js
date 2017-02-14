@@ -7,7 +7,10 @@
         return _on.apply(this, arguments);
     };
 
+    var settings={};
+
     var methods = {
+
         init: function(options) {
 
             var defaults = {
@@ -16,47 +19,45 @@
 
             };
 
-            var settings = $.extend({}, defaults, options);
+            settings = $.extend({}, defaults, options);
 
             function getTags() {
                 return settings.tags;
             }
 
+            function addTag(newTag) {
+                if (settings.tags.indexOf(newTag) >= 0);
+                else
+                    settings.tags.unshift(newTag);
+            }
+
             $(document).bind('click', function(event) {
-
-
-
-
-                // $('.ol-tags').each(function() {
-
-                //     if ($(this).prev('.tag-input').hasClass('isActive'));
-
-                //     else {
-                //         $(this).remove();
-
-                //     }
-
-
-
-                // });
 
                 var $target = $(event.target);
 
-                if ($target.hasClass('tag-input') || $target.hasClass('tag-label') || $target.hasClass('ol-option'));
+                if ($target.hasClass('tag-label')); //$target.hasClass('tag-input') ||
                 else {
                     var $active = $('.tag.isActive');
-                    var $input = $active.find('.tag-input');
+                    if ($active.length > 0) {
+                        var $input = $active.find('.tag-input');
+                        var $label = $active.find('.tag-label');
 
-                    if ($input.val() == '') {
-                        $('.tag').addClass('.isEmpty');
+                        var val =$input.val();
 
-                    } else {
-                        $('.tag').addClass('.isLabel');
+                        if (val == '') {
+                            $active.addClass('isEmpty');
+                        } else {
+                            $active.addClass('isLabel');
+                            addTag(val)
+                        }
+
+                        $active.prev('hidden-tag').val(val);
+                        $label.text(val);
+
+
+                        $active.removeClass('isActive');
                     }
-
-                    $active.removeClass('isActive');
                 }
-
 
             });
 
@@ -67,16 +68,35 @@
 
                 var $tag = $(`<div class="tag"><span class="tag-label">${tagVal}</span><div class="tag-inputbox"><input class="tag-input" value="${tagVal}"></span></div></div>`);
 
-
                 var $label = $tag.find('.tag-label')
                 var $inputbox = $tag.find('.tag-inputbox')
                 var $input = $tag.find('.tag-input');
 
                 $label.bind('click', function() {
-                    $tag.removeClass('isLabel');
-                    $tag.removeClass('isEmpty');
 
-                    $('.tag').removeClass('isActive');
+
+                    var $active = $('.tag.isActive');
+                    if ($active.length > 0) {
+                        var $activeInput = $active.find('.tag-input');
+                        var $activeLabel = $active.find('.tag-label');
+
+                        var val=$activeInput.val();
+
+                        if (val == '') {
+                            $active.addClass('isEmpty');
+                        } else {
+                            $active.addClass('isLabel');
+                            addTag(val)
+                        }
+
+                        $active.prev('hidden-tag').val(val);
+                        $activeLabel.text(val);
+                        $active.removeClass('isActive');
+                    }
+
+
+                    $tag.removeClass('isLabel isEmpty');
+
                     $tag.addClass('isActive');
 
                     $input.focus();
@@ -86,56 +106,39 @@
 
                     $('.ol-tags').remove();
 
-
                     var tags = getTags();
 
                     var olHtml = '<ol class="ol-tags">'
                     tags.forEach(function(item) {
-
                         olHtml += `<li>${item}</li>`;
-
                     });
                     olHtml += '</ol>';
 
                     var $ol = $(olHtml);
 
-
-
                     $ol.children('li').one('click', function() {
                         $input.val($(this).text());
                         $label.text($(this).text());
+                        $this.val($(this).text());
 
-                        if ($input.val() != '') {
-
-                            //$inputbox.hide();
-
-                            //$label.show();
-                            $tag.removeClass('isActive');
-                            $tag.addClass('isLabel');
-                        }
+                        $tag.removeClass('isActive');
+                        $tag.addClass('isLabel');
 
                         $input.next('.ol-tags').remove();
+                        $input.focus();
+                        return false;
 
                     });
+
                     $(this).after($ol);
-
-
-
 
                 });
 
                 $input.bind('blur', function(event) {
 
-                    if ($(this).hasClass('isActive')) {
-
-
-                    } else {
-
-
-                    }
-
-                    $(this).removeClass('isActive');
-
+                    /*                        var val = $(this).val();
+                                            $label.val(val);
+                                            $this.val(val);*/
 
                 });
 
@@ -143,12 +146,8 @@
                 $this.after($tag);
 
                 if (tagVal != '') {
-
-                    //$label.show();
                     $tag.addClass('isLabel');
-
                 } else {
-                    //$inputbox.show();
                     $tag.addClass('isEmpty');
                 }
 
@@ -170,7 +169,10 @@
         }
 
         method.apply(this, arguments);
-    }
+    };
+
+    $.fn.tag.list=settings.tags;
+
 
 
 })(jQuery || avajQuery);
