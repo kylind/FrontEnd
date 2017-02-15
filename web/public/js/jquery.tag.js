@@ -66,7 +66,7 @@
                 var $this = $(this);
                 var tagVal = $this.val();
 
-                var $tag = $(`<div class="tag"><span class="tag-label">${tagVal}</span><div class="tag-inputbox"><input class="tag-input" value="${tagVal}"></span></div></div>`);
+                var $tag = $(`<div class="tag"><span class="tag-label">${tagVal}</span><div class="tag-inputbox"><input type="text" class="tag-input" value="${tagVal}"></span></div></div>`);
 
                 var $label = $tag.find('.tag-label')
                 var $inputbox = $tag.find('.tag-inputbox')

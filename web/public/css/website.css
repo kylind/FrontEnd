@@ -939,7 +939,10 @@ span.orderitem-cnt-btns {
     width:100%;
     text-align: center;
     display: inline-block;
-    height: 24px;
+    height: 18px;
+    background-color:#cc0066;
+    font-weight: bold;
+    color:#fff;
 }
 
 .tag-input{
@@ -960,25 +963,21 @@ span.orderitem-cnt-btns {
     display: none;
 }
 
-
 .tag.isLabel .tag-inputbox{
     display: none;
 }
 
-
 .tag.isEmpty .tag-label{
 
-    background-color:#ff00aa;
 }
 .tag.isEmpty .tag-inputbox{
     display: none;
 }
 
-
 .ol-tags{
     position: absolute;
     left:0;
-    top:24px;
+    top:20px;
     background-color: green;
     z-index: 3;
     list-style:none;
@@ -987,6 +986,50 @@ span.orderitem-cnt-btns {
 .ol-tags li{
     cursor: pointer;
     text-align: center;
+}
+
+
+.tagbox-input > label{
+    width: 150px;
+    text-align: right;
+    margin-right: 15px;
+}
+.tagbox-input > span{
+    width: 150px;
+    display: inline-block;
+}
+.tagbox-input  input.input-addTag{
+    width: 120px;
+    text-align: center;
+}
+.tagbox-input a{
+    float: right;
+    vertical-align: middle;
+}
+
+.tag-edit .tag-name{
+
+}
+.tag-edit .tag-action{
+
+}
+.tagbox-list{
+    text-align: right;
+}
+.ol-editTags{
+    display: inline-block;
+    width:150px;
+}
+
+.tag-edit{
+    text-align: center;
+}
+.tag-name{
+    width:120px;
+    display: inline-block;
+    background-color: #cc0066;
+    color:#fff;
+    font-weight: bold;
 }
 /**** addresses ***/
 
@@ -1401,7 +1444,7 @@ button.ispure {
 
 .field > label {
     display: inline-block;
-    font-size: 13px;
+    font-size: 1.3rem;
     vertical-align: middle;
 }
 
