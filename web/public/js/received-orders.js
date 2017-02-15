@@ -12,6 +12,16 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.note = ko.observable(item && item.note ? item.note : '');
 
 
+
+        self.buyPrice = item && !isNaN(item.buyPrice) ? item.buyPrice : '';
+        self.sellPrice = item && !isNaN(item.sellPrice) ? item.sellPrice : '';
+
+        self.profit = item && item.profit ? item.profit : '';
+        self.isDone = (item && item.isDone != 'undefined') ? item.isDone : false;
+
+
+
+
         self.isChanged = false;
 
         self.name.subscribe(function(newValue) {
@@ -35,7 +45,15 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         var self = this;
         self._id = ko.observable(order && order._id ? order._id : '');
         self.client = ko.observable(order && order.client ? order.client : '');
+        self.packingStatus = ko.observable(order && order.packingStatus ? order.packingStatus : '1ISREADY');
+
         self.rate = order && order.rate ? order.rate : null;
+        self.postage = order && order.postage ? order.postage : 0;
+        self.buyPrice = order && order.buyPrice ? order.buyPrice : '';
+        self.sellPrice = order && order.sellPrice ? order.sellPrice : '';
+        self.profit = order && order.profit ? order.profit : '';
+        self.status = order && order.status ? order.status : '1RECEIVED';
+        self.createDate = order && order.createDate ? order.createDate : '';
 
 
 
@@ -64,9 +82,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             self.isChanged = true;
         })
 
-        self.createDate = order && order.createDate ? order.createDate : '';
-        self.status = order && order.status ? order.status : '1RECEIVED';
-        self.packingStatus = ko.observable(order && order.packingStatus ? order.packingStatus : '1ISREADY');
+
 
         self.orderPackingStatus = ko.pureComputed(function() {
             if (self.packingStatus() == '3PACKED') {
@@ -328,7 +344,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     }
 
-                    succeed();
+                    succeed(true);
 
                 },
                 data: {
