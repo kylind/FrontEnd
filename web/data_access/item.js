@@ -114,36 +114,100 @@ var Collection = function(_name) {
             var db = yield MongoClient.connect(url);
 
 
-            var res = yield db.collection(_name).updateMany({
-                'items.name': itemName
+            /*            var res = yield db.collection(_name).updateMany({
+                            'items.name': itemName
 
-            }, {
-                $set: {
-                    'items.$.isDone': status
+                        }, {
+                            $set: {
+                                'items.$.isDone': status
+                            }
+                        });*/
+
+
+            var query = {
+                'items': {
+                    $elemMatch: {
+                        name: itemName,
+                        isDone: !status
+                    }
                 }
-            });
+
+            };
+
+            var docs = yield db.collection(_name).find(query).toArray();
+            var count =  docs.length;
+
+            while (count > 0) {
+
+
+                var res = yield db.collection(_name).updateMany(query, {
+                    $set: {
+                        'items.$.isDone': status
+                    }
+                });
+
+                docs = yield db.collection(_name).find(query).toArray();
+                count =  docs.length;
+
+            }
+
+
 
             return res;
 
         },
+
         updateSubItemStatus: function*(id, itemName, status) {
 
             var db = yield MongoClient.connect(url);
 
 
-            var res = yield db.collection(_name).updateMany({
-                '_id':new ObjectID(id),
-                'items.name': itemName
+            /*            var res = yield db.collection(_name).updateMany({
+                            '_id': new ObjectID(id),
+                            'items.name': itemName
 
-            }, {
-                $set: {
-                    'items.$.isDone': status
+                        }, {
+                            $set: {
+                                'items.$.isDone': status
+                            }
+                        });*/
+
+
+
+            var query = {
+                '_id': new ObjectID(id),
+                'items': {
+                    $elemMatch: {
+                        name: itemName,
+                        isDone: !status
+                    }
                 }
-            });
+
+            };
+
+            var docs = yield db.collection(_name).find(query).toArray();
+            var count =  docs.length;
+
+            while (count > 0) {
+
+
+                var res = yield db.collection(_name).updateOne(query, {
+                    $set: {
+                        'items.$.isDone': status
+                    }
+                });
+
+                docs = yield db.collection(_name).find(query).toArray();
+                count =  docs.length;
+
+            }
+
 
             return res;
 
         },
+
+
         queryItemStatus: function*(itemName) {
 
             var db = yield MongoClient.connect(url);

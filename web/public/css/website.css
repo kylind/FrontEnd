@@ -814,7 +814,7 @@ button {
     font-size: 0;
 }
 
-.orderitem-cnt span {
+.orderitem-cnt > span {
     font-size: 1.3rem;
     display: inline-block;
     box-sizing: border-box;
@@ -822,14 +822,23 @@ button {
     border-right: 1px solid #cc0066;
     vertical-align: middle;
     height: 18px;
-}
 
+}
+.orderitem-cnt > span.taRight {
+
+    padding-left: 0;
+    padding-right:5px;
+
+
+}
 span.orderitem-cnt-btns {
     font-size: 0;
     padding: 0;
 }
-
-.orderitem-cnt span:last-child {
+.orderitem-cnt > span:first-child {
+    padding-left:0;
+}
+.orderitem-cnt > span:last-child {
     border-right: none;
 }
 
@@ -863,6 +872,7 @@ span.orderitem-cnt-btns {
     display: inline-block;
     box-sizing: border-box;
     vertical-align: top;
+    height: 18px;
 }
 
 .subItems-header span:last-child {
@@ -878,15 +888,21 @@ span.orderitem-cnt-btns {
     border-bottom: none;
 }
 
-.subItems-item span {
+.subItems-item>span {
     font-size: 1.3rem;
     padding-left: 5px;
     border-right: 1px solid #cc0066;
     display: inline-block;
     box-sizing: border-box;
     vertical-align: middle;
+    height:18px;
 }
+.subItems-item>span.taRight {
 
+    padding-right:5px;
+    padding-left: 0;
+
+}
 .subItems-item span:last-child {
     border-right: none;
 }
@@ -932,17 +948,34 @@ span.orderitem-cnt-btns {
 .tag{
     position: relative;
     width:100%;
-    max-width: 150px;
+    /*max-width: 150px;*/
+    line-height: 18px;
+    height: 18px;
+    /*box-shadow: 0 -1px 0 0 #fff;*/
+    /*background-image:linear-gradient(to right, #ffcccc 0, #cc0066 50%, #ffcccc 100%);*/
+    overflow:visible;
+
+
 }
+
 .tag-label{
     cursor: pointer;
     width:100%;
     text-align: center;
     display: inline-block;
     height: 18px;
-    background-color:#cc0066;
+
+
     font-weight: bold;
-    color:#fff;
+    vertical-align: top;
+
+
+}
+
+.tag-label:hover{
+    background-color: #ff9999;
+
+
 }
 
 .tag-input{
@@ -956,38 +989,54 @@ span.orderitem-cnt-btns {
     width:100%;
 }
 
-.tag.isActive .tag-inputbox{
+.tag.isActive .tag-input{
     display: inline-block;
 }
 .tag.isActive .tag-label{
     display: none;
 }
 
-.tag.isLabel .tag-inputbox{
+.tag.isLabel .tag-input{
     display: none;
+
 }
 
 .tag.isEmpty .tag-label{
+    background-color: #cc0066;
+    box-shadow: 0 -1px 0 0 #fff;
+
 
 }
-.tag.isEmpty .tag-inputbox{
+.tag.isEmpty .tag-label:hover{
+    background-color: #ff9999;
+
+}
+.tag.isEmpty .tag-input{
     display: none;
 }
 
 .ol-tags{
     position: absolute;
     left:0;
-    top:20px;
-    background-color: green;
-    z-index: 3;
+    top:0;
+    background-color: #ff9999;
+    z-index: 3333;
     list-style:none;
     width:100%;
 }
 .ol-tags li{
     cursor: pointer;
     text-align: center;
+
+    font-weight: bold;
+    border-top: solid 1px #cc0066;
+
 }
 
+.ol-tags li:hover{
+    background-color: #ffcccc;
+
+}
 
 .tagbox-input > label{
     width: 150px;

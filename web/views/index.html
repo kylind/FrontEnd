@@ -59,10 +59,10 @@
             <!-- ko if: itemview()=='name' -->
             <div class="orderitems">
                 <div class="orderitems-header">
-                    <span class="w-p30 taLeft">Tag</span>
-                    <span class="w-p30 taLeft">Name</span>
-                    <span class="w-p10 taLeft">Q</span>
-                    <span class="w-p20 taLeft">Actions</span>
+                    <span class="w-p30 taCenter">标签</span>
+                    <span class="w-p30 taLeft">产品</span>
+                    <span class="w-p10 taRight rpadding-5">数量</span>
+                    <span class="w-p20 taRight  rpadding-5">标记</span>
                     <span class="w-p10 taRight rpadding-5">差</span>
                 </div>
                 <!-- ko foreach: items -->
@@ -72,7 +72,7 @@
                             <input  type="hidden" data-bind="value: tag" class="hidden-tag" />
                         </span>
                         <span class="taLeft w-p30 oneline" data-bind="text: _id"></span>
-                        <span class="taLeft w-p10" data-bind="text: quantity"></span>
+                        <span class="taRight w-p10 rpadding-5" data-bind="text: quantity"></span>
                         <span class="taRight w-p20 orderitem-cnt-btns">
                             <a href="#" class="icon icon-search  rmargin-20 action-load" data-bind="tap: getSubItems"></a>
                             <a href="#" class="icon icon-flag rmargin-5 action-submit" data-bind="tap: markDone, css: markItemStatus()"></a>
@@ -85,10 +85,10 @@
                         <!-- ko if: subItems().length>0 -->
                         <div class="subItems">
                             <div class="subItems-header">
-                                <span class="w-p30 taLeft">客户</span>
-                                <span class="w-p10 taLeft">Q</span>
-                                <span class="w-p20 taLeft">备注</span>
-                                <span class="w-p30 taRight rpadding-5"></span>
+                                <span class="w-p30 taCenter">客户</span>
+                                <span class="w-p30 taLeft">备注</span>
+                                <span class="w-p10 taRight">数量</span>
+                                <span class="w-p20 taRight rpadding-5">标记</span>
                                 <span class="w-p10 taRight rpadding-5"></span>
                             </div>
                             <div class="subItems-cnt" data-bind="template:{ name: 'subItem', foreach: subItems }">
@@ -124,10 +124,10 @@
             <script type="text/html" id="subItem">
                 <section class="subItems-item">
                     <input type="hidden" data-bind="value: _id" />
-                    <span class="w-p30 oneline" data-bind="text: client"> </span>
-                    <span class="w-p10" data-bind="text: quantity"> </span>
-                    <span class="w-p20 taLeft" data-bind="text: note"> </span>
-                    <span class="taRight w-p30">
+                    <span class="w-p30 oneline taCenter" data-bind="text: client"> </span>
+                    <span class="w-p30 taLeft" data-bind="text: note"> </span>
+                    <span class="w-p10 taRight" data-bind="text: quantity"> </span>
+                    <span class="taRight w-p20">
                         <a href="#" class="icon icon-flag rmargin-5 action-submit" data-bind="tap: $parent.markSubItemDone, css: {'font-green': isDone}"></a>
                     </span>
                     <span class="w-p10 taRight rpadding-5"></span>

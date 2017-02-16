@@ -1,4 +1,4 @@
-//define(['angular','ngAnimate','ngResource'], function(angular) {
+define(['angular','ngAnimate','ngResource'], function(angular) {
 
 angular.module('settings', ['ngResource', 'ngAnimate']);
 
@@ -173,4 +173,4 @@ angular.module('settings').component('settings', {
     }]
 });
 
-//});
+});

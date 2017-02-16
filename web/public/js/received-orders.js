@@ -17,7 +17,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.sellPrice = item && !isNaN(item.sellPrice) ? item.sellPrice : '';
 
         self.profit = item && item.profit ? item.profit : '';
-        self.isDone = (item && item.isDone != 'undefined') ? item.isDone : false;
+        self.isDone = (item && typeof item.isDone != 'undefined') ? item.isDone : false;
 
 
 
