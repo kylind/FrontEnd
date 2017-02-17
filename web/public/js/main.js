@@ -14,13 +14,13 @@ requirejs.config({
         'ItemsModel': '../js/purchase-items',
         'swiper': './swiper/dist/js/swiper.jquery.min',
         'colorbox': './jquery-colorbox/jquery.colorbox-min',
-        'tag':'../js/jquery.tag',
+        'tag': '../js/jquery.tag',
         'angular': './angular/angular.min',
         'ngResource': './angular-resource/angular-resource.min',
         'ngAnimate': './angular-animate/angular-animate.min',
         'settings.module': '../js/settings/settings.module',
         'settings.component': '../js/settings/settings.component'
-          //  'settings.component': '/js/settings/settings.min'
+            //  'settings.component': '/js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
@@ -305,20 +305,13 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
     }
 
 
-    require(['ItemsModel', 'ReckoningOrders', 'IncomeList', 'Addresses', 'knockout', 'jquery','tag'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
+    require(['ItemsModel', 'ReckoningOrders', 'IncomeList', 'Addresses', 'knockout', 'jquery', 'tag'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
 
 
         $.getJSON('./purchaseItemsJson', function(rs, status) {
 
             itemsModel = new ItemsModel(rs.items, rs.markedItems, swiper);
             ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
-
-            setTimeout(function(){
-
-                $('.hidden-tag').tag();
-
-
-            },10)
 
         });
 
@@ -332,6 +325,40 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
         $.getJSON('./incomeListJson', function(incomeList, status) {
             incomeListModel = new IncomeListModel(incomeList, swiper);
             ko.applyBindings(incomeListModel, $('#incomeList')[0]);
+
+
+            var promise = new Promise(function(resolve, reject) {
+                $.getJSON(`./user/${USER_ID}`, function(rs, status) {
+                    resolve(rs);
+                });
+            });
+
+            promise.catch(function(reason) {
+
+            })
+
+            promise.then(function(rs) {
+
+                var tags = Array.isArray(rs.tags) ? rs.tags : [];
+
+                $('.hidden-tag').tag({
+                    tags: tags,
+                    updateTag: function(itemName,tag) {
+                        $.post('/itemtag', {
+                                itemName:itemName,
+                                tag: tag
+
+                            }, function(res, status) {
+
+                            },
+                            'json'
+                        );
+
+                    }
+
+                });
+
+            });
 
         });
 

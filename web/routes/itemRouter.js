@@ -78,6 +78,23 @@ router.post('/item', function*() {
     this.status = 200;
 
 });
+router.post('/itemtag', function*() {
+
+    var tagObj = this.request.body;
+
+    var tag = tagObj.tag;
+    var itemName =tagObj.itemName;
+
+
+    var res = yield itemOperation.updateItemTag(itemName, tag);
+
+
+
+    this.body = res[0];
+    this.status = 200;
+
+});
+
 router.post('/subitem', function*() {
 
     var subItem = this.request.body;

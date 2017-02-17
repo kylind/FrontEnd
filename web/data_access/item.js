@@ -293,7 +293,45 @@ var Collection = function(_name) {
 
             return res;
 
-        }
+        },
+
+        updateItemTag: function*(itemName, tag) {
+
+            var db = yield MongoClient.connect(url);
+
+
+            var query = {
+                'items': {
+                    $elemMatch: {
+                        name: itemName,
+                        tag:{$ne: tag}
+                    }
+                }
+
+            };
+
+            var docs = yield db.collection(_name).find(query).toArray();
+            var count =  docs.length;
+
+            while (count > 0) {
+
+
+                var res = yield db.collection(_name).updateMany(query, {
+                    $set: {
+                        'items.$.tag': tag
+                    }
+                });
+
+                docs = yield db.collection(_name).find(query).toArray();
+                count =  docs.length;
+
+            }
+
+
+
+            return res;
+
+        },
     };
 }
 exports.Collection = Collection;

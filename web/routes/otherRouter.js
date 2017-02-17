@@ -26,6 +26,8 @@ router.get('/user/:id', function*() {
 
     var rs = yield userOperation.queryUserById(id);
 
+    delete rs.password;
+
     this.body = rs;
     this.status = 200;
 

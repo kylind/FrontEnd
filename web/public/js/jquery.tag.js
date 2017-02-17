@@ -7,7 +7,8 @@
         return _on.apply(this, arguments);
     };
 
-    var settings={};
+    var newTags = [];
+    var settings = {};
 
     var methods = {
 
@@ -15,20 +16,28 @@
 
             var defaults = {
                 inputClass: '.hidden-tag',
-                tags: ['美之屋', 'BB', '韩美']
+                tags: []
 
             };
+
 
             settings = $.extend({}, defaults, options);
 
             function getTags() {
+
+                // var tags=Array.isArray($.fn.tag.list)?$.fn.tag.list:[];
+
                 return settings.tags;
+
             }
+
 
             function addTag(newTag) {
                 if (settings.tags.indexOf(newTag) >= 0);
-                else
+                else {
                     settings.tags.unshift(newTag);
+                    newTags.unshift(newTag);
+                }
             }
 
             $(document).bind('click', function(event) {
@@ -41,8 +50,9 @@
                     if ($active.length > 0) {
                         var $input = $active.find('.tag-input');
                         var $label = $active.find('.tag-label');
+                        var itemName = $active.next('.hidden-item').val();
 
-                        var val =$input.val();
+                        var val = $input.val();
 
                         if (val == '') {
                             $active.addClass('isEmpty');
@@ -53,9 +63,9 @@
 
                         $active.prev('hidden-tag').val(val);
                         $label.text(val);
+                        settings.updateTag(itemName,val);
 
-                         $('.ol-tags').remove();
-
+                        $('.ol-tags').remove();
 
                         $active.removeClass('isActive');
                     }
@@ -67,6 +77,8 @@
 
                 var $this = $(this);
                 var tagVal = $this.val();
+
+                var itemName=$this.next('.hidden-item').val();
 
                 var $tag = $(`<span class="tag"><span class="tag-label">${tagVal}</span><input type="text" class="tag-input" value="${tagVal}"></span></span>`);
 
@@ -82,7 +94,7 @@
                         var $activeInput = $active.find('.tag-input');
                         var $activeLabel = $active.find('.tag-label');
 
-                        var val=$activeInput.val();
+                        var val = $activeInput.val();
 
                         if (val == '') {
                             $active.addClass('isEmpty');
@@ -94,6 +106,7 @@
                         $active.prev('hidden-tag').val(val);
                         $activeLabel.text(val);
                         $active.removeClass('isActive');
+                        settings.updateTag(itemName,val);
                     }
 
 
@@ -106,8 +119,8 @@
 
                 $input.bind('focus', function() {
 
-                    var offset=$input.offset();
-                    var width=$input.outerWidth();
+                    var offset = $input.offset();
+                    var width = $input.outerWidth();
 
                     $('.ol-tags').remove();
 
@@ -121,19 +134,23 @@
 
                     var $ol = $(olHtml);
 
-                    $ol.css('width',width);
-                    $ol.offset({left:offset.left,top:offset.top+18});
+                    $ol.css('width', width);
+                    $ol.offset({ left: offset.left, top: offset.top + 18 });
 
                     $ol.children('li').one('click', function() {
-                        $input.val($(this).text());
-                        $label.text($(this).text());
-                        $this.val($(this).text());
+                        var val=$(this).text();
+                        $input.val(val);
+                        $label.text(val);
+                        $this.val(val);
+                        settings.updateTag(itemName,val);
 
                         $tag.removeClass('isActive');
                         $tag.addClass('isLabel');
 
-                       // $input.next('.ol-tags').remove();
-                       $('.ol-tags').remove();
+
+
+                        // $input.next('.ol-tags').remove();
+                        $('.ol-tags').remove();
                         $input.focus();
                         return false;
 
@@ -180,11 +197,29 @@
         method.apply(this, arguments);
     };
 
-    $.fn.tag.list=settings.tags;
+    $.fn.tag.setTags = function(tags) {
+        if (Array.isArray(_tags) && tags.length > 0) {
+
+            var tags = _tags.concat([]);
+
+            newTags.forEach(function(item) {
+                if (tags.indexOf(item) < 0) {
+                    tags.unshift(item);
+                }
+
+            })
+
+            settings.tags = tags;
+
+        }
+
+    };
+
+    //  $.fn.tag.se=settings.tags;
 
 
 
-})(jQuery || avajQuery);
+})(jQuery);
 
 
 //$('.hidden-tag').tag();
