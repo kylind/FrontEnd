@@ -14,6 +14,7 @@ requirejs.config({
         'ItemsModel': '../js/purchase-items',
         'swiper': './swiper/dist/js/swiper.jquery.min',
         'colorbox': './jquery-colorbox/jquery.colorbox-min',
+        'tag':'../js/jquery.tag',
         'angular': './angular/angular.min',
         'ngResource': './angular-resource/angular-resource.min',
         'ngAnimate': './angular-animate/angular-animate.min',
@@ -25,6 +26,7 @@ requirejs.config({
         'swiper': ['jquery'],
         'knockout.mapping': ['knockout'],
         'colorbox': ['jquery'],
+        'tag': ['jquery'],
 
         'angular': {
             exports: 'angular'
@@ -303,13 +305,20 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
     }
 
 
-    require(['ItemsModel', 'ReckoningOrders', 'IncomeList', 'Addresses', 'knockout', 'jquery'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
+    require(['ItemsModel', 'ReckoningOrders', 'IncomeList', 'Addresses', 'knockout', 'jquery','tag'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
 
 
         $.getJSON('./purchaseItemsJson', function(rs, status) {
 
             itemsModel = new ItemsModel(rs.items, rs.markedItems, swiper);
             ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
+
+            setTimeout(function(){
+
+                $('.hidden-tag').tag();
+
+
+            },10)
 
         });
 

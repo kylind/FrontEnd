@@ -54,6 +54,8 @@
                         $active.prev('hidden-tag').val(val);
                         $label.text(val);
 
+                         $('.ol-tags').remove();
+
 
                         $active.removeClass('isActive');
                     }
@@ -66,10 +68,10 @@
                 var $this = $(this);
                 var tagVal = $this.val();
 
-                var $tag = $(`<div class="tag"><span class="tag-label">${tagVal}</span><div class="tag-inputbox"><input type="text" class="tag-input" value="${tagVal}"></span></div></div>`);
+                var $tag = $(`<span class="tag"><span class="tag-label">${tagVal}</span><input type="text" class="tag-input" value="${tagVal}"></span></span>`);
 
                 var $label = $tag.find('.tag-label')
-                var $inputbox = $tag.find('.tag-inputbox')
+
                 var $input = $tag.find('.tag-input');
 
                 $label.bind('click', function() {
@@ -104,6 +106,9 @@
 
                 $input.bind('focus', function() {
 
+                    var offset=$input.offset();
+                    var width=$input.outerWidth();
+
                     $('.ol-tags').remove();
 
                     var tags = getTags();
@@ -116,6 +121,9 @@
 
                     var $ol = $(olHtml);
 
+                    $ol.css('width',width);
+                    $ol.offset({left:offset.left,top:offset.top+18});
+
                     $ol.children('li').one('click', function() {
                         $input.val($(this).text());
                         $label.text($(this).text());
@@ -124,13 +132,14 @@
                         $tag.removeClass('isActive');
                         $tag.addClass('isLabel');
 
-                        $input.next('.ol-tags').remove();
+                       // $input.next('.ol-tags').remove();
+                       $('.ol-tags').remove();
                         $input.focus();
                         return false;
 
                     });
 
-                    $(this).after($ol);
+                    $('main').append($ol);
 
                 });
 
@@ -178,4 +187,4 @@
 })(jQuery || avajQuery);
 
 
-$('.hidden-tag').tag();
+//$('.hidden-tag').tag();

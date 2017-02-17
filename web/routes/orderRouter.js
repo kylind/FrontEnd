@@ -94,6 +94,7 @@ function* saveOrder(order) {
         item.isDone = item.isDone == 'true' ? true : false;
         item.buyPrice = item.buyPrice ? +item.buyPrice : null;
         item.sellPrice = item.sellPrice ? +item.sellPrice : null;
+        item.tag = item.tag ? item.tag: '';
         delete item.profit;
         delete item.isChanged;
     });
