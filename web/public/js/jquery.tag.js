@@ -9,6 +9,7 @@
 
     var newTags = [];
     var settings = {};
+    var $activeInput;
 
     var methods = {
 
@@ -75,22 +76,69 @@
 
             $(document).on('keydown', function(event) {
 
-                if (event.keyCode == 13) {
-                    var $target = $(document.activeElement)
+                var $target = $(document.activeElement)
 
-                    if($target.hasClass('item--tag')){
+                if ($target.hasClass('tag-input')) {
 
+                    if (event.keyCode == 13) {
+                        $(document).click();
+                    } else if (event.keyCode == 40) {
+
+                        var $tags = $('.ol-tags > li');
+
+                        $nextInput = $target.closest('.orderitem').next('.orderitem').find('.tag-input');
+
+                        if ($tags.length > 0) {
+                            $tags.first().focus();
+                        } else if ($nextInput.length > 0) {
+                            $nextInput.focus();
+                            $activeInput=$nextInput;
+                        }
+
+                    }else if (event.keyCode == 38) {
+
+                        var $tags = $('.ol-tags > li');
+
+                        $prevInput = $target.closest('.orderitem').prev('.orderitem').find('.tag-input');
+
+                        if ($prevInput.length > 0) {
+                            $prevInput.focus();
+                            $activeInput=$prevInput;
+                        }
                     }
 
-                    var targetPage = swiper.activeIndex == 0 ? 'receivedOrders' : 'reckoningOrders'
+                } else if ($target.hasClass('item--tag')) {
 
-                    var $target = $('#' + targetPage + ' .action-enter');
-                    setTimeout(function() {
-                        $target.trigger('click')
-                    }, 100);
-                    return false;
+                    if (event.keyCode == 38) {
+                        $prevTag = $target.prev('.item--tag');
+
+                        if ($prevTag.length > 0) {
+                            $prevTag.focus();
+                        }else{
+                            $activeInput.focus();
+                        }
+
+                    } else if (event.keyCode == 40) {
+
+                        $nextTag = $target.next('.item--tag');
+
+                        if ($nextTag.length > 0) {
+                            $nextTag.focus();
+                        }else{
+                            $nextInput = $activeInput.closest('.orderitem').next('.orderitem').find('.tag-input');
+                            if($nextInput.length>0){
+                                $nextInput.focus();
+                                $activeInput=$nextInput;
+                            }
+
+                        }
+
+                    } else if (event.keyCode == 13) {
+                        $target.click();
+                    }
 
                 }
+
 
             });
 
@@ -142,6 +190,8 @@
 
                     var offset = $input.offset();
                     var width = $input.outerWidth();
+
+                    $activeInput= $input;
 
                     $('.ol-tags').remove();
 
