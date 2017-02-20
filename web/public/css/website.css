@@ -975,7 +975,6 @@ span.orderitem-cnt-btns {
 .tag-label:hover{
     background-color: #ff9999;
 
-
 }
 
 .tag-input{
@@ -1038,7 +1037,9 @@ span.orderitem-cnt-btns {
     background-color: #ffcccc;
 
 }
-
+.ol-tags li.isActive{
+    background-color: #ffcccc;
+}
 .tagbox-input > label{
     width: 150px;
     text-align: right;

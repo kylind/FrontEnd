@@ -10,6 +10,7 @@
     var newTags = [];
     var settings = {};
     var $activeInput;
+    var $activeTag;
 
     var methods = {
 
@@ -74,71 +75,96 @@
 
             });
 
+            var isListActive = false;
+
             $(document).on('keydown', function(event) {
 
                 var $target = $(document.activeElement)
 
                 if ($target.hasClass('tag-input')) {
 
-                    if (event.keyCode == 13) {
-                        $(document).click();
-                    } else if (event.keyCode == 40) {
 
-                        var $tags = $('.ol-tags > li');
+                    if (!isListActive) {
 
-                        $nextInput = $target.closest('.orderitem').next('.orderitem').find('.tag-input');
+                        if (event.keyCode == 13) {
+                            $(document).click();
+                        } else if (event.keyCode == 40) {
 
-                        if ($tags.length > 0) {
-                            $tags.first().focus();
-                        } else if ($nextInput.length > 0) {
-                            $nextInput.focus();
-                            $activeInput=$nextInput;
-                        }
+                            var $tags = $('.ol-tags > li');
 
-                    }else if (event.keyCode == 38) {
+                            $nextInput = $target.closest('.orderitem').next('.orderitem').find('.tag-input');
 
-                        var $tags = $('.ol-tags > li');
+                            if ($tags.length > 0) {
 
-                        $prevInput = $target.closest('.orderitem').prev('.orderitem').find('.tag-input');
+                                var $first = $tags.first();
 
-                        if ($prevInput.length > 0) {
-                            $prevInput.focus();
-                            $activeInput=$prevInput;
-                        }
-                    }
+                                $first.addClass('isActive');
+                                isListActive = true;
 
-                } else if ($target.hasClass('item--tag')) {
 
-                    if (event.keyCode == 38) {
-                        $prevTag = $target.prev('.item--tag');
-
-                        if ($prevTag.length > 0) {
-                            $prevTag.focus();
-                        }else{
-                            $activeInput.focus();
-                        }
-
-                    } else if (event.keyCode == 40) {
-
-                        $nextTag = $target.next('.item--tag');
-
-                        if ($nextTag.length > 0) {
-                            $nextTag.focus();
-                        }else{
-                            $nextInput = $activeInput.closest('.orderitem').next('.orderitem').find('.tag-input');
-                            if($nextInput.length>0){
+                            } else if ($nextInput.length > 0) {
                                 $nextInput.focus();
-                                $activeInput=$nextInput;
+                                $activeInput = $nextInput;
+                                isListActive=false;
                             }
 
                         }
 
-                    } else if (event.keyCode == 13) {
-                        $target.click();
+/*                        else if (event.keyCode == 38) {
+
+                            var $tags = $('.ol-tags > li');
+
+                            $prevInput = $target.closest('.orderitem').prev('.orderitem').find('.tag-input');
+
+                            if ($prevInput.length > 0) {
+                                $prevInput.focus();
+                                $activeInput = $prevInput;
+                                isListActive=false;
+                            }
+                        }*/
+
+                    } else {
+
+                        var $activeTag=$('.item--tag.isActive');
+
+                        if (event.keyCode == 38) {
+                            $prevTag = $activeTag.prev('.item--tag');
+
+                            if ($prevTag.length > 0) {
+                                $activeTag.removeClass('isActive');
+                                $prevTag.addClass('isActive');
+                            } else {
+                                $activeInput.focus();
+                                isListActive=false;
+                            }
+
+                        } else if (event.keyCode == 40) {
+
+                            $nextTag = $('.item--tag.isActive').next('.item--tag');
+
+                            if ($nextTag.length > 0) {
+                                $activeTag.removeClass('isActive');
+                                $nextTag.addClass('isActive');
+                            }
+
+/*                            else {
+                                $nextInput = $activeTag.next('.orderitem').find('.tag-input');
+                                if ($nextInput.length > 0) {
+                                    $nextInput.trigger('focus');
+                                    $activeInput = $nextInput;
+                                    isListActive=false;
+                                }
+
+                            }*/
+
+                        } else if (event.keyCode == 13) {
+                            $activeTag.click();
+                        }
                     }
 
                 }
 
+                return false;
 
             });
 
@@ -191,7 +217,7 @@
                     var offset = $input.offset();
                     var width = $input.outerWidth();
 
-                    $activeInput= $input;
+                    $activeInput = $input;
 
                     $('.ol-tags').remove();
 
@@ -223,7 +249,7 @@
 
                             // $input.next('.ol-tags').remove();
                             $('.ol-tags').remove();
-                            $input.focus();
+                            $input.trigger('focus');
                             return false;
 
                         });
