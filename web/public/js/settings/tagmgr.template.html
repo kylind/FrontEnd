@@ -5,7 +5,7 @@
             <input type="text" ng-model="$ctrl.newTag" class="input-addTag" placeholder="新标签"><a href="#" class="icon icon-add" ng-click="$ctrl.addTag()"></a>
         </span>
     </div>
-    <div class="tagbox-list">
+    <div class="tagbox-list" ng-show="$ctrl.tags.length>0">
         <ol class="ol-editTags">
             <li ng-repeat="tag in $ctrl.tags" class="tag-edit">
                 <span class="tag-name">{{ tag }}</span> <a class="tag-action icon icon-remove" href="#"  ng-click="$ctrl.removeTag(tag)"></a>

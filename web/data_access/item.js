@@ -32,6 +32,7 @@ var Collection = function(_name) {
                     $group: {
                         '_id': {
                             'name': '$items.name',
+                            'tag':'$items.tag',
                             'isDone': '$items.isDone'
                         },
                         'quantity': {
@@ -41,6 +42,7 @@ var Collection = function(_name) {
                 }, {
                     $group: {
                         '_id': '$_id.name',
+                        'tag':{$first: '$_id.tag'},
                         'purchaseDetail': {
                             $push: {
                                 'isDone': '$_id.isDone',

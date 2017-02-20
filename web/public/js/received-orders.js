@@ -18,6 +18,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.profit = item && item.profit ? item.profit : '';
         self.isDone = (item && typeof item.isDone != 'undefined') ? item.isDone : false;
+        self.tag= item && item.tag ? item.tag : '';
 
 
 

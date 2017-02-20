@@ -90,7 +90,7 @@ router.post('/itemtag', function*() {
 
 
 
-    this.body = res[0];
+    this.body = Array.isArray(res)?res[0]:res;;
     this.status = 200;
 
 });
@@ -106,7 +106,7 @@ router.post('/subitem', function*() {
 
     var res = yield itemOperation.queryItemStatus(subItem.name);
 
-    this.body = res[0];
+    this.body = Array.isArray(res)?res[0]:res;
     this.status = 200;
 
 });

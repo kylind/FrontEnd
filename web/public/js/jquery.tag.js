@@ -63,7 +63,7 @@
 
                         $active.prev('hidden-tag').val(val);
                         $label.text(val);
-                        settings.updateTag(itemName,val);
+                        settings.updateTag(itemName, val);
 
                         $('.ol-tags').remove();
 
@@ -73,12 +73,33 @@
 
             });
 
+            $(document).on('keydown', function(event) {
+
+                if (event.keyCode == 13) {
+                    var $target = $(document.activeElement)
+
+                    if($target.hasClass('item--tag')){
+
+                    }
+
+                    var targetPage = swiper.activeIndex == 0 ? 'receivedOrders' : 'reckoningOrders'
+
+                    var $target = $('#' + targetPage + ' .action-enter');
+                    setTimeout(function() {
+                        $target.trigger('click')
+                    }, 100);
+                    return false;
+
+                }
+
+            });
+
             return this.each(function() {
 
                 var $this = $(this);
                 var tagVal = $this.val();
 
-                var itemName=$this.next('.hidden-item').val();
+                var itemName = $this.next('.hidden-item').val();
 
                 var $tag = $(`<span class="tag"><span class="tag-label">${tagVal}</span><input type="text" class="tag-input" value="${tagVal}"></span></span>`);
 
@@ -106,7 +127,7 @@
                         $active.prev('hidden-tag').val(val);
                         $activeLabel.text(val);
                         $active.removeClass('isActive');
-                        settings.updateTag(itemName,val);
+                        settings.updateTag(itemName, val);
                     }
 
 
@@ -126,37 +147,41 @@
 
                     var tags = getTags();
 
-                    var olHtml = '<ol class="ol-tags">'
-                    tags.forEach(function(item) {
-                        olHtml += `<li>${item}</li>`;
-                    });
-                    olHtml += '</ol>';
+                    if (Array.isArray(tags) && tags.length > 0) {
+                        var olHtml = '<ol class="ol-tags">'
+                        tags.forEach(function(item) {
+                            olHtml += `<li class="item--tag">${item}</li>`;
+                        });
+                        olHtml += '</ol>';
 
-                    var $ol = $(olHtml);
+                        var $ol = $(olHtml);
 
-                    $ol.css('width', width);
-                    $ol.offset({ left: offset.left, top: offset.top + 18 });
+                        $ol.css('width', width);
+                        $ol.offset({ left: offset.left, top: offset.top + 18 });
 
-                    $ol.children('li').one('click', function() {
-                        var val=$(this).text();
-                        $input.val(val);
-                        $label.text(val);
-                        $this.val(val);
-                        settings.updateTag(itemName,val);
+                        $ol.children('li').one('click', function() {
+                            var val = $(this).text();
+                            $input.val(val);
+                            $label.text(val);
+                            $this.val(val);
+                            settings.updateTag(itemName, val);
 
-                        $tag.removeClass('isActive');
-                        $tag.addClass('isLabel');
+                            $tag.removeClass('isActive');
+                            $tag.addClass('isLabel');
 
 
 
-                        // $input.next('.ol-tags').remove();
-                        $('.ol-tags').remove();
-                        $input.focus();
-                        return false;
+                            // $input.next('.ol-tags').remove();
+                            $('.ol-tags').remove();
+                            $input.focus();
+                            return false;
 
-                    });
+                        });
 
-                    $('main').append($ol);
+                        $('main').append($ol);
+                    }
+
+
 
                 });
 

@@ -27,6 +27,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.profit = item && item.profit ? item.profit : '';
         self.note = item && item.note ? item.note : '';
         self.isDone = item && item.isDone ? item.isDone : false;
+        self.tag= item && item.tag ? item.tag : '';
+
         self.historicTrades = ko.observableArray([]);
 
         self.isHistoricTradesOpen = false;
