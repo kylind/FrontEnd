@@ -44,34 +44,32 @@
 
             $(document).bind('click', function(event) {
 
-                var $target = $(event.target);
 
-                if ($target.hasClass('tag-label')); //$target.hasClass('tag-input') ||
-                else {
-                    var $active = $('.tag.isActive');
-                    if ($active.length > 0) {
-                        var $input = $active.find('.tag-input');
-                        var $label = $active.find('.tag-label');
-                        var itemName = $active.next('.hidden-item').val();
+                var $active = $('.tag.isActive');
+                if ($active.length > 0) {
+                    var $input = $active.find('.tag-input');
+                    var $label = $active.find('.tag-label');
+                    var itemName = $active.next('.hidden-item').val();
 
-                        var val = $input.val();
+                    var val = $input.val();
 
-                        if (val == '') {
-                            $active.addClass('isEmpty');
-                        } else {
-                            $active.addClass('isLabel');
-                            addTag(val)
-                        }
-
-                        $active.prev('hidden-tag').val(val);
-                        $label.text(val);
-                        settings.updateTag(itemName, val);
-
-                        $('.ol-tags').remove();
-
-                        $active.removeClass('isActive');
+                    if (val == '') {
+                        $active.addClass('isEmpty');
+                    } else {
+                        $active.addClass('isLabel');
+                        addTag(val)
                     }
+
+                    $active.prev('hidden-tag').val(val);
+                    $label.text(val);
+                    settings.updateTag(itemName, val);
+
+                    $('.ol-tags').remove();
+
+                    $active.removeClass('isActive');
+                    isListActive=false;
                 }
+
 
             });
 
@@ -102,30 +100,19 @@
                                 isListActive = true;
 
 
-                            } else if ($nextInput.length > 0) {
+                            }
+
+/*                            else if ($nextInput.length > 0) {
                                 $nextInput.focus();
                                 $activeInput = $nextInput;
-                                isListActive=false;
-                            }
+                                isListActive = false;
+                            }*/
 
                         }
 
-/*                        else if (event.keyCode == 38) {
-
-                            var $tags = $('.ol-tags > li');
-
-                            $prevInput = $target.closest('.orderitem').prev('.orderitem').find('.tag-input');
-
-                            if ($prevInput.length > 0) {
-                                $prevInput.focus();
-                                $activeInput = $prevInput;
-                                isListActive=false;
-                            }
-                        }*/
-
                     } else {
 
-                        var $activeTag=$('.item--tag.isActive');
+                        $activeTag = $('.item--tag.isActive');
 
                         if (event.keyCode == 38) {
                             $prevTag = $activeTag.prev('.item--tag');
@@ -133,31 +120,22 @@
                             if ($prevTag.length > 0) {
                                 $activeTag.removeClass('isActive');
                                 $prevTag.addClass('isActive');
-                            } else {
-                                $activeInput.focus();
-                                isListActive=false;
                             }
+
 
                         } else if (event.keyCode == 40) {
 
-                            $nextTag = $('.item--tag.isActive').next('.item--tag');
+                            $nextTag = $activeTag.next('.item--tag');
 
                             if ($nextTag.length > 0) {
                                 $activeTag.removeClass('isActive');
                                 $nextTag.addClass('isActive');
+                                $activeTag = $nextTag;
                             }
 
-/*                            else {
-                                $nextInput = $activeTag.next('.orderitem').find('.tag-input');
-                                if ($nextInput.length > 0) {
-                                    $nextInput.trigger('focus');
-                                    $activeInput = $nextInput;
-                                    isListActive=false;
-                                }
-
-                            }*/
 
                         } else if (event.keyCode == 13) {
+                            isListActive=false;
                             $activeTag.click();
                         }
                     }
@@ -210,6 +188,8 @@
                     $tag.addClass('isActive');
 
                     $input.focus();
+
+                    return false;
                 });
 
                 $input.bind('focus', function() {
@@ -249,13 +229,15 @@
 
                             // $input.next('.ol-tags').remove();
                             $('.ol-tags').remove();
-                            $input.trigger('focus');
+                            //$input.focus();
                             return false;
 
                         });
 
                         $('main').append($ol);
                     }
+
+                    return false;
 
 
 
