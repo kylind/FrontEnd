@@ -52,11 +52,20 @@
             </div>
         </section>
         <section class="swiper-slide" id="purchaseItems">
-            <div class="box-viewselection">
-                <input type="radio" name="itemview" value="name" data-bind="checked: itemview" /> By Name
-                <input type="radio" name="itemview" value="mark" data-bind="checked: itemview" /> By Mark
+
+
+            <div class="box-tags">
+
+            <a href="#" class="link-tag all" data-bind="tap: $root.filterItems">所有</a>
+
+             <!-- ko foreach: tags -->
+
+                <a href="#" data-bind="text: $data, tap: $root.filterItems"></a>
+
+             <!-- /ko -->
+
             </div>
-            <!-- ko if: itemview()=='name' -->
+
             <div class="orderitems">
                 <div class="orderitems-header">
                     <span class="w-p30 taCenter">标签</span>
@@ -103,25 +112,8 @@
                 </div>
                 <!-- /ko -->
             </div>
-            <!-- /ko -->
-            <!-- ko if: itemview()=='mark' -->
-            <div class="orderitems">
-                <div class="orderitems-header">
-                    <span class="w-p40 taLeft oneline">Mark</span>
-                    <span class="w-p40 taLeft oneline">Name</span>
-                    <span class="w-p20 taLeft">Q</span>
-                </div>
-                <!-- ko foreach: markedItems -->
-                <div class="orderitem">
-                    <div class="orderitem-cnt">
-                        <span class="taLeft w-p40" data-bind="text: note"></span>
-                        <span class="taLeft w-p40" data-bind="text: name"></span>
-                        <span class="taLeft w-p20" data-bind="text: quantity"></span>
-                    </div>
-                </div>
-                <!-- /ko -->
-            </div>
-            <!-- /ko -->
+
+
             <script type="text/html" id="subItem">
                 <section class="subItems-item">
                     <input type="hidden" data-bind="value: _id" />

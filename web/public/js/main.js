@@ -270,7 +270,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
         if (swiper.activeIndex != 1) {
 
             $.getJSON('./purchaseItemsJson', function(rs, status) {
-                itemsModel.setItems(rs.items, rs.markedItems);
+                itemsModel.setItems(rs.items);
                 setTimeout(function() {
                     swiper.update();
                 }, 100);
@@ -310,21 +310,8 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         $.getJSON('./purchaseItemsJson', function(rs, status) {
 
-            itemsModel = new ItemsModel(rs.items, rs.markedItems, swiper);
+            itemsModel = new ItemsModel(rs.items, swiper);
             ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
-
-        });
-
-
-        $.getJSON('./reckoningOrdersJson', function(orders, status) {
-            reckoningOrdersModel = new OrdersModel(orders, swiper);
-            ko.applyBindings(reckoningOrdersModel, $('#reckoningOrders')[0]);
-
-        });
-
-        $.getJSON('./incomeListJson', function(incomeList, status) {
-            incomeListModel = new IncomeListModel(incomeList, swiper);
-            ko.applyBindings(incomeListModel, $('#incomeList')[0]);
 
 
             var promise = new Promise(function(resolve, reject) {
@@ -344,6 +331,17 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                 $('.hidden-tag').tag({
                     tags: tags,
                     updateTag: function(itemName,tag) {
+
+                        if(Array.isArray(itemsModel.allItems) && itemsModel.allItems.length>0){
+                            var item = items.allItems.find(function(item){
+                                item._id==itemName;
+
+                            });
+                            if(item){
+                                item.tag(tag);
+                            }
+                        }
+
                         $.post('/itemtag', {
                                 itemName:itemName,
                                 tag: tag
@@ -359,6 +357,22 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                 });
 
             });
+
+        });
+
+
+        $.getJSON('./reckoningOrdersJson', function(orders, status) {
+            reckoningOrdersModel = new OrdersModel(orders, swiper);
+            ko.applyBindings(reckoningOrdersModel, $('#reckoningOrders')[0]);
+
+        });
+
+        $.getJSON('./incomeListJson', function(incomeList, status) {
+            incomeListModel = new IncomeListModel(incomeList, swiper);
+            ko.applyBindings(incomeListModel, $('#incomeList')[0]);
+
+
+
 
         });
 

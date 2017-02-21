@@ -14,8 +14,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
     }
     var Item = function(item, swiper) {
         var self = this;
-        self._id = ko.observable(item ? item._id : '');
-        self.quantity = ko.observable(item ? item.quantity : '');
+        self._id = item ? item._id : '';
+        self.quantity = item ? item.quantity : '';
         self.tag = ko.observable((item && item.tag) ? item.tag : '');
         self.purchaseDetail = ko.observableArray(item ? item.purchaseDetail : []);
 
@@ -60,9 +60,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 }
 
             })
-            if (isDone < self.quantity() && isDone != 0) {
+            if (isDone < self.quantity && isDone != 0) {
 
-                return self.quantity() - isDone;
+                return self.quantity - isDone;
 
             } else {
 
@@ -114,7 +114,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                         //     $subItems.addClass('font-green');
                         // }
 
-                        self.subItems().forEach(function(_item){
+                        self.subItems().forEach(function(_item) {
                             _item.isDone(!isPurchased);
                         })
                     }
@@ -143,15 +143,13 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             })
 
-            if (notDone == self.quantity()) {
+            if (notDone == self.quantity) {
                 return '';
-            } else if (isDone == self.quantity()) {
+            } else if (isDone == self.quantity) {
                 return 'font-green';
             } else {
                 return 'font-yellow';
             }
-
-
 
         }
 
@@ -267,56 +265,141 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     };
 
-    var ItemsModel = function(items, markedItems, swiper) {
+    var ItemsModel = function(items, swiper) {
 
-        function init(items, markedItems) {
+        function convertPurchaseStatus(item) {
+
+            var detail = item.purchaseDetail;
+
+            var isDone = 0,
+                notDone = 0;
+
+            detail.forEach(function(_item) {
+                if (_item.isDone) {
+                    isDone = _item.quantity;
+
+                } else {
+                    notDone = _item.quantity;
+
+                }
+
+            })
+
+            if (notDone == item.quantity) {
+                return -1;
+            } else if (isDone == item.quantity) {
+                return 1;
+            } else {
+                return 0
+            }
+        }
+
+
+
+        function init(items) {
             var observableItems = [];
+            var tags = [];
 
             if (Array.isArray(items) && items.length > 0) {
+
+                items.sort(function(itemA, itemB) {
+                    if (!itemA.tag) {
+                        return -1;
+                    } else if (!itemB.tag) {
+                        return 1;
+                    } else {
+                        if (itemA.tag < itemB.tag) {
+                            return -1;
+                        } else if (itemA.tag > itemB.tag) {
+                            return 1;
+                        } else {
+                            var statusNumberA = convertPurchaseStatus(itemA);
+                            var statusNumberB = convertPurchaseStatus(itemB);
+
+                            if (statusNumberA < statusNumberB) {
+                                return -1;
+                            } else if (statusNumberA > statusNumberB) {
+                                return 1;
+                            } else {
+                                return 0;
+                            }
+                        }
+                    }
+
+                })
+
+
                 items.forEach(function(item) {
 
                     observableItems.push(new Item(item, swiper));
+                    if (tags.indexOf(item.tag) < 0) {
+                        tags.push(item.tag);
+                    }
+
 
                 })
+
             }
 
-            var observableMarkedItems = [];
 
-            if (Array.isArray(markedItems) && markedItems.length > 0) {
-                markedItems.forEach(function(item) {
-
-                    observableMarkedItems.push(new MarkedItem(item, swiper));
-
-                })
-            }
-
-            return [observableItems, observableMarkedItems];
+            return [observableItems, tags];
         }
 
-        var items = init(items, markedItems);
-        var observableItems = items[0];
-        var observableMarkedItems = items[1];
+        var items = init(items);
+        observableItems = items[0];
+        tags = items[1];
+
 
         var self = this;
 
-        self.itemview = ko.observable('name')
+        self.tags = ko.observableArray(tags);
 
         self.items = ko.observableArray(observableItems);
-        self.markedItems = ko.observableArray(observableMarkedItems);
 
 
-
-        self.setItems = function(items, markedItems) {
-            var [items, markedItems] = init(items, markedItems)
+        self.setItems = function(items, tags) {
+            var [items, markedItems] = init(items)
 
             self.items(items);
-            self.markedItems(markedItems);
+            if (tags) {
+                self.tags(tags);
+            }
 
         }
 
 
+        self.allItems=[];
+        self.filterItems = function(tag, parent, event) {
+
+            var $currentTag = $(event.target);
+
+            var $previousTag = $('.link-tag.isActive');
+
+            if ($previousTag.hasClass('all')) {
+                self.allItems = self.items();
+            }
+
+            $previousTag.removeClass('isActive');
+            $currentTag.addClass('isActive');
+
+            if ($currentTag.hasClass('all')) {
+
+                self.setItems(self.allItems);
+                self.allItems=[];
+
+            } else {
+
+                var specificItems = self.allItems.filter(function(item) {
+                    return item.tag == tag;
+                });
+
+                self.setItems(specificItems);
+
+            }
 
 
+
+        }
 
     }
 
