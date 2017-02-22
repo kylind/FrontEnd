@@ -333,12 +333,12 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                     updateTag: function(itemName,tag) {
 
                         if(Array.isArray(itemsModel.allItems) && itemsModel.allItems.length>0){
-                            var item = items.allItems.find(function(item){
-                                item._id==itemName;
+                            var item = itemsModel.allItems.find(function(item){
+                               return item._id==itemName;
 
                             });
                             if(item){
-                                item.tag(tag);
+                                item.tag=tag;
                             }
                         }
 

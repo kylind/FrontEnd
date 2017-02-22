@@ -155,7 +155,7 @@ define(['angular','jquery', 'ngAnimate', 'ngResource'], function(angular,$) {
 
                         self.myClasses = 'isSuccess';
 
-                        $.fn.tag.setTags(user.tags);
+                        $.fn.tag.setTags(self.user.tags);
 
                         setTimeout(function() {
                             $scope.$apply(function() {

@@ -269,7 +269,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         function convertPurchaseStatus(item) {
 
-            var detail = item.purchaseDetail;
+            var detail = typeof item.purchaseDetail == 'function'? item.purchaseDetail():item.purchaseDetail;
 
             var isDone = 0,
                 notDone = 0;
@@ -300,7 +300,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             var observableItems = [];
             var tags = [];
 
+
+
             if (Array.isArray(items) && items.length > 0) {
+
+
 
                 items.sort(function(itemA, itemB) {
                     if (!itemA.tag) {
@@ -364,6 +368,13 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             if (tags) {
                 self.tags(tags);
             }
+            setTimeout(function(){
+                $('.hidden-tag').tag();
+
+            },10);
+
+
+
 
         }
 
@@ -376,7 +387,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             var $previousTag = $('.link-tag.isActive');
 
             if ($previousTag.hasClass('all')) {
-                self.allItems = self.items();
+                self.allItems = self.items().map(function(item){
+                    return ko.mapping.toJS(item);
+
+                })
+
             }
 
             $previousTag.removeClass('isActive');

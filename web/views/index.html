@@ -56,7 +56,7 @@
 
             <div class="box-tags">
 
-            <a href="#" class="link-tag all" data-bind="tap: $root.filterItems">所有</a>
+            <a href="#" class="link-tag all isActive" data-bind="tap: $root.filterItems">所有</a>
 
              <!-- ko foreach: tags -->
 
@@ -78,7 +78,7 @@
                 <div class="orderitem">
                     <div class="orderitem-cnt">
                         <span class="taLeft w-p30">
-                            <input  type="hidden" data-bind="value: tag" class="hidden-tag" />
+                            <input  type="text" data-bind="value: tag" class="hidden-tag" />
                             <input  type="hidden" data-bind="value: _id" class="hidden-item" />
                         </span>
                         <span class="taLeft w-p30 oneline" data-bind="text: _id"></span>

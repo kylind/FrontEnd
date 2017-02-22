@@ -23,7 +23,14 @@
             };
 
 
-            settings = $.extend({}, defaults, options);
+            if(options){
+                settings = $.extend({}, defaults, options);
+            }else{
+                settings = $.extend({}, defaults, settings);
+            }
+
+
+            //settings = $.extend({}, defaults, options);
 
             function getTags() {
 
@@ -61,6 +68,7 @@
                     }
 
                     $active.prev('hidden-tag').val(val);
+                    $active.prev('hidden-tag').change();
                     $label.text(val);
                     settings.updateTag(itemName, val);
 
@@ -102,11 +110,6 @@
 
                             }
 
-/*                            else if ($nextInput.length > 0) {
-                                $nextInput.focus();
-                                $activeInput = $nextInput;
-                                isListActive = false;
-                            }*/
 
                         }
 
@@ -142,7 +145,6 @@
 
                 }
 
-                return false;
 
             });
 
@@ -220,6 +222,7 @@
                             $input.val(val);
                             $label.text(val);
                             $this.val(val);
+                            $this.change();
                             settings.updateTag(itemName, val);
 
                             $tag.removeClass('isActive');
@@ -280,8 +283,8 @@
         method.apply(this, arguments);
     };
 
-    $.fn.tag.setTags = function(tags) {
-        if (Array.isArray(_tags) && tags.length > 0) {
+    $.fn.tag.setTags = function(_tags) {
+        if (Array.isArray(_tags) && _tags.length > 0) {
 
             var tags = _tags.concat([]);
 
@@ -297,6 +300,8 @@
         }
 
     };
+
+    $.fn.tag.settings=settings;
 
     //  $.fn.tag.se=settings.tags;
 

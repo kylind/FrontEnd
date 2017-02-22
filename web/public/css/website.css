@@ -945,6 +945,10 @@ span.orderitem-cnt-btns {
     border-right: none;
 }
 
+.hidden-tag{
+    display: none;
+}
+
 .tag{
     position: relative;
     width:100%;
@@ -1022,7 +1026,7 @@ span.orderitem-cnt-btns {
     z-index: 3333;
     list-style:none;
     width:100%;
-    box-shadow: 0 10px 10px -5px #fff;
+    box-shadow: 0 16px 16px -8px #cc0066;
 }
 
 .ol-tags li{
