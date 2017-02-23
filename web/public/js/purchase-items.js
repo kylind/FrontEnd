@@ -269,7 +269,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         function convertPurchaseStatus(item) {
 
-            var detail = typeof item.purchaseDetail == 'function'? item.purchaseDetail():item.purchaseDetail;
+            var detail = typeof item.purchaseDetail == 'function' ? item.purchaseDetail() : item.purchaseDetail;
 
             var isDone = 0,
                 notDone = 0;
@@ -294,9 +294,65 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             }
         }
 
+        function compareTag(itemA, itemB) {
+
+            if (!itemA.tag) {
+                return -1;
+            } else if (!itemB.tag) {
+                return 1;
+            } else {
+                if (itemA.tag < itemB.tag) {
+                    return -1;
+                } else if (itemA.tag > itemB.tag) {
+                    return 1;
+                } else {
+                    var statusNumberA = convertPurchaseStatus(itemA);
+                    var statusNumberB = convertPurchaseStatus(itemB);
+
+                    if (statusNumberA < statusNumberB) {
+                        return -1;
+                    } else if (statusNumberA > statusNumberB) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            }
+
+        }
+
+        function compareStatus(itemA, itemB) {
+
+            var statusNumberA = convertPurchaseStatus(itemA);
+            var statusNumberB = convertPurchaseStatus(itemB);
+
+            if (statusNumberA < statusNumberB) {
+                return -1;
+            } else if (statusNumberA > statusNumberB) {
+                return 1;
+            } else {
+                // if (!itemA.tag) {
+                //     return -1;
+                // } else if (!itemB.tag) {
+                //     return 1;
+                // } else {
+
+                //     if (itemA.tag < itemB.tag) {
+                //         return -1;
+                //     } else if (itemA.tag > itemB.tag) {
+                //         return 1;
+                //     } else {
+                //         return 0;
+                //     }
+
+                // }
+                return 0;
+
+            }
+        }
 
 
-        function init(items) {
+        function init(items, needRefreshTag) {
             var observableItems = [];
             var tags = [];
 
@@ -306,40 +362,26 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
 
-                items.sort(function(itemA, itemB) {
-                    if (!itemA.tag) {
-                        return -1;
-                    } else if (!itemB.tag) {
-                        return 1;
-                    } else {
-                        if (itemA.tag < itemB.tag) {
-                            return -1;
-                        } else if (itemA.tag > itemB.tag) {
-                            return 1;
-                        } else {
-                            var statusNumberA = convertPurchaseStatus(itemA);
-                            var statusNumberB = convertPurchaseStatus(itemB);
+                items.sort(compareTag)
 
-                            if (statusNumberA < statusNumberB) {
-                                return -1;
-                            } else if (statusNumberA > statusNumberB) {
-                                return 1;
-                            } else {
-                                return 0;
-                            }
-                        }
-                    }
 
-                })
+                var needRefreshTag = false;
+
+
+                if ($('.link-tag.all').hasClass('isActive')) {
+                    needRefreshTag = true;
+                }
 
 
                 items.forEach(function(item) {
 
                     observableItems.push(new Item(item, swiper));
-                    if (tags.indexOf(item.tag) < 0) {
-                        tags.push(item.tag);
-                    }
 
+                    if (needRefreshTag) {
+                        if (tags.indexOf(item.tag) < 0) {
+                            tags.push(item.tag);
+                        }
+                    }
 
                 })
 
@@ -349,50 +391,77 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             return [observableItems, tags];
         }
 
-        var items = init(items);
-        observableItems = items[0];
-        tags = items[1];
+        // var items = init(items);
+        // observableItems = items[0];
+        // tags = items[1];
 
 
         var self = this;
 
-        self.tags = ko.observableArray(tags);
+        self.tags = ko.observableArray();
 
-        self.items = ko.observableArray(observableItems);
+        self.items = ko.observableArray();
 
 
-        self.setItems = function(items, tags) {
-            var [items, markedItems] = init(items)
+        self.setItems = function(items, isAll) {
+
+            var needRefreshTag = false;
+
+            if (isAll) {
+                ('.link-tag.all').addClass('isActive');
+                needRefreshTag = true;
+            }
+
+
+            var [items, tags] = init(items, needRefreshTag)
 
             self.items(items);
-            if (tags) {
+
+            if (isAll) {
                 self.tags(tags);
+                self.allItems = self.items().map(function(item) {
+                    return ko.mapping.toJS(item);
+
+                })
             }
-            setTimeout(function(){
+
+
+            setTimeout(function() {
                 $('.hidden-tag').tag();
 
-            },10);
-
-
-
+            }, 10);
 
         }
 
+        self.setItems(items, true);
 
-        self.allItems=[];
+
+        self.allItems = [];
+        self.refreshItems = function(sortfield) {
+
+            var currentItems = self.items().map(function(item) {
+                return ko.mapping.toJS(item);
+
+            })
+
+            if (sortfield == 'status') {
+                currentItems.sort(compareStatus);
+            } else {
+                currentItems.sort(compareTag);
+            }
+
+
+            self.setItems(currentItems);
+
+        }
+
         self.filterItems = function(tag, parent, event) {
 
             var $currentTag = $(event.target);
 
             var $previousTag = $('.link-tag.isActive');
 
-            if ($previousTag.hasClass('all')) {
-                self.allItems = self.items().map(function(item){
-                    return ko.mapping.toJS(item);
 
-                })
-
-            }
 
             $previousTag.removeClass('isActive');
             $currentTag.addClass('isActive');
@@ -400,7 +469,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             if ($currentTag.hasClass('all')) {
 
                 self.setItems(self.allItems);
-                self.allItems=[];
+                self.allItems = [];
 
             } else {
 

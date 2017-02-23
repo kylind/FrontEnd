@@ -270,7 +270,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
         if (swiper.activeIndex != 1) {
 
             $.getJSON('./purchaseItemsJson', function(rs, status) {
-                itemsModel.setItems(rs.items);
+                itemsModel.setItems(rs.items,true);
                 setTimeout(function() {
                     swiper.update();
                 }, 100);
@@ -330,20 +330,39 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                 $('.hidden-tag').tag({
                     tags: tags,
-                    updateTag: function(itemName,tag) {
+                    updateTag: function(itemName, tag) {
 
-                        if(Array.isArray(itemsModel.allItems) && itemsModel.allItems.length>0){
-                            var item = itemsModel.allItems.find(function(item){
-                               return item._id==itemName;
+                        if (Array.isArray(itemsModel.allItems) && itemsModel.allItems.length > 0) {
+                            var item = itemsModel.allItems.find(function(item) {
+                                return item._id == itemName;
 
                             });
-                            if(item){
-                                item.tag=tag;
+
+                            item.tag = tag;
+
+                            if (item) {
+
+                                var tags = [];
+
+
+                                itemsModel.allItems.forEach(function(item) {
+
+                                    if (tags.indexOf(item.tag) < 0) {
+                                        tags.push(item.tag);
+                                    }
+
+
+                                })
+
+                                itemsModel.tags(tags);
+
+
+
                             }
                         }
 
                         $.post('/itemtag', {
-                                itemName:itemName,
+                                itemName: itemName,
                                 tag: tag
 
                             }, function(res, status) {

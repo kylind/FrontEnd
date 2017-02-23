@@ -360,11 +360,15 @@ a.icon:before {}
 
 .icon-refresh:before {
     content: "\f021";
+    color:#fff;
 }
 
 .icon-signout:before {
     content: "\f08b";
+
 }
+
+
 
 input[type="text"],
 input[type="number"],
