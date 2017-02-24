@@ -32,7 +32,7 @@ var Collection = function(_name) {
                     $group: {
                         '_id': {
                             'name': '$items.name',
-                            'tag':'$items.tag',
+                            'tag': '$items.tag',
                             'isDone': '$items.isDone'
                         },
                         'quantity': {
@@ -41,8 +41,10 @@ var Collection = function(_name) {
                     }
                 }, {
                     $group: {
-                        '_id': '$_id.name',
-                        'tag':{$first: '$_id.tag'},
+                        '_id': {
+                            'name': '$_id.name',
+                            'tag': '$_id.tag',
+                        },
                         'purchaseDetail': {
                             $push: {
                                 'isDone': '$_id.isDone',
@@ -52,7 +54,11 @@ var Collection = function(_name) {
                         'quantity': {
                             $sum: '$quantity'
                         }
-                    }
+                    }, {
+
+                    $project: { '_id': '$_id.name', tag: '$_id.tag', quantity:1,  purchaseDetail: 1 }
+
+                }
                 }
 
             ], {
@@ -111,7 +117,7 @@ var Collection = function(_name) {
 
         },
 
-        updateItemStatus: function*(itemName, status) {
+        updateItemStatus: function*(itemName,itemTag, status) {
 
             var db = yield MongoClient.connect(url);
 
@@ -130,14 +136,16 @@ var Collection = function(_name) {
                 'items': {
                     $elemMatch: {
                         name: itemName,
+                        tag:itemTag,
                         isDone: !status
+
                     }
                 }
 
             };
 
             var docs = yield db.collection(_name).find(query).toArray();
-            var count =  docs.length;
+            var count = docs.length;
 
             while (count > 0) {
 
@@ -149,7 +157,7 @@ var Collection = function(_name) {
                 });
 
                 docs = yield db.collection(_name).find(query).toArray();
-                count =  docs.length;
+                count = docs.length;
 
             }
 
@@ -188,7 +196,7 @@ var Collection = function(_name) {
             };
 
             var docs = yield db.collection(_name).find(query).toArray();
-            var count =  docs.length;
+            var count = docs.length;
 
             while (count > 0) {
 
@@ -200,7 +208,7 @@ var Collection = function(_name) {
                 });
 
                 docs = yield db.collection(_name).find(query).toArray();
-                count =  docs.length;
+                count = docs.length;
 
             }
 
@@ -210,7 +218,7 @@ var Collection = function(_name) {
         },
 
 
-        queryItemStatus: function*(itemName) {
+        queryItemStatus: function*(itemName,itemTag) {
 
             var db = yield MongoClient.connect(url);
 
@@ -218,7 +226,8 @@ var Collection = function(_name) {
 
                     $match: {
                         status: '1RECEIVED',
-                        'items.name': itemName
+                        'items.name': itemName,
+                        'items.tag':itemTag
                     }
 
                 }, {
@@ -231,7 +240,8 @@ var Collection = function(_name) {
                 }, {
 
                     $match: {
-                        'items.name': itemName
+                        'items.name': itemName,
+                        'items.tag': itemTag
                     }
 
                 }, {
@@ -268,13 +278,13 @@ var Collection = function(_name) {
             return res;
 
         },
-        querySubItems: function*(itemName) {
+        querySubItems: function*(itemName, itemTag) {
 
             var db = yield MongoClient.connect(url);
 
             var res = yield db.collection(_name).aggregate([{
 
-                    $match: { status: '1RECEIVED', 'items.name': itemName }
+                    $match: { status: '1RECEIVED', 'items.name': itemName,, 'items.tag': itemTag }
 
                 }, {
                     $unwind: {
@@ -286,6 +296,7 @@ var Collection = function(_name) {
                 }, {
 
                     $match: { 'items.name': itemName }
+                    $match: { 'items.tag': itemTag }
 
                 }, {
                     $project: { client: 1, createDate: 1, status: 1, name: '$items.name', quantity: '$items.quantity', note: '$items.note', isDone: '$items.isDone' }
@@ -297,7 +308,7 @@ var Collection = function(_name) {
 
         },
 
-        updateItemTag: function*(itemName, tag) {
+        updateItemTag: function*(itemName, oldTag,newTag) {
 
             var db = yield MongoClient.connect(url);
 
@@ -306,26 +317,26 @@ var Collection = function(_name) {
                 'items': {
                     $elemMatch: {
                         name: itemName,
-                        tag:{$ne: tag}
+                        tag: oldTag
                     }
                 }
 
             };
 
             var docs = yield db.collection(_name).find(query).toArray();
-            var count =  docs.length;
+            var count = docs.length;
 
             while (count > 0) {
 
 
                 var res = yield db.collection(_name).updateMany(query, {
                     $set: {
-                        'items.$.tag': tag
+                        'items.$.tag': newTag
                     }
                 });
 
                 docs = yield db.collection(_name).find(query).toArray();
-                count =  docs.length;
+                count = docs.length;
 
             }
 

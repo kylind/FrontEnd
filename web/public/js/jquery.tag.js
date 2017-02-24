@@ -67,10 +67,15 @@
                         addTag(val)
                     }
 
-                    $active.prev('hidden-tag').val(val);
-                    $active.prev('hidden-tag').change();
+                    var $hiddenTag=$active.prev('hidden-tag');
+
+                    var oldVal=$hiddenTag.val();
+
+                    $hiddenTag.val(val);
+                    $hiddenTag.change();
+
                     $label.text(val);
-                    settings.updateTag(itemName, val);
+                    settings.updateTag(itemName,olVal, val);
 
                     $('.ol-tags').remove();
 
@@ -178,10 +183,17 @@
                             addTag(val)
                         }
 
-                        $active.prev('hidden-tag').val(val);
+                        var $hiddenTag=$active.prev('hidden-tag');
+
+                        var oldVal=$hiddenTag.val();
+
+                        $hiddenTag.val(val);
                         $activeLabel.text(val);
+
+                        $hiddenTag.change();
+
                         $active.removeClass('isActive');
-                        settings.updateTag(itemName, val);
+                        settings.updateTag(itemName, oldVal,val);
                     }
 
 
@@ -221,18 +233,20 @@
                             var val = $(this).text();
                             $input.val(val);
                             $label.text(val);
+
+                            var oldVal=$this.val();
+
                             $this.val(val);
                             $this.change();
-                            settings.updateTag(itemName, val);
+
+
+                            settings.updateTag(itemName,oldVal, val);
 
                             $tag.removeClass('isActive');
                             $tag.addClass('isLabel');
 
-
-
-                            // $input.next('.ol-tags').remove();
                             $('.ol-tags').remove();
-                            //$input.focus();
+
                             return false;
 
                         });

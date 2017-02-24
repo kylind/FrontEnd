@@ -330,7 +330,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                 $('.hidden-tag').tag({
                     tags: tags,
-                    updateTag: function(itemName, tag) {
+                    updateTag: function(itemName, oldTag, newTag) {
 
                         if (Array.isArray(itemsModel.allItems) && itemsModel.allItems.length > 0) {
                             var item = itemsModel.allItems.find(function(item) {
@@ -351,19 +351,16 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                                         tags.push(item.tag);
                                     }
 
-
                                 })
 
                                 itemsModel.tags(tags);
-
-
-
                             }
                         }
 
                         $.post('/itemtag', {
                                 itemName: itemName,
-                                tag: tag
+                                oldTag: oldTag,
+                                newTag:newTag
 
                             }, function(res, status) {
 

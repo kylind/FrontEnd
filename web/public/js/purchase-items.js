@@ -19,6 +19,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.tag = ko.observable((item && item.tag) ? item.tag : '');
         self.purchaseDetail = ko.observableArray(item ? item.purchaseDetail : []);
 
+
+
         self.subItems = ko.observableArray([]);
 
 
@@ -77,7 +79,17 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         });
 
+        function synchronizePurchaseDetail(allItems) {
+            var index = allItems.findIndex(function(_item) {
+                return _item._id == self.id && _item.tag == self.tag();
 
+            })
+
+            if (index > -1) {
+                allItems[index] = ko.mapping.toJS(self);
+            }
+
+        }
 
         self.markDone = function(item, parent, event) {
 
@@ -98,21 +110,17 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             });
 
             $.post('/item', {
+                    itemTag: itemData.tag;
                     itemName: itemData._id,
                     isDone: !isPurchased
                 }, function(res, status) {
 
                     item.purchaseDetail(res.purchaseDetail);
+                    synchronizePurchaseDetail(parent.allItems);
 
                     var flagColor = (!isPurchased) ? "font-green" : "";
 
                     if (self.displaySubItems) {
-                        // var $subItems = $(event.target).closest('.orderitem').find('.subItems-cnt .icon-flag');
-                        // if (flagColor == "") {
-                        //     $subItems.removeClass('font-green');
-                        // } else {
-                        //     $subItems.addClass('font-green');
-                        // }
 
                         self.subItems().forEach(function(_item) {
                             _item.isDone(!isPurchased);
@@ -160,6 +168,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var subItemData = ko.mapping.toJS(subItem);
             subItemData.isDone = !subItemData.isDone;
+            subItemData.tag = parent.tag();
 
 
 
@@ -170,38 +179,19 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     //$(event.target).toggleClass('font-green');
 
                     self.purchaseDetail(res.purchaseDetail);
+                    synchronizePurchaseDetail(parent.allItems);
 
                     self.subItems().forEach(function(_item) {
                         if (_item.client == subItem.client) {
                             _item.isDone(subItem.isDone());
                         }
-                    })
+                    });
                     succeed();
                 },
                 'json'
             );
 
         }
-
-
-
-        /*        self.markSubItemStatus = function(item) {
-
-                    if (item.isDone) {
-                        return 'font-green';
-
-                    } else {
-                        return "";
-                    }
-
-                    self.subItems().forEach(function(_item){
-                        if(_item.name==item.nam){
-                            _item.isDone
-                        }
-                    })
-
-
-                }*/
 
 
         self.getSubName = function(item) {
@@ -218,7 +208,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             if (!item.isSubItemsOpen) {
                 arguments[3]();
                 var succeed = arguments[4]
-                $.getJSON('/subitems', { itemName: itemData._id }, function(res, status) {
+                $.getJSON('/subitems', { itemName: itemData._id, itemTag: itemData.tag }, function(res, status) {
 
                     if (status == 'success') {
 
@@ -331,28 +321,27 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             } else if (statusNumberA > statusNumberB) {
                 return 1;
             } else {
-                // if (!itemA.tag) {
-                //     return -1;
-                // } else if (!itemB.tag) {
-                //     return 1;
-                // } else {
+                if (!itemA.tag) {
+                    return -1;
+                } else if (!itemB.tag) {
+                    return 1;
+                } else {
 
-                //     if (itemA.tag < itemB.tag) {
-                //         return -1;
-                //     } else if (itemA.tag > itemB.tag) {
-                //         return 1;
-                //     } else {
-                //         return 0;
-                //     }
+                    if (itemA.tag < itemB.tag) {
+                        return -1;
+                    } else if (itemA.tag > itemB.tag) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
 
-                // }
-                return 0;
+                }
 
             }
         }
 
 
-        function init(items, needRefreshTag) {
+        function init(items, needRefreshTag, orderBy) {
             var observableItems = [];
             var tags = [];
 
@@ -361,9 +350,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             if (Array.isArray(items) && items.length > 0) {
 
 
-
-                items.sort(compareTag)
-
+                if (orderBy == 'status') {
+                    items.sort(compareStatus)
+                } else {
+                    items.sort(compareTag)
+                }
 
                 var needRefreshTag = false;
 
@@ -391,11 +382,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             return [observableItems, tags];
         }
 
-        // var items = init(items);
-        // observableItems = items[0];
-        // tags = items[1];
-
-
         var self = this;
 
         self.tags = ko.observableArray();
@@ -403,17 +389,17 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.items = ko.observableArray();
 
 
-        self.setItems = function(items, isAll) {
+        self.setItems = function(items, isAll, isIntial) {
 
             var needRefreshTag = false;
 
             if (isAll) {
-                ('.link-tag.all').addClass('isActive');
+                $('.link-tag.all').addClass('isActive');
                 needRefreshTag = true;
             }
 
 
-            var [items, tags] = init(items, needRefreshTag)
+            var [items, tags] = init(items, needRefreshTag);
 
             self.items(items);
 
@@ -421,19 +407,19 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 self.tags(tags);
                 self.allItems = self.items().map(function(item) {
                     return ko.mapping.toJS(item);
-
-                })
+                });
             }
 
+            if (!isIntial) {
+                setTimeout(function() {
+                    $('.hidden-tag').tag();
 
-            setTimeout(function() {
-                $('.hidden-tag').tag();
-
-            }, 10);
+                }, 10);
+            }
 
         }
 
-        self.setItems(items, true);
+        self.setItems(items, true, true);
 
 
         self.allItems = [];
@@ -444,14 +430,14 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             })
 
-            if (sortfield == 'status') {
-                currentItems.sort(compareStatus);
-            } else {
-                currentItems.sort(compareTag);
-            }
+            var [items, tags] = init(currentItems, false, sortfield);
 
+            self.items(items);
 
-            self.setItems(currentItems);
+            setTimeout(function() {
+                $('.hidden-tag').tag();
+
+            }, 10);
 
         }
 
@@ -480,8 +466,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 self.setItems(specificItems);
 
             }
-
-
 
         }
 
