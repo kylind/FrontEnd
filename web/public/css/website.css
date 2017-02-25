@@ -360,15 +360,12 @@ a.icon:before {}
 
 .icon-refresh:before {
     content: "\f021";
-    color:#fff;
+    color: #fff;
 }
 
 .icon-signout:before {
     content: "\f08b";
-
 }
-
-
 
 input[type="text"],
 input[type="number"],
@@ -418,7 +415,6 @@ input[type="text"].postage {
     font-size: 0;
     vertical-align: top;
     height: 18px
-
 }
 
 .order--received input,
@@ -575,14 +571,13 @@ button {
     font-size: 0;
     line-height: 0;
 }
-.order-totalbox > .onlyForClient > span {
 
+.order-totalbox > .onlyForClient > span {
     display: inline-block;
     vertical-align: top;
     line-height: 18px;
     height: 18px;
 }
-
 
 .item {
     border-bottom: 1px solid #cc0066;
@@ -794,6 +789,7 @@ button {
 .orderitems-header {
     font-size: 0;
     background-color: #cc0066;
+    height: 18px;
 }
 
 .orderitems-header span {
@@ -826,22 +822,22 @@ button {
     border-right: 1px solid #cc0066;
     vertical-align: middle;
     height: 18px;
-
 }
+
 .orderitem-cnt > span.taRight {
-
     padding-left: 0;
-    padding-right:5px;
-
-
+    padding-right: 5px;
 }
+
 span.orderitem-cnt-btns {
     font-size: 0;
     padding: 0;
 }
+
 .orderitem-cnt > span:first-child {
-    padding-left:0;
+    padding-left: 0;
 }
+
 .orderitem-cnt > span:last-child {
     border-right: none;
 }
@@ -899,14 +895,14 @@ span.orderitem-cnt-btns {
     display: inline-block;
     box-sizing: border-box;
     vertical-align: middle;
-    height:18px;
+    height: 18px;
 }
+
 .subItems-item>span.taRight {
-
-    padding-right:5px;
+    padding-right: 5px;
     padding-left: 0;
-
 }
+
 .subItems-item span:last-child {
     border-right: none;
 }
@@ -949,149 +945,174 @@ span.orderitem-cnt-btns {
     border-right: none;
 }
 
-.hidden-tag{
+.hidden-tag {
     display: none;
 }
 
-.tag{
+.tag {
     position: relative;
-    width:100%;
+    width: 100%;
     /*max-width: 150px;*/
     line-height: 18px;
     height: 18px;
     /*box-shadow: 0 -1px 0 0 #fff;*/
     /*background-image:linear-gradient(to right, #ffcccc 0, #cc0066 50%, #ffcccc 100%);*/
-    overflow:visible;
-
-
+    overflow: visible;
 }
 
-.tag-label{
+.tagbox {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 0;
+}
+
+.tagbox-label {
+    font-weight: bold;
+    float: left;
+    line-height: 20px;
+}
+
+.tagbox-tags {
+    margin-left: 38px;
+    width: auto;
+    height: 20px;
+}
+
+.link-tag {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 20px;
+}
+
+.link-tag.isActive {
+    color: #fff;
+    background-color: #cc0066;
+}
+
+.tag-label {
     cursor: pointer;
-    width:100%;
+    width: 100%;
     text-align: center;
     display: inline-block;
     height: 18px;
-
-
     font-weight: bold;
     vertical-align: top;
-
-
 }
 
-.tag-label:hover{
+.tag-label:hover {
     background-color: #ff9999;
-
 }
 
-.tag-input{
-    width:100%;
+.tag-input {
+    width: 100%;
     text-align: center;
     display: inline-block;
 }
 
-.tag-inputbox{
+.tag-inputbox {
     display: none;
-    width:100%;
+    width: 100%;
 }
 
-.tag.isActive .tag-input{
+.tag.isActive .tag-input {
     display: inline-block;
 }
-.tag.isActive .tag-label{
+
+.tag.isActive .tag-label {
     display: none;
 }
 
-.tag.isLabel .tag-input{
+.tag.isLabel .tag-input {
     display: none;
-
 }
 
-.tag.isEmpty .tag-label{
+.tag.isEmpty .tag-label {
     background-color: #cc0066;
     box-shadow: 0 -1px 0 0 #fff;
-
-
 }
-.tag.isEmpty .tag-label:hover{
+
+.tag.isEmpty .tag-label:hover {
     background-color: #ff9999;
-
 }
-.tag.isEmpty .tag-input{
+
+.tag.isEmpty .tag-input {
     display: none;
 }
 
-.ol-tags{
+.ol-tags {
     position: absolute;
-    left:0;
-    top:0;
+    left: 0;
+    top: 0;
     background-color: #ff9999;
     z-index: 3333;
-    list-style:none;
-    width:100%;
+    list-style: none;
+    width: 100%;
     box-shadow: 0 16px 16px -8px #cc0066;
 }
 
-.ol-tags li{
+.ol-tags li {
     cursor: pointer;
     text-align: center;
-
     font-weight: bold;
     border-top: solid 1px #cc0066;
-
 }
 
-.ol-tags li:hover{
-    background-color: #ffcccc;
-
-}
-.ol-tags li.isActive{
+.ol-tags li:hover {
     background-color: #ffcccc;
 }
 
-.tagbox-input > label{
+.ol-tags li.isActive {
+    background-color: #ffcccc;
+}
+
+.tagbox-input > label {
     width: 150px;
     text-align: right;
     margin-right: 15px;
 }
-.tagbox-input > span{
+
+.tagbox-input > span {
     width: 150px;
     display: inline-block;
 }
-.tagbox-input  input.input-addTag{
+
+.tagbox-input input.input-addTag {
     width: 120px;
     text-align: center;
 }
-.tagbox-input a{
+
+.tagbox-input a {
     float: right;
     vertical-align: middle;
 }
 
-.tag-edit .tag-name{
+.tag-edit .tag-name {}
 
-}
-.tag-edit .tag-action{
+.tag-edit .tag-action {}
 
-}
-.tagbox-list{
+.tagbox-list {
     text-align: right;
 }
-.ol-editTags{
+
+.ol-editTags {
     display: inline-block;
-    width:150px;
+    width: 150px;
 }
 
-.tag-edit{
+.tag-edit {
     text-align: center;
 }
-.tag-name{
-    width:120px;
+
+.tag-name {
+    width: 120px;
     display: inline-block;
     background-color: #cc0066;
-    color:#fff;
+    color: #fff;
     font-weight: bold;
 }
+
+
 /**** addresses ***/
 
 .alladdresses {
@@ -1276,11 +1297,13 @@ span.orderitem-cnt-btns {
     width: 100%;
     border: 1px solid #cc0066;
     box-sizing: border-box;
+
 }
 
 .incomelist-header {
     font-size: 0;
     background-color: #cc0066;
+    height: 18px;
 }
 
 .incomelist-header span {
@@ -1289,9 +1312,8 @@ span.orderitem-cnt-btns {
     box-sizing: border-box;
     font-weight: bold;
     color: #fff;
-    padding-top: 5px;
-    padding-bottom: 5px;
     padding-left: 5px;
+
 }
 
 @media all and (max-width:600px) {
@@ -1630,28 +1652,26 @@ button.ispure {
         display: block;
     }
     .swiper-container {
-       position: static !important;
+        position: static !important;
         display: block !important;
-         /*overflow-y: visible !important;
+        /*overflow-y: visible !important;
         overflow-x: hidden !important;*/
     }
     .swiper-wrapper {
         padding-top: 0 !important;
-       display: block !important;
+        display: block !important;
         position: static !important;
-         /*overflow-y: visible !important;*/
-         transform: none !important;
+        /*overflow-y: visible !important;*/
+        transform: none !important;
     }
-
-    .swiper-slide{
+    .swiper-slide {
         display: none;
     }
-
     .swiper-slide-active {
         display: block !important;
         position: static !important;
         width: 700px !important;
-/*        overflow-y: visible !important;*/
+        /*        overflow-y: visible !important;*/
     }
     .swiper-pagination {
         display: none !important;
@@ -1665,11 +1685,34 @@ button.ispure {
     .box-viewselection {
         display: none;
     }
+
     .orderitems {
         border-color: #000 !important;
     }
+
+    .tagbox{
+        display: none;
+    }
     .orderitem-cnt-btns > a {
         display: none;
+    }
+    .orderitem-cnt-btns> .icon-flag.font-green{
+        display: inline-block;
+
+    }
+    .orderitem-cnt-btns> .icon-flag.font-green:before{
+
+        content: '买了';
+
+    }
+    .orderitem-cnt-btns> .icon-flag.font-yellow{
+        display: inline-block;
+
+    }
+    .orderitem-cnt-btns> .icon-flag.font-yellow:before{
+
+        content: '还差';
+
     }
     .orderitems-header {
         background-color: #fff;

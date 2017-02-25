@@ -54,12 +54,13 @@ var Collection = function(_name) {
                         'quantity': {
                             $sum: '$quantity'
                         }
-                    }, {
+                    }
+                }, {
 
-                    $project: { '_id': '$_id.name', tag: '$_id.tag', quantity:1,  purchaseDetail: 1 }
+                    $project: { '_id': '$_id.name', tag: '$_id.tag', quantity: 1, purchaseDetail: 1 }
 
                 }
-                }
+
 
             ], {
                 cursor: {
@@ -117,7 +118,7 @@ var Collection = function(_name) {
 
         },
 
-        updateItemStatus: function*(itemName,itemTag, status) {
+        updateItemStatus: function*(itemName, itemTag, status) {
 
             var db = yield MongoClient.connect(url);
 
@@ -136,7 +137,7 @@ var Collection = function(_name) {
                 'items': {
                     $elemMatch: {
                         name: itemName,
-                        tag:itemTag,
+                        tag: itemTag,
                         isDone: !status
 
                     }
@@ -218,7 +219,7 @@ var Collection = function(_name) {
         },
 
 
-        queryItemStatus: function*(itemName,itemTag) {
+        queryItemStatus: function*(itemName, itemTag) {
 
             var db = yield MongoClient.connect(url);
 
@@ -227,7 +228,7 @@ var Collection = function(_name) {
                     $match: {
                         status: '1RECEIVED',
                         'items.name': itemName,
-                        'items.tag':itemTag
+                        'items.tag': itemTag
                     }
 
                 }, {
@@ -284,7 +285,7 @@ var Collection = function(_name) {
 
             var res = yield db.collection(_name).aggregate([{
 
-                    $match: { status: '1RECEIVED', 'items.name': itemName,, 'items.tag': itemTag }
+                    $match: { status: '1RECEIVED', 'items.name': itemName, 'items.tag': itemTag }
 
                 }, {
                     $unwind: {
@@ -295,8 +296,10 @@ var Collection = function(_name) {
                     }
                 }, {
 
-                    $match: { 'items.name': itemName }
-                    $match: { 'items.tag': itemTag }
+                    $match: {
+                        'items.name': itemName,
+                        'items.tag': itemTag
+                    }
 
                 }, {
                     $project: { client: 1, createDate: 1, status: 1, name: '$items.name', quantity: '$items.quantity', note: '$items.note', isDone: '$items.isDone' }
@@ -308,7 +311,7 @@ var Collection = function(_name) {
 
         },
 
-        updateItemTag: function*(itemName, oldTag,newTag) {
+        updateItemTag: function*(itemName, oldTag, newTag) {
 
             var db = yield MongoClient.connect(url);
 

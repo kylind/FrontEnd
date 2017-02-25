@@ -84,12 +84,11 @@ router.post('/itemtag', function*() {
     var tagObj = this.request.body;
 
     var oldTag = tagObj.oldTag;
-    var newTag=tagOjb.newTag;
+    var newTag=tagObj.newTag;
     var itemName =tagObj.itemName;
 
 
     var res = yield itemOperation.updateItemTag(itemName,oldTag, newTag);
-
 
 
     this.body = Array.isArray(res)?res[0]:res;;

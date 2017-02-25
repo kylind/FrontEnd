@@ -26,8 +26,27 @@ router.get('/user/:id', function*() {
 
     var rs = yield userOperation.queryUserById(id);
 
+    delete rs.password;
+
     this.body = rs;
     this.status = 200;
 
 });
+
+
+router.get('/tag', function*() {
+
+    var _id = this.req.user._id;
+
+    yield this.render('tag', {
+        css: '',
+        name: 'common',
+        header: '',
+        footer: ''
+
+    });
+
+});
+
+
 exports.router = router;

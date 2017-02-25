@@ -8,10 +8,10 @@
     <div class="swiper-wrapper">
         <section class="swiper-slide" id="receivedOrders">
             <div class="searchbox">
-                <button type="button" text="Add" class="fl icon icon-add" data-bind="tap:$root.addOrder"> Order </button>
-                <button type="button" text="Add" class="lmargin-5 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> Orders </button>
+                <button type="button" text="Add" class="fl icon icon-add" data-bind="tap:$root.addOrder"> 新建 </button>
+                <button type="button" text="Add" class="lmargin-5 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> 保存</button>
                 <div class="lmargin-220">
-                    <input type="text" class="w-p100 input-search" id="search-receivedOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
+                    <input type="text" class="w-p100 input-search" id="search-receivedOrders" data-bind="event: {input: $root.searchOrders}" placeholder="搜索客户订单" />
                 </div>
             </div>
             <div class="tmargin-40" data-bind="foreach: orders">
@@ -19,7 +19,7 @@
                     <div class="order-client">
                         <input type="hidden" data-bind="value: _id" />
                         <div class="order-clientbox">
-                            <input type="text" class="client oneline" data-bind="value: client" placeholder="Client" />
+                            <input type="text" class="client oneline" data-bind="value: client" placeholder="客户" />
                         </div>
                     </div>
                     <div class="order-items">
@@ -32,13 +32,13 @@
                         <!-- ko foreach: items -->
                         <fieldset class="item">
                             <span class="w-p40">
-                    <input  type="text" class="oneline" data-bind="value: name" placeholder="Product" />
+                    <input  type="text" class="oneline" data-bind="value: name" placeholder="产品" />
                 </span>
                             <span class="w-p10">
-                    <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
+                    <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
                 </span>
                             <span class="w-p30">
-                    <input  type="text" data-bind="value: note" placeholder="Mark:" />
+                    <input  type="text" data-bind="value: note" placeholder="备注:" />
                 </span>
                             <span class="w-p20 taRight rpadding-5"><!-- data-bind="css: { 'align-right': $index()%2==0 } -->
 
@@ -52,22 +52,15 @@
             </div>
         </section>
         <section class="swiper-slide" id="purchaseItems">
-
-
-            <div class="box-tags">
-
-            <span>标签：</span>
-
-            <a href="#" class="link-tag all isActive" data-bind="tap: $root.filterItems">所有</a>
-
-             <!-- ko foreach: tags -->
-
-                <a href="#" data-bind="text: $data, tap: $root.filterItems"></a>
-
-             <!-- /ko -->
-
+            <div class="tagbox">
+                <span class="tagbox-label">标签：</span>
+                <div class="tagbox-tags">
+                    <a href="#" class="link-tag all isActive" data-bind="tap: $root.filterItems">所有</a>
+                    <!-- ko foreach: tags -->
+                    <a href="#" class="link-tag" data-bind="text: $data, tap: $root.filterItems"></a>
+                    <!-- /ko -->
+                </div>
             </div>
-
             <div class="orderitems">
                 <div class="orderitems-header">
                     <span class="w-p30 taCenter"><a class="icon icon-refresh"  data-bind="tap:$root.refreshItems"></a>标签</span>
@@ -108,14 +101,12 @@
                         </div>
                         <!-- /ko -->
                         <!-- ko if: subItems().length==0 -->
-                        <p class="taCenter">Somehow we cannot get item detail for now!</p>
+                        <p class="taCenter">暂时没有获取到产品的客户列表。</p>
                         <!-- /ko -->
                     </div>
                 </div>
                 <!-- /ko -->
             </div>
-
-
             <script type="text/html" id="subItem">
                 <section class="subItems-item">
                     <input type="hidden" data-bind="value: _id" />
@@ -123,7 +114,7 @@
                     <span class="w-p30 taLeft" data-bind="text: note"> </span>
                     <span class="w-p10 taRight" data-bind="text: quantity"> </span>
                     <span class="taRight w-p20">
-                        <a href="#" class="icon icon-flag rmargin-5 action-submit" data-bind="tap: $parent.markSubItemDone, css: {'font-green': isDone}"></a>
+                        <a href="#" class="icon icon-flag action-submit" data-bind="tap: function(data, parent,event){$parent.markSubItemDone(data,parent,event,arguments[3],arguments[4],$root);}, css: {'font-green': isDone}"></a>
                     </span>
                     <span class="w-p10 taRight rpadding-5"></span>
                     <!-- <span class="w-p25 taRight rpadding-5" data-bind="text: createDate"> </span> -->
@@ -132,10 +123,10 @@
         </section>
         <section class="swiper-slide" id="reckoningOrders">
             <div class="searchbox">
-                <button type="button" text="Add" class="rmargin-20 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> Orders </button>
+                <button type="button" text="Add" class="rmargin-20 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> 保存 </button>
                 <a href="#" class="fl icon icon-eye" data-bind="tap: $root.toggleClientView"></a>
                 <div class="lmargin-150">
-                    <input type="text" class="w-p100 input-search" id="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="Search Your Orders" />
+                    <input type="text" class="w-p100 input-search" id="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="搜索客户订单" />
                 </div>
             </div>
             <div class="tmargin-40 orders  orders--reckoning" data-bind="foreach: orders">
@@ -144,7 +135,7 @@
                         <input type="hidden" data-bind="value: _id" />
                         <input type="hidden" data-bind="value: rate" />
                         <div class="order-clientbox">
-                            <input type="text" class="client oneline" data-bind="value: client" placeholder="Client" />
+                            <input type="text" class="client oneline" data-bind="value: client" placeholder="客户" />
                         </div>
                         <div class="taCenter">
                             <span data-bind="text: displayDate"></span>
@@ -181,19 +172,19 @@
                             <fieldset class="item">
                                 <div class="item-fields">
                                     <span class="w-p20 name">
-                                        <input  type="text" class="oneline" data-bind="value: name" placeholder="Product" />
+                                        <input  type="text" class="oneline" data-bind="value: name" placeholder="产品" />
                                     </span>
                                     <span class="w-p10 quantity">
-                                        <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="Quantity" />
+                                        <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
                                     </span>
                                     <span class="w-p15 onlyForMe">
-                                        <input  type="text" data-bind="value: buyPrice" placeholder="Buy" />
+                                        <input  type="text" data-bind="value: buyPrice" placeholder="买" />
                                     </span>
                                     <span class="w-p15 sell">
-                                        <input  type="text" data-bind="value: sellPrice" placeholder="Sell" />
+                                        <input  type="text" data-bind="value: sellPrice" placeholder="卖" />
                                     </span>
                                     <span class="w-p15 onlyForMe">
-                                        <input  type="text" readonly data-bind="value: profit" placeholder="Profit" />
+                                        <input  type="text" readonly data-bind="value: profit" placeholder="收益" />
                                     </span>
                                     <span class="w-p25  taRight rpadding-5">
                                         <a href="#" class="icon icon-search  action-load" data-bind="tap: $parent.getHistoricTrades"></a>
@@ -204,18 +195,18 @@
                                     <!-- ko if: historicTrades().length>0 -->
                                     <div class="historic">
                                         <div class="historic-header">
-                                            <span class="w-p20 taLeft client">Client</span>
-                                            <span class="w-p10 taLeft quantity">Q</span>
-                                            <span class="w-p15 taLeft buy">Buy</span>
-                                            <span class="w-p15 taLeft sell">Sell</span>
-                                            <span class="w-p40 taLeft lpadding-5 date">Date</span>
+                                            <span class="w-p20 taLeft client">客户</span>
+                                            <span class="w-p10 taLeft quantity">数量</span>
+                                            <span class="w-p15 taLeft buy">买</span>
+                                            <span class="w-p15 taLeft sell">卖</span>
+                                            <span class="w-p40 taLeft lpadding-5 date">日期</span>
                                         </div>
                                         <div class="historic-items" data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">
                                         </div>
                                     </div>
                                     <!-- /ko -->
                                     <!-- ko if: historicTrades().length==0 -->
-                                    <p class="taCenter">we cannot get historic trades!</p>
+                                    <p class="taCenter">没有找到历史交易。</p>
                                     <!-- /ko -->
                                 </div>
                             </fieldset>
@@ -238,12 +229,12 @@
         <section class="swiper-slide" id="incomeList">
             <div class="incomelist isMobile tmargin-10">
                 <div class="incomelist-header">
-                    <span class="w-p15 taLeft">Year</span>
-                    <span class="w-p10 taLeft">Week</span>
-                    <span class="w-p15 taLeft">Period</span>
-                    <span class="w-p20 taRight rpadding-5">Cost</span>
-                    <span class="w-p20 taRight  rpadding-5">Revenue</span>
-                    <span class="w-p20 taRight rpadding-5"> Income</span>
+                    <span class="w-p15 taLeft">年</span>
+                    <span class="w-p10 taLeft">周</span>
+                    <span class="w-p15 taLeft">周期</span>
+                    <span class="w-p20 taRight rpadding-5">成本</span>
+                    <span class="w-p20 taRight  rpadding-5">收入</span>
+                    <span class="w-p20 taRight rpadding-5">收益</span>
                 </div>
                 <!-- ko foreach: incomeList -->
                 <!-- ko if: ($index() + 1) != ($root.incomeList().length) -->
@@ -266,7 +257,7 @@
                 <!-- ko if: ($index() + 1) == $root.incomeList().length -->
                 <div class="orderitem">
                     <div class="orderitem-cnt total">
-                        <span class="taRight w-p40  rpadding-5"><label class="vaMiddle">Total?</label><a class="icon icon-eyeslash vaMiddle" data-bind="tap: $root.toggleTotalView"></a></span>
+                        <span class="taRight w-p40  rpadding-5"><label class="vaMiddle">汇总？</label><a class="icon icon-eyeslash vaMiddle" data-bind="tap: $root.toggleTotalView"></a></span>
                         <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(cost)"></span>
                         <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(revenue)"></span>
                         <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(income)"></span>
@@ -299,12 +290,12 @@ for (var i = 0; i < Infinity; i++) {
 </div>
     -->
 <div class="prompt">
-    <span class="prompt-submitting"><i class="fa fa-spinner fa-pulse"></i> <span>Submit...</span></span>
-    <span class="prompt-succeed disappeared icon icon-peace"> Succeed!</span>
+    <span class="prompt-submitting"><i class="fa fa-spinner fa-pulse"></i> <span>提交中...</span></span>
+    <span class="prompt-succeed disappeared icon icon-peace">提交成功!</span>
 </div>
 <div class="confirm">
-    <button type="button" class="confirm-submit taCenter ">Confirm</button>
-    <button type="button" class="confirm-cancel taCenter lmargin-5">Cancel</button>
+    <button type="button" class="confirm-submit taCenter ">确认</button>
+    <button type="button" class="confirm-cancel taCenter lmargin-5">取消</button>
 </div>
 <div class="dNone">
     <div id="settings">

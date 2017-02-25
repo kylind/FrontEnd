@@ -81,13 +81,15 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         function synchronizePurchaseDetail(allItems) {
             var index = allItems.findIndex(function(_item) {
-                return _item._id == self.id && _item.tag == self.tag();
+                return _item._id == self._id && _item.tag == self.tag();
 
             })
 
             if (index > -1) {
                 allItems[index] = ko.mapping.toJS(self);
             }
+
+
 
         }
 
@@ -110,7 +112,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             });
 
             $.post('/item', {
-                    itemTag: itemData.tag;
+                    itemTag: itemData.tag,
                     itemName: itemData._id,
                     isDone: !isPurchased
                 }, function(res, status) {
@@ -126,7 +128,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                             _item.isDone(!isPurchased);
                         })
                     }
-                    succeed();
+                    succeed(true);
                 },
                 'json'
             );
@@ -165,6 +167,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             arguments[3]();
             var succeed = arguments[4];
+            var root=arguments[5];
 
             var subItemData = ko.mapping.toJS(subItem);
             subItemData.isDone = !subItemData.isDone;
@@ -179,14 +182,14 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     //$(event.target).toggleClass('font-green');
 
                     self.purchaseDetail(res.purchaseDetail);
-                    synchronizePurchaseDetail(parent.allItems);
+                    synchronizePurchaseDetail(root.allItems);
 
                     self.subItems().forEach(function(_item) {
                         if (_item.client == subItem.client) {
                             _item.isDone(subItem.isDone());
                         }
                     });
-                    succeed();
+                    succeed(true);
                 },
                 'json'
             );
@@ -369,7 +372,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     observableItems.push(new Item(item, swiper));
 
                     if (needRefreshTag) {
-                        if (tags.indexOf(item.tag) < 0) {
+                        if (tags.indexOf(item.tag) < 0 && item.tag) {
                             tags.push(item.tag);
                         }
                     }
@@ -383,6 +386,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         }
 
         var self = this;
+
+        self.allItems = [];
 
         self.tags = ko.observableArray();
 
@@ -422,13 +427,22 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.setItems(items, true, true);
 
 
-        self.allItems = [];
+
         self.refreshItems = function(sortfield) {
 
             var currentItems = self.items().map(function(item) {
                 return ko.mapping.toJS(item);
 
             })
+            var $currentTab=$('.link-tag.isActive')
+
+            if(!$currentTab.hasClass('all')){
+                currentItems=currentItems.filter(function(item){
+                    return item.tag==$currentTab.text();
+
+                })
+
+            }
 
             var [items, tags] = init(currentItems, false, sortfield);
 
@@ -454,8 +468,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             if ($currentTag.hasClass('all')) {
 
-                self.setItems(self.allItems);
-                self.allItems = [];
+                self.setItems(self.allItems, true, false);
 
             } else {
 
@@ -466,6 +479,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 self.setItems(specificItems);
 
             }
+
+            swiper.update();
 
         }
 

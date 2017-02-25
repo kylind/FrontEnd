@@ -89,7 +89,7 @@ app.use(itemRouter.routes());
 app.use(addressRouter.routes());
 app.use(otherRouter.routes());
 
-app.listen(3000);
+app.listen(process.env.port);
 
 console.log(process.env.NODE_ENV);
 console.log(process.env.db);

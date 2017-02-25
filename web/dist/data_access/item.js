@@ -32,6 +32,7 @@ var Collection = function(_name) {
                     $group: {
                         '_id': {
                             'name': '$items.name',
+                            'tag': '$items.tag',
                             'isDone': '$items.isDone'
                         },
                         'quantity': {
@@ -40,7 +41,10 @@ var Collection = function(_name) {
                     }
                 }, {
                     $group: {
-                        '_id': '$_id.name',
+                        '_id': {
+                            'name': '$_id.name',
+                            'tag': '$_id.tag',
+                        },
                         'purchaseDetail': {
                             $push: {
                                 'isDone': '$_id.isDone',
@@ -51,7 +55,12 @@ var Collection = function(_name) {
                             $sum: '$quantity'
                         }
                     }
+                }, {
+
+                    $project: { '_id': '$_id.name', tag: '$_id.tag', quantity: 1, purchaseDetail: 1 }
+
                 }
+
 
             ], {
                 cursor: {
@@ -109,24 +118,108 @@ var Collection = function(_name) {
 
         },
 
-        updateItemStatus: function*(itemName, status) {
+        updateItemStatus: function*(itemName, itemTag, status) {
 
             var db = yield MongoClient.connect(url);
 
 
-            var res = yield db.collection(_name).updateMany({
-                'items.name': itemName
+            /*            var res = yield db.collection(_name).updateMany({
+                            'items.name': itemName
 
-            }, {
-                $set: {
-                    'items.$.isDone': status
+                        }, {
+                            $set: {
+                                'items.$.isDone': status
+                            }
+                        });*/
+
+
+            var query = {
+                'items': {
+                    $elemMatch: {
+                        name: itemName,
+                        tag: itemTag,
+                        isDone: !status
+
+                    }
                 }
-            });
+
+            };
+
+            var docs = yield db.collection(_name).find(query).toArray();
+            var count = docs.length;
+
+            while (count > 0) {
+
+
+                var res = yield db.collection(_name).updateMany(query, {
+                    $set: {
+                        'items.$.isDone': status
+                    }
+                });
+
+                docs = yield db.collection(_name).find(query).toArray();
+                count = docs.length;
+
+            }
+
+
 
             return res;
 
         },
-        queryItemStatus: function*(itemName) {
+
+        updateSubItemStatus: function*(id, itemName, status) {
+
+            var db = yield MongoClient.connect(url);
+
+
+            /*            var res = yield db.collection(_name).updateMany({
+                            '_id': new ObjectID(id),
+                            'items.name': itemName
+
+                        }, {
+                            $set: {
+                                'items.$.isDone': status
+                            }
+                        });*/
+
+
+
+            var query = {
+                '_id': new ObjectID(id),
+                'items': {
+                    $elemMatch: {
+                        name: itemName,
+                        isDone: !status
+                    }
+                }
+
+            };
+
+            var docs = yield db.collection(_name).find(query).toArray();
+            var count = docs.length;
+
+            while (count > 0) {
+
+
+                var res = yield db.collection(_name).updateOne(query, {
+                    $set: {
+                        'items.$.isDone': status
+                    }
+                });
+
+                docs = yield db.collection(_name).find(query).toArray();
+                count = docs.length;
+
+            }
+
+
+            return res;
+
+        },
+
+
+        queryItemStatus: function*(itemName, itemTag) {
 
             var db = yield MongoClient.connect(url);
 
@@ -134,7 +227,8 @@ var Collection = function(_name) {
 
                     $match: {
                         status: '1RECEIVED',
-                        'items.name': itemName
+                        'items.name': itemName,
+                        'items.tag': itemTag
                     }
 
                 }, {
@@ -147,7 +241,8 @@ var Collection = function(_name) {
                 }, {
 
                     $match: {
-                        'items.name': itemName
+                        'items.name': itemName,
+                        'items.tag': itemTag
                     }
 
                 }, {
@@ -184,13 +279,13 @@ var Collection = function(_name) {
             return res;
 
         },
-        querySubItems: function*(itemName) {
+        querySubItems: function*(itemName, itemTag) {
 
             var db = yield MongoClient.connect(url);
 
             var res = yield db.collection(_name).aggregate([{
 
-                    $match: { status: '1RECEIVED', 'items.name': itemName }
+                    $match: { status: '1RECEIVED', 'items.name': itemName, 'items.tag': itemTag }
 
                 }, {
                     $unwind: {
@@ -201,7 +296,10 @@ var Collection = function(_name) {
                     }
                 }, {
 
-                    $match: { 'items.name': itemName }
+                    $match: {
+                        'items.name': itemName,
+                        'items.tag': itemTag
+                    }
 
                 }, {
                     $project: { client: 1, createDate: 1, status: 1, name: '$items.name', quantity: '$items.quantity', note: '$items.note', isDone: '$items.isDone' }
@@ -211,7 +309,45 @@ var Collection = function(_name) {
 
             return res;
 
-        }
+        },
+
+        updateItemTag: function*(itemName, oldTag, newTag) {
+
+            var db = yield MongoClient.connect(url);
+
+
+            var query = {
+                'items': {
+                    $elemMatch: {
+                        name: itemName,
+                        tag: oldTag
+                    }
+                }
+
+            };
+
+            var docs = yield db.collection(_name).find(query).toArray();
+            var count = docs.length;
+
+            while (count > 0) {
+
+
+                var res = yield db.collection(_name).updateMany(query, {
+                    $set: {
+                        'items.$.tag': newTag
+                    }
+                });
+
+                docs = yield db.collection(_name).find(query).toArray();
+                count = docs.length;
+
+            }
+
+
+
+            return res;
+
+        },
     };
 }
 exports.Collection = Collection;

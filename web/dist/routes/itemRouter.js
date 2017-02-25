@@ -67,25 +67,58 @@ router.post('/item', function*() {
     var purchaseDetail = this.request.body;
 
     var itemName = purchaseDetail.itemName;
+    var itemTag = purchaseDetail.itemTag;
 
     purchaseDetail.isDone = purchaseDetail.isDone == 'true' ? true : false;
 
-    var updatedRes = yield itemOperation.updateItemStatus(itemName, purchaseDetail.isDone);
+    var updatedRes = yield itemOperation.updateItemStatus(itemName,itemTag, purchaseDetail.isDone);
 
-    var res = yield itemOperation.queryItemStatus(itemName);
+    var res = yield itemOperation.queryItemStatus(itemName,itemTag);
 
     this.body = res[0];
     this.status = 200;
 
 });
+router.post('/itemtag', function*() {
 
+    var tagObj = this.request.body;
+
+    var oldTag = tagObj.oldTag;
+    var newTag=tagObj.newTag;
+    var itemName =tagObj.itemName;
+
+
+    var res = yield itemOperation.updateItemTag(itemName,oldTag, newTag);
+
+
+    this.body = Array.isArray(res)?res[0]:res;;
+    this.status = 200;
+
+});
+
+router.post('/subitem', function*() {
+
+    var subItem = this.request.body;
+
+
+    subItem.isDone = subItem.isDone == 'true' ? true : false;
+
+    var updatedRes = yield itemOperation.updateSubItemStatus(subItem._id, subItem.name, subItem.isDone);
+
+    var res = yield itemOperation.queryItemStatus(subItem.name, subItem.tag);
+
+    this.body = Array.isArray(res)?res[0]:res;
+    this.status = 200;
+
+});
 router.get('/subitems', function*() {
 
     var req = this.request.query;
 
     var itemName = req.itemName;
+    var itemTag=req.itemTag;
 
-    var res = yield itemOperation.querySubItems(itemName);
+    var res = yield itemOperation.querySubItems(itemName,itemTag);
 
     var dateFormatting = {
         month: "2-digit",

@@ -75,7 +75,7 @@
                     $hiddenTag.change();
 
                     $label.text(val);
-                    settings.updateTag(itemName,olVal, val);
+                    settings.updateTag(itemName,oldVal, val);
 
                     $('.ol-tags').remove();
 
@@ -287,14 +287,15 @@
 
         if (methods[method]) {
             method = methods[method];
-            arguments = Array.prototype.slice(arguments, 1);
+            var methodArguments = Array.prototype.slice(arguments, 1);
         } else if (typeof(method) == 'object' || !method) {
             method = methods['init'];
+            methodArguments=arguments;
         } else {
             $.error('method is not existed');
         }
 
-        method.apply(this, arguments);
+        method.apply(this, methodArguments);
     };
 
     $.fn.tag.setTags = function(_tags) {

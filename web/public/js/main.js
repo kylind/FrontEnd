@@ -5,7 +5,7 @@ requirejs.config({
     paths: {
 
         'jquery': './jquery/dist/jquery.min',
-        'knockout': './knockout/dist/knockout.debug',
+        'knockout': './knockout/dist/knockout',
         'knockout.mapping': '../js/knockout.mapping.2.4.1.min',
         'ReceivedOrders': '../js/received-orders',
         'ReckoningOrders': '../js/reckoning-orders',
@@ -18,9 +18,9 @@ requirejs.config({
         'angular': './angular/angular.min',
         'ngResource': './angular-resource/angular-resource.min',
         'ngAnimate': './angular-animate/angular-animate.min',
-        'settings.module': '../js/settings/settings.module',
-        'settings.component': '../js/settings/settings.component'
-            //  'settings.component': '/js/settings/settings.min'
+        //'settings.module': '../js/settings/settings.module',
+        //'settings.component': '../js/settings/settings.component'
+              'settings.component': '/js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
@@ -292,7 +292,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         }
 
-        if (swiper.activeIndex != 3) {
+        if (swiper.activeIndex != 3 && swiper.activeIndex != 1) {
 
             $.getJSON('./incomeListJson', function(incomeList, status) {
                 incomeListModel.setIncomeList(incomeList);
@@ -338,7 +338,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                             });
 
-                            item.tag = tag;
+                            item.tag = newTag;
 
                             if (item) {
 
@@ -347,7 +347,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                                 itemsModel.allItems.forEach(function(item) {
 
-                                    if (tags.indexOf(item.tag) < 0) {
+                                    if (tags.indexOf(item.tag) < 0 && item.tag) {
                                         tags.push(item.tag);
                                     }
 
@@ -355,6 +355,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                                 itemsModel.tags(tags);
                             }
+
                         }
 
                         $.post('/itemtag', {
@@ -363,6 +364,8 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                                 newTag:newTag
 
                             }, function(res, status) {
+
+                                updateAllData();
 
                             },
                             'json'
