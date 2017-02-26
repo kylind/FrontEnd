@@ -20,7 +20,7 @@ requirejs.config({
         'ngAnimate': './angular-animate/angular-animate.min',
         //'settings.module': '../js/settings/settings.module',
         //'settings.component': '../js/settings/settings.component'
-              'settings.component': '/js/settings/settings.min'
+        'settings.component': '/js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
@@ -270,7 +270,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
         if (swiper.activeIndex != 1) {
 
             $.getJSON('./purchaseItemsJson', function(rs, status) {
-                itemsModel.setItems(rs.items,true);
+                itemsModel.setItems(rs.items, true);
                 setTimeout(function() {
                     swiper.update();
                 }, 100);
@@ -308,70 +308,78 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
     require(['ItemsModel', 'ReckoningOrders', 'IncomeList', 'Addresses', 'knockout', 'jquery', 'tag'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
 
 
-        $.getJSON('./purchaseItemsJson', function(rs, status) {
+        var purchasePromise = new Promise(function(resolve, reject) {
 
-            itemsModel = new ItemsModel(rs.items, swiper);
-            ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
+            $.getJSON('./purchaseItemsJson', function(rs, status) {
+
+                itemsModel = new ItemsModel(rs.items, swiper);
+
+                resolve(itemsModel);
 
 
-            var promise = new Promise(function(resolve, reject) {
-                $.getJSON(`./user/${USER_ID}`, function(rs, status) {
-                    resolve(rs);
+                ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
+
+
+                var promise = new Promise(function(resolve, reject) {
+                    $.getJSON(`./user/${USER_ID}`, function(rs, status) {
+                        resolve(rs);
+                    });
                 });
-            });
 
-            promise.catch(function(reason) {
+                promise.catch(function(reason) {
 
-            })
+                })
 
-            promise.then(function(rs) {
+                promise.then(function(rs) {
 
-                var tags = Array.isArray(rs.tags) ? rs.tags : [];
+                    var tags = Array.isArray(rs.tags) ? rs.tags : [];
 
-                $('.hidden-tag').tag({
-                    tags: tags,
-                    updateTag: function(itemName, oldTag, newTag) {
+                    $('.hidden-tag').tag({
+                        tags: tags,
+                        updateTag: function(itemName, oldTag, newTag) {
 
-                        if (Array.isArray(itemsModel.allItems) && itemsModel.allItems.length > 0) {
-                            var item = itemsModel.allItems.find(function(item) {
-                                return item._id == itemName;
+                            if (Array.isArray(itemsModel.allItems) && itemsModel.allItems.length > 0) {
+                                var item = itemsModel.allItems.find(function(item) {
+                                    return item._id == itemName;
 
-                            });
+                                });
 
-                            item.tag = newTag;
+                                item.tag = newTag;
 
-                            if (item) {
+                                if (item) {
 
-                                var tags = [];
+                                    var tags = [];
 
 
-                                itemsModel.allItems.forEach(function(item) {
+                                    itemsModel.allItems.forEach(function(item) {
 
-                                    if (tags.indexOf(item.tag) < 0 && item.tag) {
-                                        tags.push(item.tag);
-                                    }
+                                        if (tags.indexOf(item.tag) < 0 && item.tag) {
+                                            tags.push(item.tag);
+                                        }
 
-                                })
+                                    })
 
-                                itemsModel.tags(tags);
+                                    itemsModel.tags(tags);
+                                }
+
                             }
+
+                            $.post('/itemtag', {
+                                    itemName: itemName,
+                                    oldTag: oldTag,
+                                    newTag: newTag
+
+                                }, function(res, status) {
+
+                                    updateAllData();
+
+                                },
+                                'json'
+                            );
 
                         }
 
-                        $.post('/itemtag', {
-                                itemName: itemName,
-                                oldTag: oldTag,
-                                newTag:newTag
-
-                            }, function(res, status) {
-
-                                updateAllData();
-
-                            },
-                            'json'
-                        );
-
-                    }
+                    });
 
                 });
 
@@ -379,18 +387,31 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         });
 
+        var reckoningPromise = new Promise(function(resolve, reject) {
 
-        $.getJSON('./reckoningOrdersJson', function(orders, status) {
-            reckoningOrdersModel = new OrdersModel(orders, swiper);
-            ko.applyBindings(reckoningOrdersModel, $('#reckoningOrders')[0]);
+            $.getJSON('./reckoningOrdersJson', function(orders, status) {
+                reckoningOrdersModel = new OrdersModel(orders, swiper);
+                resolve(reckoningOrdersModel);
+                ko.applyBindings(reckoningOrdersModel, $('#reckoningOrders')[0]);
 
-        });
+            });
+
+        })
+
+        Promise.all([purchasePromise,reckoningPromise]).then(function(rs){
+            rs[0].ordersModel = ordersModel;
+            rs[0].reckoningOrdersModel=rs[1];
+
+        })
+
+
+
+
+
 
         $.getJSON('./incomeListJson', function(incomeList, status) {
             incomeListModel = new IncomeListModel(incomeList, swiper);
             ko.applyBindings(incomeListModel, $('#incomeList')[0]);
-
-
 
 
         });

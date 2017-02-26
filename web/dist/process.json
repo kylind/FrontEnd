@@ -1,6 +1,6 @@
 {
   "apps" : [{
-    "name"       : "website",
+    "name"       : "website3",
     "script"      : "app.js",
     "watch"       : true,
     "exec_mode"  : "cluster",

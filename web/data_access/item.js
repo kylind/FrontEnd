@@ -123,15 +123,6 @@ var Collection = function(_name) {
             var db = yield MongoClient.connect(url);
 
 
-            /*            var res = yield db.collection(_name).updateMany({
-                            'items.name': itemName
-
-                        }, {
-                            $set: {
-                                'items.$.isDone': status
-                            }
-                        });*/
-
 
             var query = {
                 'items': {
@@ -145,8 +136,21 @@ var Collection = function(_name) {
 
             };
 
-            var docs = yield db.collection(_name).find(query).toArray();
-            var count = docs.length;
+            if (itemTag == '') {
+                var query = {
+                    'items': {
+                        $elemMatch: {
+                            name: itemName,
+                            tag: { $in: ['', null] },
+                            isDone: !status
+
+                        }
+                    }
+
+                };
+            }
+
+            var count = yield db.collection(_name).find(query).count();
 
             while (count > 0) {
 
@@ -157,8 +161,7 @@ var Collection = function(_name) {
                     }
                 });
 
-                docs = yield db.collection(_name).find(query).toArray();
-                count = docs.length;
+                count = yield db.collection(_name).find(query).count();
 
             }
 
@@ -173,17 +176,6 @@ var Collection = function(_name) {
             var db = yield MongoClient.connect(url);
 
 
-            /*            var res = yield db.collection(_name).updateMany({
-                            '_id': new ObjectID(id),
-                            'items.name': itemName
-
-                        }, {
-                            $set: {
-                                'items.$.isDone': status
-                            }
-                        });*/
-
-
 
             var query = {
                 '_id': new ObjectID(id),
@@ -196,8 +188,7 @@ var Collection = function(_name) {
 
             };
 
-            var docs = yield db.collection(_name).find(query).toArray();
-            var count = docs.length;
+            var count = yield db.collection(_name).find(query).count();
 
             while (count > 0) {
 
@@ -208,8 +199,7 @@ var Collection = function(_name) {
                     }
                 });
 
-                docs = yield db.collection(_name).find(query).toArray();
-                count = docs.length;
+                count = yield db.collection(_name).find(query).count();
 
             }
 
@@ -315,7 +305,6 @@ var Collection = function(_name) {
 
             var db = yield MongoClient.connect(url);
 
-
             var query = {
                 'items': {
                     $elemMatch: {
@@ -323,23 +312,34 @@ var Collection = function(_name) {
                         tag: oldTag
                     }
                 }
-
             };
 
-            var docs = yield db.collection(_name).find(query).toArray();
-            var count = docs.length;
+            if (oldTag == '') {
+                var query = {
+                    'items': {
+                        $elemMatch: {
+                            name: itemName,
+                            tag: { $in: ['', null] }
+                        }
+                    }
+
+                };
+            }
+
+
+            var count = yield db.collection(_name).find(query).count();
+
 
             while (count > 0) {
 
 
                 var res = yield db.collection(_name).updateMany(query, {
                     $set: {
-                        'items.$.tag': newTag
+                        'items.$.tag': newTag == '' ? null : newTag
                     }
                 });
 
-                docs = yield db.collection(_name).find(query).toArray();
-                count = docs.length;
+                count = yield db.collection(_name).find(query).count();
 
             }
 
