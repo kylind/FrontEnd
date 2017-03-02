@@ -8,7 +8,7 @@ router = new Router();
 
 router.get('/', function*() {
     if (this.isAuthenticated()) {
-        this.redirect('/index');
+        this.redirect('/v2/index');
 
     } else {
 
@@ -26,7 +26,7 @@ router.get('/', function*() {
 
 router.get('/login', function*() {
     if (this.isAuthenticated()) {
-        this.redirect('/index');
+        this.redirect('/v2/index');
 
     } else {
 
@@ -50,7 +50,7 @@ router.post('/login', function*() {
 
 router.get('/logout', function*() {
     this.logout()
-    this.redirect('/login')
+    this.redirect('/v2/login')
 });
 
 router.get('/register', function*() {
