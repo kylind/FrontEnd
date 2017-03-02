@@ -8,7 +8,7 @@ router = new Router();
 
 router.get('/', function*() {
     if (this.isAuthenticated()) {
-        this.redirect('/index');
+        this.redirect('v3/index');
 
     } else {
 
@@ -26,7 +26,7 @@ router.get('/', function*() {
 
 router.get('/login', function*() {
     if (this.isAuthenticated()) {
-        this.redirect('/index');
+        this.redirect('v3/index');
 
     } else {
 
@@ -42,15 +42,15 @@ router.get('/login', function*() {
 
 router.post('/login', function*() {
     yield passport.authenticate('local', {
-        successRedirect: '/index',
-        failureRedirect: '/login',
+        successRedirect: 'v3/index',
+        failureRedirect: 'v3/login',
         failureFlash: false
     })
 });
 
 router.get('/logout', function*() {
     this.logout()
-    this.redirect('/login')
+    this.redirect('v3/login')
 });
 
 router.get('/register', function*() {
