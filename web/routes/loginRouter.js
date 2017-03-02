@@ -42,8 +42,8 @@ router.get('/login', function*() {
 
 router.post('/login', function*() {
     yield passport.authenticate('local', {
-        successRedirect: '/index',
-        failureRedirect: '/login',
+        successRedirect: '/v2/index',
+        failureRedirect: '/v2/login',
         failureFlash: false
     })
 });
