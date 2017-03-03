@@ -107,16 +107,17 @@ var Collection = function(_name) {
 
             var res = yield db.collection(_name).aggregate([{
                     $match: { $text: { $search: text } }
-                },
-
-                {
-                    $lookup: {
-                        from: "addresses",
-                        localField: "client",
-                        foreignField: "client",
-                        as: "addresses"
-                    }
                 }
+                // ,
+
+                // {
+                //     $lookup: {
+                //         from: "addresses",
+                //         localField: "client",
+                //         foreignField: "client",
+                //         as: "addresses"
+                //     }
+                // }
 
             ], { cursor: { batchSize: 1 } }).sort({ 'status': 1, 'createDate': -1 }).toArray();
 
@@ -142,7 +143,9 @@ var Collection = function(_name) {
 
             var res = yield db.collection(_name).aggregate([{
                     $match: { $or: [{ status: '1RECEIVED' }, { status: '2SENT' }, { createDate: { $gt: startDate } }] }
-                },
+                }
+
+/*                ,
 
                 {
                     $lookup: {
@@ -151,7 +154,7 @@ var Collection = function(_name) {
                         foreignField: "client",
                         as: "addresses"
                     }
-                }
+                }*/
 
             ], { cursor: { batchSize: 1 } }).sort({ 'status': 1, 'createDate': -1 }).toArray();
 
