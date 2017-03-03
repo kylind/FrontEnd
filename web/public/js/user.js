@@ -24,7 +24,7 @@ define(['jquery'], function($) {
         updateTags: function(tags) {
 
 
-            $.post('/userTags', { tags: tags }, function(data, status) {
+            $.post('./userTags', { tags: tags }, function(data, status) {
 
                 },
                 'json'

@@ -111,7 +111,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             });
 
-            $.post('/item', {
+            $.post('./item', {
                     itemTag: itemData.tag,
                     itemName: itemData._id,
                     isDone: !isPurchased
@@ -175,7 +175,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
 
-            $.post('/subitem', subItemData, function(res, status) {
+            $.post('./subitem', subItemData, function(res, status) {
 
                     subItem.isDone(!subItem.isDone());
 

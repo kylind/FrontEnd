@@ -484,7 +484,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 })
 
                 if (changedOrders.length > 0) {
-                    $.post('/orders', {
+                    $.post('./orders', {
                             orders: changedOrders
                         }, function(rs, status) {
 

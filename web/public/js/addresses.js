@@ -88,7 +88,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var addressData = ko.mapping.toJS(address); //$.parseJSON(ko.toJSON(address));
 
-            $.post('/address', addressData, function(data, status) {
+            $.post('./address', addressData, function(data, status) {
 
                     console.log('get post result');
                     ko.mapping.fromJS(data, {}, address);

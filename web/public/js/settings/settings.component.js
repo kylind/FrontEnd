@@ -54,12 +54,12 @@ define(['angular','jquery', 'ngAnimate', 'ngResource'], function(angular,$) {
                 onValidate: '&'
             },
             transclude: true,
-            templateUrl: "/js/settings/validation.template.html"
+            templateUrl: "./js/settings/validation.template.html"
         }
     });
 
     angular.module('settings').service('userService', function($resource) {
-        var User = $resource('/user/:_id');
+        var User = $resource('./user/:_id');
         this.findUser = function(id) {
             var user = User.get({ _id: id });
             return user.$promise;
@@ -72,7 +72,7 @@ define(['angular','jquery', 'ngAnimate', 'ngResource'], function(angular,$) {
     });
 
     angular.module('settings').component('tagmgr', {
-        templateUrl: '/js/settings/tagmgr.template.html',
+        templateUrl: './js/settings/tagmgr.template.html',
         controller: ['$scope', function($scope) {
             var self = this;
 
@@ -113,7 +113,7 @@ define(['angular','jquery', 'ngAnimate', 'ngResource'], function(angular,$) {
 
 
     angular.module('settings').component('settings', {
-        templateUrl: '/js/settings/settings.template.html',
+        templateUrl: './js/settings/settings.template.html',
         controller: ['$scope', 'userService', 'USER_ID', function($scope, userService, id) {
             var self = this;
 

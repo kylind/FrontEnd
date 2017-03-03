@@ -6,19 +6,13 @@ var userOperation = require('../data_access/user.js').collection;
 router = new Router();
 
 
-router.get('/', function*() {
+router.get(/^\/(v3)?$/, function*() {
     if (this.isAuthenticated()) {
         this.redirect('/v3/index');
 
     } else {
+        this.redirect('/v3/login');
 
-        yield this.render('login', {
-            name: 'registration',
-            css: '',
-            header: 'specific',
-            footer: ''
-
-        });
     }
 
 
