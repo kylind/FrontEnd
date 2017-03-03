@@ -1,20 +1,19 @@
 {
-  "apps" : [{
-    "name"       : "website2",
-    "script"      : "app.js",
-    "watch"       : true,
-    "exec_mode"  : "cluster",
-    "instances"  : 6,
-    "env": {
-      "NODE_ENV": "production",
-       "db":"127.0.0.1",
-       "port": 3002
-
-    },
-    "env_production" : {
-       "NODE_ENV": "production",
-       "db":"127.0.0.1",
-       "port":3002
-    }
-  }]
+    "apps": [{
+        "name": "website2",
+        "script": "app.js",
+        "watch": true,
+        "exec_mode": "cluster",
+        "instances": 6,
+        "env": {
+            "NODE_ENV": "production",
+            "db": "127.0.0.1",
+            "port": 3002
+        },
+        "env_production": {
+            "NODE_ENV": "production",
+            "db": "127.0.0.1",
+            "port": 3002
+        }
+    }]
 }

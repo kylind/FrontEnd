@@ -13,9 +13,9 @@ app.use(session({
     store: new MongoStore({
         // host: "127.0.0.1",
         host:"127.0.0.1",
-        db: "orders"
-        // user: "website",
-        // password: "zombie.123"
+        db: "orders",
+        user: "website",
+        password: "zombie.123"
     }),
     cookie: {
         maxage: 604800000,
