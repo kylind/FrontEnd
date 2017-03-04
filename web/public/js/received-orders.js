@@ -197,7 +197,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             var orderData = ko.mapping.toJS(order); //$.parseJSON(ko.toJSON(order));
 
-            $.post('/order', orderData, function(data, status) {
+            $.post('./order', orderData, function(data, status) {
 
                     console.log('get post result');
                     ko.mapping.fromJS(data, {}, order);
@@ -252,7 +252,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                 if (changedOrders.length > 0) {
 
-                    $.post('/orders', { orders: changedOrders }, function(rs, status) {
+                    $.post('./orders', { orders: changedOrders }, function(rs, status) {
 
 
                             rs.forEach(function(newOrder, index) {

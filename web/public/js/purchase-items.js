@@ -142,7 +142,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             if (!item.isSubItemsOpen) {
                 arguments[3]();
                 var succeed = arguments[4]
-                $.getJSON('/subitems', { itemName: itemData._id }, function(res, status) {
+                $.getJSON('./subitems', { itemName: itemData._id }, function(res, status) {
 
                     if (status == 'success') {
                         item.subItems(res);
@@ -189,7 +189,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             });
 
-            $.post('/item', {
+            $.post('./item', {
                     itemName: itemData._id,
                     isDone: !isPurchased
                 }, function(res, status) {

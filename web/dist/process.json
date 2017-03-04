@@ -2,9 +2,9 @@
     "apps": [{
         "name": "website2",
         "script": "app.js",
-        "watch": true,
+        "watch": false,
         "exec_mode": "cluster",
-        "instances": 6,
+        "instances": 4,
         "env": {
             "NODE_ENV": "production",
             "db": "127.0.0.1",

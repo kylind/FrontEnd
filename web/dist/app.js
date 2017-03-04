@@ -74,7 +74,7 @@ app.use(function*(next) {
     if (this.isAuthenticated()) {
         yield next;
     } else {
-        this.redirect('/')
+        this.redirect('/v2/login')
     }
 });
 
@@ -89,7 +89,7 @@ app.use(itemRouter.routes());
 app.use(addressRouter.routes());
 app.use(otherRouter.routes());
 
-app.listen(process.env.port);
+app.listen(3002);//process.env.port
 
 console.log(process.env.NODE_ENV);
 console.log(process.env.db);

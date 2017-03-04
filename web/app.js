@@ -74,7 +74,7 @@ app.use(function*(next) {
     if (this.isAuthenticated()) {
         yield next;
     } else {
-        this.redirect('/v2')
+        this.redirect('/v2/login')
     }
 });
 

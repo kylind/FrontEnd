@@ -6,19 +6,13 @@ var userOperation = require('../data_access/user.js').collection;
 router = new Router();
 
 
-router.get('/', function*() {
+router.get('/^\/(v2)?$/', function*() {
     if (this.isAuthenticated()) {
-        this.redirect('/index');
+        this.redirect('/v2/index');
 
     } else {
+        this.redirect('/v2/login');
 
-        yield this.render('login', {
-            name: 'registration',
-            css: '',
-            header: 'specific',
-            footer: ''
-
-        });
     }
 
 
@@ -26,7 +20,7 @@ router.get('/', function*() {
 
 router.get('/login', function*() {
     if (this.isAuthenticated()) {
-        this.redirect('/index');
+        this.redirect('/v2/index');
 
     } else {
 
@@ -42,15 +36,15 @@ router.get('/login', function*() {
 
 router.post('/login', function*() {
     yield passport.authenticate('local', {
-        successRedirect: '/index',
-        failureRedirect: '/login',
+        successRedirect: '/v2/index',
+        failureRedirect: '/v2/login',
         failureFlash: false
     })
 });
 
 router.get('/logout', function*() {
     this.logout()
-    this.redirect('/login')
+    this.redirect('/v2/login')
 });
 
 router.get('/register', function*() {
