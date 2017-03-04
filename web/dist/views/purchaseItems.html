@@ -144,7 +144,7 @@ var ItemsModel = function(items) {
         var itemData = ko.mapping.toJS(item);
 
         if (!item.isSubItemsOpen) {
-            $.getJSON('/subitems', {
+            $.getJSON('./subitems', {
                 itemName: itemData._id
             }, function(res, status) {
 

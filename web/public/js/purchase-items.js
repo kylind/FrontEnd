@@ -211,7 +211,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             if (!item.isSubItemsOpen) {
                 arguments[3]();
                 var succeed = arguments[4]
-                $.getJSON('/subitems', { itemName: itemData._id, itemTag: itemData.tag }, function(res, status) {
+                $.getJSON('./subitems', { itemName: itemData._id, itemTag: itemData.tag }, function(res, status) {
 
                     if (status == 'success') {
 
