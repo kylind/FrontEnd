@@ -6,7 +6,7 @@ var userOperation = require('../data_access/user.js').collection;
 router = new Router();
 
 
-router.get('/^\/(v2)?$/', function*() {
+router.get(/^\/(v2)?$/, function*() {
     if (this.isAuthenticated()) {
         this.redirect('/v2/index');
 
