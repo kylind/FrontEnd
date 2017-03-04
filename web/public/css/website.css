@@ -99,11 +99,11 @@
 }
 
 .lmargin-150 {
-    margin-left: 175px;
+    margin-left: 135px;
 }
 
 .lmargin-220 {
-    margin-left: 220px;
+    margin-left: 140px;
 }
 
 .lmargin-270 {
@@ -432,7 +432,7 @@ input[type="text"].postage {
 
 button {
     box-sizing: border-box;
-    min-width: 100px;
+    min-width: 60px;
     text-align: left;
     box-shadow: none;
     border: solid 1px #cc0066;
@@ -1469,7 +1469,8 @@ span.orderitem-cnt-btns {
 
 button.ispure {
     text-align: center;
-    padding-left: 0;
+    padding-left: 5px;
+    padding-right:5px;
 }
 
 .warning {

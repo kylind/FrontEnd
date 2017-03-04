@@ -45,7 +45,7 @@ gulp.task('inject', function(done) {
         views.forEach(function(name) {
             var bowerStream = gulp.src(bowerFiles({ group: 'angular' }), { read: false });
             var appStream = gulp.src(`dist/public/js/${name}/${name}.min.js`, { read: false });
-            stream.pipe(inject(series(bowerStream, appStream), { name: `${name}`, ignorePath: ['/dist/public', '/public'] }))
+            stream.pipe(inject(series(bowerStream, appStream), { name: `${name}`, ignorePath: ['/dist/public', '/public'],addRootSlash:false }))
         });
 
 
@@ -53,7 +53,7 @@ gulp.task('inject', function(done) {
         var requiredViews = ['index', 'reckoning-orders'];
         requiredViews.forEach(function(name) {
             var bowerStream = gulp.src(bowerFiles({ group: `require` }), { read: false });
-            stream.pipe(inject(bowerStream, { name: `${name}`, ignorePath: ['/dist/public', '/public'] }))
+            stream.pipe(inject(bowerStream, { name: `${name}`, ignorePath: ['/dist/public', '/public'],addRootSlash:false }))
         });
 
 
@@ -62,14 +62,14 @@ gulp.task('inject', function(done) {
         mvvmViews.forEach(function(name) {
             var bowerStream = gulp.src(bowerFiles({ group: `common` }), { read: false });
             var appStream = gulp.src([`dist/public/js/common.min.js`, `dist/public/js/${name}.js`], { read: false });
-            stream.pipe(inject(series(bowerStream, appStream), { name: `${name}`, ignorePath: ['/dist/public', '/public'] }))
+            stream.pipe(inject(series(bowerStream, appStream), { name: `${name}`, ignorePath: ['/dist/public', '/public'],addRootSlash:false }))
         });
 
         //common page  without customized script
 
         var bowerStream = gulp.src(bowerFiles({ group: `common` }), { read: false });
         var appStream = gulp.src(`dist/public/js/common.min.js`, { read: false });
-        stream.pipe(inject(series(bowerStream, appStream), { name: `common`, ignorePath: ['/dist/public', '/public'] }))
+        stream.pipe(inject(series(bowerStream, appStream), { name: `common`, ignorePath: ['/dist/public', '/public'],addRootSlash:false }))
 
         stream.pipe(gulp.dest('./dist'));
 

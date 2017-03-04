@@ -96,7 +96,7 @@ define(['angular','jquery', 'ngAnimate', 'ngResource'], function(angular,$) {
 
                 var removeIndex = self.tags.indexOf(tag);
 
-                if (removeIndex > 0) {
+                if (removeIndex >= 0) {
                     self.tags.splice(removeIndex, 1);
                 }
 

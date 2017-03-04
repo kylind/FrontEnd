@@ -18,9 +18,9 @@ requirejs.config({
         'angular': './angular/angular.min',
         'ngResource': './angular-resource/angular-resource.min',
         'ngAnimate': './angular-animate/angular-animate.min',
-        'settings.module': '../js/settings/settings.module',
-        'settings.component': '../js/settings/settings.component'
-        //'settings.component': '/js/settings/settings.min'
+       // 'settings.module': '../js/settings/settings.module',
+        //'settings.component': '../js/settings/settings.component'
+        'settings.component': '../js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
@@ -73,7 +73,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                         $confirm.fadeOut('slow');
                         handler(bindingContext.$data, bindingContext.$parent, event, function() {
-                            $submitting.children('span').text("Submitting...");
+                            $submitting.children('span').text("提交中...");
                             var offset = $target.offset();
                             $('.prompt').css('top', offset.top).show();
 
@@ -114,7 +114,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                     setTimeout(function() {
 
                         handler(bindingContext.$data, bindingContext.$parent, event, function() {
-                            $submitting.children('span').text("Submitting...");
+                            $submitting.children('span').text("提交中...");
                             var offset = $target.offset();
                             $('.prompt').css('top', offset.top).show();
 
@@ -151,7 +151,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                 } else if ($target.hasClass('action-load')) {
 
                     handler(bindingContext.$data, bindingContext.$parent, event, function() {
-                        $submitting.children('span').text("Loading...");
+                        $submitting.children('span').text("加载中...");
                         var offset = $target.offset();
                         $('.prompt').css('top', offset.top).show();
 
