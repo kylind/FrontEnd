@@ -1,0 +1,63 @@
+{
+  "name": "easygoing",
+  "version": "1.0.0",
+  "description": "this is for my wife's business, she is running HK purchasing agency, as the order quantity is going up, it becomes difficulty for her to handle each order manually, I hope easygoing can help her! ",
+  "main": "index.js",
+  "scripts": {
+    "test": "todo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "todo"
+  },
+  "keywords": [
+    "easygoing",
+    "hk",
+    "purchase",
+    "agency"
+  ],
+  "author": "Kylin Dai",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^2.4.2",
+    "koa": "^1.2.0",
+    "koa-bodyparser": "^2.2.0",
+    "koa-ejs": "^3.0.0",
+    "koa-generic-session": "^1.11.3",
+    "koa-generic-session-mongo": "^0.2.5",
+    "koa-passport": "^1.3.1",
+    "koa-router": "^5.4.0",
+    "koa-send": "^3.2.0",
+    "mongodb": "^2.1.18",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-es2016": "^6.16.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-filesize": "0.0.6",
+    "gulp-inject": "^4.1.0",
+    "gulp-npm-files": "^0.1.3",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-requirejs-optimize": "^1.2.0",
+    "gulp-sourcemaps": "^2.2.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-uglifycss": "^1.0.6",
+    "gulp-watch": "^4.3.10",
+    "jasmine": "^2.5.2",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.3.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-requirejs": "^1.1.0",
+    "main-bower-files": "^2.13.1",
+    "requirejs": "^2.3.2",
+    "stream-series": "^0.1.1"
+  }
+}
