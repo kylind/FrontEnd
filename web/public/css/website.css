@@ -831,9 +831,15 @@ button {
 
 span.orderitem-cnt-btns {
     font-size: 0;
-    padding: 0;
+    padding-left:5px;
+    padding-right:5px;
 }
-
+.orderitem-cnt-btns .icon-search{
+    float:left;
+}
+.orderitem-cnt-btns .icon-flag{
+    float:right;
+}
 .orderitem-cnt > span:first-child {
     padding-left: 0;
 }

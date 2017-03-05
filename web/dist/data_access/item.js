@@ -32,9 +32,9 @@ var Collection = function(_name) {
                     $group: {
                         '_id': {
                             'name': '$items.name',
-                            'tag': '$items.tag',
                             'isDone': '$items.isDone'
                         },
+                        'tag': { $last: '$items.tag' },
                         'quantity': {
                             $sum: '$items.quantity'
                         }
@@ -43,7 +43,6 @@ var Collection = function(_name) {
                     $group: {
                         '_id': {
                             'name': '$_id.name',
-                            'tag': '$_id.tag',
                         },
                         'purchaseDetail': {
                             $push: {
@@ -51,13 +50,14 @@ var Collection = function(_name) {
                                 'quantity': '$quantity'
                             }
                         },
+                        'tag': { $last: '$tag' },
                         'quantity': {
                             $sum: '$quantity'
                         }
                     }
                 }, {
 
-                    $project: { '_id': '$_id.name', tag: '$_id.tag', quantity: 1, purchaseDetail: 1 }
+                    $project: { '_id': '$_id.name', tag: 1, quantity: 1, purchaseDetail: 1 }
 
                 }
 
@@ -125,10 +125,11 @@ var Collection = function(_name) {
 
 
             var query = {
+                'status': '1RECEIVED',
                 'items': {
                     $elemMatch: {
                         name: itemName,
-                        tag: itemTag,
+                        //tag: itemTag,
                         isDone: !status
 
                     }
@@ -138,10 +139,11 @@ var Collection = function(_name) {
 
             if (itemTag == '') {
                 var query = {
+                    'status': '1RECEIVED',
                     'items': {
                         $elemMatch: {
                             name: itemName,
-                            tag: { $in: ['', null] },
+                            //tag: { $in: ['', null] },
                             isDone: !status
 
                         }
@@ -217,8 +219,8 @@ var Collection = function(_name) {
 
                     $match: {
                         status: '1RECEIVED',
-                        'items.name': itemName,
-                        'items.tag': itemTag
+                        'items.name': itemName
+                        //'items.tag': itemTag
                     }
 
                 }, {
@@ -231,8 +233,8 @@ var Collection = function(_name) {
                 }, {
 
                     $match: {
-                        'items.name': itemName,
-                        'items.tag': itemTag
+                        'items.name': itemName
+                        //'items.tag': itemTag
                     }
 
                 }, {
@@ -273,9 +275,13 @@ var Collection = function(_name) {
 
             var db = yield MongoClient.connect(url);
 
+            if (itemTag == '') {
+                itemTag = { $in: ['', null] }
+            }
+
             var res = yield db.collection(_name).aggregate([{
 
-                    $match: { status: '1RECEIVED', 'items.name': itemName, 'items.tag': itemTag }
+                    $match: { status: '1RECEIVED'}//, 'items.tag': itemTag , 'items.name': itemName
 
                 }, {
                     $unwind: {
@@ -287,8 +293,8 @@ var Collection = function(_name) {
                 }, {
 
                     $match: {
-                        'items.name': itemName,
-                        'items.tag': itemTag
+                        'items.name': itemName
+                       // 'items.tag': itemTag
                     }
 
                 }, {
@@ -303,9 +309,12 @@ var Collection = function(_name) {
 
         updateItemTag: function*(itemName, oldTag, newTag) {
 
+            if(newTag==oldTag) return;
+
             var db = yield MongoClient.connect(url);
 
             var query = {
+                'status': '1RECEIVED',
                 'items': {
                     $elemMatch: {
                         name: itemName,
@@ -316,10 +325,11 @@ var Collection = function(_name) {
 
             if (oldTag == '') {
                 var query = {
+                    'status': '1RECEIVED',
                     'items': {
                         $elemMatch: {
                             name: itemName,
-                            tag: { $in: ['', null] }
+                           tag: { $in: ['', null] }
                         }
                     }
 
@@ -335,7 +345,7 @@ var Collection = function(_name) {
 
                 var res = yield db.collection(_name).updateMany(query, {
                     $set: {
-                        'items.$.tag': newTag == '' ? null : newTag
+                        'items.$.tag': newTag
                     }
                 });
 

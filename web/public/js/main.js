@@ -254,10 +254,10 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
     function updateAllData() {
 
+        var activeIndex=swiper.activeIndex ;
 
 
-        if (swiper.activeIndex != 0) {
-
+        if (activeIndex == 1 || activeIndex==2) {
             $.getJSON('./receivedOrdersJson', function(orders, status) {
                 ordersModel.setOrders(orders);
                 setTimeout(function() {
@@ -267,7 +267,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         }
 
-        if (swiper.activeIndex != 1) {
+        if (activeIndex == 0 || activeIndex == 2) {
 
             $.getJSON('./purchaseItemsJson', function(rs, status) {
                 itemsModel.setItems(rs.items, true);
@@ -278,7 +278,8 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         }
 
-        if (swiper.activeIndex != 2) {
+
+        if (activeIndex == 0 || activeIndex==1) {
 
             $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
@@ -292,7 +293,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         }
 
-        if (swiper.activeIndex != 3 && swiper.activeIndex != 1) {
+        if (activeIndex ==2) {
 
             $.getJSON('./incomeListJson', function(incomeList, status) {
                 incomeListModel.setIncomeList(incomeList);
@@ -337,6 +338,8 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                     $('.hidden-tag').tag({
                         tags: tags,
                         updateTag: function(itemName, oldTag, newTag) {
+
+                            if(oldTag==newTag)return;
 
                             if (Array.isArray(itemsModel.allItems) && itemsModel.allItems.length > 0) {
                                 var item = itemsModel.allItems.find(function(item) {

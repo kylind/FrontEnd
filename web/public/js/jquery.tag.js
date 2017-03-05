@@ -67,7 +67,7 @@
                         addTag(val)
                     }
 
-                    var $hiddenTag=$active.prev('hidden-tag');
+                    var $hiddenTag=$active.prev('.hidden-tag');
 
                     var oldVal=$hiddenTag.val();
 
@@ -183,7 +183,7 @@
                             addTag(val)
                         }
 
-                        var $hiddenTag=$active.prev('hidden-tag');
+                        var $hiddenTag=$active.prev('.hidden-tag');
 
                         var oldVal=$hiddenTag.val();
 
@@ -217,7 +217,7 @@
 
                     var tags = getTags();
 
-                    if (Array.isArray(tags) && tags.length > 0) {
+                    if (Array.isArray(tags) && tags.length > 0 && $(window).width() >420) {
                         var olHtml = '<ol class="ol-tags">'
                         tags.forEach(function(item) {
                             olHtml += `<li class="item--tag">${item}</li>`;
