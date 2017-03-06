@@ -4,7 +4,7 @@
     "script"      : "./web2/app.js",
     "watch"       : false,
     "exec_mode"  : "cluster",
-    "instances"  : 2,
+    "instances"  : 3,
     "env": {
       "NODE_ENV": "production",
        "db":"127.0.0.1",
@@ -20,7 +20,7 @@
     "script"      : "./web3/app.js",
     "watch"       : false,
     "exec_mode"  : "cluster",
-    "instances"  : 2,
+    "instances"  : 1,
     "env": {
       "NODE_ENV": "production",
        "db":"127.0.0.1",

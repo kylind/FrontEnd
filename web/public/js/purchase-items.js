@@ -422,6 +422,10 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 }, 10);
             }
 
+            setTimeout(function() {
+                swiper.update();
+            }, 100);
+
         }
 
         self.setItems(items, true, true);

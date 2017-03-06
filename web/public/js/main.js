@@ -100,7 +100,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                             var offset = $target.offset();
                             $('.prompt').css('top', offset.top).show();
 
-                        }, function() {
+                        }, function(needRefreshRest) {
 
                             $submitting.addClass('disappeared')
                             $succeed.removeClass('disappeared')
@@ -109,6 +109,8 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                                 $submitting.removeClass('disappeared')
                                 $succeed.addClass('disappeared')
                             });
+
+                            setViewModelStatus(swiper.activeIndex);
 
                             if (needRefreshRest) {
                                 updateAllData();
@@ -343,10 +345,15 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                 itemsModel = new ItemsModel(rs.items, swiper);
 
+
                 resolve(itemsModel);
 
 
                 ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
+
+/*                setTimeout(function() {
+                    swiper.update();
+                }, 100);*/
 
 
                 var promise = new Promise(function(resolve, reject) {
@@ -426,6 +433,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                 reckoningOrdersModel = new OrdersModel(orders, swiper);
                 resolve(reckoningOrdersModel);
                 ko.applyBindings(reckoningOrdersModel, $('#reckoningOrders')[0]);
+/*                setTimeout(function() {
+                    swiper.update();
+                }, 100);*/
 
             });
 
@@ -440,7 +450,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
         $.getJSON('./incomeListJson', function(incomeList, status) {
             incomeListModel = new IncomeListModel(incomeList, swiper);
             ko.applyBindings(incomeListModel, $('#incomeList')[0]);
-
+/*            setTimeout(function() {
+                swiper.update();
+            }, 100);*/
 
         });
 
@@ -478,7 +490,10 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                     if (viewModelStatus[activeIndex]) {
 
                         $.getJSON('./receivedOrdersJson', function(orders, status) {
+
                             ordersModel.setOrders(orders, true);
+                            viewModelStatus[activeIndex] = false;
+
                         });
                     }
 
@@ -488,6 +503,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                     if (viewModelStatus[activeIndex]) {
                         $.getJSON('./purchaseItemsJson', function(rs, status) {
                             itemsModel.setItems(rs.items, true, true);
+                            viewModelStatus[activeIndex] = false;
 
                         });
                     }
@@ -499,7 +515,8 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                             var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
                             reckoningOrdersModel.orders(observableOrders);
-                            reckoningOrdersModel.viewModelStatus = false;
+                            viewModelStatus[activeIndex] = false;
+                            swiper.update();
                         })
                     }
 
@@ -509,6 +526,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                     if (viewModelStatus[activeIndex]) {
                         $.getJSON('./incomeListJson', function(incomeList, status) {
                             incomeListModel.setIncomeList(incomeList);
+                            viewModelStatus[activeIndex] = false;
+                            swiper.update();
+
                         })
                     }
                     break;
@@ -516,7 +536,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             }
 
             setTimeout(function() {
-                swiper.update();
+
                 $(window).scrollTop(0);
             }, 100);
 

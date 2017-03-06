@@ -1385,15 +1385,16 @@ span.orderitem-cnt-btns {
 
 .confirm {
     font-size: 0;
-    width: 205px;
+    width: 140px;
     padding: 5px;
     background-color: #cc0066;
     line-height: 0;
     display: none;
     position: absolute;
     left: 50%;
-    margin-left: -102.5px;
+    margin-left: -70px;
     z-index: 1;
+    text-align: center;
 }
 
 .box-mynote {

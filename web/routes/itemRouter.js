@@ -88,10 +88,10 @@ router.post('/itemtag', function*() {
     var itemName =tagObj.itemName;
 
 
-    var res = yield itemOperation.updateItemTag(itemName,oldTag, newTag);
+    yield itemOperation.updateItemTag(itemName,oldTag, newTag);
 
 
-    this.body = Array.isArray(res)?res[0]:res;;
+    this.body = {newTag:newTag};
     this.status = 200;
 
 });
