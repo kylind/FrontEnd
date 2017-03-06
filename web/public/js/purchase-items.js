@@ -128,7 +128,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                             _item.isDone(!isPurchased);
                         })
                     }
-                    succeed(true);
+                    succeed();
                 },
                 'json'
             );
@@ -189,7 +189,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                             _item.isDone(subItem.isDone());
                         }
                     });
-                    succeed(true);
+                    succeed();
+
                 },
                 'json'
             );
@@ -394,9 +395,8 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.items = ko.observableArray();
 
 
-        self.setItems = function(items, isAll, isIntial) {
+        self.setItems = function(items, isAll, isInitial) {
 
-            var needRefreshTag = false;
 
             if (isAll) {
                 $('.link-tag.all').addClass('isActive');
@@ -415,7 +415,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 });
             }
 
-            if (!isIntial) {
+            if (!isInitial) {
                 setTimeout(function() {
                     $('.hidden-tag').tag();
 

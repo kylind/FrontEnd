@@ -18,7 +18,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.profit = item && item.profit ? item.profit : '';
         self.isDone = (item && typeof item.isDone != 'undefined') ? item.isDone : false;
-        self.tag= item && item.tag ? item.tag : '';
+        self.tag = item && item.tag ? item.tag : '';
 
 
 
@@ -132,19 +132,19 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             return observableOrders;
         }
 
-        function sortOrders (orders){
+        function sortOrders(orders) {
 
-            orders.sort(function( orderA, orderB){
+            orders.sort(function(orderA, orderB) {
 
                 var aStatus = orderA.packingStatus();
                 var bStatus = orderB.packingStatus()
 
-                if(aStatus==bStatus){
+                if (aStatus == bStatus) {
 
                     return orderA.createDate <= orderB.createDate ? 1 : -1;
 
-                }else{
-                    return aStatus<bStatus ? -1: 1;
+                } else {
+                    return aStatus < bStatus ? -1 : 1;
                 }
 
             })
@@ -164,11 +164,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.orders = ko.observableArray(observableOrders);
 
-        self.setOrders = function(orders) {
+
+        self.setOrders = function(orders, isInitial) {
 
             self.orders(init(orders));
             swiper.update();
-
 
         }
 
@@ -202,7 +202,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     console.log('get post result');
                     ko.mapping.fromJS(data, {}, order);
-                    succeed(true);
+                    succeed();
                 },
                 'json'
             );
@@ -279,7 +279,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                             })
 
-                            succeed(true);
+                            succeed();
                         },
                         'json'
                     );
@@ -335,17 +335,17 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                     order.packingStatus(newStatus)
 
-                    if($('#search-receivedOrders').val()==''){
+                    if ($('#search-receivedOrders').val() == '') {
 
-                        var  orders= self.orders();
+                        var orders = self.orders();
 
                         sortOrders(orders);
 
-                         self.orders(orders);
+                        self.orders(orders);
 
                     }
 
-                    succeed(true);
+                    succeed();
 
                 },
                 data: {
@@ -385,7 +385,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             $.ajax('./order/' + id, {
                 success: function(data, status) {
 
-                    succeed(true);
+                    succeed();
 
                 },
                 dataType: 'json',
@@ -406,13 +406,13 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             }
 
 
-            if(keywords==''){
+            if (keywords == '') {
 
                 sortOrders(orders);
 
                 var searchedOrders = orders;
 
-            }else{
+            } else {
                 var searchedOrders = orders.filter(function(order) {
 
                     return order.client().indexOf(keywords) >= 0;

@@ -325,6 +325,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         var startDate = getDoneOrderStartDate();
 
+
         self.updateReservedOrders = function (orders) {
 
             reservedOrders = orders;
@@ -435,7 +436,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
 
 
-                    succeed(true);
+                    succeed();
 
                 },
                 data: {
@@ -516,7 +517,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
                             })
 
-                            succeed(true);
+                            succeed();
 
                         },
                         'json'
@@ -611,7 +612,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             $.ajax('./order/' + id, {
                 success: function(data, status) {
 
-                    succeed(true);
+                    succeed();
 
 
                 },

@@ -18,9 +18,9 @@ requirejs.config({
         'angular': './angular/angular.min',
         'ngResource': './angular-resource/angular-resource.min',
         'ngAnimate': './angular-animate/angular-animate.min',
-       // 'settings.module': '../js/settings/settings.module',
-        //'settings.component': '../js/settings/settings.component'
-        'settings.component': '../js/settings/settings.min'
+        'settings.module': '../js/settings/settings.module',
+        'settings.component': '../js/settings/settings.component'
+            //'settings.component': '../js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
@@ -51,6 +51,29 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
     $.fn.on = function() {
         arguments[0] = (arguments[0] === 'click') ? isTouch : arguments[0];
         return _on.apply(this, arguments);
+    }
+
+
+
+    var viewModelStatus = [false, false, false, false];
+
+    function setViewModelStatus(activeIndex) {
+
+        switch (activeIndex) {
+            case 0:
+                viewModelStatus[1] = true;
+                viewModelStatus[2] = true;
+                break;
+            case 1:
+                viewModelStatus[0] = true;
+                viewModelStatus[2] = true;
+                break;
+            case 2:
+                viewModelStatus[0] = true;
+                viewModelStatus[1] = true;
+                viewModelStatus[3] = true;
+                break;
+        }
     }
 
     ko.bindingHandlers.tap = {
@@ -87,7 +110,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                                 $succeed.addClass('disappeared')
                             });
 
-                            updateAllData();
+                            if (needRefreshRest) {
+                                updateAllData();
+                            }
 
                         });
 
@@ -119,6 +144,8 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                             $('.prompt').css('top', offset.top).show();
 
                         }, function(needRefreshRest, needRefreshCurrent) {
+
+                            setViewModelStatus(swiper.activeIndex);
 
                             $submitting.addClass('disappeared')
                             $succeed.removeClass('disappeared')
@@ -228,7 +255,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
         if (swiper.activeIndex == 0) {
 
             $.getJSON('./receivedOrdersJson', function(orders, status) {
-                ordersModel.setOrders(orders);
+                ordersModel.setOrders(orders, true);
                 setTimeout(function() {
                     swiper.update();
                 }, 100);
@@ -242,6 +269,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                 var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
                 reckoningOrdersModel.orders(observableOrders);
+
                 setTimeout(function() {
                     swiper.update();
                 }, 100);
@@ -254,12 +282,12 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
     function updateAllData() {
 
-        var activeIndex=swiper.activeIndex ;
+        var activeIndex = swiper.activeIndex;
 
 
-        if (activeIndex == 1 || activeIndex==2) {
+        if (activeIndex == 1 || activeIndex == 2) {
             $.getJSON('./receivedOrdersJson', function(orders, status) {
-                ordersModel.setOrders(orders);
+                ordersModel.setOrders(orders, true);
                 setTimeout(function() {
                     swiper.update();
                 }, 100);
@@ -270,7 +298,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
         if (activeIndex == 0 || activeIndex == 2) {
 
             $.getJSON('./purchaseItemsJson', function(rs, status) {
-                itemsModel.setItems(rs.items, true);
+                itemsModel.setItems(rs.items, true, true);
                 setTimeout(function() {
                     swiper.update();
                 }, 100);
@@ -279,7 +307,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
         }
 
 
-        if (activeIndex == 0 || activeIndex==1) {
+        if (activeIndex == 0 || activeIndex == 1) {
 
             $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
@@ -293,7 +321,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         }
 
-        if (activeIndex ==2) {
+        if (activeIndex == 2) {
 
             $.getJSON('./incomeListJson', function(incomeList, status) {
                 incomeListModel.setIncomeList(incomeList);
@@ -339,7 +367,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                         tags: tags,
                         updateTag: function(itemName, oldTag, newTag) {
 
-                            if(oldTag==newTag)return;
+                            if (oldTag == newTag) return;
 
                             if (Array.isArray(itemsModel.allItems) && itemsModel.allItems.length > 0) {
                                 var item = itemsModel.allItems.find(function(item) {
@@ -374,7 +402,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                                 }, function(res, status) {
 
-                                    updateAllData();
+                                    //updateAllData();
+                                    setViewModelStatus(swiper.activeIndex);
+
 
                                 },
                                 'json'
@@ -401,16 +431,11 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         })
 
-        Promise.all([purchasePromise,reckoningPromise]).then(function(rs){
-            rs[0].ordersModel = ordersModel;
-            rs[0].reckoningOrdersModel=rs[1];
+        Promise.all([purchasePromise, reckoningPromise]).then(function(rs) {
+            /*            rs[0].ordersModel = ordersModel;
+                        rs[0].reckoningOrdersModel = rs[1];*/
 
         })
-
-
-
-
-
 
         $.getJSON('./incomeListJson', function(incomeList, status) {
             incomeListModel = new IncomeListModel(incomeList, swiper);
@@ -439,7 +464,6 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                     $target.trigger('click')
                 }, 100);
                 return false;
-
             }
 
         });
@@ -447,49 +471,52 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         swiper.params.onSlideChangeStart = function(swiper) {
 
-            // switch (swiper.activeIndex) {
-            //     case 0:
-            //         $.getJSON('./receivedOrdersJson', function(orders, status) {
+            var activeIndex = swiper.activeIndex;
+            switch (swiper.activeIndex) {
+                case 0:
 
-            //             ordersModel.setOrders(orders);
-            //             swiper.update();
+                    if (viewModelStatus[activeIndex]) {
 
-            //         });
-            //         break;
-            //     case 1:
-            //         $.getJSON('./purchaseItemsJson', function(rs, status) {
-            //             itemsModel.setItems(rs.items, rs.markedItems);
-            //             swiper.update();
+                        $.getJSON('./receivedOrdersJson', function(orders, status) {
+                            ordersModel.setOrders(orders, true);
+                        });
+                    }
 
-            //         });
-            //         break;
+                    break;
 
-            //     case 2:
-            //         $.getJSON('./reckoningOrdersJson', function(orders, status) {
+                case 1:
+                    if (viewModelStatus[activeIndex]) {
+                        $.getJSON('./purchaseItemsJson', function(rs, status) {
+                            itemsModel.setItems(rs.items, true, true);
 
-            //             var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
-            //             reckoningOrdersModel.orders(observableOrders);
-            //             swiper.update();
+                        });
+                    }
+                    break;
 
-            //         })
-            //         break;
-            //     case 3:
-            //         $.getJSON('./incomeListJson', function(incomeList, status) {
-            //             incomeListModel.setIncomeList(incomeList);
-            //             swiper.update();
+                case 2:
+                    if (viewModelStatus[activeIndex]) {
+                        $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
-            //         })
-            //         break;
-            //     case 4:
-            //         $.getJSON('./addressesJson', function(addresses, status) {
-            //             addressesModel.setAddresses(addresses);
-            //             swiper.update();
+                            var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+                            reckoningOrdersModel.orders(observableOrders);
+                            reckoningOrdersModel.viewModelStatus = false;
+                        })
+                    }
 
-            //         })
-            //         break;
-            // }
+                    break;
+
+                case 3:
+                    if (viewModelStatus[activeIndex]) {
+                        $.getJSON('./incomeListJson', function(incomeList, status) {
+                            incomeListModel.setIncomeList(incomeList);
+                        })
+                    }
+                    break;
+
+            }
 
             setTimeout(function() {
+                swiper.update();
                 $(window).scrollTop(0);
             }, 100);
 

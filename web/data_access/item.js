@@ -129,47 +129,23 @@ var Collection = function(_name) {
                 'items': {
                     $elemMatch: {
                         name: itemName,
-                        //tag: itemTag,
                         isDone: !status
-
                     }
                 }
 
             };
 
-            if (itemTag == '') {
-                var query = {
-                    'status': '1RECEIVED',
-                    'items': {
-                        $elemMatch: {
-                            name: itemName,
-                            //tag: { $in: ['', null] },
-                            isDone: !status
 
-                        }
-                    }
+            var docs = yield db.collection(_name).find(query).toArray();
 
-                };
-            }
-
-            var count = yield db.collection(_name).find(query).count();
-
-            while (count > 0) {
-
-
-                var res = yield db.collection(_name).updateMany(query, {
-                    $set: {
-                        'items.$.isDone': status
+            docs.forEach(function(doc) {
+                doc.items.forEach(function(item) {
+                    if (item.name == itemName) {
+                        item.isDone = status;
                     }
                 });
-
-                count = yield db.collection(_name).find(query).count();
-
-            }
-
-
-
-            return res;
+                db.collection(_name).save(doc);
+            });
 
         },
 
@@ -180,33 +156,20 @@ var Collection = function(_name) {
 
 
             var query = {
-                '_id': new ObjectID(id),
-                'items': {
-                    $elemMatch: {
-                        name: itemName,
-                        isDone: !status
-                    }
-                }
+                '_id': new ObjectID(id)
 
             };
 
-            var count = yield db.collection(_name).find(query).count();
+            var docs = yield db.collection(_name).find(query).toArray();
 
-            while (count > 0) {
-
-
-                var res = yield db.collection(_name).updateOne(query, {
-                    $set: {
-                        'items.$.isDone': status
+            docs.forEach(function(doc) {
+                doc.items.forEach(function(item) {
+                    if (item.name == itemName) {
+                        item.isDone = status;
                     }
                 });
-
-                count = yield db.collection(_name).find(query).count();
-
-            }
-
-
-            return res;
+                db.collection(_name).save(doc);
+            });
 
         },
 
@@ -220,7 +183,7 @@ var Collection = function(_name) {
                     $match: {
                         status: '1RECEIVED',
                         'items.name': itemName
-                        //'items.tag': itemTag
+                            //'items.tag': itemTag
                     }
 
                 }, {
@@ -234,7 +197,7 @@ var Collection = function(_name) {
 
                     $match: {
                         'items.name': itemName
-                        //'items.tag': itemTag
+                            //'items.tag': itemTag
                     }
 
                 }, {
@@ -281,7 +244,7 @@ var Collection = function(_name) {
 
             var res = yield db.collection(_name).aggregate([{
 
-                    $match: { status: '1RECEIVED'}//, 'items.tag': itemTag , 'items.name': itemName
+                    $match: { status: '1RECEIVED','items.name': itemName } //, 'items.tag': itemTag , 'items.name': itemName
 
                 }, {
                     $unwind: {
@@ -294,7 +257,7 @@ var Collection = function(_name) {
 
                     $match: {
                         'items.name': itemName
-                       // 'items.tag': itemTag
+                            // 'items.tag': itemTag
                     }
 
                 }, {
@@ -309,7 +272,7 @@ var Collection = function(_name) {
 
         updateItemTag: function*(itemName, oldTag, newTag) {
 
-            if(newTag==oldTag) return;
+            if (newTag == oldTag) return;
 
             var db = yield MongoClient.connect(url);
 
@@ -317,47 +280,22 @@ var Collection = function(_name) {
                 'status': '1RECEIVED',
                 'items': {
                     $elemMatch: {
-                        name: itemName,
-                        tag: oldTag
+                        name: itemName
                     }
                 }
             };
 
-            if (oldTag == '') {
-                var query = {
-                    'status': '1RECEIVED',
-                    'items': {
-                        $elemMatch: {
-                            name: itemName,
-                           tag: { $in: ['', null] }
-                        }
-                    }
+            var docs = yield db.collection(_name).find(query).toArray();
 
-                };
-            }
-
-
-            var count = yield db.collection(_name).find(query).count();
-
-
-            while (count > 0) {
-
-
-                var res = yield db.collection(_name).updateMany(query, {
-                    $set: {
-                        'items.$.tag': newTag
+            docs.forEach(function(doc) {
+                doc.items.forEach(function(item) {
+                    if (item.name == itemName) {
+                        item.tag = newTag;
                     }
                 });
-
-                count = yield db.collection(_name).find(query).count();
-
-            }
-
-
-
-            return res;
-
-        },
+                db.collection(_name).save(doc);
+            });
+        }
     };
 }
 exports.Collection = Collection;
