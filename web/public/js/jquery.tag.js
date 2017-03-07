@@ -80,8 +80,11 @@
                     $('.ol-tags').remove();
 
                     $active.removeClass('isActive');
-                    isListActive=false;
+
                 }
+
+                $('.ol-tags').remove();
+                isListActive=false;
 
 
             });

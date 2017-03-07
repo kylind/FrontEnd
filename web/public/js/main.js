@@ -18,9 +18,9 @@ requirejs.config({
         'angular': './angular/angular.min',
         'ngResource': './angular-resource/angular-resource.min',
         'ngAnimate': './angular-animate/angular-animate.min',
-        'settings.module': '../js/settings/settings.module',
-        'settings.component': '../js/settings/settings.component'
-            //'settings.component': '../js/settings/settings.min'
+        //'settings.module': '../js/settings/settings.module',
+        //'settings.component': '../js/settings/settings.component'
+        'settings.component': '../js/settings/settings.min'
     },
     shim: {
         'swiper': ['jquery'],
@@ -96,7 +96,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                         $confirm.fadeOut('slow');
                         handler(bindingContext.$data, bindingContext.$parent, event, function() {
-                            $submitting.children('span').text("提交中...");
+                            $submitting.children('span').text(" 提交中...");
                             var offset = $target.offset();
                             $('.prompt').css('top', offset.top).show();
 
@@ -141,7 +141,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                     setTimeout(function() {
 
                         handler(bindingContext.$data, bindingContext.$parent, event, function() {
-                            $submitting.children('span').text("提交中...");
+                            $submitting.children('span').text(" 提交中...");
                             var offset = $target.offset();
                             $('.prompt').css('top', offset.top).show();
 
@@ -180,7 +180,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                 } else if ($target.hasClass('action-load')) {
 
                     handler(bindingContext.$data, bindingContext.$parent, event, function() {
-                        $submitting.children('span').text("加载中...");
+                        $submitting.children('span').text(" 加载中...");
                         var offset = $target.offset();
                         $('.prompt').css('top', offset.top).show();
 
@@ -351,11 +351,6 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
                 ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
 
-/*                setTimeout(function() {
-                    swiper.update();
-                }, 100);*/
-
-
                 var promise = new Promise(function(resolve, reject) {
                     $.getJSON(`./user/${USER_ID}`, function(rs, status) {
                         resolve(rs);
@@ -433,26 +428,20 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                 reckoningOrdersModel = new OrdersModel(orders, swiper);
                 resolve(reckoningOrdersModel);
                 ko.applyBindings(reckoningOrdersModel, $('#reckoningOrders')[0]);
-/*                setTimeout(function() {
-                    swiper.update();
-                }, 100);*/
+
 
             });
 
         })
 
         Promise.all([purchasePromise, reckoningPromise]).then(function(rs) {
-            /*            rs[0].ordersModel = ordersModel;
-                        rs[0].reckoningOrdersModel = rs[1];*/
 
         })
 
         $.getJSON('./incomeListJson', function(incomeList, status) {
             incomeListModel = new IncomeListModel(incomeList, swiper);
             ko.applyBindings(incomeListModel, $('#incomeList')[0]);
-/*            setTimeout(function() {
-                swiper.update();
-            }, 100);*/
+
 
         });
 
@@ -516,7 +505,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                             var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
                             reckoningOrdersModel.orders(observableOrders);
                             viewModelStatus[activeIndex] = false;
-                            swiper.update();
+
                         })
                     }
 
@@ -527,7 +516,6 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                         $.getJSON('./incomeListJson', function(incomeList, status) {
                             incomeListModel.setIncomeList(incomeList);
                             viewModelStatus[activeIndex] = false;
-                            swiper.update();
 
                         })
                     }
@@ -536,13 +524,10 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             }
 
             setTimeout(function() {
-
                 $(window).scrollTop(0);
             }, 100);
 
-
         }
-
 
     });
 

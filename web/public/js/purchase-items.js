@@ -360,14 +360,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     items.sort(compareTag)
                 }
 
-                var needRefreshTag = false;
-
-
-                if ($('.link-tag.all').hasClass('isActive')) {
-                    needRefreshTag = true;
-                }
-
-
                 items.forEach(function(item) {
 
                     observableItems.push(new Item(item, swiper));
@@ -395,8 +387,9 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.items = ko.observableArray();
 
 
-        self.setItems = function(items, isAll, isInitial) {
+        self.setItems = function(items, isAll, needBinding) {
 
+            var needRefreshTag=false;
 
             if (isAll) {
                 $('.link-tag.all').addClass('isActive');
@@ -415,7 +408,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 });
             }
 
-            if (!isInitial) {
+            if (needBinding) {
                 setTimeout(function() {
                     $('.hidden-tag').tag();
 
@@ -428,7 +421,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         }
 
-        self.setItems(items, true, true);
+        self.setItems(items, true, false);
 
 
 
@@ -472,7 +465,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             if ($currentTag.hasClass('all')) {
 
-                self.setItems(self.allItems, true, false);
+                self.setItems(self.allItems, true, true);
 
             } else {
 
@@ -480,11 +473,13 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     return item.tag == tag;
                 });
 
-                self.setItems(specificItems);
+                self.setItems(specificItems,false,true);
 
             }
 
             swiper.update();
+
+            $(document).click();
 
         }
 

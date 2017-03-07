@@ -305,7 +305,8 @@ button.swiper-pagination-bullet {
 }
 
 .swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet {
-    margin: 0 5px;
+    /*margin: 0 5px;*/
+    padding:5px 10px;
 }
 
 

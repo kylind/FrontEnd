@@ -981,7 +981,7 @@ span.orderitem-cnt-btns {
 .tagbox-tags {
     margin-left: 38px;
     width: auto;
-    height: 20px;
+    min-height: 20px;
 }
 
 .link-tag {
