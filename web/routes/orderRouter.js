@@ -69,7 +69,7 @@ router.get('/order/:id', function*() {
 
 });
 
-function* saveOrder(order) {
+function processOrder(order) {
     var res;
 
 
@@ -100,8 +100,6 @@ function* saveOrder(order) {
     });
 
 
-
-
     delete order.displayDate;
     delete order.total;
     delete order.orderStatus;
@@ -115,11 +113,13 @@ function* saveOrder(order) {
 
         console.log('valid id:' + order._id);
 
+        order._id= new ObjectID(order._id);
+
         order.createDate = new Date(order.createDate);
         order.rate = +order.rate;
         util.sumarizeOrder(order);
 
-        res = yield orderOperation.updateById(order._id, order);
+        //res = yield orderOperation.updateById(order._id, order);
 
     } else {
 
@@ -130,11 +130,11 @@ function* saveOrder(order) {
         order.rate = RATE;
         util.sumarizeOrder(order);
 
-        res = yield orderOperation.insert(order);
+        //res = yield orderOperation.insert(order);
 
     }
 
-    order.displayDate = order.createDate ? order.createDate.toLocaleDateString("en-US", dateFormatting) : '';
+
 
     return order;
 }
@@ -143,7 +143,11 @@ router.post('/order', function*() {
 
     var order = this.request.body;
 
-    yield saveOrder(order);
+    processOrder(order);
+
+    yield orderOperation.save([order]);
+
+    order.displayDate = order.createDate ? order.createDate.toLocaleDateString("en-US", dateFormatting) : '';
 
     this.body = order;
     this.status = 200;
@@ -158,11 +162,19 @@ router.post('/orders', function*() {
 
     if (Array.isArray(orders) && orders.length > 0) {
         for (var i = 0; i < orders.length; i++) {
-            yield saveOrder(orders[i]);
+
+            processOrder(orders[i]);
         }
 
-    }
+         yield orderOperation.save(orders);
 
+        orders.forEach(function(order){
+
+            order.displayDate = order.createDate ? order.createDate.toLocaleDateString("en-US", dateFormatting) : '';
+        })
+
+
+    }
 
     this.body = orders;
     this.status = 200;

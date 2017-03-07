@@ -244,7 +244,7 @@ var Collection = function(_name) {
 
             var res = yield db.collection(_name).aggregate([{
 
-                    $match: { status: '1RECEIVED','items.name': itemName } //, 'items.tag': itemTag , 'items.name': itemName
+                    $match: { status: '1RECEIVED', 'items.name': itemName } //, 'items.tag': itemTag , 'items.name': itemName
 
                 }, {
                     $unwind: {
@@ -287,14 +287,18 @@ var Collection = function(_name) {
 
             var docs = yield db.collection(_name).find(query).toArray();
 
-            docs.forEach(function(doc) {
-                doc.items.forEach(function(item) {
+            for (var i = 0; i < docs.length; i++) {
+
+                docs[i].items.forEach(function(item) {
                     if (item.name == itemName) {
                         item.tag = newTag;
                     }
                 });
-                db.collection(_name).save(doc);
-            });
+                db.collection(_name).save(docs[i]);
+
+            }
+
+
         }
     };
 }
