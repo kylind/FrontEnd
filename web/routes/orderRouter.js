@@ -131,10 +131,7 @@ function processOrder(order) {
         util.sumarizeOrder(order);
 
         //res = yield orderOperation.insert(order);
-
     }
-
-
 
     return order;
 }

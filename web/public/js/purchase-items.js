@@ -344,15 +344,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             }
         }
 
-
         function init(items, needRefreshTag, orderBy) {
             var observableItems = [];
             var tags = [];
 
-
-
             if (Array.isArray(items) && items.length > 0) {
-
 
                 if (orderBy == 'status') {
                     items.sort(compareStatus)
