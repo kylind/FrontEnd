@@ -6,6 +6,7 @@
     <div class="swiper-pagination">
     </div>
     <div class="swiper-wrapper">
+        <% if((!user.access) || (user.access && user.access.receivedOrders)){ %>
         <section class="swiper-slide" id="receivedOrders">
             <div class="searchbox">
                 <button type="button" text="Add" class="fl icon icon-add" data-bind="tap:$root.addOrder"> 新建 </button>
@@ -32,25 +33,28 @@
                         <!-- ko foreach: items -->
                         <fieldset class="item">
                             <span class="w-p40">
-                    <input  type="text" class="oneline" data-bind="value: name" placeholder="产品" />
-                </span>
+                <input  type="text" class="oneline" data-bind="value: name" placeholder="产品" />
+            </span>
                             <span class="w-p10">
-                    <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
-                </span>
+                <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
+            </span>
                             <span class="w-p30">
-                    <input  type="text" data-bind="value: note" placeholder="备注:" />
-                </span>
+                <input  type="text" data-bind="value: note" placeholder="备注:" />
+            </span>
                             <span class="w-p20 taRight rpadding-5"><!-- data-bind="css: { 'align-right': $index()%2==0 } -->
 
-                     <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $root.removeItem"></a>
+                 <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $root.removeItem"></a>
 
-                </span>
+            </span>
                         </fieldset>
                         <!-- /ko -->
                     </div>
                 </section>
             </div>
         </section>
+        <% } %>
+
+        <% if((!user.access) || (user.access && user.access.purchaseItems)){ %>
         <section class="swiper-slide" id="purchaseItems">
             <div class="tagbox">
                 <span class="tagbox-label">标签：</span>
@@ -63,7 +67,7 @@
             </div>
             <div class="orderitems">
                 <div class="orderitems-header">
-                    <span class="w-p30 taCenter"><a class="icon icon-refresh"  data-bind="tap:$root.refreshItems"></a>标签</span>
+                    <span class="w-p30 taCenter"><a class="icon icon-refresh"  data-bind="tap:function(){$root.refreshItems('')}"></a>标签</span>
                     <span class="w-p30 taLeft">产品</span>
                     <span class="w-p10 taRight rpadding-5">数量</span>
                     <span class="w-p20 taRight  rpadding-5"><a class="icon icon-refresh" data-bind="tap: function(){$root.refreshItems('status')}"></a>标记</span>
@@ -73,18 +77,18 @@
                 <div class="orderitem">
                     <div class="orderitem-cnt">
                         <span class="taLeft w-p30">
-                            <input  type="text" data-bind="value: tag" class="hidden-tag" />
-                            <input  type="hidden" data-bind="value: _id" class="hidden-item" />
-                        </span>
+                <input  type="text" data-bind="value: tag" class="hidden-tag" />
+                <input  type="hidden" data-bind="value: _id" class="hidden-item" />
+            </span>
                         <span class="taLeft w-p30 oneline" data-bind="text: _id"></span>
                         <span class="taRight w-p10 rpadding-5" data-bind="text: quantity"></span>
-                        <span class="taRight w-p20 orderitem-cnt-btns">
-                            <a href="#" class="icon icon-search  action-load" data-bind="tap: getSubItems"></a>
-                            <a href="#" class="icon icon-flag action-submit" data-bind="tap: markDone, css: markItemStatus()"></a>
-                        </span>
+                        <span class="w-p20 orderitem-cnt-btns">
+                <a href="#" class="icon icon-search  action-load" data-bind="tap: getSubItems"></a>
+                <a href="#" class="icon icon-flag action-submit" data-bind="tap: markDone, css: markItemStatus()"></a>
+            </span>
                         <span class="taRight w-p10" data-bind="text: restCount">
 
-                        </span>
+            </span>
                     </div>
                     <div class="orderitem-subItems">
                         <!-- ko if: subItems().length>0 -->
@@ -92,7 +96,7 @@
                             <div class="subItems-header">
                                 <span class="w-p30 taCenter">客户</span>
                                 <span class="w-p30 taLeft">备注</span>
-                                <span class="w-p10 taRight">数量</span>
+                                <span class="w-p10 taRight rpadding-5">数量</span>
                                 <span class="w-p20 taRight rpadding-5">标记</span>
                                 <span class="w-p10 taRight rpadding-5"></span>
                             </div>
@@ -121,6 +125,9 @@
                 </section>
             </script>
         </section>
+        <% } %>
+
+        <% if ((!user.access) || (user.access && user.access.reckoningOrders)){ %>
         <section class="swiper-slide" id="reckoningOrders">
             <div class="searchbox">
                 <button type="button" text="Add" class="rmargin-20 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> 保存 </button>
@@ -150,7 +157,7 @@
                         <!-- ko if: _id() != '' -->
                         <div class="order-totalbox">
                             <span class="font-bold font-red vaTop onlyForMe" data-bind="css:{'font-red': isComplete}">
-                                <span class="w-p20">总共：</span>
+            <span class="w-p20">总共：</span>
                             <span class="w-p10"><input type="text" class="w-30 font-bold postage" placeholder='Fee' data-bind="value: postage,css:{'font-red': isComplete}" /></span>
                             <span class="w-p15" data-bind="text: formatPrice(buyPrice)"></span>
                             <span class="w-p15" data-bind="text: formatPrice(sellPrice)"></span>
@@ -158,7 +165,7 @@
                             <span class="w-p25"></span>
                             </span>
                             <span class="font-bold font-red vaTop onlyForClient" data-bind="css:{'font-red': isComplete}">
-                                <span class="lmargin-5">总共： &nbsp;</span>
+            <span class="lmargin-5">总共： &nbsp;</span>
                             <span data-bind="text: formatPrice(sellPrice)"></span>
                             <span>&nbsp;+ &nbsp;</span>
                             <span class="w-p15 postagebox"><input type="text" class="w-30 font-bold postage"  data-bind="value: postage,css:{'font-red': isComplete}" /></span>
@@ -172,24 +179,24 @@
                             <fieldset class="item">
                                 <div class="item-fields">
                                     <span class="w-p20 name">
-                                        <input  type="text" class="oneline" data-bind="value: name" placeholder="产品" />
-                                    </span>
+                    <input  type="text" class="oneline" data-bind="value: name" placeholder="产品" />
+                </span>
                                     <span class="w-p10 quantity">
-                                        <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
-                                    </span>
+                    <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
+                </span>
                                     <span class="w-p15 onlyForMe">
-                                        <input  type="text" data-bind="value: buyPrice" placeholder="买" />
-                                    </span>
+                    <input  type="text" data-bind="value: buyPrice" placeholder="买" />
+                </span>
                                     <span class="w-p15 sell">
-                                        <input  type="text" data-bind="value: sellPrice" placeholder="卖" />
-                                    </span>
+                    <input  type="text" data-bind="value: sellPrice" placeholder="卖" />
+                </span>
                                     <span class="w-p15 onlyForMe">
-                                        <input  type="text" readonly data-bind="value: profit" placeholder="收益" />
-                                    </span>
-                                    <span class="w-p25  taRight rpadding-5">
-                                        <a href="#" class="icon icon-search  action-load" data-bind="tap: $parent.getHistoricTrades"></a>
-                                        <a href="#" class="icon icon-remove action-submit" data-bind="tap: $parent.removeItem"></a>
-                                    </span>
+                    <input  type="text" readonly data-bind="value: profit" placeholder="收益" />
+                </span>
+                                    <span class="w-p25 actions">
+                    <a href="#" class="icon icon-search  action-load" data-bind="tap: $parent.getHistoricTrades"></a>
+                    <a href="#" class="icon icon-remove action-submit" data-bind="tap: $parent.removeItem"></a>
+                </span>
                                 </div>
                                 <div class="historicbox">
                                     <!-- ko if: historicTrades().length>0 -->
@@ -226,6 +233,9 @@
                 </section>
             </script>
         </section>
+        <% } %>
+
+        <% if ((!user.access) || (user.access && user.access.incomeList)){ %>
         <section class="swiper-slide" id="incomeList">
             <div class="incomelist isMobile tmargin-10">
                 <div class="incomelist-header">
@@ -247,7 +257,7 @@
                                 <i data-bind="text: firstDate"></i> -
                                 <i data-bind="text: lastDate"></i>
 
-                         </span>
+                        </span>
                         <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(cost)"></span>
                         <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(revenue)"></span>
                         <span class="taRight w-p20 rpadding-5" data-bind="text: $root.formatPrice(income)"></span>
@@ -267,6 +277,7 @@
                 <!-- /ko -->
             </div>
         </section>
+        <% } %>
     </div>
 </div>
 <!--

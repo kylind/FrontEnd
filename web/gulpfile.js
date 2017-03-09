@@ -132,7 +132,7 @@ gulp.task('commonjs', function(done) {
         .pipe(concat(`common.min.js`))
         .pipe(uglify())
         // .pipe(uglify({mangle:false}))
-        .pipe(sourcemaps.write('.', { includeContent: true }))
+        .pipe(sourcemaps.write('.', { includeContent: false }))
         .pipe(gulp.dest(`dist/public/js`));
 
     done();
@@ -146,7 +146,7 @@ gulp.task('pagejs', function(done) {
         //.pipe(concat(`all.min.js`))
        .pipe(uglify())
         /* .pipe(uglify({mangle:false}))*/
-        .pipe(sourcemaps.write('.', { includeContent: true }))
+        .pipe(sourcemaps.write('.', { includeContent: false }))
         .pipe(gulp.dest(`dist`));
 
     done();

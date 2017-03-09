@@ -616,6 +616,7 @@ button {
     display: inline-block;
     box-sizing: border-box;
     font-size: 0;
+    vertical-align: top;
 }
 
 .order--received .item > span:last-child {
@@ -624,8 +625,20 @@ button {
 
 .order--reckoning .item-fields > span:last-child {
     border-right: 0;
+
 }
 
+.item-fields .actions{
+    padding-left:5px;
+    padding-right:5px;
+
+}
+.item-fields .actions > .icon-search{
+    float:left;
+}
+.item-fields .actions > .icon-remove{
+    float:right;
+}
 .order-addressbox,
 .order-itembox {
     padding-left: 5px;
@@ -801,6 +814,11 @@ button {
     padding-left: 5px;
 }
 
+.orderitems-header > span.taRight {
+    padding-left: 0;
+    padding-right: 5px;
+}
+
 .orderitem {
     background-color: #ffcccc;
     border-bottom: 1px solid #cc0066;
@@ -880,7 +898,10 @@ span.orderitem-cnt-btns {
     vertical-align: top;
     height: 18px;
 }
-
+.subItems-header > span.taRight {
+    padding-left: 0;
+    padding-right: 5px;
+}
 .subItems-header span:last-child {
     border-right: none;
 }

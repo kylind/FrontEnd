@@ -167,7 +167,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
             arguments[3]();
             var succeed = arguments[4];
-            var root=arguments[5];
+            var root = arguments[5];
 
             var subItemData = ko.mapping.toJS(subItem);
             subItemData.isDone = !subItemData.isDone;
@@ -290,22 +290,25 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         function compareTag(itemA, itemB) {
 
-            if (!itemA.tag) {
+
+            if (itemA.tag < itemB.tag) {
                 return -1;
-            } else if (!itemB.tag) {
+            } else if (itemA.tag > itemB.tag) {
                 return 1;
             } else {
-                if (itemA.tag < itemB.tag) {
+                var statusNumberA = convertPurchaseStatus(itemA);
+                var statusNumberB = convertPurchaseStatus(itemB);
+
+                if (statusNumberA < statusNumberB) {
                     return -1;
-                } else if (itemA.tag > itemB.tag) {
+                } else if (statusNumberA > statusNumberB) {
                     return 1;
                 } else {
-                    var statusNumberA = convertPurchaseStatus(itemA);
-                    var statusNumberB = convertPurchaseStatus(itemB);
-
-                    if (statusNumberA < statusNumberB) {
+                    var aFirstLetter = itemA._id.substr(0, 1);
+                    var bFirstLetter = itemB._id.substr(0, 1);
+                    if (aFirstLetter < bFirstLetter) {
                         return -1;
-                    } else if (statusNumberA > statusNumberB) {
+                    } else if (aFirstLetter > bFirstLetter) {
                         return 1;
                     } else {
                         return 0;
@@ -325,21 +328,23 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
             } else if (statusNumberA > statusNumberB) {
                 return 1;
             } else {
-                if (!itemA.tag) {
+
+                if (itemA.tag < itemB.tag) {
                     return -1;
-                } else if (!itemB.tag) {
+                } else if (itemA.tag > itemB.tag) {
                     return 1;
                 } else {
-
-                    if (itemA.tag < itemB.tag) {
+                    var aFirstLetter = itemA._id.substr(0, 1);
+                    var bFirstLetter = itemB._id.substr(0, 1);
+                    if (aFirstLetter < bFirstLetter) {
                         return -1;
-                    } else if (itemA.tag > itemB.tag) {
+                    } else if (aFirstLetter > bFirstLetter) {
                         return 1;
                     } else {
                         return 0;
                     }
-
                 }
+
 
             }
         }
@@ -385,7 +390,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
         self.setItems = function(items, isAll, needBinding) {
 
-            var needRefreshTag=false;
+            var needRefreshTag = false;
 
             if (isAll) {
                 $('.link-tag.all').addClass('isActive');
@@ -427,11 +432,11 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                 return ko.mapping.toJS(item);
 
             })
-            var $currentTab=$('.link-tag.isActive')
+            var $currentTab = $('.link-tag.isActive')
 
-            if(!$currentTab.hasClass('all')){
-                currentItems=currentItems.filter(function(item){
-                    return item.tag==$currentTab.text();
+            if (!$currentTab.hasClass('all')) {
+                currentItems = currentItems.filter(function(item) {
+                    return item.tag == $currentTab.text();
 
                 })
 
@@ -469,7 +474,7 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
                     return item.tag == tag;
                 });
 
-                self.setItems(specificItems,false,true);
+                self.setItems(specificItems, false, true);
 
             }
 

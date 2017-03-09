@@ -422,6 +422,8 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         });
 
+
+
         var reckoningPromise = new Promise(function(resolve, reject) {
 
             $.getJSON('./reckoningOrdersJson', function(orders, status) {
@@ -450,8 +452,6 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
         //     ko.applyBindings(addressesModel, $('#addresses')[0]);
 
         // });
-
-
 
         $(document).on('keydown', function(event) {
             if (event.keyCode == 13 && (swiper.activeIndex == 0 || swiper.activeIndex == 2)) {

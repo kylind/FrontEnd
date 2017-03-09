@@ -12,7 +12,7 @@ var dateFormatting = {
 var RATE = 0.9;
 
 
-const RECEIVED = '1RECEIVED'
+const RECEIVED = '1RECEIVED';
 
 const EMPTY_ORDER = {
     _id: '',
@@ -35,10 +35,10 @@ var orderOperation;
 
 router = new Router();
 
-router.use(function*(next){
+router.use(function*(next) {
 
     orderOperation = new Collection(this.req.user.collection);
-    RATE=this.req.user.rate||0.9;
+    RATE = this.req.user.rate || 0.9;
     yield next
 
 })
@@ -69,78 +69,13 @@ router.get('/order/:id', function*() {
 
 });
 
-function processOrder(order) {
-    var res;
 
-
-    if (!Array.isArray(order.items) || order.items.length == 0) {
-
-        if(typeof order.items == 'object'){
-
-            order.items = Object.keys(order.items).map(function(key) { return order.items[key] });
-
-        }else{
-             order.items = [];
-        }
-
-    }
-
-    order.items = order.items.filter(function(item) {
-        return item.name == '' ? false : true;
-    })
-
-    order.items.forEach(function(item) {
-        item.quantity = +item.quantity;
-        item.isDone = item.isDone == 'true' ? true : false;
-        item.buyPrice = item.buyPrice ? +item.buyPrice : null;
-        item.sellPrice = item.sellPrice ? +item.sellPrice : null;
-        item.tag = item.tag ? item.tag: '';
-        delete item.profit;
-        delete item.isChanged;
-    });
-
-
-    delete order.displayDate;
-    delete order.total;
-    delete order.orderStatus;
-    delete order.orderPackingStatus;
-    delete order.orderReadyStatus;
-    delete order.isChanged;
-    delete order.__ko_mapping__;
-
-
-    if (ObjectID.isValid(order._id)) {
-
-        console.log('valid id:' + order._id);
-
-        order._id= new ObjectID(order._id);
-
-        order.createDate = new Date(order.createDate);
-        order.rate = +order.rate;
-        util.sumarizeOrder(order);
-
-        //res = yield orderOperation.updateById(order._id, order);
-
-    } else {
-
-        console.log('no valid id:' + order._id);
-        delete order._id
-
-        order.createDate = new Date();
-        order.rate = RATE;
-        util.sumarizeOrder(order);
-
-        //res = yield orderOperation.insert(order);
-    }
-
-    return order;
-}
 
 router.post('/order', function*() {
 
     var order = this.request.body;
 
-    processOrder(order);
+    util.processOrder(order);
 
     yield orderOperation.save([order]);
 
@@ -160,12 +95,12 @@ router.post('/orders', function*() {
     if (Array.isArray(orders) && orders.length > 0) {
         for (var i = 0; i < orders.length; i++) {
 
-            processOrder(orders[i]);
+            util.processOrder(orders[i]);
         }
 
-         yield orderOperation.save(orders);
+        yield orderOperation.save(orders);
 
-        orders.forEach(function(order){
+        orders.forEach(function(order) {
 
             order.displayDate = order.createDate ? order.createDate.toLocaleDateString("en-US", dateFormatting) : '';
         })
@@ -213,7 +148,8 @@ router.delete('/order/:id', function*() {
 
 router.get('/index', function*() {
 
-     var _id = this.req.user._id;
+    var user = this.req.user;
+    var _id = this.req.user._id;
 
     var res = yield orderOperation.queryReceivedOrders();
     res = res && res.length > 0 ? res : [];
@@ -224,7 +160,8 @@ router.get('/index', function*() {
         css: 'swiper',
         header: 'specific',
         footer: '',
-        _id:_id
+        _id: _id,
+        user:user
 
     });
 
