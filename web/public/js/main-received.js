@@ -1,12 +1,12 @@
 requirejs.config({
 
-    basicUrl: './js',
+    baseUrl: './components',
 
     paths: {
-        jquery: 'jquery-2.2.3.min',
-        'knockout': 'knockout-3.4.0',
-        'knockout.mapping': 'knockout.mapping.2.4.1',
-        'received-orders':'received-orders'
+        jquery: './jquery/dist/jquery.min',
+        'knockout': './knockout/dist/knockout',
+        'knockout.mapping': '../js/knockout.mapping.2.4.1.min',
+        'received-orders':'../js/received-orders'
     }
 
 });
