@@ -1,0 +1,2 @@
+"use strict";define(["jquery","knockout","knockout.mapping"],function(e,t,o){return t.mapping=o,function(o){var n=this;n.incomeList=t.observableArray(o),n.setIncomeList=function(e){n.incomeList(e)},n.formatPrice=function(e){return e?(+e).toFixed(1):"?"},n.toggleTotalView=function(t,o,n){e(n.target).toggleClass("icon-eyeopen");var i=e(n.target).closest(".orderitem-cnt");e(n.target).hasClass("icon-eyeopen")?i.addClass("isShow"):i.removeClass("isShow")}}});
+//# sourceMappingURL=income-list.js.map

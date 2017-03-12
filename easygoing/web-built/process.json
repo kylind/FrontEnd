@@ -1,0 +1,19 @@
+{
+  "apps" : [{
+    "name"       : "website3",
+    "script"      : "app.js",
+    "watch"       : true,
+    "exec_mode"  : "cluster",
+    "instances"  : 6,
+    "env": {
+      "NODE_ENV": "production",
+       "db":"127.0.0.1",
+       "port":3003
+    },
+    "env_production" : {
+       "NODE_ENV": "production",
+       "db":"120.24.63.42",
+       "port":3003
+    }
+  }]
+}
