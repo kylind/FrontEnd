@@ -1,4 +1,4 @@
-require(['common', 'ReceivedOrders'], function(util, OrdersModel) {
+require(['common', 'ReceivedOrders','ItemsModel', 'ReckoningOrders', 'IncomeList'], function(util, OrdersModel) {
     var $ = util.$;
     var ko = util.ko;
     var mapping = util.mapping;

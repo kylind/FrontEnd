@@ -10,7 +10,6 @@ requirejs.config({
         'ReceivedOrders': '../js/received-orders',
         'ReckoningOrders': '../js/reckoning-orders',
         'IncomeList': '../js/income-list',
-        //'Addresses': '../js/addresses',
         'ItemsModel': '../js/purchase-items',
         'swiper': './swiper/dist/js/swiper.jquery.min',
         'colorbox': './jquery-colorbox/jquery.colorbox-min',
@@ -21,8 +20,6 @@ requirejs.config({
         'ngAnimate': './angular-animate/angular-animate.min',
         'settings.module': '../js/settings/settings.module',
         'settings.component': '../js/settings/settings.component',
-
-
     },
     shim: {
         'swiper': ['jquery'],
