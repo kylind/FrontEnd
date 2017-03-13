@@ -1,6 +1,9 @@
-define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
+define(['common'], function(util) {
 
-    ko.mapping = mapping;
+    var $ = util.$;
+    var ko = util.ko;
+    ko.mapping = util.mapping;
+
     var IncomeListModel = function(incomeList) {
 
         var self = this;

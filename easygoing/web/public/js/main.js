@@ -1,59 +1,8 @@
-requirejs.config({
-
-    baseUrl: './components',
-
-    paths: {
-
-        'jquery': './jquery/dist/jquery.min',
-        'knockout': './knockout/dist/knockout',
-        'knockout.mapping': '../js/knockout.mapping.2.4.1.min',
-        'ReceivedOrders': '../js/received-orders',
-        'ReckoningOrders': '../js/reckoning-orders',
-        'IncomeList': '../js/income-list',
-        'Addresses': '../js/addresses',
-        'ItemsModel': '../js/purchase-items',
-        'swiper': './swiper/dist/js/swiper.jquery.min',
-        'colorbox': './jquery-colorbox/jquery.colorbox-min',
-        'tag': '../js/jquery.tag',
-        'angular': './angular/angular.min',
-        'ngResource': './angular-resource/angular-resource.min',
-        'ngAnimate': './angular-animate/angular-animate.min',
-        //'settings.module': '../js/settings/settings.module',
-        //'settings.component': '../js/settings/settings.component'
-        'settings.component': '../js/settings/settings.min'
-    },
-    shim: {
-        'swiper': ['jquery'],
-        'knockout.mapping': ['knockout'],
-        'colorbox': ['jquery'],
-        'tag': ['jquery'],
-
-        'angular': {
-            exports: 'angular'
-        },
-        'ngResource': {
-            deps: ['angular'],
-            exports: 'angular'
-        },
-        'ngAnimate': {
-            deps: ['angular'],
-            exports: 'angular'
-        },
-    }
-
-});
-
-
-require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel, ko, $, Swiper) {
-
-    var isTouch = ('ontouchstart' in document.documentElement) ? 'touchstart' : 'click';
-    var _on = $.fn.on;
-    $.fn.on = function() {
-        arguments[0] = (arguments[0] === 'click') ? isTouch : arguments[0];
-        return _on.apply(this, arguments);
-    }
-
-
+require(['common', 'ReceivedOrders'], function(util, OrdersModel) {
+    var $ = util.$;
+    var ko = util.ko;
+    var mapping = util.mapping;
+    var Swiper = util.Swiper;
 
     var viewModelStatus = [false, false, false, false];
 
@@ -75,182 +24,6 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
                 break;
         }
     }
-
-    ko.bindingHandlers.tap = {
-
-        init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-
-            var handler = valueAccessor();
-
-            $(element).on('click', function(event) {
-
-                var $target = $(event.target);
-                var $submitting = $('.prompt-submitting');
-                var $succeed = $('.prompt-succeed');
-                var $confirm = $('.confirm');
-
-                if ($target.hasClass('action-delete') && $target.hasClass('action-submit')) {
-                    var offset = $target.offset();
-
-                    $('.confirm-submit').one('click', function() {
-
-                        $confirm.fadeOut('slow');
-                        handler(bindingContext.$data, bindingContext.$parent, event, function() {
-                            $submitting.children('span').text(" 提交中...");
-                            var offset = $target.offset();
-                            $('.prompt').css('top', offset.top).show();
-
-                        }, function(needRefreshRest) {
-
-                            $submitting.addClass('disappeared')
-                            $succeed.removeClass('disappeared')
-
-                            $('.prompt').delay(600).fadeOut('slow', function() {
-                                $submitting.removeClass('disappeared')
-                                $succeed.addClass('disappeared')
-                            });
-
-                            setViewModelStatus(swiper.activeIndex);
-
-                            if (needRefreshRest) {
-                                updateAllData();
-                            }
-
-                        });
-
-                    })
-
-                    $('.confirm-cancel').one('click', function() {
-
-                        $confirm.fadeOut('slow');
-
-                    })
-
-                    $('.confirm').css('top', offset.top).fadeIn('slow');
-
-
-                } else if ($target.hasClass('action-submit')) {
-
-                    var activeElement = $(document.activeElement);
-
-                    if (!activeElement.hasClass('action-submit')) {
-                        activeElement.blur();
-
-                    }
-
-                    setTimeout(function() {
-
-                        handler(bindingContext.$data, bindingContext.$parent, event, function() {
-                            $submitting.children('span').text(" 提交中...");
-                            var offset = $target.offset();
-                            $('.prompt').css('top', offset.top).show();
-
-                        }, function(needRefreshRest, needRefreshCurrent) {
-
-                            setViewModelStatus(swiper.activeIndex);
-
-                            $submitting.addClass('disappeared')
-                            $succeed.removeClass('disappeared')
-
-
-                            $('.prompt').delay(1200).fadeOut('slow', function() {
-                                $submitting.removeClass('disappeared')
-                                $succeed.addClass('disappeared')
-
-                            });
-
-
-                            if (needRefreshCurrent) {
-                                updateCurrentData();
-                            }
-
-                            if (needRefreshRest) {
-                                updateAllData();
-                            }
-
-
-                        });
-
-
-
-                    }, 100);
-
-
-
-                } else if ($target.hasClass('action-load')) {
-
-                    handler(bindingContext.$data, bindingContext.$parent, event, function() {
-                        $submitting.children('span').text(" 加载中...");
-                        var offset = $target.offset();
-                        $('.prompt').css('top', offset.top).show();
-
-                    }, function() {
-
-                        $('.prompt').delay(600).fadeOut('slow');
-                        swiper.update();
-
-                    });
-
-                } else {
-                    handler(bindingContext.$data, bindingContext.$parent, event);
-
-
-                }
-                return false;
-            });
-
-
-        },
-        update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-
-        }
-    }
-
-
-
-    var swiper = new Swiper('.swiper-container', {
-        autoHeight: true,
-        spaceBetween: 30,
-        pagination: '.swiper-pagination',
-        paginationClickable: true,
-        simulateTouch: false,
-        shortSwipes: false,
-        longSwipes: false,
-        paginationBulletRender: function(index, className) {
-            var bulletName = '';
-            switch (index) {
-                case 0:
-
-                    bulletName = '接单';
-                    break;
-
-                case 1:
-                    bulletName = '采购';
-                    break;
-
-                case 2:
-                    bulletName = '算账';
-                    break;
-
-                case 3:
-                    bulletName = '收益';
-                    break;
-                    /* case 4:
-                         bulletName = 'Delivery';
-                         break;*/
-            }
-            return '<span class="' + className + '">' + bulletName + '</span>';
-        }
-
-    });
-    var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel;
-
-    var ordersModel = new OrdersModel(orders);
-
-    ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
-
-    ordersModel.setSwiper(swiper);
-
 
     function updateCurrentData() {
 
@@ -335,9 +108,59 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
         }
     }
 
+    var swiper = new Swiper('.swiper-container', {
+        autoHeight: true,
+        spaceBetween: 30,
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        simulateTouch: false,
+        shortSwipes: false,
+        longSwipes: false,
+        paginationBulletRender: function(index, className) {
+            var bulletName = '';
+            switch (index) {
+                case 0:
 
-    require(['ItemsModel', 'ReckoningOrders', 'IncomeList', 'Addresses', 'knockout', 'jquery', 'tag'], function(ItemsModel, OrdersModel, IncomeListModel, AddressesModel, ko, $) {
+                    bulletName = '接单';
+                    break;
 
+                case 1:
+                    bulletName = '采购';
+                    break;
+
+                case 2:
+                    bulletName = '算账';
+                    break;
+
+                case 3:
+                    bulletName = '收益';
+                    break;
+            }
+            return '<span class="' + className + '">' + bulletName + '</span>';
+        }
+
+    });
+
+
+    initTapEvent({
+        updateAllData: updateAllData,
+        updateCurrentData: updateCurrentData,
+        setViewModelStatus: setViewModelStatus,
+        swiper: swiper
+
+    })
+
+    var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel;
+
+    var ordersModel = new OrdersModel(orders);
+    ordersModel.setSwiper(swiper);
+
+    ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
+
+    require(['common', 'ItemsModel', 'ReckoningOrders', 'IncomeList'], function(util, ItemsModel, OrdersModel, IncomeListModel) {
+
+        var $ = util.$;
+        var ko = util.ko;
 
         var purchasePromise = new Promise(function(resolve, reject) {
 
@@ -447,12 +270,6 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
         });
 
-        // $.getJSON('./addressesJson', function(addresses, status) {
-        //     addressesModel = new AddressesModel(addresses, swiper);
-        //     ko.applyBindings(addressesModel, $('#addresses')[0]);
-
-        // });
-
         $(document).on('keydown', function(event) {
             if (event.keyCode == 13 && (swiper.activeIndex == 0 || swiper.activeIndex == 2)) {
                 //var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
@@ -531,8 +348,9 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
 
     });
 
+    require(['common', 'angular', 'settings.component'], function(util, angular) {
 
-    require(['jquery', 'angular', 'settings.component', 'colorbox'], function($, angular) {
+        var $ = util.$;
 
         angular.bootstrap($('#settings')[0], ['settings']);
 
@@ -545,22 +363,7 @@ require(['ReceivedOrders', 'knockout', 'jquery', 'swiper'], function(OrdersModel
             top: 0,
             onComplete: function() {
                 setInterval(function() {
-
-                    /*                    var iframe = $('.cboxIframe')[0];
-
-                                        if (iframe) {
-                                            var doc = iframe.contentDocument || iframe.document;
-
-                                            var height = Math.max(doc.body ? doc.body.clientHeight : 0, doc.documentElement.scrollHeight);
-
-                                            height = height < 200 ? 200 : height;
-
-                                            $.colorbox.resize({ height: height });
-                                        }*/
-
                     $.colorbox.resize();
-
-
                 }, 200)
             }
         });

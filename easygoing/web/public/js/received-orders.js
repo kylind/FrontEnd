@@ -1,11 +1,12 @@
-define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
+define(['common'], function(util) {
 
-    //ko.mapping = mapping;
+    var $ = util.$;
 
+    var ko = util.ko;
+    ko.mapping = util.mapping;
 
     var Item = function(item) {
         var self = this;
-
 
         self.name = ko.observable(item && item.name ? item.name : '');
         self.quantity = ko.observable(item && item.quantity ? item.quantity : '1');
@@ -35,10 +36,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
         self.note.subscribe(function(newValue) {
             self.isChanged = true;
         })
-
-
-
-
     }
 
 
@@ -432,10 +429,6 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 
     };
 
-
-
     return OrdersModel;
 
-
-
-})
+});

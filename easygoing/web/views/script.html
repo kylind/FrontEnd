@@ -19,7 +19,9 @@
     <!-- index:js -->
     <!-- endinject -->
     <script>
-    require(['js/main']);
+    require(['js/common'],function(){
+        require(['../js/main']);
+    });
     </script>
 
 
