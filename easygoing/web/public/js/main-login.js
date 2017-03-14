@@ -1,5 +1,5 @@
-require(['registration.component'], function(angular) {
+require(['commonAngular','registration'], function(angular) {
 
-    angular.bootstrap($('#registration')[0], ['registration']);
+    angular.bootstrap(document.getElementById('registration'), ['registration']);
 
 });

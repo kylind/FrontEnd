@@ -348,7 +348,7 @@ require(['common', 'ReceivedOrders','ItemsModel', 'ReckoningOrders', 'IncomeList
 
     });
 
-    require(['commonAngular', 'settings'], function(angular) {
+    require(['commonAngular','settings'], function(angular) {
 
         angular.bootstrap($('#settings')[0], ['settings']);
 

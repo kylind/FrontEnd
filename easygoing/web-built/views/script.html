@@ -27,7 +27,6 @@
 <% }else if (name == 'reckoning-orders') {%>
     <!--data-main="/js/main" -->
     <!-- reckoning-orders:js -->
-    <script src="components/requirejs/require.min.js"></script>
     <!-- endinject -->
     <script>
     require(['js/main-reckoning']);
@@ -45,21 +44,15 @@
     <!-- endinject -->
 <% }else if (name == 'registration') {%>
 
-    <!--script src="./components/angular/angular.js"></script>
 
-    <script src="./js/registration/registration.component.js"></script -->
 
     <!-- registration:js -->
-    <script src="components/angular/angular.min.js"></script>
-    <script src="components/angular-resource/angular-resource.min.js"></script>
-    <script src="components/angular-animate/angular-animate.min.js"></script>
-    <script src="js/registration/registration.min.js"></script>
+    <script src="components/requirejs/require.min.js"></script>
     <!-- endinject -->
-
 
     <script>
     require(['./js/requireConfig'],function(){
-        require(['../js/registration/registration.component']);
+        require(['../js/main-login']);
     });
     </script>
 

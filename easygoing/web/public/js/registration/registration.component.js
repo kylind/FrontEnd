@@ -57,6 +57,6 @@ define(['commonAngular'], function(angular) {
         }]
     });
 
-    angular.bootstrap(document.getElementById('registration'), ['registration']);
+
 });
 
