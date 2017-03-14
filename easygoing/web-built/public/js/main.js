@@ -1739,7 +1739,7 @@ define('IncomeList',['common'], function(util) {
     return IncomeListModel;
 })
 ;
-define('../js/main',['common', 'ReceivedOrders','ItemsModel', 'ReckoningOrders', 'IncomeList'], function(util, OrdersModel) {
+require(['common', 'ReceivedOrders','ItemsModel', 'ReckoningOrders', 'IncomeList'], function(util, OrdersModel) {
     var $ = util.$;
     var ko = util.ko;
     var mapping = util.mapping;
@@ -2089,9 +2089,7 @@ define('../js/main',['common', 'ReceivedOrders','ItemsModel', 'ReckoningOrders',
 
     });
 
-    require(['common', 'angular', 'settings.component'], function(util, angular) {
-
-        var $ = util.$;
+    require(['commonAngular', 'settings'], function(angular) {
 
         angular.bootstrap($('#settings')[0], ['settings']);
 
@@ -2121,4 +2119,6 @@ define('../js/main',['common', 'ReceivedOrders','ItemsModel', 'ReckoningOrders',
 
 
 });
+
+define("../js/main", function(){});
 

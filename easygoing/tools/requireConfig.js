@@ -21,8 +21,8 @@ requirejs.config({
         'angular': './angular/angular',
         'ngResource': './angular-resource/angular-resource.min',
         'ngAnimate': './angular-animate/angular-animate.min',
-        'settings.component': '../js/settings/settings.component',
-        'registration.component': '../js/registration/registration.component'
+        'settings': '../js/settings/settings.component',
+        'registration': '../js/registration/registration.component'
     },
     shim: {
         'swiper': ['jquery'],

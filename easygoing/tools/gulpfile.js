@@ -176,12 +176,12 @@ gulp.task('requirejs',['clean'], function() {
         .pipe(gulp.dest('../web-built/public/js/'));
 
 
-    gulp.src('../web/public/js/registration.component.js')
+    gulp.src('../web/public/js/registration/registration.component.js')
         .pipe(requirejsOptimize({
             baseUrl: "../web/public/components",
             mainConfigFile: './requireConfig.js',
             optimize: "none",
-            name: "../js/registration/registration.component",
+            name: "registration",
             exclude:['commonAngular']
         }))
         .pipe(gulp.dest('../web-built/public/js/'));
