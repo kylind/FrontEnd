@@ -34,8 +34,8 @@ gulp.task('test', function(done) {
 });
 
 gulp.task('clean', function(done) {
-    return gulp.src('../web-built', { read: false })
-        .pipe(clean());
+    return gulp.src(['../web-built/*','!../web-built/node_modules'], { read: false })
+        .pipe(clean({force:true}));
     done();
 });
 
@@ -57,7 +57,7 @@ gulp.task('inject', function(done) {
 
             var bowerStream = gulp.src(bowerFiles(bowerConfig), { read: false });
             var appStream = gulp.src(`../web-built/public/js/${name}/${name}.min.js`, { read: false });
-            stream.pipe(inject(series(bowerStream, appStream), { name: `${name}`, ignorePath: ['../web-built/public','../web/public', '/public'], addRootSlash: false }))
+            stream.pipe(inject(series(bowerStream, appStream), { name: `${name}`, ignorePath: ['../web-built/public', '../web/public', '/public'], addRootSlash: false }))
 
         });
 
@@ -78,7 +78,7 @@ gulp.task('inject', function(done) {
             bowerConfig.group = 'common';
             var bowerStream = gulp.src(bowerFiles(bowerConfig), { read: false });
             var appStream = gulp.src([`../web-built/public/js/common.min.js`, `../web-built/public/js/${name}.js`], { read: false });
-            stream.pipe(inject(series(bowerStream, appStream), { name: `${name}`, ignorePath: ['../web-built/public','../web/public', '/public'], addRootSlash: false }))
+            stream.pipe(inject(series(bowerStream, appStream), { name: `${name}`, ignorePath: ['../web-built/public', '../web/public', '/public'], addRootSlash: false }))
         });
 
         //common page  without customized script
@@ -87,7 +87,7 @@ gulp.task('inject', function(done) {
 
         var bowerStream = gulp.src(bowerFiles(bowerConfig), { read: false });
         var appStream = gulp.src(`../web-built/public/js/common.min.js`, { read: false });
-        stream.pipe(inject(series(bowerStream, appStream), { name: `common`, ignorePath: ['../web-built/public','../web/public', '/public'], addRootSlash: false }))
+        stream.pipe(inject(series(bowerStream, appStream), { name: `common`, ignorePath: ['../web-built/public', '../web/public', '/public'], addRootSlash: false }))
 
         stream.pipe(gulp.dest('../web-built/'));
 
@@ -101,7 +101,7 @@ gulp.task('inject', function(done) {
 
 });
 
-gulp.task('bower-components', function(done) {
+gulp.task('bower-components',['clean'], function(done) {
 
     delete bowerConfig.group;
 
@@ -113,9 +113,9 @@ gulp.task('bower-components', function(done) {
 });
 
 
-gulp.task('components', function(done) {
+gulp.task('components',['clean'], function(done) {
 
-    var components = ['settings', 'registration'];
+    var components = ['registration']; //'settings',
 
     for (var i = 0; i < components.length; i++) {
         var name = components[i];
@@ -136,18 +136,58 @@ gulp.task('components', function(done) {
 });
 
 
-gulp.task('requirejs', function() {
-    return gulp.src('../web/public/js/main.js')
+gulp.task('requirejs',['clean'], function() {
+
+    bowerConfig.group = 'require';
+    gulp.src(bowerFiles(bowerConfig), {base:'../web/'})
+        .pipe(gulp.dest('../web-built/'))
+
+    gulp.src([`../web/public/js/requireConfig.js`], { base: '../web/' })
+        .pipe(babel({ presets: ['babel-preset-es2015'] }))
+        .pipe(uglify())
+        .pipe(gulp.dest(`../web-built/`));
+
+    gulp.src('../web/public/js/common.js')
         .pipe(requirejsOptimize({
             baseUrl: "../web/public/components",
-            mainConfigFile: '../web/public/js/main.js',
+            mainConfigFile: './requireConfig.js',
             optimize: "none",
-            name: "../js/main"
+            name: "common"
+        }))
+        .pipe(gulp.dest('../web-built/public/js/'));
+
+    gulp.src('../web/public/js/commonAngular.js')
+        .pipe(requirejsOptimize({
+            baseUrl: "../web/public/components",
+            mainConfigFile: './requireConfig.js',
+            optimize: "none",
+            name: "commonAngular"
+        }))
+        .pipe(gulp.dest('../web-built/public/js/'));
+
+    gulp.src('../web/public/js/main.js')
+        .pipe(requirejsOptimize({
+            baseUrl: "../web/public/components",
+            mainConfigFile: './requireConfig.js',
+            optimize: "none",
+            name: "../js/main",
+            exclude:['common','commonAngular']
+        }))
+        .pipe(gulp.dest('../web-built/public/js/'));
+
+
+    gulp.src('../web/public/js/registration.component.js')
+        .pipe(requirejsOptimize({
+            baseUrl: "../web/public/components",
+            mainConfigFile: './requireConfig.js',
+            optimize: "none",
+            name: "../js/registration/registration.component",
+            exclude:['commonAngular']
         }))
         .pipe(gulp.dest('../web-built/public/js/'));
 });
 
-gulp.task('commonjs', function(done) {
+gulp.task('commonjs',['clean'], function(done) {
 
     gulp.src(['../web/public/js/common.js'], { base: '../web/' })
         .pipe(sourcemaps.init())
@@ -161,22 +201,22 @@ gulp.task('commonjs', function(done) {
     done();
 });
 
-gulp.task('pagejs', function(done) {
+gulp.task('pagejs',['clean'], function(done) {
 
     gulp.src([`../web/public/js/*.js`, `!../web/public/js/!(knockout.mapping.2.4.1).min.js`, `!../web/public/js/common.js`], { base: '../web/' })
-        .pipe(sourcemaps.init())
+        //.pipe(sourcemaps.init())
         .pipe(babel({ presets: ['babel-preset-es2015'] }))
         //.pipe(concat(`all.min.js`))
         .pipe(uglify())
         /* .pipe(uglify({mangle:false}))*/
-        .pipe(sourcemaps.write('.', { includeContent: false }))
+        //.pipe(sourcemaps.write('.', { includeContent: false }))
         .pipe(gulp.dest(`../web-built/`));
 
     done();
 });
 
 
-gulp.task('css', function(done) {
+gulp.task('css',['clean'], function(done) {
 
     gulp.src([`../web/public/css/*.css`, `!../web/public/css/font-awesome.css`], { base: '../web/' })
         .pipe(concat(`public/css/all.min.css`))
@@ -187,7 +227,7 @@ gulp.task('css', function(done) {
 });
 
 
-gulp.task('copy', ['clean'], function(done) {
+gulp.task('copy',['clean'], function(done) {
     gulp.src(['../web/app.js', '../web/process.json', '../web/package.json', '../web/views/*.html', '!../web/views/script.html', '../web/data_access/*.js', '../web/routes/*.js', '../web/public/fonts/*.*'], { base: '../web/' })
         .pipe(gulp.dest('../web-built/'));
 
@@ -197,23 +237,37 @@ gulp.task('copy', ['clean'], function(done) {
 
 });
 
+
+
 gulp.task('npm', function(done) {
 
-    var source = gnf(null, '../web/package.json');
+    gulp.src(['../web/node_modules/*/*.*'], { base: '../web/' })
+        .pipe(gulp.dest('../web-built/'));
 
-    var revisedSource = source.map(function(item) {
+    done();
 
-        return item.replace('./', '../web/');
 
-    });
 
-    gulp.src(revisedSource, { base: '../web/' }).pipe(gulp.dest('../web-built/'));
+    /*    var source = gnf(null, '../web/package.json');
+
+        var revisedSource = source.map(function(item) {
+
+            return item.replace('./', '../web/');
+
+        });
+
+        gulp.src(revisedSource, { base: '../web/' }).pipe(gulp.dest('../web-built/'));
+
+        done();*/
+
+});
+
+gulp.task('default', ['clean', 'copy', 'npm', 'pagejs', 'css', 'bower-components', 'components'], function(done) {
 
     done();
 
 });
-
-gulp.task('default', ['clean', 'copy', 'npm', 'commonjs', 'pagejs', 'css', 'bower-components', 'components'], function(done) {
+gulp.task('require', ['clean','copy', 'css', 'components', 'requirejs'], function(done) {
 
     done();
 

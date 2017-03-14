@@ -142,7 +142,7 @@ require(['common', 'ReceivedOrders','ItemsModel', 'ReckoningOrders', 'IncomeList
     });
 
 
-    initTapEvent({
+    util.initTapEvent({
         updateAllData: updateAllData,
         updateCurrentData: updateCurrentData,
         setViewModelStatus: setViewModelStatus,
@@ -348,9 +348,7 @@ require(['common', 'ReceivedOrders','ItemsModel', 'ReckoningOrders', 'IncomeList
 
     });
 
-    require(['common', 'angular', 'settings.component'], function(util, angular) {
-
-        var $ = util.$;
+    require(['commonAngular', 'settings.component'], function(angular) {
 
         angular.bootstrap($('#settings')[0], ['settings']);
 

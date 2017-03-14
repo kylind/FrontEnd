@@ -1,4 +1,4 @@
-define(['angular','jquery', 'ngAnimate', 'ngResource'], function(angular,$) {
+define(['commonAngular'], function(angular) {
 
     angular.module('settings', ['ngResource', 'ngAnimate']);
 
