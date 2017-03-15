@@ -376,5 +376,4 @@ require(['common', 'ReceivedOrders','ItemsModel', 'ReckoningOrders', 'IncomeList
 
     })
 
-
 });
