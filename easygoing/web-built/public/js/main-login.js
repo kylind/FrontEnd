@@ -57,7 +57,14 @@ define('registration',['commonAngular'], function(angular) {
         }]
     });
 
-    angular.bootstrap(document.getElementById('registration'), ['registration']);
+
 });
 
+
+require(['commonAngular','registration'], function(angular) {
+
+    angular.bootstrap(document.getElementById('registration'), ['registration']);
+
+});
+define("../js/main-login", function(){});
 

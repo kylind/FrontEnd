@@ -46,7 +46,7 @@ gulp.task('inject', function(done) {
     setTimeout(function() {
 
         //component page
-        var views = ['settings', 'registration'];
+        var views = ['settings'];
         var stream = gulp.src(`../web/views/script.html`, { base: '../web/' });
 
         stream.pipe(replace(/[ ]*<script.+<\/script>[ ]*\n/img, ''));
@@ -63,7 +63,7 @@ gulp.task('inject', function(done) {
 
 
         //require page
-        var requiredViews = ['index', 'reckoning-orders'];
+        var requiredViews = ['index', 'registration'];
         requiredViews.forEach(function(name) {
 
             bowerConfig.group = 'require';
@@ -176,12 +176,12 @@ gulp.task('requirejs',['clean'], function() {
         .pipe(gulp.dest('../web-built/public/js/'));
 
 
-    gulp.src('../web/public/js/registration/registration.component.js')
+    gulp.src('../web/public/js/main-login.js')
         .pipe(requirejsOptimize({
             baseUrl: "../web/public/components",
             mainConfigFile: './requireConfig.js',
             optimize: "none",
-            name: "registration",
+            name: "../js/main-login",
             exclude:['commonAngular']
         }))
         .pipe(gulp.dest('../web-built/public/js/'));
@@ -267,7 +267,7 @@ gulp.task('default', ['clean', 'copy', 'npm', 'pagejs', 'css', 'bower-components
     done();
 
 });
-gulp.task('require', ['clean','copy', 'css', 'components', 'requirejs'], function(done) {
+gulp.task('require', ['clean','copy', 'css', 'requirejs'], function(done) {
 
     done();
 
