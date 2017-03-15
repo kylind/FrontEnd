@@ -6,12 +6,12 @@ var userOperation = require('../data_access/user.js').collection;
 router = new Router();
 
 
-router.get(/^\/(v3)?$/, function*() {
+router.get(/^\/(v3\.1)?$/, function*() {
     if (this.isAuthenticated()) {
-        this.redirect('/v3/index');
+        this.redirect('/v3.1/index');
 
     } else {
-        this.redirect('/v3/login');
+        this.redirect('/v3.1/login');
 
     }
 
@@ -36,15 +36,15 @@ router.get('/login', function*() {
 
 router.post('/login', function*() {
     yield passport.authenticate('local', {
-        successRedirect: '/v3/index',
-        failureRedirect: '/v3/login',
+        successRedirect: '/v3.1/index',
+        failureRedirect: '/v3.1/login',
         failureFlash: false
     })
 });
 
 router.get('/logout', function*() {
     this.logout()
-    this.redirect('/v3/login')
+    this.redirect('/v3.1/login')
 });
 
 router.get('/register', function*() {

@@ -74,7 +74,7 @@ app.use(function*(next) {
     if (this.isAuthenticated()) {
         yield next;
     } else {
-        this.redirect('/v3')
+        this.redirect('/v3.1')
     }
 });
 
@@ -89,7 +89,7 @@ app.use(itemRouter.routes());
 app.use(addressRouter.routes());
 app.use(otherRouter.routes());
 
-app.listen({port:3003,host:"127.0.0.1"});//process.env.port
+app.listen({port:3031,host:"127.0.0.1"});//process.env.port
 
 console.log(process.env.NODE_ENV);
 console.log(process.env.db);
