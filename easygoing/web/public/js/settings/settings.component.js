@@ -176,4 +176,6 @@ define(['commonAngular'], function(angular) {
         }]
     });
 
+    return angular;
+
 });

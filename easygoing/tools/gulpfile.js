@@ -17,6 +17,8 @@ var requirejsOptimize = require('gulp-requirejs-optimize');
 const babel = require('gulp-babel');
 var Server = require('karma').Server;
 
+var presets = ['babel-preset-es2015'].map(require.resolve);
+
 var bowerConfig = {
     paths: {
         //bowerDirectory: '../web/',
@@ -34,8 +36,8 @@ gulp.task('test', function(done) {
 });
 
 gulp.task('clean', function(done) {
-    return gulp.src(['../web-built/*','!../web-built/node_modules'], { read: false })
-        .pipe(clean({force:true}));
+    return gulp.src(['../web-built/*', '!../web-built/node_modules'], { read: false })
+        .pipe(clean({ force: true }));
     done();
 });
 
@@ -101,7 +103,7 @@ gulp.task('inject', function(done) {
 
 });
 
-gulp.task('bower-components',['clean'], function(done) {
+gulp.task('bower-components', ['clean'], function(done) {
 
     delete bowerConfig.group;
 
@@ -113,7 +115,7 @@ gulp.task('bower-components',['clean'], function(done) {
 });
 
 
-gulp.task('components',['clean'], function(done) {
+gulp.task('components', ['clean'], function(done) {
 
     var components = ['registration']; //'settings',
 
@@ -135,11 +137,27 @@ gulp.task('components',['clean'], function(done) {
 
 });
 
+gulp.task('components-html', ['clean'], function(done) {
 
-gulp.task('requirejs',['clean'], function() {
+    var components = ['registration', 'settings'];
+
+    for (var i = 0; i < components.length; i++) {
+        var name = components[i];
+
+        gulp.src([`../web/public/js/${name}/*.template.html`], { base: '../web/' })
+            .pipe(gulp.dest('../web-built/'));
+    }
+
+    done();
+
+});
+
+gulp.task('requirejs', ['clean'], function() {
+
+
 
     bowerConfig.group = 'require';
-    gulp.src(bowerFiles(bowerConfig), {base:'../web/'})
+    gulp.src(bowerFiles(bowerConfig), { base: '../web/' })
         .pipe(gulp.dest('../web-built/'))
 
     gulp.src([`../web/public/js/requireConfig.js`], { base: '../web/' })
@@ -154,25 +172,42 @@ gulp.task('requirejs',['clean'], function() {
             optimize: "none",
             name: "common"
         }))
+        .pipe(babel({ presets: presets }))
+        .pipe(uglify({mangle:true}))
         .pipe(gulp.dest('../web-built/public/js/'));
 
-    gulp.src('../web/public/js/commonAngular.js')
+    gulp.src('../web/public/js/common-angular.js')
         .pipe(requirejsOptimize({
             baseUrl: "../web/public/components",
             mainConfigFile: './requireConfig.js',
             optimize: "none",
             name: "commonAngular"
         }))
+
         .pipe(gulp.dest('../web-built/public/js/'));
 
-    gulp.src('../web/public/js/main.js')
+    gulp.src('../web/public/js/angular-app.js',{base:'../web/public/js/'})
+        .pipe(requirejsOptimize({
+            baseUrl: "../web/public/components",
+            mainConfigFile: './requireConfig.js',
+            name: "angularApp",
+            optimize: "none",
+            exclude: ['commonAngular']
+        }))
+        .pipe(babel({ presets: presets }))
+        .pipe(uglify({mangle:false}))
+        .pipe(gulp.dest('../web-built/public/js/'));
+
+   gulp.src('../web/public/js/main.js')
         .pipe(requirejsOptimize({
             baseUrl: "../web/public/components",
             mainConfigFile: './requireConfig.js',
             optimize: "none",
             name: "../js/main",
-            exclude:['common','commonAngular']
+            exclude: ['common', 'commonAngular']
         }))
+        .pipe(babel({ presets: presets }))
+        .pipe(uglify())
         .pipe(gulp.dest('../web-built/public/js/'));
 
 
@@ -182,12 +217,26 @@ gulp.task('requirejs',['clean'], function() {
             mainConfigFile: './requireConfig.js',
             optimize: "none",
             name: "../js/main-login",
-            exclude:['commonAngular']
+            exclude: ['angularApp']
         }))
+        .pipe(babel({ presets: presets }))
+        .pipe(uglify())
         .pipe(gulp.dest('../web-built/public/js/'));
 });
 
-gulp.task('commonjs',['clean'], function(done) {
+gulp.task('zip', function() {
+
+    var presets = ['babel-preset-es2015'].map(require.resolve);
+    console.log(presets[0]);
+
+    gulp.src('../web-built/public/js/angular-app.js',{base:'../web-built/public/js/'})
+        .pipe(babel({ presets: presets }))
+        .pipe(uglify({mangle:true}))
+        .pipe(gulp.dest('../web-built/public/js/'));
+});
+
+
+gulp.task('commonjs', ['clean'], function(done) {
 
     gulp.src(['../web/public/js/common.js'], { base: '../web/' })
         .pipe(sourcemaps.init())
@@ -201,7 +250,7 @@ gulp.task('commonjs',['clean'], function(done) {
     done();
 });
 
-gulp.task('pagejs',['clean'], function(done) {
+gulp.task('pagejs', ['clean'], function(done) {
 
     gulp.src([`../web/public/js/*.js`, `!../web/public/js/!(knockout.mapping.2.4.1).min.js`, `!../web/public/js/common.js`], { base: '../web/' })
         //.pipe(sourcemaps.init())
@@ -216,7 +265,7 @@ gulp.task('pagejs',['clean'], function(done) {
 });
 
 
-gulp.task('css',['clean'], function(done) {
+gulp.task('css', ['clean'], function(done) {
 
     gulp.src([`../web/public/css/*.css`, `!../web/public/css/font-awesome.css`], { base: '../web/' })
         .pipe(concat(`public/css/all.min.css`))
@@ -227,7 +276,7 @@ gulp.task('css',['clean'], function(done) {
 });
 
 
-gulp.task('copy',['clean'], function(done) {
+gulp.task('copy', ['clean'], function(done) {
     gulp.src(['../web/app.js', '../web/process.json', '../web/package.json', '../web/views/*.html', '!../web/views/script.html', '../web/data_access/*.js', '../web/routes/*.js', '../web/public/fonts/*.*'], { base: '../web/' })
         .pipe(gulp.dest('../web-built/'));
 
@@ -262,12 +311,12 @@ gulp.task('npm', function(done) {
 
 });
 
-gulp.task('default', ['clean', 'copy', 'npm', 'pagejs', 'css', 'bower-components', 'components'], function(done) {
+gulp.task('default', ['clean', 'copy', 'pagejs', 'css', 'bower-components', 'components'], function(done) {
 
     done();
 
 });
-gulp.task('require', ['clean','copy', 'css', 'requirejs'], function(done) {
+gulp.task('require', ['clean', 'copy', 'css', 'components-html', 'requirejs'], function(done) {
 
     done();
 

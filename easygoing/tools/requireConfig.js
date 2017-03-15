@@ -17,8 +17,9 @@ requirejs.config({
         'IncomeList': '../js/income-list',
         'ItemsModel': '../js/purchase-items',
 
-        'commonAngular': '../js/commonAngular',
-        'angular': './angular/angular',
+        'commonAngular': '../js/common-angular',
+        'angularApp': '../js/angular-app',
+        'angular': './angular/angular.min',
         'ngResource': './angular-resource/angular-resource.min',
         'ngAnimate': './angular-animate/angular-animate.min',
         'settings': '../js/settings/settings.component',

@@ -45,7 +45,7 @@ define(['commonAngular'], function(angular) {
 
                         self.saved = true;
 
-                        console.log(`New user: ${rs}`)
+                        //console.log(`New user: ${rs}`)
 
                     });
                 }
@@ -56,6 +56,8 @@ define(['commonAngular'], function(angular) {
 
         }]
     });
+
+    return angular;
 
 
 });
