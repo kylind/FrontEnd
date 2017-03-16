@@ -375,6 +375,7 @@ input[type="password"] {
     padding: 0 0 0 5px;
     font-size: 1.3rem;
     line-height: 18px;
+    color:#333;
 }
 
 input:-webkit-autofill {
@@ -647,8 +648,8 @@ button {
 
 .address {
     position: relative;
-    margin-bottom: 10px;
-    font-size: 0;
+    margin-bottom: 10px
+;    font-size: 0;
 }
 
 .address > input {
@@ -994,7 +995,6 @@ span.orderitem-cnt-btns {
 }
 
 .tagbox-label {
-    font-weight: bold;
     float: left;
     line-height: 20px;
 }
@@ -1023,7 +1023,6 @@ span.orderitem-cnt-btns {
     text-align: center;
     display: inline-block;
     height: 18px;
-    font-weight: bold;
     vertical-align: top;
 }
 
@@ -1081,7 +1080,7 @@ span.orderitem-cnt-btns {
 .ol-tags li {
     cursor: pointer;
     text-align: center;
-    font-weight: bold;
+    /*font-weight: bold;*/
     border-top: solid 1px #cc0066;
 }
 
@@ -1342,7 +1341,9 @@ span.orderitem-cnt-btns {
     padding-left: 5px;
 
 }
-
+.incomelist .orderitem-cnt > span:first-child {
+    padding-left: 5px;
+}
 @media all and (max-width:600px) {
     .incomelist.isMobile .incomelist-header > span:nth-child(3) {
         display: none;
