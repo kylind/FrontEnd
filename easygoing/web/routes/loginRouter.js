@@ -7,14 +7,15 @@ router = new Router();
 
 
 router.get(/^\/(v3\.1)?$/, function*() {
-    if (this.isAuthenticated()) {
-        this.redirect('/v3.1/index');
+    /*    if (this.isAuthenticated()) {
+            this.redirect('/v3.1/index');
 
-    } else {
-        this.redirect('/v3.1/login');
+        } else {
+            this.redirect('/v3.1/login');
 
-    }
+        }*/
 
+    this.redirect('/v3.1/index');
 
 });
 
@@ -35,11 +36,33 @@ router.get('/login', function*() {
 });
 
 router.post('/login', function*() {
-    yield passport.authenticate('local', {
-        successRedirect: '/v3.1/index',
-        failureRedirect: '/v3.1/login',
-        failureFlash: false
-    })
+    /*    yield passport.authenticate('local', {
+            successRedirect: '/v3.1/index',
+            failureRedirect: '/v3.1/login',
+            failureFlash: false
+        })*/
+
+    var s = this.request.body;
+
+    yield passport.authenticate('local', function* (err, user, info) {
+        if (user) {
+            var res = yield this.logIn(user, function(err) {
+
+                return res;
+
+
+            });
+        }else{
+            return err;
+
+        }
+
+    });
+
+    return {ok:true};
+
+
+
 });
 
 router.get('/logout', function*() {
@@ -62,6 +85,7 @@ router.get('/register', function*() {
 router.post('/user', function*() {
 
     var user = this.request.body;
+
 
     if (ObjectID.isValid(user._id)) {
 

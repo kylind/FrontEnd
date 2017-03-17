@@ -37,8 +37,11 @@ router = new Router();
 
 router.use(function*(next) {
 
-    orderOperation = new Collection(this.req.user.collection);
-    RATE = this.req.user.rate || 0.9;
+    if (this.isAuthenticated()) {
+        orderOperation = new Collection(this.req.user.collection);
+        RATE = this.req.user.rate || 0.9;
+    }
+
     yield next
 
 })
@@ -148,22 +151,25 @@ router.delete('/order/:id', function*() {
 
 router.get('/index', function*() {
 
-    var user = this.req.user;
-    var _id = this.req.user._id;
-
-    var res = yield orderOperation.queryReceivedOrders();
-    res = res && res.length > 0 ? res : [];
-
-    yield this.render('index', {
-        orders: res,
+    var model = {
         name: 'index',
         css: 'swiper',
         header: 'specific',
         footer: '',
-        _id: _id,
-        user:user
+        _id: '',
+        user:null,
+        orders:[]
+    }
 
-    });
+    if (this.isAuthenticated()) {
+        model.user = this.req.user;
+        model._id = this.req.user._id;
+
+        var res = yield orderOperation.queryReceivedOrders();
+        model.orders = res && res.length > 0 ? res : [];
+    }
+
+    yield this.render('index', model);
 
 });
 

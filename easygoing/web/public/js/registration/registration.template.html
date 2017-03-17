@@ -1,3 +1,19 @@
+
+
+<div class="form-login">
+    <div>
+        <span>
+        <input class='input-line' type="text"  name="username" ng-model="$ctrl.loginName" placeholder="Name" />
+    </span>
+        <span>
+        <input class='input-line lmargin-5' type="password" name="password" ng-model="$ctrl.loginPassword" placeholder="Password" />
+    </span>
+        <span class="taRight">
+    <button type="submit" class="icon icon-signin" ng-click="$ctrl.verifyUser()"></button>
+    </span>
+    </div>
+</div>
+
 <div class="registration blank" ng-show="!$ctrl.saved">
 
 

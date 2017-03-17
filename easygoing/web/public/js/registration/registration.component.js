@@ -1,4 +1,5 @@
-define(['commonAngular'], function(angular) {
+define(['common','commonAngular'], function(util,angular) {
+    var $=util.$;
 
     angular.module('registration', ['ngResource', 'ngAnimate']);
 
@@ -11,6 +12,10 @@ define(['commonAngular'], function(angular) {
             var self = this;
             self.name = '';
             self.password = '';
+
+            self.loginName='';
+            self.loginPassword='';
+
             self.passwordConfirmation = '';
             self.saved = false;
             self.isOpen = false;
@@ -45,15 +50,21 @@ define(['commonAngular'], function(angular) {
 
                         self.saved = true;
 
-                        //console.log(`New user: ${rs}`)
-
                     });
                 }
 
-
-
             }
 
+            self.verifyUser = function() {
+                $.post('./login', {
+                        username: self.loginName ,
+                        password: self.loginPassword
+                    }, function(res, status) {
+
+                    },
+                    'json'
+                );
+            }
         }]
     });
 
@@ -61,4 +72,3 @@ define(['commonAngular'], function(angular) {
 
 
 });
-
