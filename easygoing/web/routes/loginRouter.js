@@ -3,6 +3,8 @@ var ObjectID = require('mongodb').ObjectID;
 const passport = require('koa-passport')
 var userOperation = require('../data_access/user.js').collection;
 
+var Collection = require('../data_access/order.js').Collection;
+
 router = new Router();
 
 
@@ -35,31 +37,50 @@ router.get('/login', function*() {
     }
 });
 
-router.post('/login', function*() {
+router.post('/login', function*(next) {
     /*    yield passport.authenticate('local', {
             successRedirect: '/v3.1/index',
             failureRedirect: '/v3.1/login',
             failureFlash: false
         })*/
 
-    var s = this.request.body;
+    var ctx = this;
 
-    yield passport.authenticate('local', function* (err, user, info) {
-        if (user) {
-            var res = yield this.logIn(user, function(err) {
+    yield passport.authenticate('local', function*(err, user, info) {
+            if (!user) {
+                ctx.status = 401;
+                ctx.body = { success: false };
+            } else {
+                //ctx.body = { success: true }
 
-                return res;
+                yield ctx.login(user);
 
+                var model = {
+                    name: 'index',
+                    css: 'swiper',
+                    header: 'specific',
+                    footer: ''
+                }
 
-            });
-        }else{
-            return err;
+                orderOperation = new Collection(this.req.user.collection);
+                model.user = this.req.user;
+                model._id = this.req.user._id;
+
+                var res = yield orderOperation.queryReceivedOrders();
+                model.orders = res && res.length > 0 ? res : [];
+                yield this.render('index', model);
+
+            }
+
 
         }
-
     });
 
-    return {ok:true};
+
+
+
+
+
 
 
 

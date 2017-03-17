@@ -60,7 +60,10 @@ define(['common','commonAngular'], function(util,angular) {
                         username: self.loginName ,
                         password: self.loginPassword
                     }, function(res, status) {
+                        if(res.success){
+                            $('#container').load('./content')
 
+                        }
                     },
                     'json'
                 );

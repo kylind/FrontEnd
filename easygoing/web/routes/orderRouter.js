@@ -173,6 +173,24 @@ router.get('/index', function*() {
 
 });
 
+
+router.get('/content', function*() {
+
+
+
+    model.user = this.req.user;
+    model._id = this.req.user._id;
+
+    var res = yield orderOperation.queryReceivedOrders();
+    model.orders = res && res.length > 0 ? res : [];
+
+
+
+
+    yield this.render('index', model);
+
+});
+
 router.get('/receivedOrders', function*() {
 
 
