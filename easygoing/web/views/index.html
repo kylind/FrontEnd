@@ -1,16 +1,17 @@
-<% if(user) {%>
-
- <%- include('content.html') %>
-
-<%}%>
-
-<% if(!user) {%>
-
- <%- include('login.html') %>
-
-<% } %>
-
 <div id="container">
+
+    <% if(user) {%>
+
+     <%- include('content.html') %>
+
+    <%}%>
+
+    <% if(!user) {%>
+
+     <%- include('login.html') %>
+
+    <% } %>
+
 
 </div>
 

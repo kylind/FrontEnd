@@ -10,13 +10,12 @@
     <!-- common:js -->
     <!-- endinject -->
 <% }else if (name == 'index') {%>
-
-
-
+    <script src="components/requirejs/require.js"></script>
 
     <script>
-
-/*        require(['js/requireConfig'],function(util){
+        var USER_ID = '<%- _id %>';
+        var orders = <%- JSON.stringify(orders) %>
+        require(['js/requireConfig'],function(util){
 
             <% if(_id!='') {%>
 
@@ -24,7 +23,17 @@
             <% } else{ %>
                 require(['../js/main-login']);
             <% } %>
-        });*/
+        });
+    </script>
+
+<% }else if (name == 'content') {%>
+
+    <script>
+        var USER_ID = '<%- _id %>';
+        var orders = <%- JSON.stringify(orders) %>
+        require(['js/requireConfig'],function(util){
+                require(['../js/main']);
+        });
 
     </script>
 

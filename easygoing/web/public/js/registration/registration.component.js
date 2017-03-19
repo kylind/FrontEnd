@@ -61,7 +61,7 @@ define(['common','commonAngular'], function(util,angular) {
                         password: self.loginPassword
                     }, function(res, status) {
                         if(res.success){
-                            $('#container').load('./content')
+                            $('#container').load('./content');
 
                         }
                     },

@@ -2,7 +2,7 @@
     <div class="swiper-container">
         <div class='cogbox'>
             <a href="#settings" class="icon icon-cog"></a>
-            <a href="./logout" class="icon icon-signout"></a>
+            <a href=""  class="icon icon-signout"></a>
         </div>
         <div class="swiper-pagination">
         </div>
@@ -279,21 +279,3 @@
         </div>
     </div>
 </article>
-
-
-<script>
-var USER_ID = '<%- _id %>';
-var orders = <%- JSON.stringify(orders) %>
-</script>
-
-<script src="components/requirejs/require.js"></script>
-
-<!-- content:js -->
-<!-- endinject -->
-<script>
-
-    require(['js/requireConfig'],function(util){
-            require(['../js/main']);
-    });
-
-</script>

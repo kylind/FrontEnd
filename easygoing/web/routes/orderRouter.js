@@ -173,23 +173,38 @@ router.get('/index', function*() {
 
 });
 
-
 router.get('/content', function*() {
 
+    var model = {
+        name: 'content',
+        css: 'swiper',
+        header: 'specific',
+        footer: '',
+        _id: '',
+        user:null,
+        orders:[],
+        layout:'bare'
+    }
 
+    if (this.isAuthenticated()) {
+        model.user = this.req.user;
+        model._id = this.req.user._id;
 
-    model.user = this.req.user;
-    model._id = this.req.user._id;
+        var res = yield orderOperation.queryReceivedOrders();
+        model.orders = res && res.length > 0 ? res : [];
 
-    var res = yield orderOperation.queryReceivedOrders();
-    model.orders = res && res.length > 0 ? res : [];
+        yield this.render('content', model);
 
+    }else{
 
+        yield this.render('login', model);
 
+    }
 
-    yield this.render('index', model);
 
 });
+
+
 
 router.get('/receivedOrders', function*() {
 

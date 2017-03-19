@@ -1,4 +1,4 @@
-require(['common', 'ReceivedOrders','ItemsModel', 'ReckoningOrders', 'IncomeList'], function(util, OrdersModel) {
+require(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList'], function(util, OrdersModel) {
     var $ = util.$;
     var ko = util.ko;
     var mapping = util.mapping;
@@ -375,5 +375,20 @@ require(['common', 'ReceivedOrders','ItemsModel', 'ReckoningOrders', 'IncomeList
         });
 
     })
+
+    $('.icon-signout').bind('click', function() {
+
+        $.get('./logout', function(res, status) {
+                if (res.success) {
+                    $('#container').load('./content');
+                }
+            },
+            'json'
+        );
+
+        return false;
+
+
+    });
 
 });

@@ -22,6 +22,7 @@ router.get(/^\/(v3\.1)?$/, function*() {
 });
 
 router.get('/login', function*() {
+
     if (this.isAuthenticated()) {
         this.redirect('v3/index');
 
@@ -47,48 +48,29 @@ router.post('/login', function*(next) {
     var ctx = this;
 
     yield passport.authenticate('local', function*(err, user, info) {
-            if (!user) {
-                ctx.status = 401;
-                ctx.body = { success: false };
-            } else {
-                //ctx.body = { success: true }
-
-                yield ctx.login(user);
-
-                var model = {
-                    name: 'index',
-                    css: 'swiper',
-                    header: 'specific',
-                    footer: ''
-                }
-
-                orderOperation = new Collection(this.req.user.collection);
-                model.user = this.req.user;
-                model._id = this.req.user._id;
-
-                var res = yield orderOperation.queryReceivedOrders();
-                model.orders = res && res.length > 0 ? res : [];
-                yield this.render('index', model);
-
-            }
-
+        if (!user) {
+            ctx.status = 401;
+            ctx.body = { success: false };
+        } else {
+            ctx.body = { success: true }
+            yield ctx.login(user);
 
         }
+
     });
-
-
-
-
-
-
-
-
 
 });
 
 router.get('/logout', function*() {
-    this.logout()
-    this.redirect('/v3.1/login')
+
+
+    if (this.isAuthenticated()) {
+        yield this.logout();
+    }
+
+    this.body = { success: true };
+
+    //this.redirect('/v3.1/login');
 });
 
 router.get('/register', function*() {
