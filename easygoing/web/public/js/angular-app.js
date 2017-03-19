@@ -1,9 +1,17 @@
 define(function(require) {
 
-    var angular=require('registration');
 
-    var angular=require('settings');
+    return function run() {
 
-    return angular;
+        var angular = require('registration');
+
+        var runSettings = require('settings');
+
+        runSettings();
+
+        return angular;
+    };
+
+
 
 });

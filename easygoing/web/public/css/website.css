@@ -375,7 +375,7 @@ input[type="password"] {
     padding: 0 0 0 5px;
     font-size: 1.3rem;
     line-height: 18px;
-    color:#333;
+    color: #333;
 }
 
 input:-webkit-autofill {
@@ -626,20 +626,21 @@ button {
 
 .order--reckoning .item-fields > span:last-child {
     border-right: 0;
-
 }
 
-.item-fields .actions{
-    padding-left:5px;
-    padding-right:5px;
+.item-fields .actions {
+    padding-left: 5px;
+    padding-right: 5px;
+}
 
+.item-fields .actions > .icon-search {
+    float: left;
 }
-.item-fields .actions > .icon-search{
-    float:left;
+
+.item-fields .actions > .icon-remove {
+    float: right;
 }
-.item-fields .actions > .icon-remove{
-    float:right;
-}
+
 .order-addressbox,
 .order-itembox {
     padding-left: 5px;
@@ -648,8 +649,8 @@ button {
 
 .address {
     position: relative;
-    margin-bottom: 10px
-;    font-size: 0;
+    margin-bottom: 10px;
+    font-size: 0;
 }
 
 .address > input {
@@ -850,15 +851,18 @@ button {
 
 span.orderitem-cnt-btns {
     font-size: 0;
-    padding-left:5px;
-    padding-right:5px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
-.orderitem-cnt-btns .icon-search{
-    float:left;
+
+.orderitem-cnt-btns .icon-search {
+    float: left;
 }
-.orderitem-cnt-btns .icon-flag{
-    float:right;
+
+.orderitem-cnt-btns .icon-flag {
+    float: right;
 }
+
 .orderitem-cnt > span:first-child {
     padding-left: 0;
 }
@@ -899,10 +903,12 @@ span.orderitem-cnt-btns {
     vertical-align: top;
     height: 18px;
 }
+
 .subItems-header > span.taRight {
     padding-left: 0;
     padding-right: 5px;
 }
+
 .subItems-header span:last-child {
     border-right: none;
 }
@@ -1189,8 +1195,7 @@ span.orderitem-cnt-btns {
 
 /***** login ****/
 
-
-.loginbox{
+.loginbox {
     position: absolute;
     top: 50%;
     width: 240px;
@@ -1198,16 +1203,28 @@ span.orderitem-cnt-btns {
     left: 50%;
     margin-left: -120px;
     margin-top: -115px;
-
     background-color: yellow;
+    opacity: 100;
+    transition: opacity 600ms linear;
+
+}
+.loginbox.ng-hide {
+    opacity: 0;
 }
 
+.loading {
+    opacity: 0;
+    transition: opacity 600ms 600ms linear;
+}
 
+.loading:not(.ng-hide) {
+    opacity: 100;
+}
 
 .form-login {
-    /*text-align: center;*/
 
 }
+
 
 .form-login span {
     /*text-align: center;*/
@@ -1238,13 +1255,12 @@ span.orderitem-cnt-btns {
     border-top: 1px solid #cc0066;
 }
 
-
 .box-registration {}
 
 .registration {
     transition: all 300ms linear;
     text-align: center;
-    margin-top:10px;
+    margin-top: 10px;
 }
 
 .registration.ng-hide {
@@ -1300,7 +1316,7 @@ span.orderitem-cnt-btns {
 button.ispure {
     text-align: center;
     padding-left: 5px;
-    padding-right:5px;
+    padding-right: 5px;
 }
 
 .warning {
@@ -1323,6 +1339,7 @@ button.ispure {
 .form-register {
     border-top: 1px solid #cc0066;
 }
+
 
 /*** prompt ***/
 
@@ -1417,7 +1434,6 @@ button.ispure {
     width: 100%;
     border: 1px solid #cc0066;
     box-sizing: border-box;
-
 }
 
 .incomelist-header {
@@ -1433,11 +1449,12 @@ button.ispure {
     font-weight: bold;
     color: #fff;
     padding-left: 5px;
-
 }
+
 .incomelist .orderitem-cnt > span:first-child {
     padding-left: 5px;
 }
+
 @media all and (max-width:600px) {
     .incomelist.isMobile .incomelist-header > span:nth-child(3) {
         display: none;
@@ -1517,7 +1534,6 @@ button.ispure {
     text-align: left;
     display: inline-block;
 }
-
 
 
 /**** settings ****/
@@ -1711,34 +1727,26 @@ button.ispure {
     .box-viewselection {
         display: none;
     }
-
     .orderitems {
         border-color: #000 !important;
     }
-
-    .tagbox{
+    .tagbox {
         display: none;
     }
     .orderitem-cnt-btns > a {
         display: none;
     }
-    .orderitem-cnt-btns> .icon-flag.font-green{
+    .orderitem-cnt-btns> .icon-flag.font-green {
         display: inline-block;
-
     }
-    .orderitem-cnt-btns> .icon-flag.font-green:before{
-
+    .orderitem-cnt-btns> .icon-flag.font-green:before {
         content: '买了';
-
     }
-    .orderitem-cnt-btns> .icon-flag.font-yellow{
+    .orderitem-cnt-btns> .icon-flag.font-yellow {
         display: inline-block;
-
     }
-    .orderitem-cnt-btns> .icon-flag.font-yellow:before{
-
+    .orderitem-cnt-btns> .icon-flag.font-yellow:before {
         content: '还差';
-
     }
     .orderitems-header {
         background-color: #fff;

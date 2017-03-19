@@ -1,11 +1,12 @@
-define(['common','commonAngular'], function(util,angular) {
-    var $=util.$;
+define(['common', 'commonAngular'], function(util, angular) {
+
+    var $ = util.$;
 
     angular.module('registration', ['ngResource', 'ngAnimate']);
 
     angular.module('registration').component('registration', {
         templateUrl: './js/registration/registration.template.html',
-        controller: ['$resource', function($resource) {
+        controller: ['$scope','$resource',function($scope,$resource) {
 
             var User = $resource('./user/:_id');
 
@@ -13,13 +14,13 @@ define(['common','commonAngular'], function(util,angular) {
             self.name = '';
             self.password = '';
 
-            self.loginName='';
-            self.loginPassword='';
+            self.loginName = '';
+            self.loginPassword = '';
 
             self.passwordConfirmation = '';
             self.saved = false;
             self.isOpen = false;
-            self.logged=false;
+            self.logged = false;
             self.isLegalName = true;
             self.isLegalPassword = true;
             self.isConfirmed = true;
@@ -49,6 +50,7 @@ define(['common','commonAngular'], function(util,angular) {
 
                     User.save(null, user).$promise.then(function(rs) {
 
+
                         self.saved = true;
 
                     });
@@ -58,19 +60,23 @@ define(['common','commonAngular'], function(util,angular) {
 
             self.verifyUser = function() {
                 $.post('./login', {
-                        username: self.loginName ,
+                        username: self.loginName,
                         password: self.loginPassword
                     }, function(res, status) {
-                        if(res.success){
+                        if (res.success) {
 
-                            self.logged=true;
+                            $scope.$apply(function() {
+                                self.logged = true;
+                            });
+
+
                             //$('#container').load('./content');
 
-                            $.get('./content',function(rs,status){
+                            $.get('./content', function(rs, status) {
 
-                                $('#container').html(rs);
+                                //$('#container').html(rs);
 
-                            },'html')
+                            }, 'html')
 
                         }
                     },

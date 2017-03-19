@@ -353,7 +353,9 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         });
 
-        require(['angularApp'], function(angular) {
+        require(['angularApp'], function(angularApp) {
+
+            var angular = angularApp();
 
             angular.bootstrap($('#settings')[0], ['settings']);
 

@@ -1,7 +1,7 @@
 
 
 <div class="loginbox" ng-show="!$ctrl.logged">
-    <div class="form-login">
+    <div class="form-login" >
         <div>
             <span>
             <input class='input-line' type="text"  name="username" ng-model="$ctrl.loginName" placeholder="Name" />
@@ -15,7 +15,8 @@
         </div>
     </div>
 
-    <div class="registration blank" ng-show="!$ctrl.saved">
+
+    <div class="registration blank" ng-show="!$ctrl.saved && !$ctrl.logged">
 
 
         <a class="font-b15 font-red" ng-click="$ctrl.registerToggle()" href="">新用户？</a>
@@ -33,3 +34,4 @@
     <div class="success" ng-show="$ctrl.saved">Please contact me by wechat: xiaoviba to activate your account.</div>
 </div>
 
+<div class="loading" ng-show="$ctrl.logged">loading</div>
