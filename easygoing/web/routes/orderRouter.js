@@ -176,7 +176,7 @@ router.get('/index', function*() {
 router.get('/content', function*() {
 
     var model = {
-        name: 'content',
+        name: 'login',
         css: 'swiper',
         header: 'specific',
         footer: '',
@@ -187,6 +187,7 @@ router.get('/content', function*() {
     }
 
     if (this.isAuthenticated()) {
+        model.name='content';
         model.user = this.req.user;
         model._id = this.req.user._id;
 

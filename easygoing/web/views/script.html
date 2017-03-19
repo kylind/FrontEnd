@@ -1,79 +1,46 @@
-<% if(name && name == 'receivedOrders'){ %>
-    <script src="/components/jquery/dist/jquery.js"></script>
-    <script src="/components/knockout/dist/knockout.js"></script>
-    <!-- receivedOrders:js -->
-    <!-- endinject -->
-<% }else if (name == 'common') {%>
-    <script src="/components/jquery/dist/jquery.js"></script>
-    <script src="/components/knockout/dist/knockout.js"></script>
-    <script src="/js/jquery.tag.js"></script>
-    <!-- common:js -->
-    <!-- endinject -->
-<% }else if (name == 'index') {%>
+
+<% if (name == 'index') {%>
     <script src="components/requirejs/require.js"></script>
-
-    <script>
-        var USER_ID = '<%- _id %>';
-        var orders = <%- JSON.stringify(orders) %>
-        require(['js/requireConfig'],function(util){
-
-            <% if(_id!='') {%>
-
-                require(['../js/main']);
-            <% } else{ %>
-                require(['../js/main-login']);
-            <% } %>
-        });
-    </script>
-
-<% }else if (name == 'content') {%>
-
-    <script>
-        var USER_ID = '<%- _id %>';
-        var orders = <%- JSON.stringify(orders) %>
-        require(['js/requireConfig'],function(util){
-                require(['../js/main']);
-        });
-
-    </script>
-
-<% }else if (name == 'reckoning-orders') {%>
-     <script src="/components/requirejs/require.js"></script>
-    <!--data-main="/js/main" -->
-    <!-- reckoning-orders:js -->
-    <!-- endinject -->
-    <script>
-    require(['js/main-reckoning']);
-    </script>
-<% }else if (name == 'settings') {%>
     <script>
     var USER_ID = '<%- _id %>';
+    var orders = <%- JSON.stringify(orders) %>
+    require(['js/requireConfig'], function(util) {
+
+        <% if(_id!='') {%>
+
+        require(['../js/main'],function(run){
+            run();
+        });
+        <% } else{ %>
+        require(['../js/main-login'], function(run) {
+            run();
+
+        });
+        <% } %>
+    });
     </script>
-    <script src="/components/angular/angular.js"></script>
-    <script src="/components/angular-resource/angular-resource.js"></script>
-    <script src="/components/angular-animate/angular-animate.js"></script>
-
-    <script src="/js/settings/settings.module.js"></script>
-    <script src="/js/settings/settings.component.js"></script>
-
-    <!-- settings:js -->
-    <!-- endinject -->
-<% }else if (name == 'registration') {%>
+<% }else if (name == 'content') {%>
+    <script>
+    var USER_ID = '<%- _id %>';
+    var orders = <%- JSON.stringify(orders) %>
+    require(['js/requireConfig'], function(util) {
+        require(['../js/main'],function(run){
+            run();
+        });
+    });
+    </script>
+<% }else if (name == 'login') {%>
     <script>
     var USER_ID = '';
     </script>
-
-    <script src="components/requirejs/require.js"></script>
-
     <!-- registration:js -->
     <!-- endinject -->
-
     <script>
-    require(['./js/requireConfig'],function(){
-        require(['../js/main-login']);
+    require(['./js/requireConfig'], function() {
+        require(['../js/main-login'], function(run) {
+            run();
+
+        });
     });
     </script>
-
-
-
 <% } %>

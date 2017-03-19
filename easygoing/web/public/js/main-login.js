@@ -1,5 +1,8 @@
-require(['angularApp'], function(angular) {
+define(['angularApp'], function(angular) {
 
-    angular.bootstrap(document.getElementById('registration'), ['registration']);
+    return function(){
+        angular.bootstrap(document.getElementById('registration'), ['registration']);
+    }
+
 
 });

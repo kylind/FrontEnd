@@ -65,7 +65,7 @@ router.get('/logout', function*() {
 
 
     if (this.isAuthenticated()) {
-        yield this.logout();
+        this.logout();
     }
 
     this.body = { success: true };
