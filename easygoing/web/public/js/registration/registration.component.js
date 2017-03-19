@@ -19,6 +19,7 @@ define(['common','commonAngular'], function(util,angular) {
             self.passwordConfirmation = '';
             self.saved = false;
             self.isOpen = false;
+            self.logged=false;
             self.isLegalName = true;
             self.isLegalPassword = true;
             self.isConfirmed = true;
@@ -61,7 +62,15 @@ define(['common','commonAngular'], function(util,angular) {
                         password: self.loginPassword
                     }, function(res, status) {
                         if(res.success){
-                            $('#container').load('./content');
+
+                            self.logged=true;
+                            //$('#container').load('./content');
+
+                            $.get('./content',function(rs,status){
+
+                                $('#container').html(rs);
+
+                            },'html')
 
                         }
                     },

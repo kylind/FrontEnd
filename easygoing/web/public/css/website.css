@@ -1189,8 +1189,8 @@ span.orderitem-cnt-btns {
 
 /***** login ****/
 
-.form-login {
-    /*text-align: center;*/
+
+.loginbox{
     position: absolute;
     top: 50%;
     width: 240px;
@@ -1198,6 +1198,15 @@ span.orderitem-cnt-btns {
     left: 50%;
     margin-left: -120px;
     margin-top: -115px;
+
+    background-color: yellow;
+}
+
+
+
+.form-login {
+    /*text-align: center;*/
+
 }
 
 .form-login span {
@@ -1229,6 +1238,91 @@ span.orderitem-cnt-btns {
     border-top: 1px solid #cc0066;
 }
 
+
+.box-registration {}
+
+.registration {
+    transition: all 300ms linear;
+    text-align: center;
+    margin-top:10px;
+}
+
+.registration.ng-hide {
+    opacity: 0;
+}
+
+.success {
+    display: inline-block;
+    opacity: 0;
+    padding: 10px;
+}
+
+.success:not(.ng-hide) {
+    animation: fade-in 0.5s linear 0.3s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.heading-15 {
+    color: #cc0066;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-bottom: 1px solid #cc0066;
+}
+
+.blank input {
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+}
+
+.blank input[type="checkbox"] {
+    -webkit-appearance: checkbox;
+    border-bottom: none;
+    width: auto;
+}
+
+.blank input:focus {
+    border-bottom: 1px solid #cc0066;
+}
+
+.blank label {
+    display: inline-block;
+}
+
+button.ispure {
+    text-align: center;
+    padding-left: 5px;
+    padding-right:5px;
+}
+
+.warning {
+    font-style: italic;
+    color: #cc0066;
+    font-size: 1.1rem;
+    display: block;
+    overflow: hidden;
+    transition: height 500ms linear;
+}
+
+.warning.ng-hide {
+    height: 0;
+}
+
+.warning:not(.ng-hide) {
+    height: 15px;
+}
+
+.form-register {
+    border-top: 1px solid #cc0066;
+}
 
 /*** prompt ***/
 
@@ -1424,104 +1518,6 @@ span.orderitem-cnt-btns {
     display: inline-block;
 }
 
-
-/**** registration *****/
-
-.box-registration {}
-
-.registration {
-    width: 240px;
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    margin-top: -80px;
-    left: 50%;
-    margin-left: -120px;
-    transition: all 300ms linear;
-    text-align: center;
-}
-
-.registration.ng-hide {
-    opacity: 0;
-}
-
-.success {
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    margin-top: -80px;
-    left: 50%;
-    margin-left: -217px;
-    opacity: 0;
-    padding: 10px;
-}
-
-.success:not(.ng-hide) {
-    animation: fade-in 0.5s linear 0.3s;
-    animation-fill-mode: forwards;
-}
-
-@keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-.heading-15 {
-    color: #cc0066;
-    font-weight: bold;
-    font-size: 1.5rem;
-    border-bottom: 1px solid #cc0066;
-}
-
-.blank input {
-    border-bottom: 1px solid #ccc;
-    width: 100%;
-}
-
-.blank input[type="checkbox"] {
-    -webkit-appearance: checkbox;
-    border-bottom: none;
-    width: auto;
-}
-
-.blank input:focus {
-    border-bottom: 1px solid #cc0066;
-}
-
-.blank label {
-    display: inline-block;
-}
-
-button.ispure {
-    text-align: center;
-    padding-left: 5px;
-    padding-right:5px;
-}
-
-.warning {
-    font-style: italic;
-    color: #cc0066;
-    font-size: 1.1rem;
-    display: block;
-    overflow: hidden;
-    transition: height 500ms linear;
-}
-
-.warning.ng-hide {
-    height: 0;
-}
-
-.warning:not(.ng-hide) {
-    height: 15px;
-}
-
-.form-register {
-    border-top: 1px solid #cc0066;
-}
 
 
 /**** settings ****/
