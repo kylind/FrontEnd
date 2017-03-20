@@ -6,7 +6,7 @@ define(['common', 'commonAngular'], function(util, angular) {
 
     angular.module('registration').component('registration', {
         templateUrl: './js/registration/registration.template.html',
-        controller: ['$scope','$resource',function($scope,$resource) {
+        controller: ['$scope', '$resource', function($scope, $resource) {
 
             var User = $resource('./user/:_id');
 
@@ -67,14 +67,14 @@ define(['common', 'commonAngular'], function(util, angular) {
 
                             $scope.$apply(function() {
                                 self.logged = true;
+                                $('.mask').addClass('isShow');
+
                             });
 
-
-                            //$('#container').load('./content');
-
                             $.get('./content', function(rs, status) {
-
-                                //$('#container').html(rs);
+                                setTimeout(function(){
+                                     $('#container').html(rs);
+                                },300);
 
                             }, 'html')
 

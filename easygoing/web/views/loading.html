@@ -11,24 +11,25 @@
 </head>
 
 <body>
-    <header>
-        <%- include('header.html',header) %>
-    </header>
-    <main class='<%- name == "settings"? "main-bare":"" %>'>
-        <div id="container">
-            <%- body %>
-            <%- include('script.html', name) %>
+    <main>
+        <div class="container-test">
+
+        </div>
+        <div class="mask mask-top"></div>
+        <div class="mask mask-bottom">
+            <span>LOADING...</span>
         </div>
     </main>
     <footer>
-        <%- include('footer.html',footer) %>
     </footer>
-
-    <div class="mask mask-top <%- needMask ? 'isShow' : '' %>"></div>
-    <div class="mask mask-bottom <%- needMask ? 'isShow' : '' %>">
-        <span>加载中...</span>
-    </div>
-
 </body>
 
 </html>
+<%- include('script.html', name) %>
+
+<script>
+$(document).click(function(){
+    $('.mask').toggleClass('isShow');
+
+})
+</script>

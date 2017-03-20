@@ -7,7 +7,7 @@ requirejs.config({
         'common': '../js/common',
         'tag': '../js/jquery.tag',
         'jquery': './jquery/dist/jquery.min',
-        'knockout': './knockout/dist/knockout',
+        'knockout': './knockout/dist/knockout.debug',
         'knockout.mapping': '../js/knockout.mapping.2.4.1.min',
         'swiper': './swiper/dist/js/swiper.jquery.min',
         'colorbox': './jquery-colorbox/jquery.colorbox-min',

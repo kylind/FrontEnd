@@ -16,7 +16,7 @@
     </div>
 
 
-    <div class="registration blank" ng-show="!$ctrl.saved && !$ctrl.logged">
+    <div class="registration blank" ng-show="!$ctrl.saved">
 
 
         <a class="font-b15 font-red" ng-click="$ctrl.registerToggle()" href="">新用户？</a>
@@ -33,5 +33,3 @@
     </div>
     <div class="success" ng-show="$ctrl.saved">Please contact me by wechat: xiaoviba to activate your account.</div>
 </div>
-
-<div class="loading" ng-show="$ctrl.logged">loading</div>

@@ -435,9 +435,6 @@ define(['common'], function(util) {
                         needRefresh=true;
                     }
 
-
-
-
                     succeed();
 
                 },
@@ -541,6 +538,10 @@ define(['common'], function(util) {
 
         };
 
+        self.afterRender=function(){
+            swiper.update();
+        }
+
         self.addOrder = function() {
 
 
@@ -553,6 +554,7 @@ define(['common'], function(util) {
             swiper.update();
             $(window).scrollTop(0);
         };
+
         self.addExistingOrder = function(order) {
             // if (reservedOrders != null) {
 
@@ -757,6 +759,7 @@ define(['common'], function(util) {
 
 
         }
+
 
 
     };

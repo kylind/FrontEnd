@@ -427,6 +427,12 @@ define(['common'], function(util) {
 
         };
 
+
+        self.afterRender=function(){
+            swiper.update();
+            $('.mask').removeClass('isShow');
+        }
+
     };
 
     return OrdersModel;

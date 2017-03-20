@@ -454,7 +454,7 @@ define(['common'], function(util) {
 
             }, 10);
 
-        }
+        };
 
         self.filterItems = function(tag, parent, event) {
 
@@ -485,7 +485,10 @@ define(['common'], function(util) {
 
             $(document).click();
 
-        }
+        };
+        self.afterRender=function(){
+            swiper.update();
+        };
 
     }
 

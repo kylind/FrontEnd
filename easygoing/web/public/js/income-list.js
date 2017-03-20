@@ -4,7 +4,9 @@ define(['common'], function(util) {
     var ko = util.ko;
     ko.mapping = util.mapping;
 
-    var IncomeListModel = function(incomeList) {
+    var IncomeListModel = function(incomeList, swiper) {
+
+        var swiper=swiper;
 
         var self = this;
 
@@ -36,6 +38,10 @@ define(['common'], function(util) {
                 $order.removeClass("isShow");
             }
 
+        }
+
+        self.afterRender=function(){
+            swiper.update();
         }
 
     }

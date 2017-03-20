@@ -36,9 +36,6 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                 $.getJSON('./receivedOrdersJson', function(orders, status) {
                     ordersModel.setOrders(orders, true);
-                    setTimeout(function() {
-                        swiper.update();
-                    }, 100);
                 });
 
             }
@@ -49,10 +46,6 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                     var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
                     reckoningOrdersModel.orders(observableOrders);
-
-                    setTimeout(function() {
-                        swiper.update();
-                    }, 100);
 
                 })
 
@@ -68,9 +61,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             if (activeIndex == 1 || activeIndex == 2) {
                 $.getJSON('./receivedOrdersJson', function(orders, status) {
                     ordersModel.setOrders(orders, true);
-                    setTimeout(function() {
-                        swiper.update();
-                    }, 100);
+
                 });
 
             }
@@ -79,9 +70,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                 $.getJSON('./purchaseItemsJson', function(rs, status) {
                     itemsModel.setItems(rs.items, true, true);
-                    setTimeout(function() {
-                        swiper.update();
-                    }, 100);
+
                 });
 
             }
@@ -93,9 +82,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                     var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
                     reckoningOrdersModel.orders(observableOrders);
-                    setTimeout(function() {
-                        swiper.update();
-                    }, 100);
+
 
                 })
 
@@ -106,9 +93,6 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 $.getJSON('./incomeListJson', function(incomeList, status) {
                     incomeListModel.setIncomeList(incomeList);
                 })
-                setTimeout(function() {
-                    swiper.update();
-                }, 100);
 
             }
         }
@@ -162,10 +146,13 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
 
+
         require(['common', 'ItemsModel', 'ReckoningOrders', 'IncomeList'], function(util, ItemsModel, OrdersModel, IncomeListModel) {
+
 
             var $ = util.$;
             var ko = util.ko;
+
 
             var purchasePromise = new Promise(function(resolve, reject) {
 
@@ -249,7 +236,6 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 });
 
             });
-
 
 
             var reckoningPromise = new Promise(function(resolve, reject) {
@@ -385,16 +371,27 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         $('.icon-signout').bind('click', function() {
 
+
+            $('.mask').addClass('isLoginShow');
             $.get('./logout', function(res, status) {
                     if (res.success) {
-                        $('#container').load('./content');
+
+                        $.get('./content',function(rs,status){
+
+                                setTimeout(function(){
+                                    $('#container').html(rs);
+                                    $('.mask').removeClass('isLoginShow');
+                                },1000);
+
+
+
+                        },'html');
                     }
                 },
                 'json'
             );
 
             return false;
-
 
         });
 

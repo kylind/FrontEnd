@@ -1205,16 +1205,10 @@ span.orderitem-cnt-btns {
     margin-top: -115px;
     background-color: yellow;
     opacity: 100;
-    transition: opacity 600ms linear;
-
+    transition: opacity 300ms linear;
 }
 .loginbox.ng-hide {
     opacity: 0;
-}
-
-.loading {
-    opacity: 0;
-    transition: opacity 600ms 600ms linear;
 }
 
 .loading:not(.ng-hide) {
@@ -1678,6 +1672,66 @@ button.ispure {
     content: "\f00d";
 }
 
+/*** mask ***/
+.container-test{
+    background-color: black;
+    height:150px;
+
+
+}
+
+.mask{
+    position: fixed;
+    height: 0;
+    width:100%;
+    opacity: 0;
+    transition: all 1s linear;
+    z-index: 1999;
+    background-color: #000;
+    border: none;
+    box-sizing: border-box;
+
+}
+
+.mask.isShow{
+    transition: all 1ms 300ms linear;
+    height: 50%;
+    opacity: 100;
+
+}
+
+.mask.isLoginShow{
+    height: 50%;
+    opacity: 100;
+
+}
+
+
+.mask-top{
+    top:0;
+    left:0;
+}
+.mask-bottom{
+    bottom:0;
+    left:0;
+    text-align: center;
+}
+
+.mask-bottom span{
+    display: none;
+}
+.mask-bottom.isShow span{
+    display: block;
+    font-weight: bold;
+    color:#99ff99;
+}
+
+/* .mask-bottom.isLoginShow span{
+    display: block;
+    font-weight: bold;
+    color:#99ff99;
+    transition: all 1ms 1s linear;
+} */
 
 /**** print **/
 
