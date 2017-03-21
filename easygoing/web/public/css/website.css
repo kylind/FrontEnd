@@ -1632,15 +1632,36 @@ button.ispure {
 .progress.isSuccess > .progress-success {
     right: 0;
 }
+/*** logo ***/
 
+.logobox{
+    position: absolute;
+    left:0;
+    top:0;
+    z-index: 1001;
+}
+.logobox .woman{
+    vertical-align: middle;
+    height: 40px;
+}
+.logobox .decorations{
+    vertical-align: middle;
+    height: 40px;
+
+}
+.logobox .logo{
+    vertical-align: middle;
+    height:30px;
+}
 
 /*** colorbox ***/
 
 .cogbox {
     position: absolute;
-    top: 10px;
     right: 6px;
+    top:20px;
     z-index: 1001;
+    margin-top:-9px;
 }
 
 #colorbox {
