@@ -51,7 +51,7 @@
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
-    padding-top: 40px;
+    padding-top: 162px;
 }
 
 .swiper-container-android .swiper-slide,.swiper-wrapper {
@@ -211,8 +211,8 @@
     position: absolute;
     top:0;
     width:100%;
-    height: 42px;
-    line-height: 40px;
+    height: 62px;
+    line-height: 60px;
     box-sizing: border-box;
     display: block;
     text-align: center;
@@ -272,12 +272,12 @@ button.swiper-pagination-bullet {
 
 .swiper-pagination-bullet-active {
     opacity: 1;
-    background-color: #cc0066;
+
     /*background:linear-gradient(to right,#fff,#cc0066 10%,#cc0066 90%,#fff);*/
-    padding:5px;
+
     /*border-radius: 12px;*/
-    color:#fff;
-    font-weight: bold;
+    color:#cc0066;
+
 }
 
 .swiper-pagination-white .swiper-pagination-bullet-active {
@@ -305,7 +305,10 @@ button.swiper-pagination-bullet {
 
 .swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet {
     /*margin: 0 5px;*/
-    padding:5px 10px;
+    /*padding:5px 10px;*/
+    width:45px;
+    display: inline-block;
+    line-height: 60px;
 }
 
 
