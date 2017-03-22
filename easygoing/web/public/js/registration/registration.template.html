@@ -1,34 +1,55 @@
 
 
 <div class="loginbox" ng-show="!$ctrl.logged">
+
+    <div class='logobox logobox--login'>
+        <img class="logo" src="./images/logoname.png"/>
+    </div>
     <div class="form-login" >
-        <div>
-            <span>
-            <input class='input-line' type="text"  name="username" ng-model="$ctrl.loginName" placeholder="Name" />
+
+        <span class="namebox">
+            <input class='input-line' type="text"  name="username" ng-model="$ctrl.loginName" placeholder="哪位老板？" />
         </span>
-            <span>
-            <input class='input-line lmargin-5' type="password" name="password" ng-model="$ctrl.loginPassword" placeholder="Password" />
+        <span class="pwdbox">
+            <input class='input-line' type="password" name="password" ng-model="$ctrl.loginPassword" placeholder="登录密码？" />
         </span>
-            <span class="taRight">
+        <span class="btnbox">
         <button type="submit" class="icon icon-signin" ng-click="$ctrl.verifyUser()"></button>
         </span>
-        </div>
+
+    </div>
+
+    <div class="menu--login">
+        <a class="font-red"  href="">返回</a>
+
+        <a class="font-red" ng-click="$ctrl.registerToggle()" href="">新用户？</a>
     </div>
 
 
-    <div class="registration blank" ng-show="!$ctrl.saved">
-
-
-        <a class="font-b15 font-red" ng-click="$ctrl.registerToggle()" href="">新用户？</a>
+    <div class="registration" ng-show="!$ctrl.saved">
 
         <div class="fieldsbox" ng-class="$ctrl.statusClass">
-            <input class="tmargin-10" type="text" placeholder="Name" ng-model="$ctrl.name" ng-blur="$ctrl.verifyName()">
+
+        <div class="fieldbox-name">
+            <input type="text" placeholder="Name" ng-model="$ctrl.name" ng-blur="$ctrl.verifyName()">
             <label class="warning" ng-show="!$ctrl.isLegalName">Require 6 letters at least</label>
-            <input class="tmargin-10" type="password" placeholder="Password" ng-model="$ctrl.password" ng-blur="$ctrl.verifyPassword()">
+        </div>
+
+        <div class="fieldbox-pwd">
+            <input type="password" placeholder="Password" ng-model="$ctrl.password" ng-blur="$ctrl.verifyPassword()">
             <label class="warning" ng-show="!$ctrl.isLegalPassword" >Require 8 letters or numbers at least</label>
-            <input class="tmargin-10" type="password" placeholder="Password Confirmation" ng-model="$ctrl.passwordConfirmation" ng-blur="$ctrl.verifyConfirmPassword()">
+        </div>
+
+        <div class="fieldbox-pwdconfirm">
+
+            <input type="password" placeholder="Password Confirmation" ng-model="$ctrl.passwordConfirmation" ng-blur="$ctrl.verifyConfirmPassword()">
             <label class="warning" ng-show="!$ctrl.isConfirmed">Password is not consistent</label><br>
-            <button class="tmargin-10 ispure"  ng-click="$ctrl.saveUser()">Submit</button>
+        </div>
+
+        <div class="fieldbox-btn">
+
+            <button class="ispure"  ng-click="$ctrl.saveUser()">Submit</button>
+            </div>
         </div>
     </div>
     <div class="success" ng-show="$ctrl.saved">Please contact me by wechat: xiaoviba to activate your account.</div>

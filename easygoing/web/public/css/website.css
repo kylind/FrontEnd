@@ -1198,14 +1198,19 @@ span.orderitem-cnt-btns {
 .loginbox {
     position: absolute;
     top: 50%;
-    width: 240px;
+    width: 320px;
+    height: 218px;
     box-sizing: border-box;
     left: 50%;
-    margin-left: -120px;
-    margin-top: -115px;
-    background-color: yellow;
+    margin-left: -160px;
+    margin-top: -121px;
     opacity: 100;
     transition: opacity 300ms linear;
+    background-image: url(../images/bg-login.png);
+    background-position: bottom left;
+    background-size:contain;
+    background-repeat: no-repeat;
+
 }
 .loginbox.ng-hide {
     opacity: 0;
@@ -1215,52 +1220,154 @@ span.orderitem-cnt-btns {
     opacity: 100;
 }
 
+.logobox--login.logobox{
+    position: absolute;
+    left:-90px;
+    bottom: -40px;
+    top:initial;
+
+}
+
+.menu--login{
+    position: absolute;
+    right:0;
+
+    top:10px;
+}
+
 .form-login {
 
+    position: absolute;
+    top:50px;
+    left:80px;
+
 }
 
 
-.form-login span {
+.form-login > span {
     /*text-align: center;*/
     font-size: 0;
+    width: 120px;
+    margin-top:20px;
+    display: block;
+
 }
 
+.form-login .namebox{
+    padding-left:0;
+
+}
+.form-login .pwdbox{
+
+    padding-left:20px;
+
+}
+.form-login .btnbox{
+    margin-top:20px;
+    margin-left:140px;
+     display: block;
+     width:40px;
+
+}
 .form-login button {
     min-width: 0;
     border: none;
     cursor: pointer;
     box-shadow: none;
+    background-color: transparent;
+    color:#cc0066;
+    animation: 1s animation-login infinite alternate;
+    position: relative;
 }
+@keyframes animation-login{
+    from {
+
+        left:0;
+    }
+
+    to{
+        /*color:#99ff99;*/
+        left:10px;
+    }
+}
+
 
 .form-login .input-line {
-    width: 104px;
     box-sizing: border-box;
+    border:solid 1px #cc0066;
+    width:100%;
 }
 
-.registration .fieldsbox {
-    display: block;
-    height: 0;
-    transition: height 300ms linear;
-    overflow: hidden;
-}
-
-.registration .fieldsbox.isActive {
-    height: 160px;
-    border-top: 1px solid #cc0066;
-}
 
 .box-registration {}
 
 .registration {
     transition: all 300ms linear;
-    text-align: center;
-    margin-top: 10px;
+
+    position: absolute;
+    top:10px;
+    left:80px;
+    display: table-cell;
+    height: 218px;
+
+
+
 }
+
+
 
 .registration.ng-hide {
     opacity: 0;
 }
+.registration .fieldsbox {
+    display: block;
+    height: 0;
+    transition: height 300ms linear;
+    overflow: hidden;
 
+    vertical-align: middle;
+
+}
+
+.registration .fieldsbox.isActive {
+    height: 140px;
+}
+
+.registration .fieldbox-name {
+    width:120px;
+
+}
+.registration .fieldbox-pwd {
+    width:120px;
+    margin-top:5px;
+    margin-left:20px;
+}
+.registration .fieldbox-pwdconfirm {
+    width:120px;
+    margin-top:5px;
+    margin-left:40px;
+}
+
+.registration .fieldbox-btn {
+    width:120px;
+    margin-top:5px;
+    margin-left:60px;
+}
+.registration button {
+    width:100%;
+    background-color:#cc0066;
+    color:#fff;
+}
+
+
+
+.registration input {
+    box-sizing: border-box;
+    border:solid 1px #cc0066;
+    background-color: #fff;
+
+    width:100%;
+}
 .success {
     display: inline-block;
     opacity: 0;
@@ -1633,6 +1740,29 @@ button.ispure {
     right: 0;
 }
 /*** logo ***/
+@keyframes changingClothes {
+    from {
+
+        background-position: 0 -61px
+    }
+    40% {
+
+        background-position: 0 -121px
+    }
+    60% {
+
+        background-position: 0 -181px
+    }
+    80% {
+
+        background-position: 0 -301px
+    }
+    to {
+
+        background-position: 0 -241px
+    }
+
+}
 
 .logobox{
     position: absolute;
@@ -1644,12 +1774,18 @@ button.ispure {
     line-height: 60px;
     background-image: url(../images/thinkingwomen.png);
     background-repeat: no-repeat;
-    background-position: 0 0;
-
+    background-position: 0 -181px;
+    /*animation: changingClothes 2s infinite;*/
 }
+
+
+
 .logobox .logo{
     vertical-align: middle;
 }
+
+
+
 
 .banner{
     position: absolute;
@@ -1660,6 +1796,7 @@ button.ispure {
     z-index: 1001;
     left:0;
     top:62px;
+    border-bottom: 2px solid #cc0066;
 }
 
 /*** colorbox ***/
