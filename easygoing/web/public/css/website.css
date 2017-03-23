@@ -1774,7 +1774,7 @@ button.ispure {
     line-height: 60px;
     background-image: url(../images/thinkingwoman5.png);
     background-repeat: no-repeat;
-    animation: changingClothes 3s infinite alternate;
+    /*animation: changingClothes 6s infinite alternate;*/
 }
 
 
