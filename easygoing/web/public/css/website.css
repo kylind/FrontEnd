@@ -1743,23 +1743,23 @@ button.ispure {
 @keyframes changingClothes {
     from {
 
-        background-position: 0 -61px
+       background-image: url(../images/thinkingwoman1.png);
     }
     40% {
 
-        background-position: 0 -121px
+        background-image: url(../images/thinkingwoman2.png);
     }
     60% {
 
-        background-position: 0 -181px
+        background-image: url(../images/thinkingwoman3.png);
     }
     80% {
 
-        background-position: 0 -301px
+        background-image: url(../images/thinkingwoman4.png);
     }
     to {
 
-        background-position: 0 -241px
+       background-image: url(../images/thinkingwoman6.png);
     }
 
 }
@@ -1772,10 +1772,9 @@ button.ispure {
     padding-left:105px;
     height: 60px;
     line-height: 60px;
-    background-image: url(../images/thinkingwomen.png);
+    background-image: url(../images/thinkingwoman5.png);
     background-repeat: no-repeat;
-    background-position: 0 -181px;
-    /*animation: changingClothes 2s infinite;*/
+    animation: changingClothes 3s infinite alternate;
 }
 
 
@@ -1789,14 +1788,15 @@ button.ispure {
 
 .banner{
     position: absolute;
-    background-image: url(../images/banner.jpg);
+    background-image: url(../images/banner.png);
     background-position: center center;
     width:100%;
-    height: 100px;
+    height: 70px;
     z-index: 1001;
     left:0;
     top:62px;
     border-bottom: 2px solid #cc0066;
+    background-repeat: no-repeat;
 }
 
 /*** colorbox ***/
