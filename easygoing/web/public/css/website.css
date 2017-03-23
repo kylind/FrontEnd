@@ -1234,12 +1234,19 @@ span.orderitem-cnt-btns {
 
     top:10px;
 }
-
 .form-login {
 
     position: absolute;
     top:50px;
     left:80px;
+    height: 0;
+
+}
+
+.form-login.isActive {
+
+
+    height: auto;
 
 }
 
@@ -1320,17 +1327,16 @@ span.orderitem-cnt-btns {
     opacity: 0;
 }
 .registration .fieldsbox {
-    display: block;
-    height: 0;
-    transition: height 300ms linear;
-    overflow: hidden;
-
-    vertical-align: middle;
+    opacity: 0;
+    transition: all 500ms linear;
+    height: 0
 
 }
 
 .registration .fieldsbox.isActive {
-    height: 140px;
+    display: block;
+    opacity: 100;
+    height: auto;
 }
 
 .registration .fieldbox-name {

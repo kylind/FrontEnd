@@ -28,7 +28,8 @@ define(['common', 'commonAngular'], function(util, angular) {
             self.registerToggle = function() {
                 self.isOpen = !self.isOpen;
 
-                self.statusClass = self.isOpen ? 'isActive' : '';
+                self.registrationStatus = self.isOpen ? 'isActive' : '';
+                self.loginStatus = self.isOpen ? '' : 'isActive';
             }
 
             self.verifyName = function() {
