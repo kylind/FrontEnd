@@ -1,11 +1,11 @@
 
 
-<div class="loginbox" ng-show="!$ctrl.logged">
+<div class="loginbox">
 
     <div class='logobox logobox--login'>
         <img class="logo" src="./images/logoname.png"/>
     </div>
-    <div class="form-login" >
+    <div class="form-login"  ng-class="$ctrl.loginStatus">
 
         <span class="namebox">
             <input class='input-line' type="text"  name="username" ng-model="$ctrl.loginName" placeholder="哪位老板？" />
@@ -26,9 +26,9 @@
     </div>
 
 
-    <div class="registration" ng-show="!$ctrl.saved">
+    <div class="registration"  ng-class="$ctrl.registrationStatus">
 
-        <div class="fieldsbox" ng-class="$ctrl.statusClass">
+        <div class="fieldsbox">
 
         <div class="fieldbox-name">
             <input type="text" placeholder="Name" ng-model="$ctrl.name" ng-blur="$ctrl.verifyName()">
@@ -52,5 +52,6 @@
             </div>
         </div>
     </div>
-    <div class="success" ng-show="$ctrl.saved">Please contact me by wechat: xiaoviba to activate your account.</div>
+
+    <div class="success" ng-class="$ctrl.successStatus" >Please contact me by wechat: xiaoviba to activate your account.</div>
 </div>
