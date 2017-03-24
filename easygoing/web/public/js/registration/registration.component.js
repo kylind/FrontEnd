@@ -18,18 +18,28 @@ define(['common', 'commonAngular'], function(util, angular) {
             self.loginPassword = '';
 
             self.passwordConfirmation = '';
-            self.saved = false;
-            self.isOpen = false;
+
             self.logged = false;
             self.isLegalName = true;
             self.isLegalPassword = true;
             self.isConfirmed = true;
+            self.loginStatus = 'isActive';
+            self.loginBtnStatus='isActive';
 
-            self.registerToggle = function() {
-                self.isOpen = !self.isOpen;
+            self.login = function() {
+                self.registrationStatus = '';
+                self.loginStatus = 'isActive';
+                self.successStatus = '';
+                self.loginBtnStatus='isActive';
+                self.registrationBtnStatus='';
+            }
 
-                self.registrationStatus = self.isOpen ? 'isActive' : '';
-                self.loginStatus = self.isOpen ? '' : 'isActive';
+            self.register = function() {
+                self.registrationStatus = 'isActive';
+                self.loginStatus = '';
+                self.successStatus = '';
+                self.loginBtnStatus='';
+                self.registrationBtnStatus='isActive';
             }
 
             self.verifyName = function() {
@@ -52,7 +62,9 @@ define(['common', 'commonAngular'], function(util, angular) {
                     User.save(null, user).$promise.then(function(rs) {
 
 
-                        self.saved = true;
+                        self.registrationStatus = '';
+                        self.loginStatus = '';
+                        self.successStatus = 'isActive';
 
                     });
                 }

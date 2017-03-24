@@ -1,17 +1,21 @@
 
 <div class="swiper-container">
-    <div class='logobox'>
-        <img class="logo" src="./images/logoname.png"/>
-    </div>
-    <div class='cogbox'>
-        <a href="#settings" class="icon icon-cog"></a>
-        <a href=""  class="icon icon-signout"></a>
-    </div>
-    <div class="banner">
 
-    </div>
-    <div class="swiper-pagination">
-    </div>
+    <div class="header-cnt">
+        <div class='logobox'>
+            <img class="logo" src="./images/logoname.png"/>
+        </div>
+        <div class='cogbox'>
+            <a href="#settings" class="icon icon-cog"></a>
+            <a href=""  class="icon icon-signout"></a>
+        </div>
+        <div class="swiper-pagination">
+        </div>
+        <div class="banner">
+
+        </div>
+
+ </div>
     <div class="swiper-wrapper">
         <% if((!user.access) || (user.access && user.access.receivedOrders)){ %>
             <section class="swiper-slide" id="receivedOrders">

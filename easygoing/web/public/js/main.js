@@ -361,8 +361,9 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             $(window).scroll(function() {
                 var top = $(window).scrollTop();
-                $(".cogbox").css("top", top + 10);
-                $(".swiper-pagination").css('top', top);
+                //$(".cogbox").css("top", top + 30);
+                //$(".swiper-pagination").css('top', top);
+                $(".header-cnt").css('top', top);
                 $(".searchbox").css("top", top);
 
             });

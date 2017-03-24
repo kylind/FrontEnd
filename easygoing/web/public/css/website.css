@@ -367,6 +367,10 @@ a.icon:before {}
     content: "\f08b";
 }
 
+.icon-back:before {
+    content: "\f0a8";
+}
+
 input[type="text"],
 input[type="number"],
 input[type="password"] {
@@ -384,8 +388,7 @@ input:-webkit-autofill {
 }
 
 input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="password"]:focus {
+input[type="number"]:focus {
     border-bottom: 0;
 }
 
@@ -1016,6 +1019,7 @@ span.orderitem-cnt-btns {
     padding-left: 5px;
     padding-right: 5px;
     line-height: 20px;
+    vertical-align: top;
 }
 
 .link-tag.isActive {
@@ -1060,8 +1064,8 @@ span.orderitem-cnt-btns {
 }
 
 .tag.isEmpty .tag-label {
-    background-color: #cc0066;
-    box-shadow: 0 -1px 0 0 #fff;
+    /*background-color: #cc0066;*/
+    /*box-shadow: 0 -1px 0 0 #fff;*/
 }
 
 .tag.isEmpty .tag-label:hover {
@@ -1208,10 +1212,10 @@ span.orderitem-cnt-btns {
     transition: opacity 300ms linear;
     background-image: url(../images/bg-login.png);
     background-position: bottom left;
-    background-size:contain;
+    background-size: contain;
     background-repeat: no-repeat;
-
 }
+
 .loginbox.ng-hide {
     opacity: 0;
 }
@@ -1220,178 +1224,160 @@ span.orderitem-cnt-btns {
     opacity: 100;
 }
 
-.logobox--login.logobox{
+.logobox--login.logobox {
     position: absolute;
-    left:-90px;
+    left: -90px;
     bottom: -40px;
-    top:initial;
-
+    top: initial;
 }
 
-.menu--login{
+@media all and (max-width: 560px) {
+    .logobox--login.logobox {
+        left: -10px;
+    }
+}
+
+.menu--login {
     position: absolute;
-    right:0;
-
-    top:10px;
+    right: 0;
+    top: 10px;
 }
+
+.menu--login .btn.isActive {
+    color: #cc0066;
+}
+
 .form-login {
-
     position: absolute;
-    top:50px;
-    left:80px;
-    height: 0;
-
+    top: 69px;
+    left: 80px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: 0;
+    transition: all 500ms linear;
 }
 
 .form-login.isActive {
-
-
-    height: auto;
-
+    transition: all 500ms 500ms linear;
+    opacity: 100;
+    z-index: 99;
 }
-
 
 .form-login > span {
-    /*text-align: center;*/
     font-size: 0;
     width: 120px;
-    margin-top:20px;
     display: block;
-
 }
 
-.form-login .namebox{
-    padding-left:0;
-
+.form-login .namebox {
+    padding-left: 0;
 }
-.form-login .pwdbox{
 
-    padding-left:20px;
-
+.form-login .pwdbox {
+    margin-top: 10px;
+    padding-left: 20px;
 }
-.form-login .btnbox{
-    margin-top:20px;
-    margin-left:140px;
-     display: block;
-     width:40px;
 
+.form-login .btnbox {
+    margin-top: 10px;
+    margin-left: 140px;
+    display: block;
+    width: 40px;
 }
+
 .form-login button {
     min-width: 0;
     border: none;
     cursor: pointer;
     box-shadow: none;
     background-color: transparent;
-    color:#cc0066;
+    color: #cc0066;
     animation: 1s animation-login infinite alternate;
     position: relative;
 }
-@keyframes animation-login{
+
+@keyframes animation-login {
     from {
-
-        left:0;
+        left: 0;
     }
-
-    to{
+    to {
         /*color:#99ff99;*/
-        left:10px;
+        left: 10px;
     }
 }
-
 
 .form-login .input-line {
     box-sizing: border-box;
-    border:solid 1px #cc0066;
-    width:100%;
+    border: solid 1px #cc0066;
+    width: 100%;
 }
-
 
 .box-registration {}
 
 .registration {
-    transition: all 300ms linear;
-
     position: absolute;
-    top:10px;
-    left:80px;
-    display: table-cell;
-    height: 218px;
-
-
-
-}
-
-
-
-.registration.ng-hide {
-    opacity: 0;
-}
-.registration .fieldsbox {
+    top: 60px;
+    left: 60px;
+    display: inline-block;
     opacity: 0;
     transition: all 500ms linear;
-    height: 0
-
+    overflow: hidden;
+    z-index: 0;
 }
 
-.registration .fieldsbox.isActive {
-    display: block;
+.registration.isActive {
+    transition-delay: 500ms;
     opacity: 100;
-    height: auto;
+    z-index: 99;
 }
 
 .registration .fieldbox-name {
-    width:120px;
+    width: 240px;
+}
 
-}
 .registration .fieldbox-pwd {
-    width:120px;
-    margin-top:5px;
-    margin-left:20px;
+    width: 240px;
+    margin-top: 5px;
+    margin-left: 20px;
 }
+
 .registration .fieldbox-pwdconfirm {
-    width:120px;
-    margin-top:5px;
-    margin-left:40px;
+    width: 240px;
+    margin-top: 5px;
+    margin-left: 40px;
 }
 
 .registration .fieldbox-btn {
-    width:120px;
-    margin-top:5px;
-    margin-left:60px;
+    width: 120px;
+    margin-top: 5px;
+    margin-left: 60px;
 }
+
 .registration button {
-    width:100%;
-    background-color:#cc0066;
-    color:#fff;
+    width: 100%;
+    background-color: #cc0066;
+    color: #fff;
 }
-
-
 
 .registration input {
     box-sizing: border-box;
-    border:solid 1px #cc0066;
+    border: solid 1px #cc0066 !important;
     background-color: #fff;
-
-    width:100%;
+    width: 120px;
 }
+
 .success {
-    display: inline-block;
+    position: absolute;
+    left: 50px;
+    top: 100px;
     opacity: 0;
-    padding: 10px;
+    transition: all 500ms 500ms linear;
+    z-index: 0;
 }
 
-.success:not(.ng-hide) {
-    animation: fade-in 0.5s linear 0.3s;
-    animation-fill-mode: forwards;
-}
-
-@keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+.success.isActive {
+    opacity: 100;
+    z-index: 99;
 }
 
 .heading-15 {
@@ -1430,8 +1416,9 @@ button.ispure {
     font-style: italic;
     color: #cc0066;
     font-size: 1.1rem;
-    display: block;
+    display: inline-block;
     overflow: hidden;
+    vertical-align: middle;
     transition: height 500ms linear;
 }
 
@@ -1745,76 +1732,74 @@ button.ispure {
 .progress.isSuccess > .progress-success {
     right: 0;
 }
-/*** logo ***/
+
+
+/*** header ***/
+
 @keyframes changingClothes {
     from {
-
-       background-image: url(../images/thinkingwoman1.png);
+        background-image: url(../images/thinkingwoman1.png);
     }
     40% {
-
         background-image: url(../images/thinkingwoman2.png);
     }
     60% {
-
         background-image: url(../images/thinkingwoman3.png);
     }
     80% {
-
         background-image: url(../images/thinkingwoman4.png);
     }
     to {
-
-       background-image: url(../images/thinkingwoman6.png);
+        background-image: url(../images/thinkingwoman6.png);
     }
-
 }
 
-.logobox{
+.header-cnt{
     position: absolute;
     left:0;
     top:0;
-    z-index: 1001;
-    padding-left:105px;
+    width:100%;
+    z-index: 100;
+    background-color: #fff;
+}
+
+.logobox {
+    float:left;
+    padding-left: 105px;
     height: 60px;
     line-height: 60px;
-    /*background-image: url(../images/thinkingwoman5.png);*/
+    background-image: url(../images/thinkingwoman1.png);
     background-repeat: no-repeat;
     animation: changingClothes 6s infinite alternate;
 }
 
-
-
-.logobox .logo{
+.logobox .logo {
     vertical-align: middle;
 }
 
+.cogbox {
+    float:right;
+    padding-right: 6px;
+    padding-top: 21px;
+}
 
+.banner {
 
-
-.banner{
-    position: absolute;
     background-image: url(../images/banner.png);
     background-position: center center;
-    width:100%;
+    width: 100%;
     height: 70px;
-    z-index: 1001;
-    left:0;
-    top:62px;
-    border-bottom: 2px solid #cc0066;
+    border-top: 1px solid #cc0066;
+    border-bottom: 1px solid #cc0066;
     background-repeat: no-repeat;
 }
 
+
+
+
+
 /*** colorbox ***/
 
-.cogbox {
-    position: absolute;
-    right: 6px;
-    z-index: 1001;
-    top:30px;
-    margin-top: -9px;
-
-}
 
 #colorbox {
     z-index: 1000;
@@ -1845,59 +1830,58 @@ button.ispure {
     content: "\f00d";
 }
 
+
 /*** mask ***/
-.container-test{
+
+.container-test {
     background-color: black;
-    height:150px;
-
-
+    height: 150px;
 }
 
-.mask{
+.mask {
     position: fixed;
     height: 0;
-    width:100%;
+    width: 100%;
     opacity: 0;
     transition: all 1s linear;
     z-index: 1999;
     background-color: #000;
     border: none;
     box-sizing: border-box;
-
 }
 
-.mask.isShow{
+.mask.isShow {
     transition: all 1ms 300ms linear;
     height: 50%;
     opacity: 100;
-
 }
 
-.mask.isLoginShow{
+.mask.isLoginShow {
     height: 50%;
     opacity: 100;
-
 }
 
-
-.mask-top{
-    top:0;
-    left:0;
+.mask-top {
+    top: 0;
+    left: 0;
 }
-.mask-bottom{
-    bottom:0;
-    left:0;
+
+.mask-bottom {
+    bottom: 0;
+    left: 0;
     text-align: center;
 }
 
-.mask-bottom span{
+.mask-bottom span {
     display: none;
 }
-.mask-bottom.isShow span{
+
+.mask-bottom.isShow span {
     display: block;
     font-weight: bold;
-    color:#99ff99;
+    color: #99ff99;
 }
+
 
 /* .mask-bottom.isLoginShow span{
     display: block;
@@ -1905,6 +1889,7 @@ button.ispure {
     color:#99ff99;
     transition: all 1ms 1s linear;
 } */
+
 
 /**** print **/
 
