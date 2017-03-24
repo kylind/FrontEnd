@@ -1772,9 +1772,9 @@ button.ispure {
     padding-left:105px;
     height: 60px;
     line-height: 60px;
-    background-image: url(../images/thinkingwoman5.png);
+    /*background-image: url(../images/thinkingwoman5.png);*/
     background-repeat: no-repeat;
-    /*animation: changingClothes 6s infinite alternate;*/
+    animation: changingClothes 6s infinite alternate;
 }
 
 
