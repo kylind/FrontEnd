@@ -52,6 +52,7 @@
     -moz-box-sizing: content-box;
     box-sizing: content-box;
     padding-top: 132px;
+    padding-bottom: 41px;
 }
 @media all and (max-width:640px){
    .swiper-wrapper {

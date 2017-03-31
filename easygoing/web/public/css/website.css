@@ -224,7 +224,6 @@ a {
 }
 
 header,
-footer,
 main,
 .absbox {
     max-width: 800px;
@@ -244,7 +243,6 @@ main.main-bare {
 
 @media all and (max-width:800px) {
     header,
-    footer,
     main,
     .absbox {
         margin-left: 10px;
@@ -256,7 +254,7 @@ footer {
     /* height: 10px;
     border: none;
     background-color: #cc0066;*/
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 
 .icon {
@@ -1754,17 +1752,17 @@ button.ispure {
     }
 }
 
-.header-cnt{
+.header-cnt {
     position: absolute;
-    left:0;
-    top:0;
-    width:100%;
+    left: 0;
+    top: 0;
+    width: 100%;
     z-index: 100;
     background-color: #fff;
 }
 
 .logobox {
-    float:left;
+    float: left;
     padding-left: 105px;
     height: 60px;
     line-height: 60px;
@@ -1778,13 +1776,12 @@ button.ispure {
 }
 
 .cogbox {
-    float:right;
+    float: right;
     padding-right: 6px;
     padding-top: 21px;
 }
 
 .banner {
-
     background-image: url(../images/banner.png);
     background-position: center center;
     width: 100%;
@@ -1794,12 +1791,37 @@ button.ispure {
     background-repeat: no-repeat;
 }
 
+.footer {
+    text-align: center;
+    z-index: 1998;
+    bottom: 0;
+    position: fixed;
+    background-color: #fff;
+    padding-top: 10px;
+    left: 0;
+    width: 100%;
+}
 
+.footer-cnt {
+    border-top: solid 1px #cc0066;
+    padding-bottom: 5px;
+    max-width: 800px;
+    padding-top: 5px;
+    /*width:calc(100vw - 20px);*/
+    line-height: 20px;
+    margin-left:auto;
+    margin-right:auto;
+}
 
+@media all and (max-width: 800px) {
+    .footer-cnt {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
 
 
 /*** colorbox ***/
-
 
 #colorbox {
     z-index: 1000;
@@ -1879,7 +1901,7 @@ button.ispure {
 .mask-bottom.isShow span {
     display: block;
     font-weight: bold;
-    color: #99ff99;
+    color: #cc0066;
 }
 
 

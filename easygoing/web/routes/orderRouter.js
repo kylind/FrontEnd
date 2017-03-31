@@ -155,7 +155,7 @@ router.get('/index', function*() {
         name: 'index',
         css: 'swiper',
         header: 'specific',
-        footer: '',
+        footer: 'login',
         _id: '',
         user:null,
         orders:[],
@@ -165,6 +165,7 @@ router.get('/index', function*() {
     if (this.isAuthenticated()) {
         model.user = this.req.user;
         model._id = this.req.user._id;
+        model.footer='common';
 
         var res = yield orderOperation.queryReceivedOrders();
         model.orders = res && res.length > 0 ? res : [];
