@@ -1,1 +1,1 @@
-"use strict";require(["angularApp"],function(t){t.bootstrap(document.getElementById("registration"),["registration"])}),define("../js/main-login",function(){});
+"use strict";define("../js/main-login",["angularApp"],function(t){return function(){t().bootstrap(document.getElementById("registration"),["registration"])}});

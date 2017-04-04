@@ -76,7 +76,7 @@ app.use(loginRouter.routes());
         yield next;
     } else {
         console.log(`not authenticated!`);
-        this.redirect('/v3.1')
+        this.redirect('/v4')
     }
 });*/
 
@@ -91,7 +91,7 @@ app.use(itemRouter.routes());
 app.use(addressRouter.routes());
 app.use(otherRouter.routes());
 
-app.listen({port:3031,host:"127.0.0.1"});//process.env.port
+app.listen({port:3040,host:"127.0.0.1"});//process.env.port
 
 console.log(process.env.NODE_ENV);
 console.log(process.env.db);

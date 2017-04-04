@@ -47,25 +47,14 @@ gulp.task('inject', function(done) {
     //, ['clean', 'copy', 'commonjs', 'pagejs', 'css', 'bower-components', 'components']
     setTimeout(function() {
 
-        //component page
-        var views = ['settings'];
+
         var stream = gulp.src(`../web/views/script.html`, { base: '../web/' });
 
         stream.pipe(replace(/[ ]*<script.+<\/script>[ ]*\n/img, ''));
-        views.forEach(function(name) {
-
-            bowerConfig.group = 'angular';
-
-
-            var bowerStream = gulp.src(bowerFiles(bowerConfig), { read: false });
-            var appStream = gulp.src(`../web-built/public/js/${name}/${name}.min.js`, { read: false });
-            stream.pipe(inject(series(bowerStream, appStream), { name: `${name}`, ignorePath: ['../web-built/public', '../web/public', '/public'], addRootSlash: false }))
-
-        });
 
 
         //require page
-        var requiredViews = ['index', 'registration'];
+        var requiredViews = ['index'];
         requiredViews.forEach(function(name) {
 
             bowerConfig.group = 'require';
@@ -73,25 +62,9 @@ gulp.task('inject', function(done) {
             stream.pipe(inject(bowerStream, { name: `${name}`, ignorePath: ['../web/public', '/public'], addRootSlash: false }))
         });
 
-
-        //common page with customized script
-        var mvvmViews = ['receivedOrders'];
-        mvvmViews.forEach(function(name) {
-            bowerConfig.group = 'common';
-            var bowerStream = gulp.src(bowerFiles(bowerConfig), { read: false });
-            var appStream = gulp.src([`../web-built/public/js/common.min.js`, `../web-built/public/js/${name}.js`], { read: false });
-            stream.pipe(inject(series(bowerStream, appStream), { name: `${name}`, ignorePath: ['../web-built/public', '../web/public', '/public'], addRootSlash: false }))
-        });
-
-        //common page  without customized script
-
-        bowerConfig.group = 'common';
-
-        var bowerStream = gulp.src(bowerFiles(bowerConfig), { read: false });
-        var appStream = gulp.src(`../web-built/public/js/common.min.js`, { read: false });
-        stream.pipe(inject(series(bowerStream, appStream), { name: `common`, ignorePath: ['../web-built/public', '../web/public', '/public'], addRootSlash: false }))
-
         stream.pipe(gulp.dest('../web-built/'));
+
+
 
         done();
 
@@ -183,7 +156,6 @@ gulp.task('requirejs', ['clean'], function() {
             optimize: "none",
             name: "commonAngular"
         }))
-
         .pipe(gulp.dest('../web-built/public/js/'));
 
     gulp.src('../web/public/js/angular-app.js',{base:'../web/public/js/'})
@@ -207,7 +179,7 @@ gulp.task('requirejs', ['clean'], function() {
             exclude: ['common', 'commonAngular']
         }))
         .pipe(babel({ presets: presets }))
-        .pipe(uglify())
+        .pipe(uglify({mangle:true}))
         .pipe(gulp.dest('../web-built/public/js/'));
 
 
@@ -277,7 +249,7 @@ gulp.task('css', ['clean'], function(done) {
 
 
 gulp.task('copy', ['clean'], function(done) {
-    gulp.src(['../web/app.js', '../web/process.json', '../web/package.json', '../web/views/*.html', '!../web/views/script.html', '../web/data_access/*.js', '../web/routes/*.js', '../web/public/fonts/*.*'], { base: '../web/' })
+    gulp.src(['../web/app.js', '../web/process.json', '../web/package.json', '../web/public/images/*.*','../web/views/*.html', '!../web/views/script.html', '../web/data_access/*.js', '../web/routes/*.js', '../web/public/fonts/*.*'], { base: '../web/' })
         .pipe(gulp.dest('../web-built/'));
 
     // gulp.src(gnf(null,'../web/package.json'),{base:'../web/'}).pipe(gulp.dest('../web-built'));

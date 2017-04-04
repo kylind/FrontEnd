@@ -227,7 +227,8 @@ header,
 main,
 .absbox {
     max-width: 800px;
-    min-width: 360px;
+    min-width: 365px;
+    /*min-width: 340px;*/
     margin-left: auto;
     margin-right: auto;
 }
@@ -245,8 +246,8 @@ main.main-bare {
     header,
     main,
     .absbox {
-        margin-left: 10px;
-        margin-right: 10px;
+        margin-left: 5px;
+        margin-right: 5px;
     }
 }
 
@@ -402,11 +403,6 @@ input.input-line:focus {
 
 input[type="text"].postage {
     font-weight: bold;
-    /* line-height: 1;
-    height: 15px;
-    vertical-align: text-bottom;
-    width:20px;
-    border-bottom: solid 1px #999;*/
     padding-left: 0;
     height: 18px
 }
@@ -442,9 +438,6 @@ button {
     padding: 0 0 0 5px;
     font-size: 1.5rem;
     line-height: 18px;
-    /*border-radius: 8px;*/
-    /*text-transform: uppercase;*/
-    /*box-shadow: 2px 2px 3px;*/
     cursor: pointer;
     height: 20px;
 }
@@ -987,11 +980,9 @@ span.orderitem-cnt-btns {
 .tag {
     position: relative;
     width: 100%;
-    /*max-width: 150px;*/
     line-height: 18px;
     height: 18px;
-    /*box-shadow: 0 -1px 0 0 #fff;*/
-    /*background-image:linear-gradient(to right, #ffcccc 0, #cc0066 50%, #ffcccc 100%);*/
+
     overflow: visible;
 }
 
@@ -1753,7 +1744,7 @@ button.ispure {
 }
 
 .header-cnt {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     width: 100%;
@@ -1761,6 +1752,18 @@ button.ispure {
     background-color: #fff;
 }
 
+.header-inner {
+    max-width: 800px;
+    margin-left:auto;
+    margin-right:auto;
+
+}
+@media all and (max-width: 800px) {
+    .header-inner {
+        margin-left:5px;
+        margin-right:5px;
+    }
+}
 .logobox {
     float: left;
     padding-left: 105px;
@@ -1775,12 +1778,31 @@ button.ispure {
     vertical-align: middle;
 }
 
+
+@media all and (max-width: 800px){
+    .logobox {
+
+        padding-left: 0;
+        height: 30px;
+        line-height: 30px;
+        animation:none;
+
+        background-image: none;
+    }
+}
+
 .cogbox {
     float: right;
     padding-right: 6px;
     padding-top: 21px;
 }
 
+@media all and (max-width: 800px){
+    .cogbox {
+
+        padding-top:6px;
+    }
+}
 .banner {
     background-image: url(../images/banner.png);
     background-position: center center;
@@ -1789,6 +1811,13 @@ button.ispure {
     border-top: 1px solid #cc0066;
     border-bottom: 1px solid #cc0066;
     background-repeat: no-repeat;
+}
+
+@media all and (max-width: 640px){
+    .banner{
+        height: 0;
+        border-bottom: none;
+    }
 }
 
 .footer {
@@ -1808,15 +1837,15 @@ button.ispure {
     max-width: 800px;
     padding-top: 5px;
     /*width:calc(100vw - 20px);*/
-    line-height: 20px;
+    line-height: 12px;
     margin-left:auto;
     margin-right:auto;
 }
 
 @media all and (max-width: 800px) {
     .footer-cnt {
-        margin-left: 10px;
-        margin-right: 10px;
+        margin-left: 5px;
+        margin-right: 5px;
     }
 }
 
@@ -1949,12 +1978,21 @@ button.ispure {
         width: 700px !important;
         /*        overflow-y: visible !important;*/
     }
-    .swiper-pagination {
+
+    .footer{
+        display: none;
+    }
+
+    .header-cnt{
+        display: none;
+    }
+
+/*    .swiper-pagination {
         display: none !important;
     }
     .cogbox {
         display: none;
-    }
+    }*/
     .searchbox {
         display: none;
     }

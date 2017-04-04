@@ -69,14 +69,16 @@ var loginRouter = require('./routes/loginRouter.js').router;
 app.use(bodyParser());
 app.use(loginRouter.routes());
 
-app.use(function*(next) {
+/*app.use(function*(next) {
     console.log(`authenticate: ${ this.path }`);
     if (this.isAuthenticated()) {
+        console.log(`authenticated!`);
         yield next;
     } else {
-        this.redirect('/v3.1')
+        console.log(`not authenticated!`);
+        this.redirect('/v4')
     }
-});
+});*/
 
 
 var itemRouter = require('./routes/itemRouter.js').router;
@@ -89,7 +91,7 @@ app.use(itemRouter.routes());
 app.use(addressRouter.routes());
 app.use(otherRouter.routes());
 
-app.listen({port:3031,host:"127.0.0.1"});//process.env.port
+app.listen({port:3040,host:"127.0.0.1"});//process.env.port
 
 console.log(process.env.NODE_ENV);
 console.log(process.env.db);

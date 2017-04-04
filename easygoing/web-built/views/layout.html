@@ -7,20 +7,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="description" content="">
     <meta name="keywords" content="">
-     <%- include('css.html', css) %>
+    <%- include('css.html', css) %>
 </head>
 
 <body>
     <header>
         <%- include('header.html',header) %>
     </header>
-    <main class= '<%- name == "settings"? "main-bare":"" %>'>
-        <%- body %>
+    <main class='<%- name == "settings"? "main-bare":"" %>'>
+        <div id="container">
+            <%- body %>
+            <%- include('script.html', name) %>
+        </div>
     </main>
-    <footer>
+    <footer class="footer">
         <%- include('footer.html',footer) %>
     </footer>
-    <%- include('script.html', name) %>
+
+    <div class="mask mask-top <%- needMask ? 'isShow' : '' %>"></div>
+    <div class="mask mask-bottom <%- needMask ? 'isShow' : '' %>">
+        <span>加载中...</span>
+    </div>
+
 </body>
 
 </html>

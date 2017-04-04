@@ -8,23 +8,17 @@ var Collection = require('../data_access/order.js').Collection;
 router = new Router();
 
 
-router.get(/^\/(v3\.1)?$/, function*() {
-    /*    if (this.isAuthenticated()) {
-            this.redirect('/v3.1/index');
+router.get(/^\/(v4)?$/, function*() {
 
-        } else {
-            this.redirect('/v3.1/login');
 
-        }*/
-
-    this.redirect('/v3.1/index');
+    this.redirect('/v4/index');
 
 });
 
 router.get('/login', function*() {
 
     if (this.isAuthenticated()) {
-        this.redirect('v3/index');
+        this.redirect('v4/index');
 
     } else {
 
@@ -39,11 +33,7 @@ router.get('/login', function*() {
 });
 
 router.post('/login', function*(next) {
-    /*    yield passport.authenticate('local', {
-            successRedirect: '/v3.1/index',
-            failureRedirect: '/v3.1/login',
-            failureFlash: false
-        })*/
+
 
     var ctx = this;
 
@@ -70,7 +60,7 @@ router.get('/logout', function*() {
 
     this.body = { success: true };
 
-    //this.redirect('/v3.1/login');
+    //this.redirect('/v4/login');
 });
 
 router.get('/register', function*() {

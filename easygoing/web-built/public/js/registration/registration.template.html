@@ -1,16 +1,58 @@
-<div class="registration blank" ng-show="!$ctrl.saved">
 
 
-    <a class="font-b15 font-red" ng-click="$ctrl.registerToggle()" href="">新用户？</a>
+<div class="loginbox">
 
-    <div class="fieldsbox" ng-class="$ctrl.statusClass">
-        <input class="tmargin-10" type="text" placeholder="Name" ng-model="$ctrl.name" ng-blur="$ctrl.verifyName()">
-        <label class="warning" ng-show="!$ctrl.isLegalName">Require 6 letters at least</label>
-        <input class="tmargin-10" type="password" placeholder="Password" ng-model="$ctrl.password" ng-blur="$ctrl.verifyPassword()">
-        <label class="warning" ng-show="!$ctrl.isLegalPassword" >Require 8 letters or numbers at least</label>
-        <input class="tmargin-10" type="password" placeholder="Password Confirmation" ng-model="$ctrl.passwordConfirmation" ng-blur="$ctrl.verifyConfirmPassword()">
-        <label class="warning" ng-show="!$ctrl.isConfirmed">Password is not consistent</label><br>
-        <button class="tmargin-10 ispure"  ng-click="$ctrl.saveUser()">Submit</button>
+    <div class='logobox logobox--login'>
+        <img class="logo" src="./images/logoname.png"/>
     </div>
+    <div class="form-login"  ng-class="$ctrl.loginStatus">
+
+        <span class="namebox">
+            <input class='input-line' type="text"  name="username" ng-model="$ctrl.loginName" placeholder="哪位嫂子？" />
+        </span>
+        <span class="pwdbox">
+            <input class='input-line' type="password" name="password" ng-model="$ctrl.loginPassword" placeholder="登录密码？" />
+        </span>
+        <span class="btnbox">
+        <button type="submit" class="icon icon-signin" ng-click="$ctrl.verifyUser()"></button>
+        </span>
+
+    </div>
+
+    <div class="menu--login">
+        <a class="icon icon-back btn"  href="" ng-click="$ctrl.login()" ng-class="$ctrl.loginBtnStatus"></a>
+
+        <a class="btn" ng-click="$ctrl.register()" ng-class="$ctrl.registrationBtnStatus" href="">注册</a>
+    </div>
+
+
+    <div class="registration"  ng-class="$ctrl.registrationStatus">
+
+        <div class="fieldsbox">
+
+        <div class="fieldbox-name">
+            <input type="text" placeholder="用户帐号" ng-model="$ctrl.name" ng-blur="$ctrl.verifyName()">
+            <label class="warning" ng-show="!$ctrl.isLegalName">至少六个字母</label>
+        </div>
+
+        <div class="fieldbox-pwd">
+            <input type="password" placeholder="登录密码" ng-model="$ctrl.password" ng-blur="$ctrl.verifyPassword()">
+            <label class="warning" ng-show="!$ctrl.isLegalPassword" >至少八个字母加数字</label>
+        </div>
+
+        <div class="fieldbox-pwdconfirm">
+
+            <input type="password" placeholder="确认密码" ng-model="$ctrl.passwordConfirmation" ng-blur="$ctrl.verifyConfirmPassword()">
+            <label class="warning" ng-show="!$ctrl.isConfirmed">两次密码不一致</label>
+        </div>
+
+        <div class="fieldbox-btn">
+
+            <button class="ispure"  ng-click="$ctrl.saveUser()">提交</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="success" ng-class="$ctrl.successStatus" >用微信(xiaoviba)联系我，激活您的帐号。</div>
+
 </div>
-<div class="success" ng-show="$ctrl.saved">Please contact me by wechat: xiaoviba to activate your account.</div>

@@ -3,24 +3,22 @@ var ObjectID = require('mongodb').ObjectID;
 const passport = require('koa-passport')
 var userOperation = require('../data_access/user.js').collection;
 
+var Collection = require('../data_access/order.js').Collection;
+
 router = new Router();
 
 
-router.get(/^\/(v3\.1)?$/, function*() {
-    if (this.isAuthenticated()) {
-        this.redirect('/v3.1/index');
+router.get(/^\/(v4)?$/, function*() {
 
-    } else {
-        this.redirect('/v3.1/login');
 
-    }
-
+    this.redirect('/v4/index');
 
 });
 
 router.get('/login', function*() {
+
     if (this.isAuthenticated()) {
-        this.redirect('v3/index');
+        this.redirect('v4/index');
 
     } else {
 
@@ -34,17 +32,35 @@ router.get('/login', function*() {
     }
 });
 
-router.post('/login', function*() {
-    yield passport.authenticate('local', {
-        successRedirect: '/v3.1/index',
-        failureRedirect: '/v3.1/login',
-        failureFlash: false
-    })
+router.post('/login', function*(next) {
+
+
+    var ctx = this;
+
+    yield passport.authenticate('local', function*(err, user, info) {
+        if (!user) {
+            ctx.status = 401;
+            ctx.body = { success: false };
+        } else {
+            ctx.body = { success: true }
+            yield ctx.login(user);
+
+        }
+
+    });
+
 });
 
 router.get('/logout', function*() {
-    this.logout()
-    this.redirect('/v3.1/login')
+
+
+    if (this.isAuthenticated()) {
+        this.logout();
+    }
+
+    this.body = { success: true };
+
+    //this.redirect('/v4/login');
 });
 
 router.get('/register', function*() {
@@ -62,6 +78,7 @@ router.get('/register', function*() {
 router.post('/user', function*() {
 
     var user = this.request.body;
+
 
     if (ObjectID.isValid(user._id)) {
 
