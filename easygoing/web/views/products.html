@@ -1,0 +1,30 @@
+
+<div class="orderitems" id="products">
+    <div class="orderitems-header">
+        <span class="w-p40 taLeft">产品</span>
+        <span class="w-p20 taRight  rpadding-5">买</span>
+        <span class="w-p20 taRight rpadding-5">卖</span>
+        <span class="w-p20 taRight rpadding-5">状态</span>
+    </div>
+    <div data-bind="foreach: {data: items,afterRender: afterRender}">
+        <div class="orderitem">
+            <div class="orderitem-cnt">
+                <span class="taLeft w-p40">
+                    <input  type="text" data-bind="value: name"  />
+                    <input  type="hidden" data-bind="value: _id" />
+                </span>
+                <span class="taLeft w-p20">
+                    <input  type="text" data-bind="value: buy"  />
+                </span>
+                <span class="taRight w-p20">
+                    <input  type="text" data-bind="value: sell"  />
+                </span>
+                <span class="w-p20">
+                    <a href="#" class="icon icon-remove action-submit" ></a>
+                </span>
+
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -174,6 +174,19 @@ router.get('/index', function*() {
     yield this.render('index', model);
 });
 
+router.get('/products', function*() {
+
+    var model = {
+        name: 'products',
+        css: '',
+        header: '',
+        footer: '',
+        products:[]
+    }
+
+    yield this.render('products', model);
+});
+
 router.get('/content', function*() {
 
     var model = {

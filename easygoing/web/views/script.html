@@ -32,7 +32,17 @@
         });
     });
     </script>
+<% }else if (name == 'products') {%>
+    <script src="components/requirejs/require.js"></script>
+    <script>
+    var USER_ID = '';
+    require(['./js/requireConfig'], function() {
+        require(['../js/main-products']);
+    });
+    </script>
+
 <% }else if (name == 'login') {%>
+
     <script>
     var USER_ID = '';
     require(['./js/requireConfig'], function() {
@@ -42,4 +52,5 @@
         });
     });
     </script>
+
 <% } %>

@@ -16,6 +16,7 @@ requirejs.config({
         'ReckoningOrders': '../js/reckoning-orders',
         'IncomeList': '../js/income-list',
         'ItemsModel': '../js/purchase-items',
+        'Products':'../js/products',
 
         'commonAngular': '../js/common-angular',
         'angularApp': '../js/angular-app',
