@@ -139,10 +139,10 @@ define(['common'], function(util) {
 
         self.removeProduct = function(product) {
 
-            // arguments[3]();
-            // var succeed = arguments[4];
+             arguments[3]();
+             var succeed = arguments[4];
 
-            var id = product._id();
+            var id = product._id;
             self.products.remove(product);
 
 

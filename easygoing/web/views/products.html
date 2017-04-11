@@ -9,9 +9,9 @@
     <div class="table">
         <div class="table-header">
             <span class="w-p30 taCenter">产品</span>
-            <span class="w-p15 ">买</span>
-            <span class="w-p15">卖</span>
-            <span class="w-p20">日期</span>
+            <span class="w-p15 lpadding-5 ">买</span>
+            <span class="w-p15 lpadding-5">卖</span>
+            <span class="w-p20 lpadding-5">日期</span>
             <span class="w-p20 taRight rpadding-5">状态</span>
         </div>
         <div data-bind="foreach: {data: products,afterRender: afterRender}">
@@ -20,17 +20,17 @@
                 <input  type="hidden" data-bind="value: _id" />
                 <input  type="text" data-bind="value: name"  placeholder="产品" />
             </span>
-                <span class=" w-p15">
+                <span class=" w-p15 lpadding-5">
                 <input  type="text" data-bind="value: buyPrice"  placeholder="买" />
             </span>
-            <span class=" w-p15">
+            <span class=" w-p15 lpadding-5">
                 <input  type="text" data-bind="value: sellPrice"  placeholder="卖" />
             </span>
-            <span class=" w-p20" data-bind="value: displayDate">
+            <span class=" w-p20 lpadding-5" data-bind="value: displayDate">
 
             </span>
                 <span class="w-p20 taRight">
-                <a href="#" class="icon icon-remove action-submit" data-bind="tap: removeProduct" ></a>
+                <a href="#" class="icon icon-remove action-submit" data-bind="tap: $root.removeProduct" ></a>
             </span>
             </div>
         </div>
