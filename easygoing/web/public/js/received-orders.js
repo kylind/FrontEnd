@@ -12,17 +12,12 @@ define(['common'], function(util) {
         self.quantity = ko.observable(item && item.quantity ? item.quantity : '1');
         self.note = ko.observable(item && item.note ? item.note : '');
 
-
-
         self.buyPrice = item && !isNaN(item.buyPrice) ? item.buyPrice : '';
         self.sellPrice = item && !isNaN(item.sellPrice) ? item.sellPrice : '';
 
         self.profit = item && item.profit ? item.profit : '';
         self.isDone = (item && typeof item.isDone != 'undefined') ? item.isDone : false;
         self.tag = item && item.tag ? item.tag : '';
-
-
-
 
         self.isChanged = false;
 

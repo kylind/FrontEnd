@@ -166,6 +166,27 @@ var util = {
         util.sumarizeOrder(order);
 
         return order;
+    },
+
+    processProduct: function(product){
+
+        delete product.displayDate;
+        if (ObjectID.isValid(product._id)) {
+
+            console.log('valid id:' + product._id);
+
+            product._id = new ObjectID(product._id);
+
+            product.modifedDate = new Date(product.modifedDate);
+
+
+        } else {
+
+            console.log('no valid id:' + product._id);
+            delete product._id
+
+            product.modifiedDate = new Date();
+        }
     }
 
 }

@@ -35,7 +35,7 @@
 <% }else if (name == 'products') {%>
     <script src="components/requirejs/require.js"></script>
     <script>
-    var USER_ID = '';
+    var products = <%- JSON.stringify(products) %>
     require(['./js/requireConfig'], function() {
         require(['../js/main-products']);
     });

@@ -51,9 +51,12 @@ define(['jquery', 'knockout', 'knockout.mapping', 'swiper', 'colorbox', 'tag'], 
                                     $succeed.addClass('disappeared')
                                 });
 
-                                setViewModelStatus(swiper.activeIndex);
 
-                                if (needRefreshRest) {
+                                if(setViewModelStatus){
+                                    setViewModelStatus(swiper.activeIndex);
+                                }
+
+                                if (needRefreshRest && updateAllData) {
                                     updateAllData();
                                 }
 
@@ -87,7 +90,11 @@ define(['jquery', 'knockout', 'knockout.mapping', 'swiper', 'colorbox', 'tag'], 
 
                             }, function(needRefreshRest, needRefreshCurrent) {
 
-                                setViewModelStatus(swiper.activeIndex);
+                                if(setViewModelStatus){
+                                    setViewModelStatus(swiper.activeIndex);
+                                }
+
+
 
                                 $submitting.addClass('disappeared');
                                 $succeed.removeClass('disappeared');
@@ -98,11 +105,11 @@ define(['jquery', 'knockout', 'knockout.mapping', 'swiper', 'colorbox', 'tag'], 
 
                                 });
 
-                                if (needRefreshCurrent) {
+                                if (needRefreshCurrent && updateCurrentData) {
                                     updateCurrentData();
                                 }
 
-                                if (needRefreshRest) {
+                                if (needRefreshRest && updateAllData) {
                                     updateAllData();
                                 }
 
@@ -120,7 +127,11 @@ define(['jquery', 'knockout', 'knockout.mapping', 'swiper', 'colorbox', 'tag'], 
                         }, function() {
 
                             $('.prompt').delay(600).fadeOut('slow');
-                            swiper.update();
+
+                            if(swiper){
+                                swiper.update();
+                            }
+
 
                         });
 
