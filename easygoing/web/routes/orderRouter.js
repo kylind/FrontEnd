@@ -212,7 +212,7 @@ router.get('/index', function*() {
 
 router.get('/products', function*() {
 
-    var res = yield productCollection.queryProducts();
+    var res = yield productOperation.queryProducts();
 
     var model = {
         name: 'products',
