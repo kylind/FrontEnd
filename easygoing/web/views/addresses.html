@@ -1,0 +1,101 @@
+<div>
+    <button class="icon icon-add" data-bind="click: addAddress"> Add Address </button>
+</div>
+<div class="tmargin-10 alladdresses" data-bind="foreach: addresses">
+    <section class="address">
+        <input type="hidden" data-bind="value: _id" />
+        <input type="text" class="w-p30" data-bind="value: client" placeholder="Client" />
+        <input type="text" class="w-p30" data-bind="value: recipient" placeholder="Recipient" />
+        <input type="text" class="w-p30" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" />
+        <input type="text" class="address-inputaddress" min="0" max="100" step="1" data-bind="value: address" placeholder="Address" />
+        <a href="#" class="address-remove icon icon-remove" data-bind="click: $root.removeAddress.bind(this, $data)"> </a>
+        <a href="#" class="address-save icon icon-save" data-bind="css:{ 'font-red': isSend() },click: $root.submitAddress"> </a>
+    </section>
+</div>
+<script>
+var AddressModel = function(address) {
+    var self = this;
+    self._id = ko.observable(address ? address._id : '');
+    self.client = ko.observable(address ? address.client : '');
+    self.recipient = ko.observable(address ? address.recipient : '');
+    self.address = ko.observable(address ? address.address : '');
+    self.phone = ko.observable(address ? address.phone : '');
+    self.isSend = ko.observable(address ? address.isSend : '');
+
+
+    /*this.isChanged = ko.pureComputed(function() {
+
+        return address && address.client == self.client() && address.recipient == self.recipient() && address.address == self.address() && address.phone == self.phone() ? false : true;
+
+    }, this);*/
+};
+
+var AddressesModel = function(addresses) {
+
+    var observableAddresses = [];
+
+    addresses.forEach(function(address) {
+
+        observableAddresses.push(new AddressModel(address));
+
+    })
+
+    var self = this;
+
+    self.addresses = ko.observableArray(observableAddresses);
+
+    self.addresses.subscribe(function(changes) {
+
+        console.log(changes);
+
+    }, null, "arrayChange");
+
+
+
+    self.addAddress = function() {
+
+        self.addresses.unshift(new AddressModel());
+    };
+
+    self.removeAddress = function(address) {
+
+        var id = address._id();
+        self.addresses.remove(address);
+        if (id == '') return;
+
+        $.ajax('./address/' + id, {
+            success: function(data, status) {
+
+                console.log(data);
+
+            },
+            dataType: 'json',
+            type: 'DELETE'
+
+        });
+
+    };
+
+    self.submitAddress = function(address) {
+
+        console.log('post request....');
+
+        var addressData = ko.mapping.toJS(address); //$.parseJSON(ko.toJSON(address));
+
+        $.post('/address', addressData, function(data, status) {
+
+                console.log('get post result');
+                ko.mapping.fromJS(data, {}, address);
+            },
+            'json'
+        );
+
+        return false;
+
+    };
+};
+
+var addressesModel = new AddressesModel(<%- JSON.stringify(addresses) %>);
+
+ko.applyBindings(addressesModel);
+</script>
