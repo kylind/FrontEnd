@@ -1,0 +1,14 @@
+<div>
+    <button class="icon icon-add" data-bind="click: addClient"> Add Client </button>
+</div>
+<div class="tmargin-10 allclients" data-bind="foreach: clients">
+    <section class="client">
+        <input type="hidden" data-bind="value: _id" />
+        <input type="text" class="w-p30" data-bind="value: client" placeholder="Client" />
+        <input type="text" class="w-p30" data-bind="value: recipient" placeholder="Recipient" />
+        <input type="text" class="w-p30" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" />
+        <input type="text" class="client-inputclient" min="0" max="100" step="1" data-bind="value: client" placeholder="Client" />
+        <a href="#" class="client-remove icon icon-remove" data-bind="click: $root.removeClient.bind(this, $data)"> </a>
+        <a href="#" class="client-save icon icon-save" data-bind="css:{ 'font-red': isSend() },click: $root.submitClient"> </a>
+    </section>
+</div>

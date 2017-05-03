@@ -1,26 +1,26 @@
 var Router = require('koa-router');
 var ObjectID = require('mongodb').ObjectID;
 
-var operation = require('../data_access/address.js').collection
+var operation = require('../data_access/client.js').collection
 
 var orderOperation = require('../data_access/order.js').collection
 
 router = new Router();
 
 
-router.post('/addresses', function*() {
+router.post('/clients', function*() {
 
-    var addressesData = this.request.body;
+    var clientsData = this.request.body;
 
-    var addresses = addressesData.addresses;
+    var clients = clientsData.clients;
 
-    var removedAddresses = addressesData.removedAddresses;
+    var removedClients = clientsData.removedClients;
 
-    var client = addressesData.client;
+    var client = clientsData.client;
 
-    yield operation.saveAddresses(client, addresses, removedAddresses)
+    yield operation.saveClients(client, clients, removedClients)
 
-    var res = yield operation.queryAddresses({ client: client })
+    var res = yield operation.queryClients({ client: client })
     res = res && res.length > 0 ? res : [];
 
     this.body = res;
@@ -28,12 +28,12 @@ router.post('/addresses', function*() {
 
 });
 
-router.get('/addresses', function*() {
+router.get('/clients', function*() {
 
-    var allAddresses = yield getAddresses();
+    var allClients = yield getClients();
 
-    yield this.render('addresses', {
-        addresses: allAddresses,
+    yield this.render('clients', {
+        clients: allClients,
         css:'',
         name: 'mvvm',
         header: 'specific',
@@ -43,45 +43,45 @@ router.get('/addresses', function*() {
 
 });
 
-router.get('/addressesJson', function*() {
+router.get('/clientsJson', function*() {
 
-    var allAddresses = yield getAddresses();
+    var allClients = yield getClients();
 
-    this.body = allAddresses;
+    this.body = allClients;
     this.status = 200;
 
 });
 
-function* getAddresses() {
-    var allAddresses = yield operation.queryAddresses()
+function* getClients() {
+    var allClients = yield operation.queryClients()
 
     var receivedOrders = yield orderOperation.queryReceivedOrders();
 
-    allAddresses = allAddresses && allAddresses.length > 0 ? allAddresses : [{
+    allClients = allClients && allClients.length > 0 ? allClients : [{
         _id: '',
         client: '',
         recipient: '',
-        address: '',
+        client: '',
         phone: ''
     }];
 
-    allAddresses.forEach(function(address) {
-        var client = address.client;
+    allClients.forEach(function(client) {
+        var client = client.client;
 
         var index = receivedOrders.findIndex(function(order) {
             return order.client == client ? true : false;
         });
 
         if (index >= 0) {
-            address.isSend = true;
+            client.isSend = true;
 
         } else {
-            address.isSend = false;
+            client.isSend = false;
         }
 
     });
 
-    allAddresses = allAddresses.sort(function(a, b) {
+    allClients = allClients.sort(function(a, b) {
         if (a.isSend) {
             return -1;
         } else if (b.isSend) {
@@ -91,16 +91,16 @@ function* getAddresses() {
         }
     });
 
-    return allAddresses;
+    return allClients;
 }
 
-router.get('/addressesByClient', function*() {
+router.get('/clientsByClient', function*() {
 
     var req = this.request.query;
 
     var client = req.client;
 
-    var res = yield operation.queryAddresses({ client: client })
+    var res = yield operation.queryClients({ client: client })
     res = res && res.length > 0 ? res : [];
 
     this.body = res;
@@ -108,24 +108,24 @@ router.get('/addressesByClient', function*() {
 
 });
 
-router.post('/address', function*() {
+router.post('/client', function*() {
 
-    var address = this.request.body;
+    var client = this.request.body;
 
-    var isSend = address.isSend;
+    var isSend = client.isSend;
 
-    delete address.isSend;
+    delete client.isSend;
 
-    yield operation.saveAddress(address)
+    yield operation.saveClient(client)
 
-    address.isSend = isSend;
+    client.isSend = isSend;
 
-    this.body = address;
+    this.body = client;
     this.status = 200;
 
 });
 
-router.delete('/address/:id', function*() {
+router.delete('/client/:id', function*() {
     var id = this.params.id;
 
     var res = yield operation.removeById(id);

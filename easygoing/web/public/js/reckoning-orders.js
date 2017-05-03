@@ -216,20 +216,20 @@ define(['common'], function(util) {
 
 
 
-        self.addAddress = function(address) {
+        self.addClient = function(client) {
 
-            self.addresses.unshift({
+            self.clients.unshift({
                 _id: "",
                 client: self.client(),
                 recipient: "",
-                address: "",
+                client: "",
                 phone: ""
             });
             swiper.update();
 
         };
 
-        self.getAddresses = function(order) {
+        self.getClients = function(order) {
             arguments[3]();
             var succeed = arguments[4];
 
@@ -237,11 +237,11 @@ define(['common'], function(util) {
 
             if (client == '') return;
 
-            $.getJSON('./addressesByClient', {
+            $.getJSON('./clientsByClient', {
                 client: client
             }, function(res, status) {
 
-                status == 'success' ? order.addresses(res) : order.addresses([]);
+                status == 'success' ? order.clients(res) : order.clients([]);
                 succeed();
 
             });
@@ -249,35 +249,35 @@ define(['common'], function(util) {
 
         };
 
-        var removedAddresses = [];
+        var removedClients = [];
 
-        self.removeAddress = function(address) {
+        self.removeClient = function(client) {
 
-            if (address._id != '') {
+            if (client._id != '') {
 
-                removedAddresses.push(address._id);
+                removedClients.push(client._id);
 
             }
 
-            self.addresses.remove(address);
+            self.clients.remove(client);
             swiper.update();
 
 
         };
 
-        self.submitAddresses = function(order) {
+        self.submitClients = function(order) {
             arguments[3]();
             var succeed = arguments[4];
 
-            var addressesData = ko.mapping.toJS(order.addresses);
+            var clientsData = ko.mapping.toJS(order.clients);
 
 
-            $.post('./addresses', {
+            $.post('./clients', {
                     "client": order.client,
-                    "addresses": addressesData
-                }, function(addresses, status) {
+                    "clients": clientsData
+                }, function(clients, status) {
 
-                    order.addresses(addresses);
+                    order.clients(clients);
 
                     succeed();
                 },

@@ -7,23 +7,23 @@ var url = 'mongodb://website:zombie.123@127.0.0.1:27017/orders';//mongodb://webs
 
 var collection = {
 
-    queryAddresses: function*(filter) {
+    queryClients: function*(filter) {
 
         var db = yield MongoClient.connect(url);
 
-        var res = yield db.collection('addresses').find(filter).toArray();
+        var res = yield db.collection('clients').find(filter).toArray();
 
         return res;
 
     },
-    insertOne: function(address) {
+    insertOne: function(client) {
 
         return new Promise(function(resolve, reject) {
 
             MongoClient.connect(url, function(err, db) {
 
                 if (db) {
-                    db.collection('addresses').insertOne(address, function(err, res) {
+                    db.collection('clients').insertOne(client, function(err, res) {
 
                         if (res) {
                             resolve(res);
@@ -39,51 +39,51 @@ var collection = {
         });
 
     },
-    updateById: function*(id, address) {
+    updateById: function*(id, client) {
 
         var db = yield MongoClient.connect(url);
 
-        address = JSON.parse(JSON.stringify(address));
-        delete address._id;
+        client = JSON.parse(JSON.stringify(client));
+        delete client._id;
 
-        var res = yield db.collection('addresses').replaceOne({
+        var res = yield db.collection('clients').replaceOne({
             "_id": new ObjectID(id)
-        }, address);
+        }, client);
 
         return res;
     },
 
-    saveAddresses: function*(client, addresses, removedAddresses) {
+    saveClients: function*(client, clients, removedClients) {
 
         //yield collection.deleteMany(client);
 
-        if (Array.isArray(removedAddresses) && removedAddresses.length > 0) {
-            for (var i = 0; i < removedAddresses.length; i++) {
+        if (Array.isArray(removedClients) && removedClients.length > 0) {
+            for (var i = 0; i < removedClients.length; i++) {
 
-                yield collection.removeById(removedAddresses[i]);
+                yield collection.removeById(removedClients[i]);
             }
         }
 
-        if (Array.isArray(addresses) && addresses.length > 0) {
+        if (Array.isArray(clients) && clients.length > 0) {
 
-            for (var i = 0; i < addresses.length; i++) {
-                yield collection.saveAddress(addresses[i]);
+            for (var i = 0; i < clients.length; i++) {
+                yield collection.saveClient(clients[i]);
             }
         }
 
     },
 
-    saveAddress: function*(address) {
+    saveClient: function*(client) {
 
 
-        if (ObjectID.isValid(address._id)) {
+        if (ObjectID.isValid(client._id)) {
 
-            res = yield collection.updateById(address._id, address);
+            res = yield collection.updateById(client._id, client);
 
         } else {
 
-            delete address._id
-            res = yield collection.insertOne(address);
+            delete client._id
+            res = yield collection.insertOne(client);
         }
 
     },
@@ -94,7 +94,7 @@ var collection = {
             return { ok: 1, n: 0 };
         } else {
 
-            var res = yield db.collection('addresses').deleteOne({
+            var res = yield db.collection('clients').deleteOne({
                 '_id': new ObjectID(id)
             });
 
@@ -107,19 +107,19 @@ var collection = {
 
         var db = yield MongoClient.connect(url);
 
-        var res = yield db.collection('addresses').deleteMany({ "client": client });
+        var res = yield db.collection('clients').deleteMany({ "client": client });
         return res;
     },
 
-    insertMany: function*(addresses) {
+    insertMany: function*(clients) {
 
         var db = yield MongoClient.connect(url);
 
-        addresses.forEach(function(address) {
-            delete address._id;
+        clients.forEach(function(client) {
+            delete client._id;
         });
 
-        var res = yield db.collection('addresses').insertMany(addresses);
+        var res = yield db.collection('clients').insertMany(clients);
         return res;
 
     }
