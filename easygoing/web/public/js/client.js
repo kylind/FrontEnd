@@ -34,12 +34,12 @@ define(['common'], function(util) {
 
         var self = this;
         self._id = ko.observable(client ? client._id : '');
-        self.client = ko.observable(client ? client.client : '');
+        self.name = ko.observable(client ? client.name : '');
 
 
         self.isChanged = false;
 
-        self.client.subscribe(function(newValue) {
+        self.name.subscribe(function(newValue) {
 
             self.isChanged = true;
 

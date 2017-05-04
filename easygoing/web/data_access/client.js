@@ -21,14 +21,11 @@ var collection = {
 
                 var db = yield MongoClient.connect(url);
 
-                orders.forEach(function(doc) {
+                clients.forEach(function(doc) {
                     db.collection(_name).save(doc);
                 });
 
-
-
-                return orders;
-
+                return clients;
     },
 
 

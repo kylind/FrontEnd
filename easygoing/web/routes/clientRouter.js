@@ -30,7 +30,7 @@ router.get('/clients', function*() {
 
     yield this.render('clients', {
         clients: allClients,
-        css:'',
+        css: '',
         name: 'mvvm',
         header: 'specific',
         footer: ''
@@ -51,43 +51,33 @@ router.get('/clientsJson', function*() {
 function* getClients() {
     var allClients = yield operation.queryClients()
 
-    var receivedOrders = yield orderOperation.queryReceivedOrders();
+    var receivedOrders = yield orderOperation.queryPrintedOrders();
 
-    allClients = allClients && allClients.length > 0 ? allClients : [{
-        _id: '',
-        client: '',
-        recipient: '',
-        client: '',
-        phone: ''
-    }];
 
-    allClients.forEach(function(client) {
-        var client = client.client;
 
-        var index = receivedOrders.findIndex(function(order) {
-            return order.client == client ? true : false;
+    var activeClients = receivedOrders.map(function(order) {
+
+        var index = allClients.findIndex(function(client) {
+            return order.client == client.name;
         });
 
-        if (index >= 0) {
-            client.isSend = true;
+        if (index<0) {
+            return { name: order.client,isActive:true, addresses: [{ recipient: '', phone: '', address: '' ,isActive:true}] }
 
-        } else {
-            client.isSend = false;
+        }else{
+
+            let client= allClients[index];
+
+            allClients.splice(index,1);
+            return client;
         }
 
     });
 
-    allClients = allClients.sort(function(a, b) {
-        if (a.isSend) {
-            return -1;
-        } else if (b.isSend) {
-            return 1;
-        } else {
-            return 0;
-        }
-    });
+    var clients=activeClients.concat(allClients);
 
-    return allClients;
+
+    return clients;
 }
 
 router.get('/clientsByClient', function*() {

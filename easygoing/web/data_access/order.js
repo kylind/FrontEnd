@@ -101,6 +101,16 @@ mongodb: //website:zombie.123@127.0.0.1:27017/orders
 
             },
 
+            queryPrintedOrders: function*() {
+
+                var db = yield MongoClient.connect(url);
+
+                var res = yield db.collection(_name).find({ status: '1RECEIVED', packingStatus:{$nq:'2NOTREADY'} }).sort({ 'createDate': -1 }).toArray();
+
+                return res;
+
+            },
+
             /*    queryOrders: function*(filter) {
 
 
