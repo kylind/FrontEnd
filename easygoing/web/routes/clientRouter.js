@@ -14,11 +14,7 @@ router.post('/clients', function*() {
 
     var clients = clientsData.clients;
 
-    var removedClients = clientsData.removedClients;
-
-    var client = clientsData.client;
-
-    yield operation.saveClients(client, clients, removedClients)
+    yield operation.saveClients(clients)
 
     var res = yield operation.queryClients({ client: client })
     res = res && res.length > 0 ? res : [];
