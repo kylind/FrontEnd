@@ -25,6 +25,14 @@ router.post('/clients', function*() {
 
     var clients = clientsData.clients;
 
+    clients.forEach(function(client){
+
+        delete client.isChanged;
+
+        client.addresses.forEach(address => delete address.isChanged)
+
+    });
+
     yield clientOperation.saveClients(clients)
 
 
