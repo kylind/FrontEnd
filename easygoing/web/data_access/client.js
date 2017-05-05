@@ -1,42 +1,47 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectID = require('mongodb').ObjectID;
-var url = 'mongodb://website:zombie.123@127.0.0.1:27017/orders';//mongodb://website:zombie.123@127.0.0.1:27017/orders
+var url = 'mongodb://website:zombie.123@127.0.0.1:27017/orders'; //mongodb://website:zombie.123@127.0.0.1:27017/orders
 
 //mongodb://website:zombie.123@127.0.0.1:27017/orders
 
-var collection = {
+class Collection {
 
-    queryClients: function*(filter) {
+    constructor(_name) {
+
+        this.name = _name;
+
+
+    }
+
+    * queryClients(filter) {
 
         var db = yield MongoClient.connect(url);
 
-        var res = yield db.collection('clients').find(filter).toArray();
+        var res = yield db.collection(this.name).find(filter).toArray();
 
         return res;
 
-    },
+    }
 
-    saveClients: function*(clients) {
+    * saveClients(clients) {
 
-                var db = yield MongoClient.connect(url);
+        var db = yield MongoClient.connect(url);
 
-                clients.forEach(function(doc) {
-                    db.collection(_name).save(doc);
-                });
+        clients.forEach(doc => db.collection(this.name).save(doc));
 
-                return clients;
-    },
+        return clients;
+    }
 
 
-    removeById: function*(id) {
+    * removeById(id) {
         var db = yield MongoClient.connect(url);
 
         if (!ObjectID.isValid(id)) {
             return { ok: 1, n: 0 };
         } else {
 
-            var res = yield db.collection('clients').deleteOne({
+            var res = yield db.collection(this.name).deleteOne({
                 '_id': new ObjectID(id)
             });
 
@@ -47,6 +52,6 @@ var collection = {
 
 
 
-};
+}
 
-exports.collection = collection;
+exports.Collection = Collection;

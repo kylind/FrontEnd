@@ -42,4 +42,20 @@
         });
     });
     </script>
+
+<% }else if (name == 'clients') {%>
+
+    <script src="components/requirejs/require.js"></script>
+
+    <script>
+
+    var clients = <%- JSON.stringify(clients) %>
+
+    require(['js/requireConfig'], function(util) {
+        require(['../js/main-client'],function(run){
+            run();
+        });
+    });
+
+    </script>
 <% } %>

@@ -10,7 +10,7 @@ define(['common'], function(util) {
         self.recipient = ko.observable(address ? address.recipient : '');
         self.address = ko.observable(address ? address.address : '');
         self.phone = ko.observable(address ? address.phone : '');
-        self.isActive = ko.observable(client ? client.isActive : '');
+        self.isActive = ko.observable(address ? address.isActive : '');
 
         self.isChanged = false;
 
@@ -53,13 +53,13 @@ define(['common'], function(util) {
 
         });
 
-        self.addItem = function() {
+        self.addAddress = function() {
 
             self.addresses.unshift(new AddressModel());
             //swiper.update();
         };
 
-        self.removeItem = function(address) {
+        self.removeAddress = function(address) {
             self.addresses.remove(address);
             //swiper.update();
         };
@@ -69,7 +69,7 @@ define(['common'], function(util) {
     var ClientsModel = function(clients, swiper) {
 
         swiper={
-            function update(){
+             update(){
 
             }
         }

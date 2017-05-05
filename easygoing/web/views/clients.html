@@ -1,40 +1,44 @@
-<div>
-    <button class="icon icon-add" data-bind="click: addClient"> 新建 </button>
-    <button type="button" class="lmargin-5 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitClients"> 保存 </button>
-</div>
-<div class="tmargin-10 allclients" data-bind="foreach: clients">
-
-    <section class="client">
-        <input type="hidden" data-bind="value: _id" />
-        <div class="client-name">
-            <input type="text" class="w-p30" data-bind="value: client" placeholder="Client" />
-        </div>
-        <div class="client-infos">
-
-            <section class="client-actions">
-
-                <a href="#" class="icon icon-add" data-bind="tap:addAddress"> </a>
-
-                <span class="icon icon-leaf" data-bind="css:{ 'font-green': isActive() }"> </span>
-
-                <a href="#" class="client-remove icon icon-remove" data-bind="click: $root.removeClient.bind(this, $data)"> </a>
-
-            </section>
 
 
-            <!-- ko foreach: addresses -->
-                <div class="client-address">
+<div id="clients">
+    <div>
+        <button class="icon icon-add" data-bind="click: addClient"> 新建 </button>
+        <button type="button" class="lmargin-5 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitClients"> 保存 </button>
+    </div>
+    <div class="tmargin-10 allclients" data-bind="foreach: clients">
 
-                        <span><input type="text" class="w-p30" data-bind="value: recipient" placeholder="Recipient" /></span>
-                        <span><input type="text" class="w-p30" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" /></span>
-                        <span><input type="text" class="client-inputclient" min="0" max="100" step="1" data-bind="value: client" placeholder="Client" />
-                        </span>
-                        <span><input type="radio" name="" /></span>
-                        <span>
-                            <a href="#" class="client-save icon icon-save" data-bind="click: $parent.removeAddress"> </a>
-                        </span>
-                </div>
-            <!-- /ko -->
-        </div>
-    </section>
+        <section class="client">
+            <input type="hidden" data-bind="value: _id" />
+            <div class="client-name">
+                <input type="text" class="w-p30" data-bind="value: name" placeholder="Client" />
+            </div>
+            <div class="client-infos">
+
+                <section class="client-actions">
+
+                    <a href="#" class="icon icon-add" data-bind="tap:addAddress"> </a>
+
+                    <span class="icon icon-leaf" data-bind="css:{ 'font-green': isActive() }"> </span>
+
+                    <a href="#" class="client-remove icon icon-remove" data-bind="click: $root.removeClient.bind(this, $data)"> </a>
+
+                </section>
+
+
+                <!-- ko foreach: addresses -->
+                    <div class="client-address">
+
+                            <span><input type="text" class="w-p30" data-bind="value: recipient" placeholder="Recipient" /></span>
+                            <span><input type="text" class="w-p30" min="0" max="100" step="1" data-bind="value: phone" placeholder="Phone" /></span>
+                            <span><input type="text" class="client-inputclient" min="0" max="100" step="1" data-bind="value: address" placeholder="Client" />
+                            </span>
+                            <span><input type="radio" name="" /></span>
+                            <span>
+                                <a href="#" class="client-remove icon icon-remove" data-bind="click: $parent.removeAddress"> </a>
+                            </span>
+                    </div>
+                <!-- /ko -->
+            </div>
+        </section>
+    </div>
 </div>

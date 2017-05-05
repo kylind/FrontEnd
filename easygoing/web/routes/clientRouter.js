@@ -1,12 +1,23 @@
 var Router = require('koa-router');
 var ObjectID = require('mongodb').ObjectID;
 
-var operation = require('../data_access/client.js').collection
+var ClientCollection = require('../data_access/client.js').Collection
 
-var orderOperation = require('../data_access/order.js').collection
+var OrderCollection = require('../data_access/order.js').Collection
 
 router = new Router();
 
+router.use(function*(next) {
+
+    if (this.isAuthenticated()) {
+        clientOperation = new ClientCollection(this.req.user.clientCollection);
+        orderOperation = new OrderCollection(this.req.user.collection);
+
+    }
+
+    yield next
+
+})
 
 router.post('/clients', function*() {
 
@@ -14,12 +25,10 @@ router.post('/clients', function*() {
 
     var clients = clientsData.clients;
 
-    yield operation.saveClients(clients)
+    yield clientOperation.saveClients(clients)
 
-    var res = yield operation.queryClients({ client: client })
-    res = res && res.length > 0 ? res : [];
 
-    this.body = res;
+    this.body = clients;
     this.status = 200;
 
 });
@@ -31,9 +40,10 @@ router.get('/clients', function*() {
     yield this.render('clients', {
         clients: allClients,
         css: '',
-        name: 'mvvm',
+        name: 'clients',
         header: 'specific',
-        footer: ''
+        footer: '',
+        needMask:false
 
     });
 
@@ -49,7 +59,7 @@ router.get('/clientsJson', function*() {
 });
 
 function* getClients() {
-    var allClients = yield operation.queryClients()
+    var allClients = yield clientOperation.queryClients()
 
     var receivedOrders = yield orderOperation.queryPrintedOrders();
 
@@ -80,36 +90,7 @@ function* getClients() {
     return clients;
 }
 
-router.get('/clientsByClient', function*() {
 
-    var req = this.request.query;
-
-    var client = req.client;
-
-    var res = yield operation.queryClients({ client: client })
-    res = res && res.length > 0 ? res : [];
-
-    this.body = res;
-    this.status = 200;
-
-});
-
-router.post('/client', function*() {
-
-    var client = this.request.body;
-
-    var isSend = client.isSend;
-
-    delete client.isSend;
-
-    yield operation.saveClient(client)
-
-    client.isSend = isSend;
-
-    this.body = client;
-    this.status = 200;
-
-});
 
 router.delete('/client/:id', function*() {
     var id = this.params.id;
