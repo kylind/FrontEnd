@@ -45,6 +45,10 @@ define(['common'], function(util) {
 
         })
 
+        self.addresses.subscribe(function(newValue) {
+            self.isChanged = true;
+        })
+
         self.isActive = ko.observable(client ? client.isActive : '');
 
         self.addresses=client.addresses.map(function(address){
