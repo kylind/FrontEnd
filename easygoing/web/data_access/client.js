@@ -18,7 +18,7 @@ class Collection {
 
         var db = yield MongoClient.connect(url);
 
-        var res = yield db.collection(this.name).find(filter).toArray();
+        var res = yield db.collection(this.name).find(filter).sort({ 'createDate': -1 }).toArray();
 
         return res;
 

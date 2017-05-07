@@ -268,6 +268,7 @@ footer {
     font-size: 1.5rem;
     line-height: 18px;
     font-weight: normal;
+    vertical-align: top;
 }
 
 a.icon {
@@ -368,6 +369,14 @@ a.icon:before {}
 
 .icon-back:before {
     content: "\f0a8";
+}
+
+.icon-radio:before {
+    content: "\f10c";
+}
+
+.icon-radio-selected:before {
+    content: "\f192";
 }
 
 input[type="text"],
@@ -982,7 +991,6 @@ span.orderitem-cnt-btns {
     width: 100%;
     line-height: 18px;
     height: 18px;
-
     overflow: visible;
 }
 
@@ -1754,16 +1762,17 @@ button.ispure {
 
 .header-inner {
     max-width: 800px;
-    margin-left:auto;
-    margin-right:auto;
-
+    margin-left: auto;
+    margin-right: auto;
 }
+
 @media all and (max-width: 800px) {
     .header-inner {
-        margin-left:5px;
-        margin-right:5px;
+        margin-left: 5px;
+        margin-right: 5px;
     }
 }
+
 .logobox {
     float: left;
     padding-left: 105px;
@@ -1778,15 +1787,12 @@ button.ispure {
     vertical-align: middle;
 }
 
-
-@media all and (max-width: 800px){
+@media all and (max-width: 800px) {
     .logobox {
-
         padding-left: 0;
         height: 30px;
         line-height: 30px;
-        animation:none;
-
+        animation: none;
         background-image: none;
     }
 }
@@ -1797,12 +1803,12 @@ button.ispure {
     padding-top: 21px;
 }
 
-@media all and (max-width: 800px){
+@media all and (max-width: 800px) {
     .cogbox {
-
-        padding-top:6px;
+        padding-top: 6px;
     }
 }
+
 .banner {
     background-image: url(../images/banner.png);
     background-position: center center;
@@ -1813,8 +1819,8 @@ button.ispure {
     background-repeat: no-repeat;
 }
 
-@media all and (max-width: 640px){
-    .banner{
+@media all and (max-width: 640px) {
+    .banner {
         height: 0;
         border-bottom: none;
     }
@@ -1838,8 +1844,8 @@ button.ispure {
     padding-top: 5px;
     /*width:calc(100vw - 20px);*/
     line-height: 12px;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media all and (max-width: 800px) {
@@ -1942,6 +1948,96 @@ button.ispure {
 } */
 
 
+/**** client  ***/
+
+.allclients {
+    border: solid 1px #cc0066;
+}
+
+.client {
+    display: flex;
+    border-bottom: solid 1px #cc0066;
+}
+
+.client:last-child {
+    display: flex;
+    border-bottom: none;
+}
+
+.client-name {
+    width: 30%;
+    border-right: solid 1px #cc0066;
+}
+
+.inputbox-client {
+    border-bottom: solid 1px #cc0066;
+
+
+}
+
+.inputbox-client input {
+    width: 100%;
+    text-align: center;
+     background-color: #ffcccc;
+     vertical-align: top;
+}
+
+.client-infos {}
+
+.client-actions {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 1px #cc0066;
+    background-color: #ffcccc;
+}
+
+.client-actions > *{
+    vertical-align: top;
+}
+.client-address{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.client-address input{
+    width:100%;
+}
+
+.client-address > .recipient,
+.client-address > .phone {
+    width:35%;
+    border-bottom: dashed 1px #333;
+    border-right: dashed 1px #333;
+    box-sizing: border-box;
+    flex: 1 1;
+
+}
+.client-address > .actions {
+    width:70px;
+    border-bottom: dashed 1px #333;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+
+}
+.client-address > .actions > a{
+
+
+}
+
+
+.client-address > .addressDetail {
+    width:100%;
+    border-bottom: solid 1px #cc0066;
+}
+
+
+.client-address:last-child > .addressDetail{
+    border-bottom: none;
+
+}
+
+
 /**** print **/
 
 @media print {
@@ -1978,16 +2074,13 @@ button.ispure {
         width: 700px !important;
         /*        overflow-y: visible !important;*/
     }
-
-    .footer{
+    .footer {
         display: none;
     }
-
-    .header-cnt{
+    .header-cnt {
         display: none;
     }
-
-/*    .swiper-pagination {
+    /*    .swiper-pagination {
         display: none !important;
     }
     .cogbox {

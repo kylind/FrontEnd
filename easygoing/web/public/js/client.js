@@ -5,12 +5,20 @@ define(['common'], function(util) {
     ko.mapping = util.mapping;
 
     var AddressModel = function(address) {
-        var self=this;
+        var self = this;
 
         self.recipient = ko.observable(address ? address.recipient : '');
         self.address = ko.observable(address ? address.address : '');
         self.phone = ko.observable(address ? address.phone : '');
-        self.isActive = ko.observable(address ? address.isActive : '');
+        self.isActive = ko.observable((address && address.isActive )? true : false);
+
+
+        self.defaultAddressCss = ko.pureComputed(function() {
+
+            return self.isActive() ? 'icon-radio-selected' : 'icon-radio';
+
+        });
+
 
         self.isChanged = false;
 
@@ -36,6 +44,23 @@ define(['common'], function(util) {
         self._id = ko.observable(client ? client._id : '');
         self.name = ko.observable(client ? client.name : '');
 
+        self.createDate = client && client.createDate ? client.createDate : '';
+
+
+        self.isActive = ko.observable((client && client.isActive) ? true : false);
+
+
+        if (client && Array.isArray(client.addresses) && client.addresses.length > 0) {
+
+            self.addresses = ko.observableArray(client.addresses.map(address => new AddressModel(address)));
+
+        } else {
+            self.addresses = ko.observableArray([new AddressModel()]);
+
+        }
+
+
+
 
         self.isChanged = false;
 
@@ -49,13 +74,6 @@ define(['common'], function(util) {
             self.isChanged = true;
         })
 
-        self.isActive = ko.observable(client ? client.isActive : '');
-
-        self.addresses=client.addresses.map(function(address){
-
-            return new AddressModel(address);
-
-        });
 
         self.addAddress = function() {
 
@@ -68,12 +86,20 @@ define(['common'], function(util) {
             //swiper.update();
         };
 
+
+        self.markDefault = function(address, parent) {
+
+            parent.addresses().forEach(address => address.isActive(false));
+            address.isActive(true);
+
+        }
+
     };
 
     var ClientsModel = function(clients, swiper) {
 
-        swiper={
-             update(){
+        swiper = {
+            update() {
 
             }
         }
@@ -150,15 +176,22 @@ define(['common'], function(util) {
 
                     var isChanged = false;
 
-                    if (client.isChanged) {
-                        isChanged = true;
-                    } else {
-                        for (var i = 0; i < client.addresses.length; i++) {
-                            if (client.addresses[i].isChanged) {
+
+                    if (client.name != '') {
+                        if (client.isChanged) {
+                            isChanged = true;
+                        } else {
+
+                            let addresses = client.addresses();
+
+                            var changedAddress = addresses.find(address => address.isChanged);
+
+                            if (changedAddress) {
                                 isChanged = true;
-                                break;
+
                             }
                         }
+
                     }
 
                     if (isChanged) {
@@ -172,7 +205,8 @@ define(['common'], function(util) {
 
                 if (changedClients.length > 0) {
 
-                    var clientsData=$.parseJSON(ko.toJSON(changedClients));
+
+                    var clientsData = $.parseJSON(ko.toJSON(changedClients));
 
                     $.post('./clients', {
                             clients: clientsData

@@ -25,15 +25,43 @@ router.post('/clients', function*() {
 
     var clients = clientsData.clients;
 
-    clients.forEach(function(client){
+    clients.forEach(function(client) {
 
         delete client.isChanged;
+        delete client.isActive;
 
-        client.addresses.forEach(address => delete address.isChanged)
+        if (ObjectID.isValid(client._id)) {
+
+            client._id = new ObjectID(client._id);
+            client.createDate = new Date(client.createDate);
+
+        } else {
+
+            delete client._id
+
+            client.createDate = new Date();
+        }
+
+        delete client.__ko_mapping__
+
+        if (Array.isArray(client.addresses)) {
+            client.addresses.forEach(address => {
+
+                delete address.isChanged
+
+                if(address.isActive=='true'){
+                    address.isActive=true;
+                }else if(address.isActive=='false'){
+                    address.isActive=false;
+                }
+
+            });
+
+        }
 
     });
 
-    yield clientOperation.saveClients(clients)
+    yield clientOperation.saveClients(clients);
 
 
     this.body = clients;
@@ -51,7 +79,7 @@ router.get('/clients', function*() {
         name: 'clients',
         header: 'specific',
         footer: '',
-        needMask:false
+        needMask: false
 
     });
 
@@ -71,28 +99,28 @@ function* getClients() {
 
     var receivedOrders = yield orderOperation.queryPrintedOrders();
 
-
-
     var activeClients = receivedOrders.map(function(order) {
 
         var index = allClients.findIndex(function(client) {
             return order.client == client.name;
         });
 
-        if (index<0) {
-            return { name: order.client,isActive:true, addresses: [{ recipient: '', phone: '', address: '' ,isActive:true}] }
+        if (index < 0) {
+            return { name: order.client, isActive: true,currentAddress:0, addresses: [{ recipient: '', phone: '', address: '',isActive:true }] }
 
-        }else{
+        } else {
 
-            let client= allClients[index];
+            let client = allClients[index];
 
-            allClients.splice(index,1);
+            client.isActive = true;
+
+            allClients.splice(index, 1);
             return client;
         }
 
     });
 
-    var clients=activeClients.concat(allClients);
+    var clients = activeClients.concat(allClients);
 
 
     return clients;
@@ -103,7 +131,7 @@ function* getClients() {
 router.delete('/client/:id', function*() {
     var id = this.params.id;
 
-    var res = yield operation.removeById(id);
+    var res = yield clientOperation.removeById(id);
     this.body = res;
     this.status = 200;
 

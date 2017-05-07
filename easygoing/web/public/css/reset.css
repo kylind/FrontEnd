@@ -77,3 +77,8 @@ input, select {
     border-radius: 0;
     outline: none;
 }
+
+input[type='radio']{
+    -webkit-appearance: radio ;
+    -moz-appearance: radio;
+    appearance:radio ;
