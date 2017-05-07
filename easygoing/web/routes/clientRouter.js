@@ -74,6 +74,7 @@ router.get('/clients', function*() {
     var allClients = yield getClients();
 
     yield this.render('clients', {
+
         clients: allClients,
         css: '',
         name: 'clients',

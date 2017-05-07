@@ -1,4 +1,4 @@
-define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList'], function(util, OrdersModel) {
+define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList', "ClientsModel"], function(util, OrdersModel) {
 
     return run;
 
@@ -26,7 +26,10 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                     viewModelStatus[0] = true;
                     viewModelStatus[1] = true;
                     viewModelStatus[3] = true;
+                    viewModelStatus[4] = true;
                     break;
+
+
             }
         }
 
@@ -104,29 +107,34 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             paginationClickable: true,
             simulateTouch: false,
             shortSwipes: false,
-            longSwipes: false,
-            paginationBulletRender: function(index, className) {
-                var bulletName = '';
-                switch (index) {
-                    case 0:
+            longSwipes: false
+                // paginationBulletRender: function(index, className) {
+                //     var bulletName = '';
+                //     switch (index) {
+                //         case 0:
 
-                        bulletName = '接单';
-                        break;
+            //             bulletName = '接单';
+            //             break;
 
-                    case 1:
-                        bulletName = '采购';
-                        break;
+            //         case 1:
+            //             bulletName = '采购';
+            //             break;
 
-                    case 2:
-                        bulletName = '算账';
-                        break;
+            //         case 2:
+            //             bulletName = '算账';
+            //             break;
 
-                    case 3:
-                        bulletName = '收益';
-                        break;
-                }
-                return '<span class="' + className + '">' + bulletName + '</span>';
-            }
+            //         case 3:
+            //             bulletName = '收益';
+
+            //             break;
+            //         case 4:
+            //             bulletName = '客户';
+            //             break;
+
+            //     }
+            //     return '<span class="' + className + '">' + bulletName + '</span>';
+            // }
 
         });
 
@@ -147,7 +155,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
         ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
 
 
-        require(['common', 'ItemsModel', 'ReckoningOrders', 'IncomeList'], function(util, ItemsModel, OrdersModel, IncomeListModel) {
+        require(['common', 'ItemsModel', 'ReckoningOrders', 'IncomeList', 'ClientsModel'], function(util, ItemsModel, OrdersModel, IncomeListModel, ClientsModel) {
 
 
             var $ = util.$;
@@ -177,6 +185,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                     })
 
                     promise.then(function(rs) {
+
 
                         var tags = Array.isArray(rs.tags) ? rs.tags : [];
 
@@ -258,8 +267,21 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 incomeListModel = new IncomeListModel(incomeList, swiper);
                 ko.applyBindings(incomeListModel, $('#incomeList')[0]);
 
-
             });
+
+
+            if (access.clients) {
+                $.getJSON('./clientsJson', function(clients, status) {
+
+                    var clientsModel = new ClientsModel(clients);
+                    ko.applyBindings(clientsModel, $('#clients')[0]);
+
+                });
+
+            }
+
+
+
 
             $(document).on('keydown', function(event) {
                 if (event.keyCode == 13 && (swiper.activeIndex == 0 || swiper.activeIndex == 2)) {
@@ -363,7 +385,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 var top = $(window).scrollTop();
                 //$(".cogbox").css("top", top + 30);
                 //$(".swiper-pagination").css('top', top);
-               // $(".header-cnt").css('top', top);
+                // $(".header-cnt").css('top', top);
                 $(".searchbox").css("top", top);
 
             });
@@ -377,16 +399,16 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             $.get('./logout', function(res, status) {
                     if (res.success) {
 
-                        $.get('./content',function(rs,status){
+                        $.get('./content', function(rs, status) {
 
-                                setTimeout(function(){
-                                    $('#container').html(rs);
-                                    $('.mask').removeClass('isLoginShow');
-                                },1000);
+                            setTimeout(function() {
+                                $('#container').html(rs);
+                                $('.mask').removeClass('isLoginShow');
+                            }, 1000);
 
 
 
-                        },'html');
+                        }, 'html');
                     }
                 },
                 'json'
