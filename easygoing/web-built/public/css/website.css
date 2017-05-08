@@ -1940,6 +1940,14 @@ button.ispure {
 }
 
 
+/* .mask-bottom.isLoginShow span{
+    display: block;
+    font-weight: bold;
+    color:#99ff99;
+    transition: all 1ms 1s linear;
+} */
+
+
 /**** client  ***/
 
 .allclients {
@@ -1971,6 +1979,8 @@ button.ispure {
     background-color: #ffcccc;
     vertical-align: top;
 }
+
+.client-infos {}
 
 .client-actions {
     display: flex;
@@ -2141,57 +2151,4 @@ button.ispure {
     .orderitem-cnt span {
         border-right: 1px solid #000;
     }
-    .senders {
-        display: none;
-    }
-    .senders {
-        border-bottom: solid 1px #000;
-        border-top: solid 1px #000;
-        padding: 10px 0;
-        margin-bottom: 10px;
-    }
-
-    .allclients{
-        border: solid 1px #000;
-    }
-    .client {
-        display: flex;
-        border-bottom: solid 1px #000;
-    }
-    .client-name {
-        display: none;
-    }
-
-    .client-infos{
-        width:100%;
-    }
-
-    .client-actions {
-        display: none;
-    }
-    .client-address .actions {
-        display: none;
-    }
-    .client-address > .addressDetail {
-        border-bottom: solid 1px #000;
-    }
-    .client-address > .recipient,
-    .client-address > .phone {
-        width: 50%;
-    }
-
-
-    .client-address > .recipient, .client-address > .phone {
-
-        border-bottom: dashed 1px #333;
-        border-right: dashed 1px #333;
-
-    }
-    .client-address > .phone {
-
-        border-bottom: dashed 1px #333;
-        border-right: none;
-
-    }
-
 }

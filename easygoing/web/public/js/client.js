@@ -10,7 +10,7 @@ define(['common'], function(util) {
         self.recipient = ko.observable(address ? address.recipient : '');
         self.address = ko.observable(address ? address.address : '');
         self.phone = ko.observable(address ? address.phone : '');
-        self.isActive = ko.observable((address && address.isActive )? true : false);
+        self.isActive = ko.observable((address && address.isActive) ? true : false);
 
 
         self.defaultAddressCss = ko.pureComputed(function() {
@@ -37,8 +37,7 @@ define(['common'], function(util) {
 
     }
 
-    var ClientModel = function(client) {
-
+    var ClientModel = function(client, swiper) {
 
         var self = this;
         self._id = ko.observable(client ? client._id : '');
@@ -59,9 +58,6 @@ define(['common'], function(util) {
 
         }
 
-
-
-
         self.isChanged = false;
 
         self.name.subscribe(function(newValue) {
@@ -78,12 +74,12 @@ define(['common'], function(util) {
         self.addAddress = function() {
 
             self.addresses.unshift(new AddressModel());
-            //swiper.update();
+            swiper.update();
         };
 
         self.removeAddress = function(address) {
             self.addresses.remove(address);
-            //swiper.update();
+            swiper.update();
         };
 
 
@@ -98,18 +94,109 @@ define(['common'], function(util) {
 
     var ClientsModel = function(clients, swiper) {
 
-        swiper = {
-            update() {
 
-            }
+        function classifyClients() {
+
+            var clients = self.clients();
+
+            var activeClients = clients.filter(client => {
+
+                let name = client.name();
+
+                return client.isActive() && name.indexOf('?') == -1 && name.indexOf('？') == -1;
+            });
+
+
+            var agentClients = activeClients.filter(client => {
+
+                let name = client.name();
+
+                return name.indexOf('-') >= 0 || name.indexOf('－') >= 0
+            });
+
+            var agents = [];
+
+            agentClients.forEach(client => {
+
+                let name = client.name();
+
+                var sep_e = name.indexOf('-');
+                var sep_c = name.indexOf('－');
+
+                var sep = -1;
+
+                if (sep_e > -1 && sep_c > -1) {
+                    sep = Math.min(sep_e, sep_c)
+
+                } else if (sep_e > -1) {
+                    sep = sep_e;
+
+                } else {
+                    sep = sep_c;
+                }
+
+                var agent = name.slice(0, sep);
+
+                var existing = agents.find(_agent=> _agent==agent)
+                if(!existing){
+                     agents.push(agent);
+                }
+            });
+
+
+            var senders = [];
+            agents.forEach(agent => {
+
+                let specificAgentClients = agentClients.filter(client => client.name().startsWith(agent));
+
+                let rs = aggregateClients(agent, specificAgentClients)
+                senders.push(rs);
+
+            });
+
+
+            var commonClients = activeClients.filter(client => {
+
+                let name = client.name();
+
+                return name.indexOf('-') == -1 || name.indexOf('－') == -1;
+            });
+
+            var rs = aggregateClients('自己的', commonClients)
+
+            senders.push(rs);
+
+            return senders;
+
         }
+
+
+        function aggregateClients(agent, clients) {
+            var addresses = '';
+            clients.forEach(client => {
+
+                let address = client.addresses().find(address => address.isActive());
+
+                let recipient = address.recipient();
+                let phone = address.phone();
+                let addressDetail = address.address();
+
+                if (recipient != '' && phone != '' && addressDetail != '') {
+                    addresses += `${address.recipient()}，${address.phone()}，${address.address()}；`;
+                }
+
+            });
+
+            return { name: agent+"：", receives: addresses };
+        }
+
 
         function init(clients) {
             var observableClients = [];
 
             clients.forEach(function(client) {
 
-                observableClients.push(new ClientModel(client));
+                observableClients.push(new ClientModel(client, swiper));
 
             })
             return observableClients;
@@ -122,16 +209,26 @@ define(['common'], function(util) {
 
         self.clients = ko.observableArray(observableClients);
 
+
+
         self.setClients = function(clients) {
             self.clients(init(clients));
+            self.senders(classifyClients());
 
+        }
+
+        self.senders = ko.observableArray(classifyClients());
+
+        self.setSenders = function() {
+
+            self.senders(classifyClients());
         }
 
 
         self.addClient = function() {
 
-            self.clients.unshift(new ClientModel());
-            //swiper.update();
+            self.clients.unshift(new ClientModel(null, swiper));
+            swiper.update();
         };
 
         self.removeClient = function(client) {
@@ -141,7 +238,7 @@ define(['common'], function(util) {
             self.clients.remove(client);
 
             if (id == '') {
-                //swiper.update();
+                swiper.update();
                 succeed();
                 return;
             }
@@ -155,7 +252,7 @@ define(['common'], function(util) {
 
             });
 
-            //swiper.update();
+            swiper.update();
 
         };
 
@@ -231,7 +328,9 @@ define(['common'], function(util) {
 
                                 clients[orderIndex].isChanged = false;
 
-                            })
+                            });
+
+                            self.setSenders();
 
                             succeed();
 

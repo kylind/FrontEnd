@@ -22,8 +22,6 @@ define(['common'], function(util) {
         self.tag = item && item.tag ? item.tag : '';
 
 
-
-
         self.isChanged = false;
 
         self.name.subscribe(function(newValue) {

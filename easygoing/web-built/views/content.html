@@ -11,8 +11,10 @@
                 <a href="#settings" class="icon icon-cog"></a>
                 <a href=""  class="icon icon-signout"></a>
             </div>
-            <div class="swiper-pagination">
-            </div>
+
+            <div class="swiper-pagination"></div>
+
+
             <div class="banner">
 
             </div>
@@ -282,6 +284,73 @@
                 </div>
             </section>
         <% } %>
+
+
+  <% if ((!user.access) || (user.access && user.access.clients)){ %>
+<section id="clients" class="swiper-slide">
+    <div class="searchbox">
+        <button class="icon icon-add" data-bind="tap: addClient"> 新建 </button>
+        <button type="button" class="lmargin-5 icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitClients"> 保存 </button>
+    </div>
+
+    <section class="senders tmargin-40" data-bind="css: {isEmpty: senders().length==0}">
+        <!-- ko foreach: senders -->
+                <div class="sender">
+
+                    <span class="sender-name" data-bind="text: name"></span>
+
+                    <textarea class="sender-receives"  data-bind="text: receives"></textarea>
+
+                </div>
+        <!-- /ko -->
+    </section>
+
+    <div class="allclients" data-bind="foreach: clients">
+        <section class="client">
+            <div class="client-name">
+
+            <div class="inputbox-client">
+                <input type="hidden" data-bind="value: _id" />
+                <input type="text" class="w-p30" data-bind="value: name" placeholder="客户" />
+                </div>
+            </div>
+            <div class="client-infos">
+                <section class="client-actions">
+                    <a href="#" class="icon icon-add" data-bind="tap:addAddress"> </a>
+                    <span class="icon icon-leaf" data-bind="css:{ 'font-green': isActive() }"> </span>
+                    <a href="#" class="icon icon-remove-sign action-submit action-delete" data-bind="tap: $root.removeClient"> </a>
+                </section>
+                <!-- ko foreach: addresses -->
+                <div class="client-address">
+                    <span class="recipient"><input type="text" data-bind="value: recipient" placeholder="收件人" /></span>
+                    <span class="phone"><input type="text"  min="0" max="100" step="1" data-bind="value: phone" placeholder="电话" /></span>
+                    <span class="actions">
+
+                        <a href="#" class="icon action-submit" data-bind="tap: $parent.markDefault, css: defaultAddressCss()"></a>
+                        <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $parent.removeAddress"> </a>
+
+                    </span>
+                    <span class="addressDetail"><input type="text" class="client-inputclient" min="0" max="100" step="1" data-bind="value: address" placeholder="地址" /></span>
+
+
+
+                </div>
+                <!-- /ko -->
+            </div>
+        </section>
+    </div>
+</section>
+<% } %>
+
+
+
+
+
+
+
+
+
+
     </div>
 </div>
 

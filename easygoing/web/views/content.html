@@ -12,31 +12,7 @@
                 <a href=""  class="icon icon-signout"></a>
             </div>
 
-
-
-            <div class="swiper-pagination swiper-pagination-bullets">
-
-                <% if((!user.access) || (user.access && user.access.receivedOrders)){ %>
-                <span class="swiper-pagination-bullet">接单</span>
-                 <% } %>
-
-                <% if((!user.access) || (user.access && user.access.purchaseItems)){ %>
-                <span class="swiper-pagination-bullet">采购</span>
-                 <% } %>
-
-                <% if ((!user.access) || (user.access && user.access.reckoningOrders)){ %>
-                <span class="swiper-pagination-bullet">算账</span>
-                 <% } %>
-
-                <% if ((!user.access) || (user.access && user.access.incomeList)){ %>
-                <span class="swiper-pagination-bullet">收益</span>
-                 <% } %>
-
-                <% if ((!user.access) || (user.access && user.access.clients)){ %>
-                <span class="swiper-pagination-bullet">客户</span>
-                <% } %>
-
-            </div>
+            <div class="swiper-pagination"></div>
 
 
             <div class="banner">
@@ -312,11 +288,24 @@
 
   <% if ((!user.access) || (user.access && user.access.clients)){ %>
 <section id="clients" class="swiper-slide">
-    <div>
+    <div class="searchbox">
         <button class="icon icon-add" data-bind="tap: addClient"> 新建 </button>
         <button type="button" class="lmargin-5 icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitClients"> 保存 </button>
     </div>
-    <div class="tmargin-10 allclients" data-bind="foreach: clients">
+
+    <section class="senders tmargin-40" data-bind="css: {isEmpty: senders().length==0}">
+        <!-- ko foreach: senders -->
+                <div class="sender">
+
+                    <span class="sender-name" data-bind="text: name"></span>
+
+                    <textarea class="sender-receives"  data-bind="text: receives"></textarea>
+
+                </div>
+        <!-- /ko -->
+    </section>
+
+    <div class="allclients" data-bind="foreach: clients">
         <section class="client">
             <div class="client-name">
 
