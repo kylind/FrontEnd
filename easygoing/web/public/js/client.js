@@ -13,9 +13,15 @@ define(['common'], function(util) {
         self.isActive = ko.observable((address && address.isActive) ? true : false);
 
 
-        self.defaultAddressCss = ko.pureComputed(function() {
+        self.defaultAddressMarkCss = ko.pureComputed(function() {
 
             return self.isActive() ? 'icon-radio-selected' : 'icon-radio';
+
+        });
+
+        self.defaultAddressCss = ko.pureComputed(function() {
+
+            return self.isActive() ? 'isActive' : '';
 
         });
 
@@ -159,7 +165,7 @@ define(['common'], function(util) {
 
                 let name = client.name();
 
-                return name.indexOf('-') == -1 || name.indexOf('－') == -1;
+                return name.indexOf('-') == -1 && name.indexOf('－') == -1;
             });
 
             var rs = aggregateClients('自己的', commonClients)
@@ -348,6 +354,10 @@ define(['common'], function(util) {
             return false;
 
         };
+
+        self.afterRender=function(){
+            swiper.update();
+        }
     };
 
 

@@ -1979,7 +1979,7 @@ button.ispure {
     background-color: #ffcccc;
 }
 
-.client-actions > * {
+.client-actions > a, .client-actions > span{
     vertical-align: top;
 }
 
@@ -2053,6 +2053,7 @@ button.ispure {
     height: 30px;
     flex: 1 1;
 }
+
 
 
 /**** print **/
@@ -2150,24 +2151,36 @@ button.ispure {
         padding: 10px 0;
         margin-bottom: 10px;
     }
-
-    .allclients{
+    .allclients {
         border: solid 1px #000;
     }
     .client {
-        display: flex;
+        display: none;
         border-bottom: solid 1px #000;
+    }
+
+    .client:last-child {
+        display: none;
+
+    }
+    .client.isActive {
+        display: flex;
+
     }
     .client-name {
         display: none;
     }
-
-    .client-infos{
-        width:100%;
+    .client-infos {
+        width: 100%;
     }
-
     .client-actions {
         display: none;
+    }
+    .client-address {
+        display: none;
+    }
+    .client-address.isActive {
+        display: flex;
     }
     .client-address .actions {
         display: none;
@@ -2175,23 +2188,7 @@ button.ispure {
     .client-address > .addressDetail {
         border-bottom: solid 1px #000;
     }
-    .client-address > .recipient,
     .client-address > .phone {
-        width: 50%;
-    }
-
-
-    .client-address > .recipient, .client-address > .phone {
-
-        border-bottom: dashed 1px #333;
-        border-right: dashed 1px #333;
-
-    }
-    .client-address > .phone {
-
-        border-bottom: dashed 1px #333;
         border-right: none;
-
     }
-
 }

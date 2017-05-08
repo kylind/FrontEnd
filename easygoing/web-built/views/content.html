@@ -305,8 +305,9 @@
         <!-- /ko -->
     </section>
 
-    <div class="allclients" data-bind="foreach: clients">
-        <section class="client">
+
+    <div class="allclients" data-bind="foreach: clients,afterRender: afterRender">
+        <section class="client" data-bind="css: {'isActive': isActive()}">
             <div class="client-name">
 
             <div class="inputbox-client">
@@ -321,12 +322,12 @@
                     <a href="#" class="icon icon-remove-sign action-submit action-delete" data-bind="tap: $root.removeClient"> </a>
                 </section>
                 <!-- ko foreach: addresses -->
-                <div class="client-address">
+                <div class="client-address" data-bind="css: defaultAddressCss()">
                     <span class="recipient"><input type="text" data-bind="value: recipient" placeholder="收件人" /></span>
                     <span class="phone"><input type="text"  min="0" max="100" step="1" data-bind="value: phone" placeholder="电话" /></span>
                     <span class="actions">
 
-                        <a href="#" class="icon action-submit" data-bind="tap: $parent.markDefault, css: defaultAddressCss()"></a>
+                        <a href="#" class="icon action-submit" data-bind="tap: $parent.markDefault, css: defaultAddressMarkCss()"></a>
                         <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $parent.removeAddress"> </a>
 
                     </span>

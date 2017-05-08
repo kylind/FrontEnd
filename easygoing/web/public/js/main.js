@@ -25,6 +25,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 case 'receivedOrders':
                     viewModelStatus.purchaseItems = true;
                     viewModelStatus.reckoningOrders = true;
+                    viewModelStatus.clients = true;
                     break;
                 case 'purchaseItems':
                     viewModelStatus.receivedOrders = true;
