@@ -2001,6 +2001,11 @@ button.ispure {
     flex: 1 1;
 }
 
+.client-address > .recipient.print{
+    display: none;
+}
+
+
 .client-address > .actions {
     width: 70px;
     border-bottom: dashed 1px #333;
@@ -2179,9 +2184,21 @@ button.ispure {
     .client-address {
         display: none;
     }
+
+
     .client-address.isActive {
         display: flex;
     }
+
+    .client-address > .recipient{
+        display: none;
+    }
+
+    .client-address > .recipient.print{
+        display: initial;
+    }
+
+
     .client-address .actions {
         display: none;
     }

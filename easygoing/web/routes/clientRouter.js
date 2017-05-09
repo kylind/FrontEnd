@@ -29,6 +29,7 @@ router.post('/clients', function*() {
 
         delete client.isChanged;
         delete client.isActive;
+        delete client.mailType;
 
         if (ObjectID.isValid(client._id)) {
 
@@ -49,10 +50,10 @@ router.post('/clients', function*() {
 
                 delete address.isChanged
 
-                if(address.isActive=='true'){
-                    address.isActive=true;
-                }else if(address.isActive=='false'){
-                    address.isActive=false;
+                if (address.isActive == 'true') {
+                    address.isActive = true;
+                } else if (address.isActive == 'false') {
+                    address.isActive = false;
                 }
 
             });
@@ -104,34 +105,38 @@ function* getClients() {
 
         var index = allClients.findIndex(function(client) {
 
-            if(order.client.endsWith('?')|| order.client.endsWith('？')){
-                let name = order.client.slice(0, order.client.length-1);
-                return name ==client.name;
+            if (order.client.endsWith('?') || order.client.endsWith('？')) {
+                let name = order.client.slice(0, order.client.length - 1);
+                return name == client.name;
 
-            }else{
+            } else {
                 return order.client == client.name;
             }
 
         });
 
+
+
+
+        let name = order.client;
+        let mailType = 'common';
+        let isActive = true;
+
+        if (name.endsWith('?') || name.endsWith('？')) {
+            name = name.slice(0, name.length - 1);
+            mailType = 'sf';
+
+        }
+
         if (index < 0) {
 
-            let name = order.client;
-            let isActive=true;
-
-            if(name.endsWith('?')|| name.endsWith('？')){
-                name = name.slice(0, name.length-1);
-                isActive=false;
-
-            }
-
-            return { name: name, isActive: isActive,currentAddress:0, addresses: [{ recipient: '', phone: '', address: '',isActive:true }] }
+            return { name: name, isActive: isActive, currentAddress: 0, mailType: mailType, addresses: [{ recipient: '', phone: '', address: '', isActive: true }] }
 
         } else {
 
             let client = allClients[index];
-
-            client.isActive = true;
+            client.isActive=true;
+            client.mailType=mailType;
 
             allClients.splice(index, 1);
             return client;
@@ -139,10 +144,10 @@ function* getClients() {
 
     });
 
-    var clients = activeClients.concat(allClients).sort(function(a,b){
-        if(a.isActive){
+    var clients = activeClients.concat(allClients).sort(function(a, b) {
+        if (a.isActive) {
             return -1;
-        }else{
+        } else {
             return 1;
         }
     });

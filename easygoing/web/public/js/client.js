@@ -13,6 +13,8 @@ define(['common'], function(util) {
         self.isActive = ko.observable((address && address.isActive) ? true : false);
 
 
+
+
         self.defaultAddressMarkCss = ko.pureComputed(function() {
 
             return self.isActive() ? 'icon-radio-selected' : 'icon-radio';
@@ -53,6 +55,40 @@ define(['common'], function(util) {
 
 
         self.isActive = ko.observable((client && client.isActive) ? true : false);
+
+        self.mailType = (client && client.mailType) ? client.mailType : '';
+
+        self.mailDisplayType = function(mailType) {
+            if (mailType == 'sf') {
+                return '顺丰';
+            } else if (mailType == 'common') {
+                return '韵达';
+            }
+
+        }
+
+        self.displayPrintName = function(recipient) {
+
+            recipient = recipient();
+
+            var mail = '';
+
+
+            if(recipient == '') return '';
+
+            if (self.mailType == 'sf') {
+                mail = '顺丰';
+                return `${recipient} - ${mail}`;
+            } else if (self.mailType == 'common') {
+                mail = '韵达';
+                return `${recipient} - ${mail}`;
+            } else {
+                return recipient;
+            }
+
+
+
+        }
 
 
         if (client && Array.isArray(client.addresses) && client.addresses.length > 0) {
@@ -109,7 +145,7 @@ define(['common'], function(util) {
 
                 let name = client.name();
 
-                return client.isActive() && name.indexOf('?') == -1 && name.indexOf('？') == -1;
+                return client.isActive() && client.mailType == 'common';
             });
 
 
@@ -143,9 +179,9 @@ define(['common'], function(util) {
 
                 var agent = name.slice(0, sep);
 
-                var existing = agents.find(_agent=> _agent==agent)
-                if(!existing){
-                     agents.push(agent);
+                var existing = agents.find(_agent => _agent == agent)
+                if (!existing) {
+                    agents.push(agent);
                 }
             });
 
@@ -193,7 +229,7 @@ define(['common'], function(util) {
 
             });
 
-            return { name: agent+"：", receives: addresses };
+            return { name: agent + "：", receives: addresses };
         }
 
 
@@ -355,7 +391,7 @@ define(['common'], function(util) {
 
         };
 
-        self.afterRender=function(){
+        self.afterRender = function() {
             swiper.update();
         }
     };
