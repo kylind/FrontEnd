@@ -11,7 +11,7 @@ requirejs.config({
         'knockout.mapping': '../js/knockout.mapping.2.4.1.min',
         'swiper': './swiper/dist/js/swiper.jquery.min',
         'colorbox': './jquery-colorbox/jquery.colorbox-min',
-        'clipboard': './clipboard/dist/clipboard.min',
+        'clipboard': './clipboard/dist/clipboard',
 
         'ReceivedOrders': '../js/received-orders',
         'ReckoningOrders': '../js/reckoning-orders',

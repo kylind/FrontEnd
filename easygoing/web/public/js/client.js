@@ -390,17 +390,22 @@ define(['common', 'clipboard'], function(util, Clipboard) {
         };
 
         self.afterRender = function() {
-            swiper.update();
+
+            var clipboard = new Clipboard('.sender-copy', {
+
+                text: function(trigger) {
+                    return $(trigger).siblings('.sender-receives').val();
+                }
+
+
+            });
 
         }
 
         self.afterSenderRender = function() {
             swiper.update();
 
-            var clipboard = new Clipboard('.sender-copy', function(trigger) {
 
-                return $(trigger).siblings('.sender-receives').val();
-            });
         }
     };
 
