@@ -293,20 +293,20 @@
         <button type="button" class="lmargin-5 icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitClients"> 保存 </button>
     </div>
 
-    <section class="senders tmargin-40" data-bind="css: {isEmpty: senders().length==0}">
-        <!-- ko foreach: senders -->
+    <section class="senders tmargin-40" data-bind="css: {isEmpty: senders().length==0}, foreach: {data: senders, afterRender: afterSenderRender}">
                 <div class="sender">
 
+                    <a class="sender-copy icon icon-copy"></a>
                     <span class="sender-name" data-bind="text: name"></span>
 
                     <textarea class="sender-receives"  data-bind="text: receives"></textarea>
 
                 </div>
-        <!-- /ko -->
+
     </section>
 
 
-    <div class="allclients" data-bind="foreach: clients,afterRender: afterRender">
+    <div class="allclients" data-bind="foreach: {data: clients, afterRender: afterRender}">
         <section class="client" data-bind="css: {'isActive': isActive()}">
             <div class="client-name">
 
@@ -328,9 +328,6 @@
                     <span class="recipient">
 
                     <input type="text" data-bind="value: recipient" placeholder="收件人" />
-
-
-
 
                     </span>
 

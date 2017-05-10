@@ -318,12 +318,25 @@
             <div class="client-infos">
                 <section class="client-actions">
                     <a href="#" class="icon icon-add" data-bind="tap:addAddress"> </a>
-                    <span class="icon icon-leaf" data-bind="css:{ 'font-green': isActive() }"> </span>
+
+                    <span class="font-bold" data-bind="text: mailDisplayType(mailType)"> </span>
+
                     <a href="#" class="icon icon-remove-sign action-submit action-delete" data-bind="tap: $root.removeClient"> </a>
                 </section>
                 <!-- ko foreach: addresses -->
                 <div class="client-address" data-bind="css: defaultAddressCss()">
-                    <span class="recipient"><input type="text" data-bind="value: recipient" placeholder="收件人" /></span>
+                    <span class="recipient">
+
+                    <input type="text" data-bind="value: recipient" placeholder="收件人" />
+
+
+
+
+                    </span>
+
+                    <span class="recipient print"  data-bind="text: $parent.displayPrintName(recipient)"></span>
+
+
                     <span class="phone"><input type="text"  min="0" max="100" step="1" data-bind="value: phone" placeholder="电话" /></span>
                     <span class="actions">
 

@@ -379,6 +379,10 @@ a.icon:before {}
     content: "\f192";
 }
 
+.icon-copy:before {
+    content: "\f0c5";
+}
+
 input[type="text"],
 input[type="number"],
 input[type="password"] {
@@ -1979,7 +1983,8 @@ button.ispure {
     background-color: #ffcccc;
 }
 
-.client-actions > a, .client-actions > span{
+.client-actions > a,
+.client-actions > span {
     vertical-align: top;
 }
 
@@ -2001,10 +2006,9 @@ button.ispure {
     flex: 1 1;
 }
 
-.client-address > .recipient.print{
+.client-address > .recipient.print {
     display: none;
 }
-
 
 .client-address > .actions {
     width: 70px;
@@ -2048,17 +2052,21 @@ button.ispure {
     margin-bottom: 0;
 }
 
+.sender-copy {
+    line-height: 36px;
+}
+
 .sender-name {
     width: 80px;
-    line-height: 30px;
+    line-height: 36px;
 }
 
 .sender-receives {
+    box-sizing: border-box;
     resize: none;
-    height: 30px;
+    height: 36px;
     flex: 1 1;
 }
-
 
 
 /**** print **/
@@ -2163,14 +2171,11 @@ button.ispure {
         display: none;
         border-bottom: solid 1px #000;
     }
-
     .client:last-child {
         display: none;
-
     }
     .client.isActive {
         display: flex;
-
     }
     .client-name {
         display: none;
@@ -2184,21 +2189,15 @@ button.ispure {
     .client-address {
         display: none;
     }
-
-
     .client-address.isActive {
         display: flex;
     }
-
-    .client-address > .recipient{
+    .client-address > .recipient {
         display: none;
     }
-
-    .client-address > .recipient.print{
+    .client-address > .recipient.print {
         display: initial;
     }
-
-
     .client-address .actions {
         display: none;
     }

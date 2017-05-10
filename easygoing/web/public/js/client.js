@@ -1,4 +1,4 @@
-define(['common'], function(util) {
+define(['common', 'clipboard'], function(util, Clipboard) {
 
     var $ = util.$;
     var ko = util.ko;
@@ -74,7 +74,7 @@ define(['common'], function(util) {
             var mail = '';
 
 
-            if(recipient == '') return '';
+            if (recipient == '') return '';
 
             if (self.mailType == 'sf') {
                 mail = '顺丰';
@@ -247,19 +247,17 @@ define(['common'], function(util) {
 
         var self = this;
 
-        var observableClients = init(clients);
 
-        self.clients = ko.observableArray(observableClients);
+        self.clients = ko.observableArray(init(clients));
+        self.senders = ko.observableArray(classifyClients());
 
 
 
         self.setClients = function(clients) {
             self.clients(init(clients));
             self.senders(classifyClients());
-
         }
 
-        self.senders = ko.observableArray(classifyClients());
 
         self.setSenders = function() {
 
@@ -393,6 +391,16 @@ define(['common'], function(util) {
 
         self.afterRender = function() {
             swiper.update();
+
+        }
+
+        self.afterSenderRender = function() {
+            swiper.update();
+
+            var clipboard = new Clipboard('.sender-copy', function(trigger) {
+
+                return $(trigger).siblings('.sender-receives').val();
+            });
         }
     };
 

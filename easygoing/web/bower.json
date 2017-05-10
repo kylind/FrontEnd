@@ -27,7 +27,8 @@
     "angular-resource": "^1.5.8",
     "angular-animate": "^1.5.8",
     "requirejs": "^2.3.2",
-    "jquery-colorbox": "colorbox#^1.6.4"
+    "jquery-colorbox": "colorbox#^1.6.4",
+    "clipboard": "git@github.com:zenorocha/clipboard.js.git#^1.6.1"
   },
   "dependencies": {
     "requirejs": "^2.3.2",
@@ -37,7 +38,8 @@
     "angular": "^1.5.8",
     "angular-resource": "^1.5.8",
     "angular-animate": "^1.5.8",
-    "jquery-colorbox": "colorbox#^1.6.4"
+    "jquery-colorbox": "colorbox#^1.6.4",
+    "clipboard": "git@github.com:zenorocha/clipboard.js.git#^1.6.1"
   },
   "overrides": {
     "jquery": {
@@ -47,19 +49,22 @@
       "main": "dist/js/swiper.jquery.min.js"
     },
     "jquery-colorbox": {
-      "main":"jquery.colorbox-min.js"
+      "main": "jquery.colorbox-min.js"
     },
-    "angular":{
-      "main":"angular.min.js"
+    "angular": {
+      "main": "angular.min.js"
     },
-    "angular-resource":{
-      "main":"angular-resource.min.js"
+    "angular-resource": {
+      "main": "angular-resource.min.js"
     },
-    "angular-animate":{
-      "main":"angular-animate.min.js"
+    "angular-animate": {
+      "main": "angular-animate.min.js"
     },
-    "requirejs":{
-      "main":"require.min.js"
+    "requirejs": {
+      "main": "require.min.js"
+    },
+    "clipboard": {
+      "main": "dist/clipboard.min.js"
     }
   },
   "group": {

@@ -105,8 +105,8 @@ var url = 'mongodb://website:zombie.123@127.0.0.1:27017/orders'; //'mongodb://we
 
                 var db = yield MongoClient.connect(url);
 
-                var res = yield db.collection(_name).find({ status: '1RECEIVED', packingStatus:{$ne:'2NOTREADY'} }).sort({ 'createDate': -1 }).toArray();
-
+               // var res = yield db.collection(_name).find({ status: '1RECEIVED', packingStatus:{$ne:'2NOTREADY'} }).sort({ 'createDate': -1 }).toArray();
+                var res = yield db.collection(_name).find({ status: '1RECEIVED', packingStatus:'1ISREADY'}).sort({ 'createDate': -1 }).toArray();
                 return res;
 
             },
