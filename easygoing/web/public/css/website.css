@@ -1951,12 +1951,12 @@ button.ispure {
     border: solid 1px #cc0066;
 }
 
-.client {
+.allclients .client {
     display: flex;
     border-bottom: solid 1px #cc0066;
 }
 
-.client:last-child {
+.allclients .client:last-child {
     display: flex;
     border-bottom: none;
 }
@@ -1969,13 +1969,16 @@ button.ispure {
 .inputbox-client {
     border-bottom: solid 1px #cc0066;
     height: 18px;
+    font-size: 0;
 }
 
 .inputbox-client input {
     width: 100%;
+    height: 18px;
+    display: block;
     text-align: center;
     background-color: #ffcccc;
-    vertical-align: top;
+
 }
 
 .client-actions {
