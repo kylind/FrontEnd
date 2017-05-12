@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Examples</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <style>
+    .items {
+        display: flex;
+        height: 30px;
+        align-items: stretch;
+        /*width:1000px;*/
+    }
+
+    .item {
+        background-color: #000;
+    }
+
+    .item1 {
+        flex:0 1 100px;
+        width:10%;
+
+    }
+
+    .item2 {
+        background-color: red;
+        width: 100px;
+        flex:1 0 100px;
+    }
+
+    .item3 {
+
+        flex:2 1 100px;
+        width:10%;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="items">
+        <div class="item item1"></div>
+        <div class="item item2"></div>
+        <div class="item item3"></div>
+    </div>
+</body>
+
+</html>
