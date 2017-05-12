@@ -1,0 +1,48 @@
+<div id="clients">
+    <div>
+        <button class="icon icon-add" data-bind="tap: addClient"> 新建 </button>
+        <button type="button" class="lmargin-5 icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitClients"> 保存 </button>
+    </div>
+    <div class="tmargin-10 allclients" data-bind="foreach: clients">
+        <section class="client">
+            <div class="client-name">
+
+            <div class="inputbox-client">
+                <input type="hidden" data-bind="value: _id" />
+                <input type="text" class="w-p30" data-bind="value: name" placeholder="客户" />
+                </div>
+            </div>
+            <div class="client-infos">
+                <section class="client-actions">
+                    <a href="#" class="icon icon-add" data-bind="tap:addAddress"> </a>
+                    <span class="icon icon-leaf" data-bind="css:{ 'font-green': isActive() }"> </span>
+                    <a href="#" class="icon icon-remove-sign action-submit action-delete" data-bind="tap: $root.removeClient"> </a>
+                </section>
+                <!-- ko foreach: addresses -->
+                <div class="client-address">
+                    <span class="recipient"><input type="text" data-bind="value: recipient" placeholder="收件人" /></span>
+                    <span class="phone"><input type="text"  min="0" max="100" step="1" data-bind="value: phone" placeholder="电话" /></span>
+                    <span class="actions">
+
+                        <a href="#" class="icon action-submit" data-bind="tap: $parent.markDefault, css: defaultAddressCss()"></a>
+                        <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $parent.removeAddress"> </a>
+
+                    </span>
+                    <span class="addressDetail"><input type="text" class="client-inputclient" min="0" max="100" step="1" data-bind="value: address" placeholder="地址" /></span>
+
+
+
+                </div>
+                <!-- /ko -->
+            </div>
+        </section>
+    </div>
+</div>
+<div class="prompt">
+    <span class="prompt-submitting"><i class="fa fa-spinner fa-pulse"></i> <span> 提交中...</span></span>
+    <span class="prompt-succeed disappeared icon icon-peace"> 提交成功!</span>
+</div>
+<div class="confirm">
+    <button type="button" class="ispure confirm-submit taCenter ">确认</button>
+    <button type="button" class="ispure confirm-cancel taCenter lmargin-5">取消</button>
+</div>

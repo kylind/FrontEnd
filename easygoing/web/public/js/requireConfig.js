@@ -11,13 +11,14 @@ requirejs.config({
         'knockout.mapping': '../js/knockout.mapping.2.4.1.min',
         'swiper': './swiper/dist/js/swiper.jquery.min',
         'colorbox': './jquery-colorbox/jquery.colorbox-min',
+        'clipboard': './clipboard/dist/clipboard',
 
         'ReceivedOrders': '../js/received-orders',
         'ReckoningOrders': '../js/reckoning-orders',
         'IncomeList': '../js/income-list',
         'ItemsModel': '../js/purchase-items',
         'Products':'../js/products',
-
+        'ClientsModel': '../js/client',
         'commonAngular': '../js/common-angular',
         'angularApp': '../js/angular-app',
         'angular': './angular/angular.min',
@@ -32,6 +33,10 @@ requirejs.config({
         'knockout.mapping': ['knockout'],
         'colorbox': ['jquery'],
         'tag': ['jquery'],
+
+        'clipboard':{
+            exports: 'Clipboard'
+        },
 
         'angular': {
             exports: 'angular'

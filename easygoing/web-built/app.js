@@ -83,15 +83,15 @@ app.use(loginRouter.routes());
 
 var itemRouter = require('./routes/itemRouter.js').router;
 var orderRouter = require('./routes/orderRouter.js').router;
-var addressRouter = require('./routes/addressRouter.js').router;
+var clientRouter = require('./routes/clientRouter.js').router;
 var otherRouter = require('./routes/otherRouter.js').router;
 
 app.use(orderRouter.routes());
 app.use(itemRouter.routes());
-app.use(addressRouter.routes());
+app.use(clientRouter.routes());
 app.use(otherRouter.routes());
 
-app.listen({port:3040,host:"127.0.0.1"});//process.env.port
+app.listen({port:3041,host:"127.0.0.1"});//process.env.port
 
 console.log(process.env.NODE_ENV);
 console.log(process.env.db);

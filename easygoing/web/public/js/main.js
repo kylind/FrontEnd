@@ -1,4 +1,4 @@
-define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList'], function(util, OrdersModel) {
+define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList', "ClientsModel"], function(util, OrdersModel) {
 
     return run;
 
@@ -9,30 +9,42 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
         var mapping = util.mapping;
         var Swiper = util.Swiper;
 
-        var viewModelStatus = [false, false, false, false];
+        var viewModelStatus = {
+            receivedOrders:false,
+            purchaseItems:false,
+            reckoningOrders:false,
+            incomeList:false,
+            clients:false
+        };
 
         function setViewModelStatus(activeIndex) {
 
-            switch (activeIndex) {
-                case 0:
-                    viewModelStatus[1] = true;
-                    viewModelStatus[2] = true;
+            var id = $('.swiper-slide')[activeIndex].id
+
+            switch (id) {
+                case 'receivedOrders':
+                    viewModelStatus.purchaseItems = true;
+                    viewModelStatus.reckoningOrders = true;
+                    viewModelStatus.clients = true;
                     break;
-                case 1:
-                    viewModelStatus[0] = true;
-                    viewModelStatus[2] = true;
+                case 'purchaseItems':
+                    viewModelStatus.receivedOrders = true;
+                    viewModelStatus.reckoningOrders = true;
                     break;
-                case 2:
-                    viewModelStatus[0] = true;
-                    viewModelStatus[1] = true;
-                    viewModelStatus[3] = true;
+                case 'reckoningOrders':
+                    viewModelStatus.receivedOrders = true;
+                    viewModelStatus.purchaseItems = true;
+                    viewModelStatus.incomeList = true;
+                    viewModelStatus.clients = true;
                     break;
             }
         }
 
         function updateCurrentData() {
 
-            if (swiper.activeIndex == 0) {
+            var id = $('.swiper-slide')[swiper.activeIndex].id;
+
+            if (id=='receivedOrders') {
 
                 $.getJSON('./receivedOrdersJson', function(orders, status) {
                     ordersModel.setOrders(orders, true);
@@ -40,7 +52,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             }
 
-            if (swiper.activeIndex == 2) {
+            if (id=='reckoningOrders') {
 
                 $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
@@ -55,10 +67,10 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         function updateAllData() {
 
-            var activeIndex = swiper.activeIndex;
+            var id = $('.swiper-slide')[swiper.activeIndex].id;
 
 
-            if (activeIndex == 1 || activeIndex == 2) {
+            if (id=='incomeList' || id=='reckoningOrders') {
                 $.getJSON('./receivedOrdersJson', function(orders, status) {
                     ordersModel.setOrders(orders, true);
 
@@ -66,7 +78,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             }
 
-            if (activeIndex == 0 || activeIndex == 2) {
+            if (id=='receivedOrders' || id=='reckoningOrders') {
 
                 $.getJSON('./purchaseItemsJson', function(rs, status) {
                     itemsModel.setItems(rs.items, true, true);
@@ -76,7 +88,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             }
 
 
-            if (activeIndex == 0 || activeIndex == 1) {
+            if (id=='receivedOrders' || id=='incomeList') {
 
                 $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
@@ -88,11 +100,20 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             }
 
-            if (activeIndex == 2) {
+            if (id=='reckoningOrders') {
 
                 $.getJSON('./incomeListJson', function(incomeList, status) {
                     incomeListModel.setIncomeList(incomeList);
                 })
+
+            }
+           if (id=='reckoningOrders') {
+
+                $.getJSON('./clientsJson', function(clients, status) {
+
+                    clientsModel.setClients(clients);
+
+                });
 
             }
         }
@@ -107,23 +128,33 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             longSwipes: false,
             paginationBulletRender: function(index, className) {
                 var bulletName = '';
-                switch (index) {
-                    case 0:
+
+
+                var id = $('.swiper-slide')[index].id
+
+
+                switch (id) {
+                    case 'receivedOrders':
 
                         bulletName = '接单';
                         break;
 
-                    case 1:
+                    case 'purchaseItems':
                         bulletName = '采购';
                         break;
 
-                    case 2:
+                    case 'reckoningOrders':
                         bulletName = '算账';
                         break;
 
-                    case 3:
+                    case 'incomeList':
                         bulletName = '收益';
                         break;
+
+                    case 'clients':
+                        bulletName = '客户';
+                        break;
+
                 }
                 return '<span class="' + className + '">' + bulletName + '</span>';
             }
@@ -139,7 +170,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         })
 
-        var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel;
+        var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel,clientsModel;
 
         var ordersModel = new OrdersModel(orders);
         ordersModel.setSwiper(swiper);
@@ -147,7 +178,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
         ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
 
 
-        require(['common', 'ItemsModel', 'ReckoningOrders', 'IncomeList'], function(util, ItemsModel, OrdersModel, IncomeListModel) {
+        require(['common', 'ItemsModel', 'ReckoningOrders', 'IncomeList', 'ClientsModel'], function(util, ItemsModel, OrdersModel, IncomeListModel, ClientsModel) {
 
 
             var $ = util.$;
@@ -177,6 +208,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                     })
 
                     promise.then(function(rs) {
+
 
                         var tags = Array.isArray(rs.tags) ? rs.tags : [];
 
@@ -258,17 +290,34 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 incomeListModel = new IncomeListModel(incomeList, swiper);
                 ko.applyBindings(incomeListModel, $('#incomeList')[0]);
 
-
             });
 
+
+            if (access.clients) {
+                $.getJSON('./clientsJson', function(clients, status) {
+
+                    clientsModel = new ClientsModel(clients, swiper);
+                    ko.applyBindings(clientsModel, $('#clients')[0]);
+
+                });
+
+            }
+
+
             $(document).on('keydown', function(event) {
-                if (event.keyCode == 13 && (swiper.activeIndex == 0 || swiper.activeIndex == 2)) {
+
+
+                var id = $('.swiper-slide')[swiper.activeIndex].id
+
+
+                if (event.keyCode == 13) {
+                    // && (swiper.activeIndex == 0 || swiper.activeIndex == 2)
                     //var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
                     $(document.activeElement).blur();
 
-                    var targetPage = swiper.activeIndex == 0 ? 'receivedOrders' : 'reckoningOrders'
+                    //var targetPage = swiper.activeIndex == 0 ? 'receivedOrders' : 'reckoningOrders'
 
-                    var $target = $('#' + targetPage + ' .action-enter');
+                    var $target = $('#' + id + ' .action-enter');
                     setTimeout(function() {
                         $target.trigger('click')
                     }, 100);
@@ -280,52 +329,65 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             swiper.params.onSlideChangeStart = function(swiper) {
 
-                var activeIndex = swiper.activeIndex;
-                switch (swiper.activeIndex) {
-                    case 0:
 
-                        if (viewModelStatus[activeIndex]) {
+                var id = $('.swiper-slide')[swiper.activeIndex].id
+
+                switch (id) {
+                    case 'receivedOrders':
+
+                        if (viewModelStatus['receivedOrders']) {
 
                             $.getJSON('./receivedOrdersJson', function(orders, status) {
 
                                 ordersModel.setOrders(orders, true);
-                                viewModelStatus[activeIndex] = false;
+                                viewModelStatus['receivedOrders'] = false;
 
                             });
                         }
 
                         break;
 
-                    case 1:
-                        if (viewModelStatus[activeIndex]) {
+                    case 'purchaseItems':
+                        if (viewModelStatus['purchaseItems']) {
                             $.getJSON('./purchaseItemsJson', function(rs, status) {
                                 itemsModel.setItems(rs.items, true, true);
-                                viewModelStatus[activeIndex] = false;
+                                viewModelStatus['purchaseItems'] = false;
 
                             });
                         }
                         break;
 
-                    case 2:
-                        if (viewModelStatus[activeIndex]) {
+                    case 'reckoningOrders':
+                        if (viewModelStatus['reckoningOrders']) {
                             $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
                                 var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
                                 reckoningOrdersModel.orders(observableOrders);
-                                viewModelStatus[activeIndex] = false;
+                                viewModelStatus['reckoningOrders'] = false;
 
                             })
                         }
 
                         break;
 
-                    case 3:
-                        if (viewModelStatus[activeIndex]) {
+                    case 'incomeList':
+                        if (viewModelStatus['incomeList']) {
                             $.getJSON('./incomeListJson', function(incomeList, status) {
                                 incomeListModel.setIncomeList(incomeList);
-                                viewModelStatus[activeIndex] = false;
+                                viewModelStatus['incomeList'] = false;
 
                             })
+                        }
+                        break;
+                    case 'clients':
+                        if (viewModelStatus['clients']) {
+                            $.getJSON('./clientsJson', function(clients, status) {
+
+                                clientsModel.setClients(clients);
+
+                                viewModelStatus['clients'] = false;
+
+                            });
                         }
                         break;
 
@@ -363,7 +425,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 var top = $(window).scrollTop();
                 //$(".cogbox").css("top", top + 30);
                 //$(".swiper-pagination").css('top', top);
-               // $(".header-cnt").css('top', top);
+                // $(".header-cnt").css('top', top);
                 $(".searchbox").css("top", top);
 
             });
@@ -372,21 +434,18 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         $('.icon-signout').bind('click', function() {
 
-
             $('.mask').addClass('isLoginShow');
             $.get('./logout', function(res, status) {
                     if (res.success) {
 
-                        $.get('./content',function(rs,status){
+                        $.get('./content', function(rs, status) {
 
-                                setTimeout(function(){
-                                    $('#container').html(rs);
-                                    $('.mask').removeClass('isLoginShow');
-                                },1000);
+                            setTimeout(function() {
+                                $('#container').html(rs);
+                                $('.mask').removeClass('isLoginShow');
+                            }, 1000);
 
-
-
-                        },'html');
+                        }, 'html');
                     }
                 },
                 'json'

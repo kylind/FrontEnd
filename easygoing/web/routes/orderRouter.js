@@ -40,7 +40,7 @@ router.use(function*(next) {
 
     if (this.isAuthenticated()) {
         orderOperation = new Collection(this.req.user.collection);
-        productOperation = new ProductCollection(this.req.user.productCollection);
+
         RATE = this.req.user.rate || 0.9;
     }
 
@@ -118,31 +118,7 @@ router.post('/orders', function*() {
 
 });
 
-router.post('/products', function*() {
 
-    var req = this.request.body;
-
-    var products = req.products;
-
-    if (Array.isArray(products) && products.length > 0) {
-        for (var i = 0; i < products.length; i++) {
-
-            util.processProduct(products[i]);
-        }
-
-        yield productOperation.save(products);
-
-        products.forEach(function(order) {
-
-            product.displayDate = product.modifiedDate ? product.modifiedDate.toLocaleDateString("en-US", dateFormatting) : '';
-        })
-
-    }
-
-    this.body = products;
-    this.status = 200;
-
-});
 
 router.put('/orderStatus/:id', function*() {
 
@@ -176,14 +152,7 @@ router.delete('/order/:id', function*() {
     this.status = 200;
 
 });
-router.delete('/product/:id', function*() {
-    var id = this.params.id;
 
-    var res = yield productOperation.remove(id);
-    this.body = res;
-    this.status = 200;
-
-});
 
 router.get('/index', function*() {
 
@@ -210,21 +179,7 @@ router.get('/index', function*() {
     yield this.render('index', model);
 });
 
-router.get('/products', function*() {
 
-    var res = yield productOperation.queryProducts();
-
-    var model = {
-        name: 'products',
-        css: '',
-        header: '',
-        footer: '',
-        products:res && res.length > 0 ? res : [],
-        needMask:false
-    }
-
-    yield this.render('products', model);
-});
 
 router.get('/content', function*() {
 

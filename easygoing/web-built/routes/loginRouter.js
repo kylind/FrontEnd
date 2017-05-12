@@ -8,17 +8,17 @@ var Collection = require('../data_access/order.js').Collection;
 router = new Router();
 
 
-router.get(/^\/(v4)?$/, function*() {
+router.get(/^\/(v4\.1)?$/, function*() {
 
 
-    this.redirect('/v4/index');
+    this.redirect('/v4.1/index');
 
 });
 
 router.get('/login', function*() {
 
     if (this.isAuthenticated()) {
-        this.redirect('v4/index');
+        this.redirect('v4.1/index');
 
     } else {
 

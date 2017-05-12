@@ -125,7 +125,9 @@
 .rmargin-20 {
     margin-right: 20px;
 }
-
+.lpadding-5 {
+    padding-left: 5px;
+}
 .rpadding-5 {
     padding-right: 5px;
 }
@@ -268,6 +270,7 @@ footer {
     font-size: 1.5rem;
     line-height: 18px;
     font-weight: normal;
+    vertical-align: top;
 }
 
 a.icon {
@@ -368,6 +371,19 @@ a.icon:before {}
 
 .icon-back:before {
     content: "\f0a8";
+}
+
+.icon-radio:before {
+    content: "\f10c";
+}
+
+.icon-radio-selected:before {
+    content: "\f192";
+}
+
+.icon-copy:before {
+    content: "\f0c5";
+    vertical-align: middle;
 }
 
 input[type="text"],
@@ -1198,7 +1214,7 @@ span.orderitem-cnt-btns {
     margin-top: -121px;
     opacity: 100;
     transition: opacity 300ms linear;
-    background-image: url(../images/bg-login.png);
+    background-image: url(../images/bg-login.jpg);
     background-position: bottom left;
     background-size: contain;
     background-repeat: no-repeat;
@@ -1726,19 +1742,19 @@ button.ispure {
 
 @keyframes changingClothes {
     from {
-        background-image: url(../images/thinkingwoman1.png);
+        background-image: url(../images/thinkingwoman1.jpg);
     }
     40% {
-        background-image: url(../images/thinkingwoman2.png);
+        background-image: url(../images/thinkingwoman2.jpg);
     }
     60% {
-        background-image: url(../images/thinkingwoman3.png);
+        background-image: url(../images/thinkingwoman3.jpg);
     }
     80% {
-        background-image: url(../images/thinkingwoman4.png);
+        background-image: url(../images/thinkingwoman4.jpg);
     }
     to {
-        background-image: url(../images/thinkingwoman6.png);
+        background-image: url(../images/thinkingwoman6.jpg);
     }
 }
 
@@ -1769,7 +1785,7 @@ button.ispure {
     padding-left: 105px;
     height: 60px;
     line-height: 60px;
-    background-image: url(../images/thinkingwoman1.png);
+    background-image: url(../images/thinkingwoman1.jpg);
     background-repeat: no-repeat;
     animation: changingClothes 6s infinite alternate;
 }
@@ -1801,7 +1817,7 @@ button.ispure {
 }
 
 .banner {
-    background-image: url(../images/banner.png);
+    background-image: url(../images/banner.jpg);
     background-position: center center;
     width: 100%;
     height: 70px;
@@ -1931,12 +1947,134 @@ button.ispure {
 }
 
 
-/* .mask-bottom.isLoginShow span{
+/**** client  ***/
+
+.allclients {
+    border: solid 1px #cc0066;
+}
+
+.allclients .client {
+    display: flex;
+    border-bottom: solid 1px #cc0066;
+}
+
+.allclients .client:last-child {
+    display: flex;
+    border-bottom: none;
+}
+
+.client-name {
+    width: 30%;
+    border-right: solid 1px #cc0066;
+}
+
+.inputbox-client {
+    border-bottom: solid 1px #cc0066;
+    height: 18px;
+    font-size: 0;
+}
+
+.inputbox-client input {
+    width: 100%;
+    height: 18px;
     display: block;
-    font-weight: bold;
-    color:#99ff99;
-    transition: all 1ms 1s linear;
-} */
+    text-align: center;
+    background-color: #ffcccc;
+
+}
+
+.client-actions {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 1px #cc0066;
+    background-color: #ffcccc;
+}
+
+.client-actions > a,
+.client-actions > span {
+    vertical-align: top;
+}
+
+.client-address {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.client-address input {
+    width: 100%;
+}
+
+.client-address > .recipient,
+.client-address > .phone {
+    width: 35%;
+    border-bottom: dashed 1px #333;
+    border-right: dashed 1px #333;
+    box-sizing: border-box;
+    flex: 1 1;
+}
+
+.client-address > .recipient.print {
+    display: none;
+}
+
+.client-address > .actions {
+    width: 70px;
+    border-bottom: dashed 1px #333;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+}
+
+.client-address > .actions > a {}
+
+.client-address > .addressDetail {
+    width: 100%;
+    border-bottom: solid 1px #cc0066;
+}
+
+.client-address:last-child > .addressDetail {
+    border-bottom: none;
+}
+
+.senders {
+    border-bottom: solid 1px #cc0066;
+    border-top: solid 1px #cc0066;
+    padding: 10px 0;
+    margin-bottom: 10px;
+}
+
+.senders.isEmpty {
+    border-bottom: none;
+    border-top: none;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.sender {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.sender:last-child {
+    margin-bottom: 0;
+}
+
+.sender-copy {
+    line-height: 36px;
+    height: 36px !important;
+}
+
+.sender-name {
+    width: 80px;
+    line-height: 36px;
+}
+
+.sender-receives {
+    box-sizing: border-box;
+    resize: none;
+    height: 36px;
+    flex: 1 1;
+}
 
 
 /*** products ***/
@@ -2079,5 +2217,57 @@ button.ispure {
     }
     .orderitem-cnt span {
         border-right: 1px solid #000;
+    }
+    .senders {
+        display: none;
+    }
+    .senders {
+        border-bottom: solid 1px #000;
+        border-top: solid 1px #000;
+        padding: 10px 0;
+        margin-bottom: 10px;
+    }
+    .allclients {
+        border: solid 1px #000;
+    }
+    .client {
+        display: none;
+        border-bottom: solid 1px #000;
+    }
+    .client:last-child {
+        display: none;
+    }
+    .client.isActive {
+        display: flex;
+    }
+    .client-name {
+        display: none;
+    }
+    .client-infos {
+        width: 100%;
+    }
+    .client-actions {
+        display: none;
+    }
+    .client-address {
+        display: none;
+    }
+    .client-address.isActive {
+        display: flex;
+    }
+    .client-address > .recipient {
+        display: none;
+    }
+    .client-address > .recipient.print {
+        display: initial;
+    }
+    .client-address .actions {
+        display: none;
+    }
+    .client-address > .addressDetail {
+        border-bottom: solid 1px #000;
+    }
+    .client-address > .phone {
+        border-right: none;
     }
 }
