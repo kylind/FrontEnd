@@ -102,7 +102,6 @@ var util = {
 
         order.isComplete = isSellComplete && isBuyComplete;
 
-
     },
     processOrder: function(order) {
 
@@ -142,6 +141,13 @@ var util = {
         delete order.orderReadyStatus;
         delete order.isChanged;
         delete order.__ko_mapping__;
+
+
+        let name = order.client.trim().replace(/[\?\uff1f]$/, '?'); ///[\uff00|\uff1f]/g
+
+        name = name.replace(/[\-\uff0d]/g, '-');
+
+        order.client=name;
 
 
         if (ObjectID.isValid(order._id)) {

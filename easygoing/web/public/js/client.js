@@ -204,9 +204,12 @@ define(['common', 'clipboard'], function(util, Clipboard) {
                 return name.indexOf('-') == -1 && name.indexOf('－') == -1;
             });
 
-            var rs = aggregateClients('自己的', commonClients)
+            if (Array.isArray(commonClients) && commonClients.length > 0) {
+                var rs = aggregateClients('自己的', commonClients)
 
-            senders.push(rs);
+                senders.push(rs);
+
+            }
 
             return senders;
 
