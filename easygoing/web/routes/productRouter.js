@@ -46,7 +46,7 @@ router.post('/products', function*() {
 
         products.forEach(function(product) {
 
-            product.displayDate = product.modifiedDate ? product.modifiedDate.toLocaleDateString("en-US", dateFormatting) : '';
+            product.displayDate = product.modifiedDate ?  new Date(product.modifiedDate).toLocaleDateString("en-US", dateFormatting) : '';
         })
 
     }

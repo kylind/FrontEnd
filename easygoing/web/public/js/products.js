@@ -7,7 +7,7 @@ define(['common'], function(util) {
 
         var self = this;
 
-        self._id = product && product._id ? product._id : '';
+        self._id = ko.observable(product && product._id ? product._id : '');
 
         self.name = ko.observable(product && product.name ? product.name : '');
 
@@ -17,7 +17,7 @@ define(['common'], function(util) {
 
         self.modifiedDate = ko.observable(product ? product.modifiedDate : '');
 
-        self.displayDate = product ? product.displayDate : '';
+        self.displayDate = ko.observable(product ? product.displayDate : '');
 
 
         self.isChanged = false;
