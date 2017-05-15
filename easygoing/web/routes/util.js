@@ -69,39 +69,18 @@ var util = {
 
         });
 
-        /*        if (buyPrice==0) {
-
-                    order.buyPrice = '?';
-
-                } else {
-                     order.buyPrice = isBuyComplete ? buyPrice.toFixed(1) : (buyPrice.toFixed(1) + '?');
-
-                }*/
 
         order.buyPrice = buyPrice == 0 ? null : buyPrice;
 
-        /*        if (sellPrice==0) {
 
-                    order.sellPrice = '?';
-
-                } else {
-                    order.sellPrice = isSellComplete ? sellPrice.toFixed(1) : (sellPrice.toFixed(1) + '?');
-                }*/
 
         order.sellPrice = sellPrice == 0 ? null : sellPrice;
 
-        // if (buyPrice==0 || sellPrice==0) {
-        //     order.profit = '?'
 
-        // } else {
-        //     order.profit = (sellPrice - buyPrice * rate).toFixed(1);
-
-        // }
 
         order.profit = (profit == 0) ? null : profit;
 
         order.isComplete = isSellComplete && isBuyComplete;
-
 
     },
     processOrder: function(order) {
@@ -112,7 +91,8 @@ var util = {
             if (typeof order.items == 'object') {
 
                 order.items = Object.keys(order.items).map(function(key) {
-                    return order.items[key] });
+                    return order.items[key]
+                });
 
             } else {
                 order.items = [];
@@ -144,6 +124,13 @@ var util = {
         delete order.__ko_mapping__;
 
 
+        let name = order.client.trim().replace(/[\?\uff1f]$/, '?'); ///[\uff00|\uff1f]/g
+
+        name = name.replace(/[\-\uff0d]/g, '-');
+
+        order.client = name;
+
+
         if (ObjectID.isValid(order._id)) {
 
             console.log('valid id:' + order._id);
@@ -168,9 +155,11 @@ var util = {
         return order;
     },
 
-    processProduct: function(product){
+    processProduct: function(product) {
 
         delete product.displayDate;
+        delete product.isChanged;
+        delete product.__ko_mapping__;
         if (ObjectID.isValid(product._id)) {
 
             console.log('valid id:' + product._id);

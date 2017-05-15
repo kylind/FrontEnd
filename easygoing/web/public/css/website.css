@@ -1949,6 +1949,18 @@ button.ispure {
 
 /**** client  ***/
 
+.searchbox--client{
+    display: flex;
+}
+.searchbox--client .searchbox-btns{
+
+    flex: 0 0 140px;
+
+}
+.searchbox--client .searchbox-input{
+    flex: 1 1;
+}
+
 .allclients {
     border: solid 1px #cc0066;
 }
@@ -1980,7 +1992,6 @@ button.ispure {
     display: block;
     text-align: center;
     background-color: #ffcccc;
-
 }
 
 .client-actions {
@@ -2230,14 +2241,14 @@ button.ispure {
     .allclients {
         border: solid 1px #000;
     }
-    .client {
+    .allclients > .client {
         display: none;
         border-bottom: solid 1px #000;
     }
-    .client:last-child {
+    .allclients > .client:last-child {
         display: none;
     }
-    .client.isActive {
+    .allclients > .client.isActive {
         display: flex;
     }
     .client-name {

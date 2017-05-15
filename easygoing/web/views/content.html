@@ -292,9 +292,14 @@
 <section id="clients" class="swiper-slide" data-bind='template: {afterRender: afterRender }'>
 
 
-    <div class="searchbox">
-        <button class="icon icon-add" data-bind="tap: addClient"> 新建 </button>
-        <button type="button" class="lmargin-5 icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitClients"> 保存 </button>
+    <div class="searchbox searchbox--client">
+        <div class="searchbox-btns">
+            <button class="icon icon-add" data-bind="tap: addClient"> 新建 </button>
+            <button type="button" class="lmargin-5 icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitClients"> 保存 </button>
+        </div>
+        <div class="searchbox-input">
+            <input type="text" class="w-p100 input-search" id="search-clients" data-bind="event: {input: $root.searchClients}" placeholder="搜索客户" />
+        </div>
     </div>
 
     <section class="senders tmargin-40" data-bind="css: {isEmpty: senders().length==0}, foreach: {data: senders, afterRender: afterSenderRender}">
@@ -309,6 +314,8 @@
 
     </section>
 
+
+<!-- ko if: clients().length>0 -->
 
     <div class="allclients" data-bind="foreach: {data: clients}">
         <section class="client" data-bind="css: {'isActive': isActive()}">
@@ -354,6 +361,8 @@
             </div>
         </section>
     </div>
+
+<!-- /ko -->
 </section>
 <% } %>
 

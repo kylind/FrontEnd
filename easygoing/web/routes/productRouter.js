@@ -22,7 +22,7 @@ router.use(function*(next) {
 
     if (this.isAuthenticated()) {
         productOperation = new ProductCollection(this.req.user.productCollection);
-        orderOperation = new OrderCollection(this.req.user.collection);
+        orderOperation = new OrderCollection(this.req.user.collection, this.req.user.productCollection);
     }
 
     yield next
@@ -58,15 +58,22 @@ router.post('/products', function*() {
 
 router.get('/products', function*() {
 
-    var res = yield productOperation.queryProducts();
+    var res = yield orderOperation.queryActiveProducts();
+
+
+    res.forEach(function(product) {
+
+        product.displayDate = product.modifiedDate ? new Date(product.modifiedDate).toLocaleDateString("en-US", dateFormatting) : '';
+
+    });
 
     var model = {
         name: 'products',
         css: '',
         header: '',
         footer: '',
-        products:res && res.length > 0 ? res : [],
-        needMask:false
+        products: res && res.length > 0 ? res : [],
+        needMask: false
     }
 
     yield this.render('products', model);
@@ -76,12 +83,70 @@ router.get('/products', function*() {
 
 router.get('/productsJson', function*() {
 
-    var res = yield productOperation.queryProducts();
+    var res = yield orderOperation.queryActiveProducts();
+
+    res.forEach(function(product) {
+
+        product.displayDate = product.modifiedDate ? new Date(product.modifiedDate).toLocaleDateString("en-US", dateFormatting) : '';
+
+    });
 
     this.body = res;
     this.status = 200;
 
 });
+
+router.get('/productsByKeywords', function*() {
+
+    var res = yield orderOperation.queryActiveProducts();
+
+    res.forEach(function(product) {
+
+        product.displayDate = product.modifiedDate ? new Date(product.modifiedDate).toLocaleDateString("en-US", dateFormatting) : '';
+
+    });
+
+    this.body = res;
+    this.status = 200;
+
+});
+
+function* getActiveProducts() {
+
+    var allProducts = yield productOperation.queryProducts();
+
+    var activeProducts = yield orderOperation.queryActiveProducts();
+
+
+
+
+    let Products = activeProducts.map(function(product) {
+
+        let name = product.name.trim();
+
+        var index = allProducts.findIndex(product => name == product.name);
+
+
+        if (index < 0) {
+
+            return { _id: '', name: name, buyPrice: '', sellPrice: '', modifiedDate: '', status: '' };
+
+        } else {
+
+            let product = allProducts[index];
+
+            return product;
+        }
+
+    });
+
+    return activeProducts;
+
+}
+
+
+
+
 
 
 router.delete('/product/:id', function*() {

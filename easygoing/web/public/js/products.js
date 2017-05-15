@@ -16,7 +16,8 @@ define(['common'], function(util) {
         self.sellPrice = ko.observable(product && !isNaN(product.sellPrice) ? product.sellPrice : '');
 
         self.modifiedDate = ko.observable(product ? product.modifiedDate : '');
-        self.displayDate = ko.observable(product ? product.displayDate : '');
+
+        self.displayDate = product ? product.displayDate : '';
 
 
         self.isChanged = false;

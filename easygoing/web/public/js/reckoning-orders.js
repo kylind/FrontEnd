@@ -651,11 +651,6 @@ define(['common'], function(util) {
 
             }
 
-            // if (matchedRes == null) {
-            //     self.sortOrders(reservedOrders);
-
-            //     self.orders(reservedOrders);
-            // }
 
             if (matchedRes != null) {
 
