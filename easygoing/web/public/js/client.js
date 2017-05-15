@@ -259,6 +259,8 @@ define(['common', 'clipboard'], function(util, Clipboard) {
         self.setClients = function(clients) {
             self.clients(init(clients));
             self.senders(classifyClients());
+            swiper.update();
+
         }
 
         self.setClientViews = function(clients) {

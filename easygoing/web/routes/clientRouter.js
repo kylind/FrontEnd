@@ -154,7 +154,7 @@ function* getClients() {
 
         let mailType = 'common';
 
-        if (order.client.search(/[\?\uff1f]$/) == -1) {
+        if (order.client.search(/[\?\uff1f]$/) > -1) {
             mailType = 'sf';
         }
 

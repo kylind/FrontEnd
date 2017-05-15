@@ -394,6 +394,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 }
 
                 setTimeout(function() {
+                    swiper.update();
                     $(window).scrollTop(0);
                 }, 100);
 
