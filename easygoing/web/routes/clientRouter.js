@@ -102,6 +102,24 @@ router.get('/clientsJson', function*() {
 
 });
 
+router.get('/clientsByKeywords', function*() {
+
+    var req = this.request.query;
+
+    var keywords = req.keywords;
+
+    var searchedClients = yield clientOperation.queryClientsByKeywords(keywords);
+
+    this.body = searchedClients;
+    this.status = 200;
+
+});
+
+
+
+
+
+
 function* getClients() {
     var allClients = yield clientOperation.queryClients()
 

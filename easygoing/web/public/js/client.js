@@ -261,6 +261,10 @@ define(['common', 'clipboard'], function(util, Clipboard) {
             self.senders(classifyClients());
         }
 
+        self.setClientViews = function(clients) {
+            self.clients(clients);
+
+        }
 
         self.setSenders = function() {
 
@@ -346,6 +350,9 @@ define(['common', 'clipboard'], function(util, Clipboard) {
                 if (changedClients.length > 0) {
 
 
+                    needRefresh = isSearchStatus ? true : false;
+
+
                     var clientsData = $.parseJSON(ko.toJSON(changedClients));
 
                     $.post('./clients', {
@@ -373,13 +380,17 @@ define(['common', 'clipboard'], function(util, Clipboard) {
 
                             });
 
-                            self.setSenders();
+                            if (!isSearchStatus) {
+                                self.setSenders();
+                            }
 
                             succeed();
 
                         },
                         'json'
                     );
+
+
                 } else {
                     succeed();
                 }
@@ -391,6 +402,12 @@ define(['common', 'clipboard'], function(util, Clipboard) {
             return false;
 
         };
+
+        function updateSwiper() {
+            setTimeout(function() {
+                swiper.update();
+            }, 100);
+        }
 
         self.afterRender = function() {
 
@@ -407,7 +424,124 @@ define(['common', 'clipboard'], function(util, Clipboard) {
 
         self.afterSenderRender = function() {
             swiper.update();
+        }
 
+        var activeClients, needRefresh, isSearchStatus, newKeywords;
+
+
+
+        self.searchClients = function(data, event) {
+
+            var keywords = $(event.target).val();
+
+            var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D\w]+[\u4E00-\u9FA5\uF900-\uFA2D\w ]*)/;
+
+
+            var matchedRes = keywords.match(regex);
+
+            if (!activeClients) {
+
+                activeClients = self.clients();
+
+            }
+
+
+            if (matchedRes != null) {
+
+                isSearchStatus = true;
+
+                if (matchedRes[1] == "") {
+                    searchActiveClients(matchedRes[2])
+
+                } else {
+                    newKeywords = matchedRes[2];
+                    searchGlobalClients(newKeywords)
+                }
+
+            } else if (/^\s?$/.test(keywords)) {
+
+                isSearchStatus = false;
+
+                if (needRefresh) {
+
+                    $.getJSON('./clientsJson', function(clients, status) {
+
+                        needRefresh = false;
+
+                        self.setClients(clients);
+                        updateSwiper();
+
+                    });
+
+
+                } else {
+                    self.clients(activeClients);
+                    updateSwiper();
+                }
+
+
+
+            }
+
+        }
+
+        function searchActiveClients(keywords) {
+
+            var searchedClients = activeClients.filter(function(client) {
+                return client.name().indexOf(keywords) >= 0;
+            });
+
+            self.clients(searchedClients);
+            updateSwiper();
+
+
+        }
+
+        var timeoutIds = [];
+
+
+
+        function searchGlobalClients() {
+
+
+
+            var id = setTimeout(function() {
+
+                for (var i = 1; i < timeoutIds.length; i++) {
+                    clearTimeout(timeoutIds[i]);
+                }
+
+                timeoutIds = [];
+
+                if (newKeywords != '') {
+
+                    $.ajax('./clientsByKeywords', {
+                        data: {
+                            keywords: newKeywords
+                        },
+                        type: 'GET',
+                        success: function(data, status) {
+
+                            self.clients(init(data));
+                            updateSwiper();
+
+
+                        },
+
+                        dataType: 'json'
+
+                    });
+                }
+
+                console.log('i am searching ' + newKeywords);
+
+                newKeywords='';
+
+
+
+            }, 1000);
+
+            timeoutIds.push(id);
 
         }
     };
