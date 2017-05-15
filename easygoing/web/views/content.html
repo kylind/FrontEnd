@@ -317,18 +317,21 @@
 
 <!-- ko if: clients().length>0 -->
 
-    <div class="allclients" data-bind="foreach: {data: clients}">
+    <div class="allclients" data-bind="foreach: {data: clients, afterRender:afterClientRender}">
         <section class="client" data-bind="css: {'isActive': isActive()}">
             <div class="client-name">
 
-            <div class="inputbox-client">
-                <input type="hidden" data-bind="value: _id" />
-                <input type="text" class="w-p30" data-bind="value: name" placeholder="客户" />
+                <div class="inputbox-client">
+                    <a class="sender-singleCopy icon icon-copy"></a>
+                    <input type="hidden" data-bind="value: _id" />
+                    <input type="text" class="w-p30" data-bind="value: name" placeholder="客户" />
                 </div>
             </div>
             <div class="client-infos">
                 <section class="client-actions">
                     <a href="#" class="icon icon-add" data-bind="tap:addAddress"> </a>
+
+
 
                     <span class="font-bold" data-bind="text: mailDisplayType(mailType)"> </span>
 
