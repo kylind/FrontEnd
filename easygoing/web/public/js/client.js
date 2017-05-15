@@ -413,19 +413,43 @@ define(['common', 'clipboard'], function(util, Clipboard) {
 
         self.afterRender = function() {
 
-            var clipboard = new Clipboard('.sender-copy', {
-
-                text: function(trigger) {
-                    return $(trigger).siblings('.sender-receives').val();
-                }
+            updateSwiper();
 
 
-            });
 
         }
 
         self.afterSenderRender = function() {
-            swiper.update();
+            if ($('.senders').children().length === self.senders().length) {
+                var clipboard = new Clipboard('.sender-copy', {
+
+                    text: function(trigger) {
+                        return $(trigger).siblings('.sender-receives').val();
+                    }
+                });
+                updateSwiper();
+            }
+
+        }
+
+        self.afterClientRender = function() {
+
+            if ($('.allclients').children().length === self.clients().length) {
+                var clipboard = new Clipboard('.sender-singleCopy', {
+
+                    text: function(trigger) {
+                        var $activeAddress =  $(trigger).closest('.client').find('.client-address.isActive');
+                        var recipient = $activeAddress.find('.recipient>input').val();
+                        var phone = $activeAddress.find('.phone>input').val();
+                        var addressDetail = $activeAddress.find('.addressDetail>input').val();
+
+                        return `${recipient}，${phone}，${addressDetail}；`;
+
+
+                    }
+                });
+                updateSwiper();
+            }
         }
 
         var activeClients, needRefresh, isSearchStatus, newKeywords;
@@ -496,16 +520,11 @@ define(['common', 'clipboard'], function(util, Clipboard) {
             self.clients(searchedClients);
             updateSwiper();
 
-
         }
 
         var timeoutIds = [];
 
-
-
         function searchGlobalClients() {
-
-
 
             var id = setTimeout(function() {
 
@@ -537,9 +556,7 @@ define(['common', 'clipboard'], function(util, Clipboard) {
 
                 console.log('i am searching ' + newKeywords);
 
-                newKeywords='';
-
-
+                newKeywords = '';
 
             }, 1000);
 

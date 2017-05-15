@@ -1984,6 +1984,7 @@ button.ispure {
     border-bottom: solid 1px #cc0066;
     height: 18px;
     font-size: 0;
+    position: relative;
 }
 
 .inputbox-client input {
@@ -1992,8 +1993,15 @@ button.ispure {
     display: block;
     text-align: center;
     background-color: #ffcccc;
+    padding-left:35px;
 }
+.inputbox-client > .sender-singleCopy {
+    position: absolute;
+    left:0;
+    top:0;
 
+
+}
 .client-actions {
     display: flex;
     justify-content: space-between;
