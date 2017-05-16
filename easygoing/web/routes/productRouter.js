@@ -60,7 +60,6 @@ router.get('/products', function*() {
 
     var res = yield orderOperation.queryActiveProducts();
 
-
     res.forEach(function(product) {
 
         product.displayDate = product.modifiedDate ? new Date(product.modifiedDate).toLocaleDateString("en-US", dateFormatting) : '';
@@ -98,7 +97,11 @@ router.get('/productsJson', function*() {
 
 router.get('/productsByKeywords', function*() {
 
-    var res = yield orderOperation.queryActiveProducts();
+    var req = this.request.query;
+
+    var keywords = req.keywords;
+
+    var res = yield productOperation.queryProductsByKeywords(keywords);
 
     res.forEach(function(product) {
 

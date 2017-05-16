@@ -29,7 +29,7 @@ define(['common'], function(util) {
         self.profit = item && item.profit ? item.profit : '';
         self.note = item && item.note ? item.note : '';
         self.isDone = item && item.isDone ? item.isDone : false;
-        self.tag= item && item.tag ? item.tag : '';
+        self.tag = item && item.tag ? item.tag : '';
 
         self.historicTrades = ko.observableArray([]);
 
@@ -328,7 +328,7 @@ define(['common'], function(util) {
         var startDate = getDoneOrderStartDate();
 
 
-        self.updateReservedOrders = function (orders) {
+        self.updateReservedOrders = function(orders) {
 
             reservedOrders = orders;
 
@@ -420,19 +420,14 @@ define(['common'], function(util) {
 
                         }
 
-                        //  else if (orderStatus == '3DONE' && self.createDate() < startDate) {
-                        //     self.addExistingOrder(self)
-
-                        // }
-
                         self.sortOrders(orders);
 
                         self.orders(orders);
 
                         self.updateReservedOrders(orders);
 
-                    }else{
-                        needRefresh=true;
+                    } else {
+                        needRefresh = true;
                     }
 
                     succeed();
@@ -484,6 +479,8 @@ define(['common'], function(util) {
                 })
 
                 if (changedOrders.length > 0) {
+
+                    needRefresh = isSearchStatus ? true : false;
                     $.post('./orders', {
                             orders: changedOrders
                         }, function(rs, status) {
@@ -528,18 +525,29 @@ define(['common'], function(util) {
 
             }
 
-            if ($('#search-reckoningOrders').val() != '') {
-
-                needRefresh=true;
-            }
-
 
             return false;
 
         };
 
-        self.afterRender=function(){
-            swiper.update();
+        function updateSwiper() {
+            setTimeout(function() {
+                swiper.update();
+            }, 100);
+        }
+
+        self.afterRender = function() {
+
+            updateSwiper();
+
+        }
+
+        self.afterOrderRender = function() {
+
+            if ($('#reckoningOrdersBody').children().length === self.orders().length) {
+
+                updateSwiper();
+            }
         }
 
         self.addOrder = function() {
@@ -556,45 +564,13 @@ define(['common'], function(util) {
         };
 
         self.addExistingOrder = function(order) {
-            // if (reservedOrders != null) {
-
-            //     var existingOrder = reservedOrders.find(function(ele) {
-            //         return ele._id == order._id;
-            //     });
-
-            //     if (!existingOrder) {
-            //         reservedOrders.unshift(order);
-            //     }
-
-            // }
-
-
 
             self.orders.push(doneOrder);
-
-
 
         };
         self.removeDoneOrder = function(doneOrder) {
 
-            // var id = doneOrder._id();
-
-            // if (reservedOrders != null) {
-
-            //     var newOrders = reservedOrders.filter(function(order) {
-
-            //         return order._id() != id;
-
-            //     });
-
-            //     reservedOrders = newOrders;
-
-            // }
-
-
-
             self.orders.remove(doneOrder);
-
 
         };
         self.removeOrder = function(order) {
@@ -631,10 +607,7 @@ define(['common'], function(util) {
 
         };
 
-
-
-        var reservedOrders = null;
-        var needRefresh= false;
+        var reservedOrders, needRefresh, isSearchStatus, newKeywords, isDoing;
         self.searchOrders = function(data, event) {
 
 
@@ -645,76 +618,71 @@ define(['common'], function(util) {
 
             var matchedRes = keywords.match(regex);
 
-            if (reservedOrders == null) {
+            if (!reservedOrders) {
 
                 reservedOrders = self.orders();
 
             }
 
-
             if (matchedRes != null) {
 
+                isSearchStatus = true;
+
+                newKeywords = matchedRes[2];
+
                 if (matchedRes[1] == "") {
-                    searchCurrentOrders(matchedRes[2])
+                    searchCurrentOrders()
 
                 } else {
-                    searchGlobalOrders(matchedRes[2])
+
+                    searchGlobalOrders()
                 }
 
-            } else if (needRefresh){
-
-                $.getJSON('./reckoningOrdersJson', function(orders, status) {
-
-                    var observableOrders = self.getObservableOrders(orders);
-
-                    reservedOrders=observableOrders;
-                    needRefresh=false;
-
-                    self.orders(observableOrders);
-
-                    setTimeout(function() {
-                        swiper.update();
-                    }, 100);
-
-                })
-
-            }else if (reservedOrders != null) {
+            } else if (/^\s?$/.test(keywords)) {
 
                 newKeywords = '';
+                isSearchStatus = false;
+                isDoing = false;
 
-                self.sortOrders(reservedOrders);
-                self.orders(reservedOrders);
-                setTimeout(function() {
-                    swiper.update();
-                }, 100)
+                if (needRefresh && !isDoing) {
+                    isDoing = true;
+
+                    $.getJSON('./reckoningOrdersJson', function(orders, status) {
+                        needRefresh = false;
+                        isDoing = false;
+
+                        var observableOrders = self.getObservableOrders(orders);
+                        self.orders(observableOrders);
+                        reservedOrders = observableOrders;
+
+                    });
+
+
+                } else {
+
+                    self.sortOrders(reservedOrders);
+                    self.orders(reservedOrders);
+                }
             }
-
         }
 
-        function searchCurrentOrders(keywords) {
+        function searchCurrentOrders() {
 
 
             var searchedOrders = reservedOrders.filter(function(order) {
 
-                return order.client().indexOf(keywords) >= 0;
+                return order.client().indexOf(newKeywords) >= 0;
             });
 
             self.orders(searchedOrders);
-            setTimeout(function() {
-                swiper.update();
-            }, 100)
+
         }
 
         var timeoutIds = [];
 
-        var newKeywords = '';
-
-        function searchGlobalOrders(keywords) {
-
-            newKeywords = keywords;
+        function searchGlobalOrders() {
 
             var id = setTimeout(function() {
-
 
                 for (var i = 1; i < timeoutIds.length; i++) {
                     clearTimeout(timeoutIds[i]);
@@ -731,22 +699,17 @@ define(['common'], function(util) {
                         type: 'GET',
                         success: function(data, status) {
 
-                            self.orders(self.getObservableOrders(data));
-                            setTimeout(function() {
-                                swiper.update();
-                            }, 100);
+                            if (!/^\s?$/.test(newKeywords)) {
 
+                                self.orders(self.getObservableOrders(data));
+                            }
                         },
 
                         dataType: 'json'
 
                     });
-
-
-
+                    console.log('i am searching ' + newKeywords);
                 }
-
-                console.log('i am searching ' + newKeywords);
 
             }, 1000);
 

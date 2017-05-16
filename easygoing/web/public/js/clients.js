@@ -259,7 +259,7 @@ define(['common', 'clipboard'], function(util, Clipboard) {
         self.setClients = function(clients) {
             self.clients(init(clients));
             self.senders(classifyClients());
-            swiper.update();
+            //updateSwiper();
 
         }
 
@@ -277,7 +277,7 @@ define(['common', 'clipboard'], function(util, Clipboard) {
         self.addClient = function() {
 
             self.clients.unshift(new ClientModel(null, swiper));
-            swiper.update();
+            updateSwiper();
         };
 
         self.removeClient = function(client) {
@@ -295,13 +295,16 @@ define(['common', 'clipboard'], function(util, Clipboard) {
             $.ajax('./client/' + id, {
                 success: function(data, status) {
                     succeed();
+                    updateSwiper();
                 },
                 dataType: 'json',
                 type: 'DELETE'
 
             });
 
-            swiper.update();
+            needRefresh = isSearchStatus ? true : false;
+
+
 
         };
 
@@ -438,7 +441,7 @@ define(['common', 'clipboard'], function(util, Clipboard) {
                 var clipboard = new Clipboard('.sender-singleCopy', {
 
                     text: function(trigger) {
-                        var $activeAddress =  $(trigger).closest('.client').find('.client-address.isActive');
+                        var $activeAddress = $(trigger).closest('.client').find('.client-address.isActive');
                         var recipient = $activeAddress.find('.recipient>input').val();
                         var phone = $activeAddress.find('.phone>input').val();
                         var addressDetail = $activeAddress.find('.addressDetail>input').val();
@@ -452,7 +455,7 @@ define(['common', 'clipboard'], function(util, Clipboard) {
             }
         }
 
-        var activeClients, needRefresh, isSearchStatus, newKeywords;
+        var activeClients, needRefresh, isSearchStatus, newKeywords, isDoing;
 
 
 
@@ -476,33 +479,41 @@ define(['common', 'clipboard'], function(util, Clipboard) {
 
                 isSearchStatus = true;
 
+                newKeywords = matchedRes[2];
+
                 if (matchedRes[1] == "") {
-                    searchActiveClients(matchedRes[2])
+                    searchActiveClients()
 
                 } else {
-                    newKeywords = matchedRes[2];
+
                     searchGlobalClients(newKeywords)
                 }
 
             } else if (/^\s?$/.test(keywords)) {
 
+                newKeywords = '';
                 isSearchStatus = false;
+                isDoing = false;
 
-                if (needRefresh) {
+                if (needRefresh && !isDoing) {
+
+                    isDoing = true;
 
                     $.getJSON('./clientsJson', function(clients, status) {
 
                         needRefresh = false;
+                        isDoing = false;
 
                         self.setClients(clients);
-                        updateSwiper();
+                        activeClients = self.clients();
+
 
                     });
 
 
                 } else {
                     self.clients(activeClients);
-                    updateSwiper();
+
                 }
 
 
@@ -511,14 +522,14 @@ define(['common', 'clipboard'], function(util, Clipboard) {
 
         }
 
-        function searchActiveClients(keywords) {
+        function searchActiveClients() {
 
             var searchedClients = activeClients.filter(function(client) {
-                return client.name().indexOf(keywords) >= 0;
+                return client.name().indexOf(newKeywords) >= 0;
             });
 
             self.clients(searchedClients);
-            updateSwiper();
+            //updateSwiper();
 
         }
 
@@ -542,21 +553,17 @@ define(['common', 'clipboard'], function(util, Clipboard) {
                         },
                         type: 'GET',
                         success: function(data, status) {
-
-                            self.clients(init(data));
-                            updateSwiper();
-
-
+                            if (!/^\s?$/.test(newKeywords)) {
+                                self.clients(init(data));
+                            }
                         },
 
                         dataType: 'json'
 
                     });
+                    console.log('i am searching ' + newKeywords);
                 }
 
-                console.log('i am searching ' + newKeywords);
-
-                newKeywords = '';
 
             }, 1000);
 

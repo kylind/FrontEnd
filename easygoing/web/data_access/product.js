@@ -14,6 +14,19 @@ class Collection {
 
     }
 
+    * queryProductsByKeywords(keywords) {
+
+        var db = yield MongoClient.connect(url);
+
+        let regex = `.*${keywords}.*`;
+
+        var res = yield db.collection(this.name).find({
+            name: { $regex: regex }
+        }).toArray();
+
+        return res;
+    }
+
     * queryProducts() {
 
         var db = yield MongoClient.connect(url);

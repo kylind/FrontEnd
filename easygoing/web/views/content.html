@@ -32,7 +32,7 @@
                     </div>
                 </div>
 
-                <div class="tmargin-40" data-bind="foreach: {data:orders}">
+                <div id='#receivedOrdersBody' class="tmargin-40" data-bind="foreach: {data:orders, afterRender: afterOrderRender}">
                     <section class="order order--received enterArea">
                         <div class="order-client">
                             <input type="hidden" data-bind="value: _id" />
@@ -147,7 +147,7 @@
                         <input type="text" class="w-p100 input-search" id="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="搜索客户订单" />
                     </div>
                 </div>
-                <div class="tmargin-40 orders  orders--reckoning" data-bind="foreach: {data: orders}">
+                <div id='reckoningOrdersBody' class="tmargin-40 orders orders--reckoning" data-bind="foreach: {data: orders,afterRender: afterOrderRender}">
                     <section class="order order--reckoning enterArea">
                         <div class="order-client">
                             <input type="hidden" data-bind="value: _id" />
@@ -287,8 +287,52 @@
             </section>
         <% } %>
 
+<% if ((!user.access) || (user.access && user.access.products)){ %>
+<section id="products" class="swiper-slide">
+    <div class="searchbox">
+        <button type="button" text="Add" class="fl icon icon-add" data-bind="tap:addProduct"> 新建 </button>
+        <button type="button" text="Add" class="lmargin-5 fl icon icon-save-all action-submit action-enter" data-bind="tap:submitProducts"> 保存</button>
+        <div class="lmargin-220">
+            <input type="text" class="w-p100 input-search" id="search-products" data-bind="event: {input: searchProducts}" placeholder="搜索产品" />
+        </div>
+    </div>
 
-  <% if ((!user.access) || (user.access && user.access.clients)){ %>
+    <!-- ko if: products().length>0 -->
+    <div class="table table--products" data-bind='template: {afterRender: afterRender }'>
+        <div class="table-header">
+            <span class="w-p30 lpadding-5">产品</span>
+            <span class="w-p15 lpadding-5 ">买</span>
+            <span class="w-p15 lpadding-5">卖</span>
+            <span class="w-p30 lpadding-5">日期</span>
+            <span class="w-p10 taRight"></span>
+        </div>
+        <div id="productsbody" class="table-body" data-bind="foreach: {data: products,afterRender: afterProductRender}">
+            <div class="table-row">
+                <span class="w-p30">
+                    <input  type="hidden" data-bind="value: _id" />
+                    <input  type="text" data-bind="value: name"  placeholder="产品" />
+                </span>
+                    <span class=" w-p15">
+                    <input  type="text" data-bind="value: buyPrice"  placeholder="买" />
+                </span>
+                    <span class=" w-p15">
+                    <input  type="text" data-bind="value: sellPrice"  placeholder="卖" />
+                </span>
+                <span class=" w-p30" data-bind="text: displayDate"></span>
+                <span class="w-p10 taRight rpadding-5">
+                    <a href="#" class="icon icon-remove action-submit action-delete" data-bind="tap: $root.removeProduct" ></a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- /ko -->
+</section>
+<% } %>
+
+
+
+
+<% if ((!user.access) || (user.access && user.access.clients)){ %>
 <section id="clients" class="swiper-slide" data-bind='template: {afterRender: afterRender }'>
 
 

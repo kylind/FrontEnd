@@ -64,19 +64,10 @@ define(['common'], function(util) {
 
         self.products = ko.observableArray(init(products));
 
-        self.afterRender = function() {
-
-            if (swiper && typeof swiper.update == 'function') {
-                swiper.update();
-            }
-
-        }
 
         self.submitProducts = function() {
             arguments[3]();
             var succeed = arguments[4];
-
-
 
             var products = self.products();
             //var productsData = ko.mapping.toJS(products); //$.parseJSON(ko.toJSON(order));
@@ -92,7 +83,7 @@ define(['common'], function(util) {
                     var isReal = product.name == '' ? false : true;
 
                     if (isReal && product.isChanged) {
-                            isChanged = true;
+                        isChanged = true;
                     }
 
                     if (isChanged) {
@@ -104,6 +95,8 @@ define(['common'], function(util) {
                 });
 
                 if (changedProducts.length > 0) {
+
+                    needRefresh = isSearchStatus ? true : false;
 
                     $.post('./products', { products: changedProducts }, function(rs, status) {
 
@@ -134,16 +127,16 @@ define(['common'], function(util) {
             var product = new Product();
 
             self.products.unshift(product);
-            //swiper.update();
+            updateSwiper();
             $(window).scrollTop(0);
         };
 
         self.removeProduct = function(product) {
 
-             arguments[3]();
-             var succeed = arguments[4];
+            arguments[3]();
+            var succeed = arguments[4];
 
-            var id = product._id;
+            var id = product._id();
             self.products.remove(product);
 
 
@@ -157,49 +150,147 @@ define(['common'], function(util) {
                 success: function(data, status) {
 
                     succeed();
-
+                    updateSwiper();
                 },
                 dataType: 'json',
                 type: 'DELETE'
 
             });
-            // swiper.update();
 
+            needRefresh = isSearchStatus ? true : false;
 
         };
 
-        var products = null;
+        function updateSwiper() {
+            setTimeout(function() {
+                swiper.update();
+            }, 100);
+        }
+
+        self.afterRender = function() {
+
+            updateSwiper();
+
+        }
+
+        self.afterProductRender = function() {
+
+            if ($('#productsbody').children().length === self.products().length) {
+
+                updateSwiper();
+            }
+        }
+
+        var activeProducts, needRefresh, isSearchStatus, newKeywords, isDoing;
         self.searchProducts = function(data, event) {
 
             var keywords = $(event.target).val();
-            if (products == null) {
-                products = self.products();
+
+            var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D\w]+[\u4E00-\u9FA5\uF900-\uFA2D\w ]*)/;
+
+
+            var matchedRes = keywords.match(regex);
+
+            if (!activeProducts) {
+
+                activeProducts = self.products();
+
             }
+            if (matchedRes != null) {
 
+                isSearchStatus = true;
 
-            if (keywords == '') {
+                newKeywords = matchedRes[2];
 
-                sortProducts(products);
+                if (matchedRes[1] == "") {
+                    searchActiveProducts()
 
-                var searchedProducts = products;
+                } else {
 
-            } else {
-                var searchedProducts = products.filter(function(order) {
+                    searchGlobalProducts()
+                }
 
-                    return order.client().indexOf(keywords) >= 0;
-                });
+            } else if (/^\s?$/.test(keywords)) {
+
+                newKeywords = '';
+
+                isSearchStatus = false;
+                isDoing=false;
+
+                if (needRefresh && !isDoing) {
+
+                    isDoing=true;
+
+                    $.getJSON('./productsJson', function(products, status) {
+
+                        needRefresh = false;
+                        isDoing=false;
+                        self.setProducts(products);
+                        activeProducts = self.products();
+
+                    });
+                } else {
+
+                    self.products(activeProducts);
+
+                }
             }
+        }
 
+        function searchActiveProducts() {
+
+            var searchedProducts = activeProducts.filter(function(client) {
+                return client.name().indexOf(newKeywords) >= 0;
+            });
 
             self.products(searchedProducts);
+            //updateSwiper();
+
+        }
+
+        var timeoutIds = [];
+
+        function searchGlobalProducts() {
+
+            var id = setTimeout(function() {
+
+                for (var i = 1; i < timeoutIds.length; i++) {
+                    clearTimeout(timeoutIds[i]);
+                }
+
+                timeoutIds = [];
+
+                if (newKeywords != '') {
+
+                    $.ajax('./productsByKeywords', {
+                        data: {
+                            keywords: newKeywords
+                        },
+                        type: 'GET',
+                        success: function(data, status) {
+
+                            if (!/^\s?$/.test(newKeywords)) {
+                                self.setProducts(products);
+                            }
+
+                            //updateSwiper();
+
+                        },
+
+                        dataType: 'json'
+
+                    });
+                    console.log('i am searching ' + newKeywords);
+                }
 
 
-            setTimeout(function() {
-                swiper.update();
-            }, 100)
 
 
-        };
+            }, 1000);
+
+            timeoutIds.push(id);
+
+        }
 
     }
 

@@ -1,4 +1,4 @@
-define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList', "ClientsModel"], function(util, OrdersModel) {
+define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList', "ClientsModel", 'ProductsModel'], function(util, OrdersModel) {
 
     return run;
 
@@ -10,22 +10,24 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
         var Swiper = util.Swiper;
 
         var viewModelStatus = {
-            receivedOrders:false,
-            purchaseItems:false,
-            reckoningOrders:false,
-            incomeList:false,
-            clients:false
+            receivedOrders: false,
+            purchaseItems: false,
+            reckoningOrders: false,
+            incomeList: false,
+            clients: false,
+            products: false
         };
 
         function setViewModelStatus(activeIndex) {
 
-            var id = $('.swiper-slide')[activeIndex].id
+            var id = $('.swiper-slide')[activeIndex].id;
 
             switch (id) {
                 case 'receivedOrders':
                     viewModelStatus.purchaseItems = true;
                     viewModelStatus.reckoningOrders = true;
                     viewModelStatus.clients = true;
+                    viewModelStatus.products = true;
                     break;
                 case 'purchaseItems':
                     viewModelStatus.receivedOrders = true;
@@ -36,6 +38,10 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                     viewModelStatus.purchaseItems = true;
                     viewModelStatus.incomeList = true;
                     viewModelStatus.clients = true;
+                    viewModelStatus.products = true;
+                    break;
+                case 'products':
+                    viewModelStatus.reckoningOrders = true;
                     break;
             }
         }
@@ -44,15 +50,14 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             var id = $('.swiper-slide')[swiper.activeIndex].id;
 
-            if (id=='receivedOrders') {
+            if (id == 'receivedOrders') {
 
                 $.getJSON('./receivedOrdersJson', function(orders, status) {
                     ordersModel.setOrders(orders, true);
                 });
-
             }
 
-            if (id=='reckoningOrders') {
+            if (id == 'reckoningOrders') {
 
                 $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
@@ -70,7 +75,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             var id = $('.swiper-slide')[swiper.activeIndex].id;
 
 
-            if (id=='incomeList' || id=='reckoningOrders') {
+            if (id == 'incomeList' || id == 'reckoningOrders') {
                 $.getJSON('./receivedOrdersJson', function(orders, status) {
                     ordersModel.setOrders(orders, true);
 
@@ -78,7 +83,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             }
 
-            if (id=='receivedOrders' || id=='reckoningOrders') {
+            if (id == 'receivedOrders' || id == 'reckoningOrders') {
 
                 $.getJSON('./purchaseItemsJson', function(rs, status) {
                     itemsModel.setItems(rs.items, true, true);
@@ -88,7 +93,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             }
 
 
-            if (id=='receivedOrders' || id=='incomeList') {
+            if (id == 'receivedOrders' || id == 'incomeList') {
 
                 $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
@@ -100,14 +105,14 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             }
 
-            if (id=='reckoningOrders') {
+            if (id == 'reckoningOrders') {
 
                 $.getJSON('./incomeListJson', function(incomeList, status) {
                     incomeListModel.setIncomeList(incomeList);
                 })
 
             }
-           if (id=='reckoningOrders') {
+            if (id == 'reckoningOrders') {
 
                 $.getJSON('./clientsJson', function(clients, status) {
 
@@ -155,6 +160,10 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                         bulletName = '客户';
                         break;
 
+                    case 'products':
+                        bulletName = '产品';
+                        break;
+
                 }
                 return '<span class="' + className + '">' + bulletName + '</span>';
             }
@@ -170,7 +179,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         })
 
-        var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel,clientsModel;
+        var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel, clientsModel;
 
         var ordersModel = new OrdersModel(orders);
         ordersModel.setSwiper(swiper);
@@ -178,7 +187,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
         ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
 
 
-        require(['common', 'ItemsModel', 'ReckoningOrders', 'IncomeList', 'ClientsModel'], function(util, ItemsModel, OrdersModel, IncomeListModel, ClientsModel) {
+        require(['common', 'ItemsModel', 'ReckoningOrders', 'IncomeList', 'ClientsModel', 'ProductsModel'], function(util, ItemsModel, OrdersModel, IncomeListModel, ClientsModel, ProductsModel) {
 
 
             var $ = util.$;
@@ -298,6 +307,17 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                     clientsModel = new ClientsModel(clients, swiper);
                     ko.applyBindings(clientsModel, $('#clients')[0]);
+
+                });
+
+            }
+
+            if (access.products) {
+                $.getJSON('./productsJson', function(products, status) {
+
+                    var productsModel = new ProductsModel(products, swiper);
+
+                    ko.applyBindings(productsModel, $('#products')[0]);
 
                 });
 

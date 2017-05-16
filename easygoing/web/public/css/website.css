@@ -2021,6 +2021,7 @@ button.ispure {
 
 .client-address input {
     width: 100%;
+    vertical-align: top;
 }
 
 .client-address > .recipient,
@@ -2134,6 +2135,7 @@ button.ispure {
 .table-row  input {
     vertical-align: top;
     width:100%;
+    padding-left:0;
 }
 
 .table-row > span {
@@ -2144,6 +2146,11 @@ button.ispure {
     border-right: 1px solid #cc0066;
     vertical-align: middle;
     height: 18px;
+}
+
+.table-row > span.taRight {
+    padding-right: 5px;
+    padding-left: 0;
 }
 .table-row > span:last-child {
 

@@ -149,7 +149,7 @@ var Collection = function(_name, _productCollection) {
             }, {
                 $group: {
                     '_id': '$_id',
-                    'productId':{ $last: '$products._id' },
+                    'productId': { $last: '$products._id' },
                     'buyPrice': { $last: '$products.buyPrice' },
                     'sellPrice': { $last: '$products.sellPrice' },
                     'status': { $last: '$products.status' },
@@ -158,7 +158,7 @@ var Collection = function(_name, _productCollection) {
 
                 }
             }, {
-                $project: {_id:'$productId', name: '$_id', buyPrice: 1, sellPrice: 1, status: 1, modifiedDate: 1 }
+                $project: { _id: '$productId', name: '$_id', buyPrice: 1, sellPrice: 1, status: 1, modifiedDate: 1 }
             }], {
                 cursor: {
                     batchSize: 1

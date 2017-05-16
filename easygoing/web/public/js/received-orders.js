@@ -148,7 +148,7 @@ define(['common'], function(util) {
         self.setSwiper = function(mySwiper) {
 
             swiper = mySwiper;
-            swiper.update();
+            updateSwiper();
 
         }
 
@@ -160,7 +160,7 @@ define(['common'], function(util) {
         self.setOrders = function(orders, isInitial) {
 
             self.orders(init(orders));
-            swiper.update();
+            updateSwiper();
 
         }
 
@@ -174,12 +174,12 @@ define(['common'], function(util) {
                 sellPrice: '',
                 isDone: false
             });
-            swiper.update();
+            updateSwiper();
         };
 
         self.removeItem = function(data, parent) {
             parent.items.remove(data);
-            swiper.update();
+            updateSwiper();
         };
 
         self.submitOrder = function(order) {
@@ -206,8 +206,6 @@ define(['common'], function(util) {
         self.submitOrders = function() {
             arguments[3]();
             var succeed = arguments[4];
-
-
 
             var orders = self.orders();
             //var ordersData = ko.mapping.toJS(orders); //$.parseJSON(ko.toJSON(order));
@@ -266,9 +264,6 @@ define(['common'], function(util) {
 
                                 orders[orderIndex].isChanged = false;
 
-
-
-
                             })
 
                             succeed();
@@ -279,10 +274,6 @@ define(['common'], function(util) {
                     succeed();
                 }
             }
-
-
-
-
 
             return false;
 
@@ -355,7 +346,7 @@ define(['common'], function(util) {
             var order = new OrderModel();
 
             self.orders.unshift(order);
-            swiper.update();
+            updateSwiper();
             $(window).scrollTop(0);
         };
 
@@ -384,7 +375,7 @@ define(['common'], function(util) {
                 type: 'DELETE'
 
             });
-            swiper.update();
+            updateSwiper();
 
 
         };
@@ -396,7 +387,6 @@ define(['common'], function(util) {
             if (orders == null) {
                 orders = self.orders();
             }
-
 
             if (keywords == '') {
 
@@ -410,22 +400,26 @@ define(['common'], function(util) {
                     return order.client().indexOf(keywords) >= 0;
                 });
             }
-
-
             self.orders(searchedOrders);
-
-
-            setTimeout(function() {
-                swiper.update();
-            }, 100)
-
-
+            updateSwiper();
         };
 
-
-        self.afterRender=function(){
-            swiper.update();
+        function updateSwiper() {
+            setTimeout(function() {
+                swiper.update();
+            }, 100);
+        }
+        self.afterRender = function() {
+            updateSwiper();
             $('.mask').removeClass('isShow');
+        }
+
+        self.afterOrderRender = function() {
+
+            if ($('#receivedOrdersBody').children().length === self.orders().length) {
+
+                updateSwiper();
+            }
         }
 
     };
