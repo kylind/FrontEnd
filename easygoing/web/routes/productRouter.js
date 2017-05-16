@@ -95,6 +95,21 @@ router.get('/productsJson', function*() {
 
 });
 
+router.get('/activeClientsByProduct', function*() {
+
+    var res = yield orderOperation.queryActiveProducts();
+
+    res.forEach(function(product) {
+
+        product.displayDate = product.modifiedDate ? new Date(product.modifiedDate).toLocaleDateString("en-US", dateFormatting) : '';
+
+    });
+
+    this.body = res;
+    this.status = 200;
+
+});
+
 router.get('/productsByKeywords', function*() {
 
     var req = this.request.query;

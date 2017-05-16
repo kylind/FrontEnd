@@ -308,50 +308,48 @@
         </div>
         <div id="productsbody" class="table-body" data-bind="foreach: {data: products,afterRender: afterProductRender}">
             <div class="table-row">
-                <span class="w-p30">
-                    <input  type="hidden" data-bind="value: _id" />
-                    <input  type="text" data-bind="value: name"  placeholder="产品" />
-                </span>
-                    <span class=" w-p15">
-                    <input  type="text" data-bind="value: buyPrice"  placeholder="买" />
-                </span>
-                    <span class=" w-p15">
-                    <input  type="text" data-bind="value: sellPrice"  placeholder="卖" />
-                </span>
-                <span class=" w-p30" data-bind="text: displayDate"></span>
-                <span class="w-p10 taRight rpadding-5">
-                    <a href="#" class="icon icon-remove action-submit action-delete" data-bind="tap: $root.removeProduct" ></a>
-                </span>
-            </div>
-            <div class="table-row forClients">
-                <!-- ko if: activeClients().length>0 -->
-
-                <div class="table table--activeClients" data-bind="foreach: { data: activeClients, afterRender:afterActiveClientRender }">
-
-                    <div class="table-row">
+                <div class="productInfo">
+                    <span class="w-p30">
                         <input  type="hidden" data-bind="value: _id" />
-                        <span class="w-p30" data-bind="text: name"></span>
-                        <span class="w-p15">
-                            <input  type="text" data-bind="value: buyPrice"  placeholder="买" />
-                        </span>
-                            <span class=" w-p15">
-                            <input  type="text" data-bind="value: sellPrice"  placeholder="卖" />
-                        </span>
-                        <span class=" w-p30" data-bind="text: note"></span>
+                        <input  type="text" data-bind="value: name"  placeholder="产品" />
+                    </span>
+                        <span class=" w-p15">
+                        <input  type="text" data-bind="value: buyPrice"  placeholder="买" />
+                    </span>
+                        <span class=" w-p15">
+                        <input  type="text" data-bind="value: sellPrice"  placeholder="卖" />
+                    </span>
+                    <span class=" w-p30" data-bind="text: displayDate"></span>
+                    <span class="w-p10 taRight rpadding-5">
+                        <a href="#" class="icon icon-remove action-submit action-delete" data-bind="tap: $root.removeProduct" ></a>
+                    </span>
+                </div>
 
+                <div class="clientInfo">
+                    <!-- ko if: activeClients().length>0 -->
+                    <div class="table table--activeClients" data-bind="foreach: { data: activeClients, afterRender:afterActiveClientRender }">
+                        <div class="table-row">
+                            <input  type="hidden" data-bind="value: _id" />
+                            <span class="w-p30" data-bind="text: name"></span>
+                            <span class="w-p15">
+                                <input  type="text" data-bind="value: buyPrice"  placeholder="买" />
+                            </span>
+                                <span class=" w-p15">
+                                <input  type="text" data-bind="value: sellPrice"  placeholder="卖" />
+                            </span>
+                            <span class=" w-p30" data-bind="text: note"></span>
+                        </div>
                     </div>
-
+                    <div class="actions--activeClients">
+                        <a href="#" class="icon icon-save action-submit" data-bind="tap: $parent.updateClientPrice" ></a>
+                    </div>
+                    <!-- /ko -->
+                    <!-- ko if: activeClients().length==0 -->
+                    <p class="taCenter">暂时没有获取到产品的客户列表。</p>
+                    <!-- /ko -->
                 </div>
-
-                <div class="actions--activeClients">
-                    <a href="#" class="icon icon-save action-submit" data-bind="tap: $root.removeProduct" ></a>
-                </div>
-
-                <!-- /ko -->
-                <!-- ko if: activeClients().length==0 -->
-                <p class="taCenter">暂时没有获取到产品的客户列表。</p>
-                <!-- /ko -->
             </div>
+
         </div>
     </div>
     <!-- /ko -->

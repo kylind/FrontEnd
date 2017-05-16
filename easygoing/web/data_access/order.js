@@ -176,7 +176,10 @@ var Collection = function(_name, _productCollection) {
 
             var res = yield db.collection(_name).aggregate([{
 
-                    $match: { status: '1RECEIVED', 'items.name': product }
+                    $match: {
+                        status: { $in: ['1RECEIVED', '2SENT'] },
+                        'items.name': product
+                    }
 
                 }, {
                     $unwind: {
@@ -193,7 +196,7 @@ var Collection = function(_name, _productCollection) {
                     }
 
                 }, {
-                    $project: { client: 1, createDate: 1, status: 1, name: '$items.name', quantity: '$items.quantity', note: '$items.note' }
+                    $project: { client: 1,  name: '$items.name', quantity: '$items.quantity', note: '$items.note' }
                 }
 
             ], { cursor: { batchSize: 1 } }).toArray();

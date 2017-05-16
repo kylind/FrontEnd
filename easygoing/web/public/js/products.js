@@ -3,6 +3,18 @@ define(['common'], function(util) {
     var ko = util.ko;
     ko.mapping = util.mapping;
 
+    function ProductClient(productClient) {
+
+        var self = this;
+
+        self._id = productClient._id;
+        self.client = productClient.client;
+        self.note = productClient.note;
+
+        self.buyPrice = ko.observable(product && !isNaN(product.buyPrice) ? product.buyPrice : '');
+        self.sellPrice = ko.observable(product && !isNaN(product.sellPrice) ? product.sellPrice : '');
+    }
+
     function Product(product) {
 
         var self = this;
@@ -31,6 +43,61 @@ define(['common'], function(util) {
         self.sellPrice.subscribe(function(newValue) {
             self.isChanged = true;
         })
+
+
+        self.activeClients = ko.observableArray([]);
+
+        var isOpen = false;
+
+        self.getActiveClients = function(product, parent, event) {
+
+            $activeClients = $(event.target).closet('.table-row').next()
+
+
+            if (!item.isOpen) {
+                arguments[3]();
+                var succeed = arguments[4]
+                $.getJSON('./activeClientsByProduct', { product: self.name() }, function(productClients, status) {
+
+                    if (status == 'success' && Array.isArray(productClients) && productClients.length > 0) {
+
+
+                        var activeClients = productClients.map(client => new ProductClient(client));
+
+                        self.activeClients(activeClients);
+
+
+                    } else {
+                        item.activeClients([]);
+                    }
+
+                    $activeClients.slideDown('fast', function() {
+                        isOpen = true;
+                        succeed();
+                    });
+
+                });
+
+            } else {
+
+                $activeClients.slideUp('fast', function() {
+                    isOpen = false;
+                    swiper.update();
+                });
+
+
+            }
+
+
+
+        };
+
+
+        self.updateClientPrice=function(){
+
+        }
+
+
 
     }
 
@@ -215,16 +282,16 @@ define(['common'], function(util) {
                 newKeywords = '';
 
                 isSearchStatus = false;
-                isDoing=false;
+                isDoing = false;
 
                 if (needRefresh && !isDoing) {
 
-                    isDoing=true;
+                    isDoing = true;
 
                     $.getJSON('./productsJson', function(products, status) {
 
                         needRefresh = false;
-                        isDoing=false;
+                        isDoing = false;
                         self.setProducts(products);
                         activeProducts = self.products();
 

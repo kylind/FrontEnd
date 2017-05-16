@@ -2157,6 +2157,9 @@ button.ispure {
     border-right: none;
 
 }
+.table-row.forClients{
+    display: none;
+}
 
 /**** print **/
 
