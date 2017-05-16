@@ -307,7 +307,6 @@ define(['common'], function(util) {
                 }
             }
 
-
             if (newStatus == "") {
                 succeed();
                 return;
