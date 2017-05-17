@@ -842,7 +842,7 @@ button {
 }
 
 .orderitem {
-    background-color: #ffcccc;
+    background-color: #f2f2f2;
     border-bottom: 1px solid #cc0066;
 }
 
@@ -892,7 +892,7 @@ span.orderitem-cnt-btns {
 }
 
 .orderitem-cnt.total > span:nth-child(n+2) {
-    color: #ffcccc;
+    color: #f2f2f2;
 }
 
 .orderitem-cnt.total.isShow > span:nth-child(n+2) {
@@ -906,7 +906,7 @@ span.orderitem-cnt-btns {
 
 .subItems {
     width: 100%;
-    background-color: #fff;
+    background-color: #ffcccc;
 }
 
 .subItems-header {
@@ -1080,6 +1080,7 @@ span.orderitem-cnt-btns {
 .tag.isEmpty .tag-label {
     /*background-color: #cc0066;*/
     /*box-shadow: 0 -1px 0 0 #fff;*/
+    background-color: #fff;
 }
 
 .tag.isEmpty .tag-label:hover {
@@ -2115,7 +2116,7 @@ button.ispure {
     border-right: 1px solid #cc0066;
     box-sizing: border-box;
     margin-top:40px;
-    background-color: #ffcccc;
+    /*background-color: #ffcccc;*/
 }
 .table-header {
     font-size: 0;
@@ -2171,7 +2172,6 @@ button.ispure {
     vertical-align: top;
     width:100%;
     padding-left:0;
-    background-color: #ffcccc;
 }
 
 .productInfo-name {
@@ -2188,7 +2188,7 @@ button.ispure {
 
 
 .productInfo-date {
-    flex: 0 0 70px;
+    flex: 0 0 100px;
 }
 
 .productInfo > .productInfo-actions {
@@ -2205,7 +2205,7 @@ button.ispure {
 }
 
 .clientInfo-cnt{
-    background-color: #fff;
+    background-color: #ffcccc;
 
     position: relative;
 }
@@ -2218,21 +2218,25 @@ button.ispure {
     border-bottom: solid 1px #cc0066;
 }
 
-.client input{
+.client--product input{
     width:100%;
     padding-left:0;
     vertical-align: top;
-    background-color: #fff;
+    background-color: #ffcccc
 
 
 }
 
-.client > .client-name{
+.client--header.client--product > span{
+
+}
+
+.client--product > .client-name{
     box-sizing: border-box;
     padding-left:5px;
     flex: 0 0 30%;
     border-right: solid 1px #cc0066;
-    background-color: #eee;
+
 
 }
 .client-buy{
@@ -2252,14 +2256,14 @@ button.ispure {
 .client-note{
     box-sizing: border-box;
     padding-left:5px;
-    flex: 0 0 70px;
+    flex: 0 0 100px;
     border-right: solid 1px #cc0066;
-    background-color: #eee;
+
 
 }
 .client-space{
     flex: 0 0 70px;
-    background-color: #eee;
+
 }
 .clientInfo-actions{
 

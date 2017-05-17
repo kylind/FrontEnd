@@ -299,12 +299,12 @@
 
     <!-- ko if: products().length>0 -->
     <div class="table table--products" data-bind='template: {afterRender: afterRender }'>
-        <div class="table-header">
-            <span class="w-p30 lpadding-5">产品</span>
-            <span class="w-p15 lpadding-5 ">买</span>
-            <span class="w-p15 lpadding-5">卖</span>
-            <span class="w-p30 lpadding-5">日期</span>
-            <span class="w-p10 taRight"></span>
+        <div class="table-header productInfo">
+            <span class="productInfo-name">产品</span>
+            <span class="productInfo-buy ">买</span>
+            <span class="productInfo-sell">卖</span>
+            <span class="productInfo-date">日期</span>
+            <span class="productInfo-actions"></span>
         </div>
         <div id="productsbody" class="table-body" data-bind="foreach: {data: products,afterRender: afterProductRender}">
             <div class="table-row">
@@ -327,9 +327,23 @@
                 </div>
                 <div class="clientInfo">
                     <div class="clientInfo-cnt">
+
+                        <div class="client client--product client--header">
+
+                            <span class="client-name">客户</span>
+                            <span class="client-buy">
+                                买
+                            </span>
+                            <span class="client-sell">
+                                卖
+                            </span>
+                            <span class="client-note">备注</span>
+                            <span class="client-space"></span>
+                        </div>
+
                         <!-- ko if: activeClients().length>0 -->
                         <div class="clientInfo-clients" data-bind="foreach: { data: activeClients }">
-                            <div class="client">
+                            <div class="client client--product">
                                 <input  type="hidden" data-bind="value: _id" />
                                 <span class="client-name oneline" data-bind="text: client"></span>
                                 <span class="client-buy">
