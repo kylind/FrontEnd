@@ -11,11 +11,11 @@ define(['common'], function(util) {
         self.client = productClient.client;
         self.note = productClient.note;
 
-        self.buyPrice = ko.observable(product && !isNaN(product.buyPrice) ? product.buyPrice : '');
-        self.sellPrice = ko.observable(product && !isNaN(product.sellPrice) ? product.sellPrice : '');
+        self.buyPrice = ko.observable(productClient && !isNaN(productClient.buyPrice) ? productClient.buyPrice : '');
+        self.sellPrice = ko.observable(productClient && !isNaN(productClient.sellPrice) ? productClient.sellPrice : '');
     }
 
-    function Product(product) {
+    function Product(product,swiper) {
 
         var self = this;
 
@@ -47,19 +47,21 @@ define(['common'], function(util) {
 
         self.activeClients = ko.observableArray([]);
 
-        var isOpen = false;
+        self.isOpen = ko.observable(false);
 
         self.getActiveClients = function(product, parent, event) {
 
-            $activeClients = $(event.target).closet('.table-row').next()
+            $activeClients = $(event.target).closest('.table-row').children('.clientInfo');
 
 
-            if (!item.isOpen) {
+            if (!self.isOpen()) {
                 arguments[3]();
                 var succeed = arguments[4]
                 $.getJSON('./activeClientsByProduct', { product: self.name() }, function(productClients, status) {
 
                     if (status == 'success' && Array.isArray(productClients) && productClients.length > 0) {
+
+                        productClients = [{_id:'', client:'abc', sellPrice:10, buyPrice:20},{_id:'', client:'edf', sellPrice:10, buyPrice:20}];
 
 
                         var activeClients = productClients.map(client => new ProductClient(client));
@@ -68,12 +70,13 @@ define(['common'], function(util) {
 
 
                     } else {
-                        item.activeClients([]);
+                        self.activeClients([]);
                     }
 
                     $activeClients.slideDown('fast', function() {
-                        isOpen = true;
+                        self.isOpen(true);
                         succeed();
+                        swiper.update();
                     });
 
                 });
@@ -81,7 +84,7 @@ define(['common'], function(util) {
             } else {
 
                 $activeClients.slideUp('fast', function() {
-                    isOpen = false;
+                    self.isOpen(false);
                     swiper.update();
                 });
 
@@ -93,9 +96,21 @@ define(['common'], function(util) {
         };
 
 
-        self.updateClientPrice=function(){
+        self.updateClientPrice = function() {
 
         }
+
+        self.getExpandCollapse = function() {
+            if(self.isOpen()){
+                return 'icon-collapse';
+
+            }else{
+                return 'icon-expand';
+
+            }
+
+        }
+
 
 
 
@@ -116,7 +131,7 @@ define(['common'], function(util) {
 
                 var productModels = products.map(function(product) {
 
-                    return new Product(product);
+                    return new Product(product, swiper);
 
                 });
             }

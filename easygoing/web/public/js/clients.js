@@ -447,8 +447,6 @@ define(['common', 'clipboard'], function(util, Clipboard) {
                         var addressDetail = $activeAddress.find('.addressDetail>input').val();
 
                         return `${recipient}，${phone}，${addressDetail}；`;
-
-
                     }
                 });
                 updateSwiper();
