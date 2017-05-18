@@ -2263,15 +2263,24 @@ button.ispure {
 }
 .client-space{
     flex: 0 0 70px;
+    box-shadow: 0 1px 0 0 #ffcccc;
+}
 
+.client--product:last-child > .client-space{
+    box-shadow: none;
 }
 .clientInfo-actions{
 
     position: absolute;
-    right:0;
+    right:40px;
     top:0;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
+.clientInfo-actions > a{
 
+}
 
 /**** print **/
 

@@ -17,7 +17,7 @@ define(['common'], function(util) {
     }
     var Item = function(item, swiper) {
         var self = this;
-        self._id = item ? item._id : '';
+        self._id = item && item._id ? item._id : '';
         self.quantity = item ? item.quantity : '';
         self.tag = ko.observable((item && item.tag) ? item.tag : '');
         self.purchaseDetail = ko.observableArray(item ? item.purchaseDetail : []);
