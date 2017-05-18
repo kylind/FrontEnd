@@ -97,7 +97,11 @@ router.get('/productsJson', function*() {
 
 router.get('/activeClientsByProduct', function*() {
 
-    var res = yield orderOperation.queryActiveProducts();
+    var req = this.request.query;
+
+    var product = req.product;
+
+    var res = yield orderOperation.queryClientsByProduct(product);
 
     res.forEach(function(product) {
 
@@ -125,6 +129,19 @@ router.get('/productsByKeywords', function*() {
     });
 
     this.body = res;
+    this.status = 200;
+
+});
+
+router.post('/updateClientPrice', function*() {
+
+    var req = this.request.body;
+
+    var clientProducts = req.clientProducts;
+
+    yield orderOperation.updateClientPrice(clientProducts);
+
+    this.body = clientProducts;
     this.status = 200;
 
 });

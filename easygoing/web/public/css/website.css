@@ -2200,6 +2200,10 @@ button.ispure {
     justify-content: space-between;
 }
 
+.client--header {
+
+}
+
 .clientInfo{
     display: none;
 }
@@ -2211,6 +2215,7 @@ button.ispure {
 }
 .clientInfo-clients{
     box-sizing: border-box;
+    background-color: #f2f2f2;
 }
 
 .client{
@@ -2222,7 +2227,7 @@ button.ispure {
     width:100%;
     padding-left:0;
     vertical-align: top;
-    background-color: #ffcccc
+
 
 
 }
@@ -2244,26 +2249,38 @@ button.ispure {
     padding-left:5px;
      border-right: solid 1px #cc0066;
      box-sizing: border-box;
+     background-color: #fff;
 
 }
+
+.client--header .client-buy{
+    background-color: #ffcccc;
+}
+
 .client-sell{
     flex: 1 1 15%;
     padding-left:5px;
      border-right: solid 1px #cc0066;
      box-sizing: border-box;
+     background-color: #fff;
 
+}
+.client--header .client-sell{
+    background-color: #ffcccc;
 }
 .client-note{
     box-sizing: border-box;
     padding-left:5px;
     flex: 0 0 100px;
     border-right: solid 1px #cc0066;
-
-
 }
+
 .client-space{
     flex: 0 0 70px;
-    box-shadow: 0 1px 0 0 #ffcccc;
+    box-shadow: 0 1px 0 0 #f2f2f2;
+}
+.client--header .client-space{
+    background-color: #f2f2f2;
 }
 
 .client--product:last-child > .client-space{
@@ -2272,13 +2289,24 @@ button.ispure {
 .clientInfo-actions{
 
     position: absolute;
-    right:40px;
+    right:20px;
     top:0;
     height: 100%;
     display: flex;
     align-items: center;
 }
 .clientInfo-actions > a{
+
+
+
+}
+
+.clientInfo-actions > a:before{
+
+color:#cc0066;
+
+font-size: 1.8rem;
+
 
 }
 

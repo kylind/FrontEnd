@@ -356,10 +356,14 @@
                                 <span class="client-space"></span>
                             </div>
                         </div>
+
                         <div class="clientInfo-actions">
-                            <a  class="icon icon-save-all action-submit" data-bind="tap: $parent.updateClientPrice" ></a>
+                            <a  class="icon icon-save-all action-submit" data-bind="tap: updateClientPrice" ></a>
                         </div>
                         <!-- /ko -->
+
+
+
                         <!-- ko if: activeClients().length==0 -->
                         <p class="taCenter">暂时没有获取到产品的客户列表。</p>
                         <!-- /ko -->

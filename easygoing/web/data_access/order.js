@@ -196,7 +196,7 @@ var Collection = function(_name, _productCollection) {
                     }
 
                 }, {
-                    $project: { client: 1,  name: '$items.name', quantity: '$items.quantity', note: '$items.note' }
+                    $project: { client: 1, name: '$items.name', quantity: '$items.quantity', note: '$items.note' }
                 }
 
             ], { cursor: { batchSize: 1 } }).toArray();
@@ -204,7 +204,38 @@ var Collection = function(_name, _productCollection) {
             return res;
 
         },
+        updateClientPrice: function*(orderProducts) {
 
+            var db = yield MongoClient.connect(url);
+
+            var ids = orderProducts.map(orderProduct => new ObjectID(orderProduct._id));
+
+            var query = {
+                _id: {
+                    $in: ids
+                }
+            };
+
+            var docs = yield db.collection(_name).find(query).toArray();
+
+            docs.forEach(function(doc) {
+
+                let orderProduct = orderProducts.find(orderProduct => doc._id == orderProduct._id);
+
+                if (orderProduct) {
+                    doc.items.forEach(function(item) {
+
+                        if (item.name == orderProduct.name) {
+                            item.sellPrice = orderProduct.sellPrice;
+                            item.buyPrice = orderProduct.buyPrice;
+                        }
+                    });
+                    db.collection(_name).save(doc);
+                }
+
+            });
+
+        },
         queryGlobalOrders: function*(text) {
 
 

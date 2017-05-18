@@ -9,6 +9,7 @@ define(['common'], function(util) {
 
         self._id = productClient._id;
         self.client = productClient.client;
+        self.name = productClient.name;
         self.note = productClient.note;
 
         self.buyPrice = ko.observable(productClient && !isNaN(productClient.buyPrice) ? productClient.buyPrice : '');
@@ -61,7 +62,7 @@ define(['common'], function(util) {
 
                     if (status == 'success' && Array.isArray(productClients) && productClients.length > 0) {
 
-                        productClients = [{_id:'', client:'abc', sellPrice:10, buyPrice:20},{_id:'', client:'edf', sellPrice:10, buyPrice:20}];
+                       // productClients = [{_id:'', client:'abc', sellPrice:10, buyPrice:20},{_id:'', client:'edf', sellPrice:10, buyPrice:20}];
 
 
                         var activeClients = productClients.map(client => new ProductClient(client));
@@ -97,6 +98,25 @@ define(['common'], function(util) {
 
 
         self.updateClientPrice = function() {
+
+            arguments[3]();
+            var succeed = arguments[4];
+
+            var activeClients = self.activeClients();
+            var clientsData = $.parseJSON(ko.toJSON(activeClients))
+
+
+            $.post('./updateClientPrice', { clientProducts: clientsData }, function(rs, status) {
+
+                    succeed();
+                },
+                'json'
+            );
+
+
+            return false;
+
+
 
         }
 
