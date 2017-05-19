@@ -34,7 +34,7 @@
 
                 <div id='#receivedOrdersBody' class="tmargin-40" data-bind="foreach: {data:orders, afterRender: afterOrderRender}">
                     <section class="order order--received enterArea">
-                        <div class="order-client">
+                        <div class="order-client bg-grey">
                             <input type="hidden" data-bind="value: _id" />
                             <div class="order-clientbox">
                                 <input type="text" class="client oneline" data-bind="value: client" placeholder="客户" />
@@ -48,20 +48,20 @@
                                 <a href="#" class="icon icon-remove-sign action-submit action-delete" data-bind="tap: $root.removeOrder"></a>
                             </div>
                             <!-- ko foreach: items -->
-                            <fieldset class="item">
-                                <span class="w-p40">
+                            <div class="item item--received">
+                                <span class="item-product">
                                     <input  type="text" class="oneline" data-bind="value: name" placeholder="产品" />
                                 </span>
-                                <span class="w-p10">
+                                <span class="item-quantity">
                                     <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
                                 </span>
-                                <span class="w-p30">
+                                <span class="item-note">
                                     <input  type="text" data-bind="value: note" placeholder="备注:" />
                                 </span>
-                                <span class="w-p20 taRight rpadding-5">
+                                <span class="bg-grey item-actions">
                                      <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $root.removeItem"></a>
                                 </span>
-                            </fieldset>
+                            </div>
                             <!-- /ko -->
                         </div>
                     </section>
@@ -149,7 +149,7 @@
                 </div>
                 <div id='reckoningOrdersBody' class="tmargin-40 orders orders--reckoning" data-bind="foreach: {data: orders,afterRender: afterOrderRender}">
                     <section class="order order--reckoning enterArea">
-                        <div class="order-client">
+                        <div class="order-client bg-grey">
                             <input type="hidden" data-bind="value: _id" />
                             <input type="hidden" data-bind="value: rate" />
                             <div class="order-clientbox">
@@ -167,15 +167,15 @@
                             </div>
                             <!-- ko if: _id() != '' -->
                             <div class="order-totalbox">
-                                <span class="font-bold font-red vaTop onlyForMe" data-bind="css:{'font-red': isComplete}">
+                                <span class="font-bold font-red vaTop onlyForMe bg-grey" data-bind="css:{'font-red': isComplete}">
                                     <span class="w-p20">总共：</span>
-                                    <span class="w-p10"><input type="text" class="w-30 font-bold postage" placeholder='Fee' data-bind="value: postage,css:{'font-red': isComplete}" /></span>
+                                    <span class="w-p10 bg-white"><input type="text" class="w-30 font-bold postage" placeholder='Fee' data-bind="value: postage,css:{'font-red': isComplete}" /></span>
                                     <span class="w-p15" data-bind="text: formatPrice(buyPrice)"></span>
                                     <span class="w-p15" data-bind="text: formatPrice(sellPrice)"></span>
                                     <span class="w-p15" data-bind="text: formatPrice(profit)"></span>
                                     <span class="w-p25"></span>
                                 </span>
-                                <span class="font-bold font-red vaTop onlyForClient" data-bind="css:{'font-red': isComplete}">
+                                <span class="font-bold font-red vaTop onlyForClient bg-grey" data-bind="css:{'font-red': isComplete}">
                                     <span class="lmargin-5">总共： &nbsp;</span>
                                     <span data-bind="text: formatPrice(sellPrice)"></span>
                                     <span>&nbsp;+ &nbsp;</span>
@@ -201,9 +201,9 @@
                                             <input  type="text" data-bind="value: sellPrice" placeholder="卖" />
                                         </span>
                                         <span class="w-p15 onlyForMe">
-                                            <input  type="text" readonly data-bind="value: profit" placeholder="收益" />
+                                            <input class='bg-grey' type="text" readonly data-bind="value: profit" placeholder="收益" />
                                         </span>
-                                                                                    <span class="w-p25 actions">
+                                        <span class="w-p25 actions bg-grey">
                                             <a href="#" class="icon icon-search  action-load" data-bind="tap: $parent.getHistoricTrades"></a>
                                             <a href="#" class="icon icon-remove action-submit" data-bind="tap: $parent.removeItem"></a>
                                         </span>
@@ -299,7 +299,7 @@
 
     <!-- ko if: products().length>0 -->
     <div class="table table--products" data-bind='template: {afterRender: afterRender }'>
-        <div class="table-header productInfo">
+        <div class="table-header productInfo productInfo--header">
             <span class="productInfo-name">产品</span>
             <span class="productInfo-buy ">买</span>
             <span class="productInfo-sell">卖</span>
@@ -411,7 +411,7 @@
 
     <div class="allclients" data-bind="foreach: {data: clients, afterRender:afterClientRender}">
         <section class="client" data-bind="css: {'isActive': isActive()}">
-            <div class="client-name">
+            <div class="client-name bg-grey">
 
                 <div class="inputbox-client">
                     <a class="sender-singleCopy icon icon-copy"></a>
@@ -430,25 +430,26 @@
                     <a href="#" class="icon icon-remove-sign action-submit action-delete" data-bind="tap: $root.removeClient"> </a>
                 </section>
                 <!-- ko foreach: addresses -->
-                <div class="client-address" data-bind="css: defaultAddressCss()">
-                    <span class="recipient">
-
-                    <input type="text" data-bind="value: recipient" placeholder="收件人" />
-
-                    </span>
-
-                    <span class="recipient print"  data-bind="text: $parent.displayPrintName(recipient)"></span>
+                <div class="client-address address--client" data-bind="css: defaultAddressCss()">
 
 
-                    <span class="phone"><input type="text"  min="0" max="100" step="1" data-bind="value: phone" placeholder="电话" /></span>
-                    <span class="actions">
+                    <div class="address-cnt">
+                        <span class="recipient"><input type="text" data-bind="value: recipient" placeholder="收件人" /></span>
+
+                        <span class="recipient print"  data-bind="text: $parent.displayPrintName(recipient)"></span>
+
+
+                        <span class="phone"><input type="text"  min="0" max="100" step="1" data-bind="value: phone" placeholder="电话" /></span>
+
+                        <span class="addressDetail"><input type="text" class="client-inputclient" min="0" max="100" step="1" data-bind="value: address" placeholder="地址" /></span>
+                    </div>
+
+                    <span class="address-actions bg-grey">
 
                         <a href="#" class="icon action-submit" data-bind="tap: $parent.markDefault, css: defaultAddressMarkCss()"></a>
                         <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $parent.removeAddress"> </a>
 
                     </span>
-                    <span class="addressDetail"><input type="text" class="client-inputclient" min="0" max="100" step="1" data-bind="value: address" placeholder="地址" /></span>
-
 
 
                 </div>
