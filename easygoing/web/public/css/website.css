@@ -571,7 +571,6 @@ button {
 }
 
 .order-totalbox > .onlyForMe {
-    display: block;
     font-size: 0;
     line-height: 0;
 }
@@ -605,15 +604,9 @@ button {
     height: 18px;
 }
 
-
 .item {
     border-bottom: 1px solid #cc0066;
     margin-bottom: 0;
-    display: block;
-}
-
-.order--received .item {
-    font-size: 0;
     display: flex;
 }
 
@@ -621,75 +614,102 @@ button {
     border-bottom: none;
 }
 
-.order--received .item:last-child {
-    border-bottom: none;
-}
-
-
-
 .item > span {
     border-right: 1px solid #cc0066;
-    display: inline-block;
     box-sizing: border-box;
-    font-size: 0;
 }
 
-
-
-.item--received > span {
-    border-right: 1px solid #cc0066;
-    display: inline-block;
-    box-sizing: border-box;
-    font-size: 0;
-}
-
-.item--received  > span:last-child {
+.item > span:last-child {
     border-right: 0;
 }
 
-.item--received > .item-product{
+.item--received > .item-product {
     flex: 1 1 40%;
 }
-.item--received > .item-quantity{
-    flex: 0 0 30px;
+
+.item--received > .item-quantity {
+    flex: 0 0 35px;
 }
 
-.item--received > .item-note{
+.item--received > .item-note {
     flex: 1 1 30%;
 }
 
-.item--received > .item-actions{
+.item--received > .item-actions {
     flex: 0 0 35px;
     text-align: right;
 }
 
-
-
-.order--reckoning .item-fields > span {
-    border-right: 1px solid #cc0066;
-    display: inline-block;
-    box-sizing: border-box;
-    font-size: 0;
-    vertical-align: top;
+.item--reckoningtotal {
+    display: flex;
+    border-bottom: none;
 }
 
+.item--reckoningtotal .item-sum {
+    flex: 2 1 20%;
+}
 
+.item--reckoningtotal .item-fee {
+    flex: 0 0 35px;
+}
+
+.item--reckoningtotal .item-buy {
+    flex: 1 1 10%;
+}
+
+.item--reckoningtotal .item-sell {
+    flex: 1 1 10%;
+}
+
+.item--reckoningtotal .item-profit {
+    flex: 1 1 10%;
+}
+
+.item--reckoningtotal .item-space {
+    flex: 0 0 70px;
+}
+
+.itembox--reckoning {
+    border-bottom: 1px solid #cc0066;
+}
+
+.itembox--reckoning:last-child {
+    border-bottom: none;
+}
+
+.item--reckoning {
+    display: flex;
+    border-bottom: none;
+}
+
+.item--reckoning .item-name {
+    flex: 2 1 20%;
+}
+
+.item--reckoning .item-quantity {
+    flex: 0 0 35px;
+}
+
+.item--reckoning .item-buy {
+    flex: 1 1 10%;
+}
+
+.item--reckoning .item-sell {
+    flex: 1 1 10%;
+}
+
+.item--reckoning .item-profit {
+    flex: 1 1 10%;
+}
+
+.item--reckoning .item-actions {
+    display: flex;
+    flex: 0 0 70px;
+    justify-content: space-between;
+}
 
 .order--reckoning .item-fields > span:last-child {
     border-right: 0;
-}
-
-.item-fields .actions {
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.item-fields .actions > .icon-search {
-    float: left;
-}
-
-.item-fields .actions > .icon-remove {
-    float: right;
 }
 
 .order-addressbox,
@@ -737,42 +757,41 @@ button {
     width: 100%;
 }
 
-.historic-header {
-    border-bottom: 1px solid #cc0066;
-    font-size: 0;
-    line-height: 0;
+.item--historicheader {
     background-color: #ffcccc;
 }
 
-.historic-header > span {
-    border-right: 1px solid #cc0066;
-    display: inline-block;
-    box-sizing: border-box;
+.item--historicheader > span {
     padding-left: 5px;
 }
 
-.historic-header > .client {
-    border-bottom: none;
+.item--historicheader > .item-client,
+.item--historic > .item-client {
+    flex: 2 1 20%;
 }
 
-.historic-header > span:last-child {
-    border-right: 0;
+.item--historicheader > .item-quantity,
+.item--historic > .item-quantity {
+    flex: 0 0 35px;
 }
 
-.orders.isClientView .historic-header > span.client {
-    width: 20%
+.item--historicheader > .item-buy,
+.item--historic > .item-buy {
+    flex: 1 1 10%;
 }
 
-.orders.isClientView .historic-header > span.buy {
-    width: 20%
+.item--historicheader > .item-sell,
+.item--historic > .item-sell {
+    flex: 1 1 10%;
+}
+.item--historicheader > .item-date,
+.item--historic > .item-date {
+    flex: 1 1 10%;
 }
 
-.orders.isClientView .historic-header > span.sell {
-    width: 20%
-}
-
-.orders.isClientView .historic-header > span.date {
-    width: 30%
+.item--historicheader > .item-space,
+.item--historic > .item-space {
+    flex: 0 0 70px;
 }
 
 .historic-items {
@@ -2004,8 +2023,8 @@ button.ispure {
     width: 150px;
     border-right: solid 1px #cc0066;
 }
-.allclients .client-infos {
 
+.allclients .client-infos {
     flex: 1 1;
 }
 
@@ -2420,32 +2439,24 @@ button.ispure {
     .senders {
         display: none;
     }
-
-
-    .allclients{
-        border-color:#000;
+    .allclients {
+        border-color: #000;
     }
-
     .allclients > .client {
         display: none;
         border-bottom-color: #000;
     }
-
     .allclients > .client.isActive {
         display: flex;
         border-top: solid 1px #000;
         margin-bottom: 10px;
     }
-
     .allclients > .client.isActive:first-child {
         border-top: none;
     }
-
     .allclients > .client.isActive:last-child {
         margin-bottom: 0;
-
     }
-
     .client-name {
         display: none;
     }
@@ -2470,5 +2481,4 @@ button.ispure {
     .address--client > .address-actions {
         display: none;
     }
-
 }

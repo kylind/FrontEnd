@@ -166,16 +166,16 @@
                                 <a href="#" class="icon icon-remove-sign  action-submit action-delete" data-bind="tap: $parent.removeOrder"></a>
                             </div>
                             <!-- ko if: _id() != '' -->
-                            <div class="order-totalbox">
-                                <span class="font-bold font-red vaTop onlyForMe bg-grey" data-bind="css:{'font-red': isComplete}">
-                                    <span class="w-p20">总共：</span>
-                                    <span class="w-p10 bg-white"><input type="text" class="w-30 font-bold postage" placeholder='Fee' data-bind="value: postage,css:{'font-red': isComplete}" /></span>
-                                    <span class="w-p15" data-bind="text: formatPrice(buyPrice)"></span>
-                                    <span class="w-p15" data-bind="text: formatPrice(sellPrice)"></span>
-                                    <span class="w-p15" data-bind="text: formatPrice(profit)"></span>
-                                    <span class="w-p25"></span>
+                            <div class="order-totalbox bg-grey">
+                                <span class="font-bold  item item--reckoningtotal vaTop onlyForMe" data-bind="css:{'font-red': isComplete}">
+                                    <span class="item-sum">总共：</span>
+                                    <span class="item-fee bg-white"><input type="text" class="w-30 font-bold postage" placeholder='Fee' data-bind="value: postage,css:{'font-red': isComplete}" /></span>
+                                    <span class="item-buy" data-bind="text: formatPrice(buyPrice)"></span>
+                                    <span class="item-sell" data-bind="text: formatPrice(sellPrice)"></span>
+                                    <span class="item-profit" data-bind="text: formatPrice(profit)"></span>
+                                    <span class="item-space"></span>
                                 </span>
-                                <span class="font-bold font-red vaTop onlyForClient bg-grey" data-bind="css:{'font-red': isComplete}">
+                                <span class="font-bold vaTop onlyForClient bg-grey" data-bind="css:{'font-red': isComplete}">
                                     <span class="lmargin-5">总共： &nbsp;</span>
                                     <span data-bind="text: formatPrice(sellPrice)"></span>
                                     <span>&nbsp;+ &nbsp;</span>
@@ -186,24 +186,24 @@
                             </div>
                             <!-- /ko -->
                             <div class="items" data-bind="foreach: items">
-                                <fieldset class="item">
-                                    <div class="item-fields">
-                                        <span class="w-p20 name">
+                                <fieldset class="itembox--reckoning">
+                                    <div class="item item--reckoning">
+                                        <span class="item-name">
                                             <input  type="text" class="oneline" data-bind="value: name" placeholder="产品" />
                                         </span>
-                                        <span class="w-p10 quantity">
+                                        <span class="item-quantity">
                                             <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
                                         </span>
-                                        <span class="w-p15 onlyForMe">
+                                        <span class="item-buy onlyForMe">
                                             <input  type="text" data-bind="value: buyPrice" placeholder="买" />
                                         </span>
-                                        <span class="w-p15 sell">
+                                        <span class="item-sell">
                                             <input  type="text" data-bind="value: sellPrice" placeholder="卖" />
                                         </span>
-                                        <span class="w-p15 onlyForMe">
+                                        <span class="item-profit onlyForMe">
                                             <input class='bg-grey' type="text" readonly data-bind="value: profit" placeholder="收益" />
                                         </span>
-                                        <span class="w-p25 actions bg-grey">
+                                        <span class="item-actions bg-grey">
                                             <a href="#" class="icon icon-search  action-load" data-bind="tap: $parent.getHistoricTrades"></a>
                                             <a href="#" class="icon icon-remove action-submit" data-bind="tap: $parent.removeItem"></a>
                                         </span>
@@ -211,12 +211,13 @@
                                     <div class="historicbox">
                                         <!-- ko if: historicTrades().length>0 -->
                                         <div class="historic">
-                                            <div class="historic-header">
-                                                <span class="w-p20 taLeft client">客户</span>
-                                                <span class="w-p10 taLeft quantity">数量</span>
-                                                <span class="w-p15 taLeft buy">买</span>
-                                                <span class="w-p15 taLeft sell">卖</span>
-                                                <span class="w-p40 taLeft lpadding-5 date">日期</span>
+                                            <div class="item item--historicheader">
+                                                <span class="item-client">客户</span>
+                                                <span class="item-quantity">数量</span>
+                                                <span class="item-buy">买</span>
+                                                <span class="item-sell">卖</span>
+                                                <span class="item-date">日期</span>
+                                                 <span class="item-space"></span>
                                             </div>
                                             <div class="historic-items" data-bind="template:{ name: 'historicTrades' , foreach: historicTrades }">
                                             </div>
@@ -232,13 +233,14 @@
                     </section>
                 </div>
                 <script type="text/html" id="historicTrades">
-                    <section class="historic-item">
+                    <section class="historic-item item item--historic">
                         <input type="hidden" data-bind="text: name"></input>
-                        <span class="w-p20 oneline taLeft vaTop name" data-bind="text: client"></span>
-                        <span class="w-p10 taLeft quantity" data-bind="text: quantity"></span>
-                        <span class="w-p15 taLeft buy" data-bind="text: buyPrice"></span>
-                        <span class="w-p15 taLeft sell" data-bind="text: sellPrice"></span>
-                        <span class="w-p40 taLeft date" data-bind="text: createDate"></span>
+                        <span class="oneline item-client" data-bind="text: client"></span>
+                        <span class="taLeft item-quantity" data-bind="text: quantity"></span>
+                        <span class="taLeft item-buy" data-bind="text: buyPrice"></span>
+                        <span class="taLeft item-sell" data-bind="text: sellPrice"></span>
+                        <span class="taLeft item-date" data-bind="text: createDate"></span>
+                        <span class="taLeft item-space"></span>
                     </section>
                 </script>
             </section>

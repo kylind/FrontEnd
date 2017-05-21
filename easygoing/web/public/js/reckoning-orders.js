@@ -163,7 +163,7 @@ define(['common'], function(util) {
 
             var itemData = ko.mapping.toJS(item);
 
-            var $historicTrades = $(event.target).closest('.item').find('.historicbox');
+            var $historicTrades = $(event.target).closest('.itembox--reckoning').find('.historicbox');
 
             if (!item.isHistoricTradesOpen) {
 
