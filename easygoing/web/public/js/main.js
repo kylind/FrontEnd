@@ -18,6 +18,34 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             products: false
         };
 
+        function applyProductPrice(products, orders) {
+
+            var products = ko.mapping.toJS(products);
+
+            var productsWithPrice = products.filter(product => product.sellPrice || product.buyPrice);
+
+            orders.forEach(order => {
+
+                order.items.forEach(item => {
+
+                    let productWithPrice = productsWithPrice.find(product => product.name == item.name);
+
+                    if (productWithPrice) {
+
+                        if (!item.sellPrice && productWithPrice.sellPrice) {
+                            item.sellPrice = '?' + productWithPrice.sellPrice;
+                        }
+                        if (!item.buyPrice  && productWithPrice.buyPrice) {
+                            item.buyPrice = '?' + productWithPrice.buyPrice;
+                        }
+                    }
+
+                })
+            })
+        }
+
+
+
         function setViewModelStatus(activeIndex) {
 
             var id = $('.swiper-slide')[activeIndex].id;
@@ -179,7 +207,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         })
 
-        var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel, clientsModel;
+        var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel, clientsModel, productsModel;
 
         var ordersModel = new OrdersModel(orders);
         ordersModel.setSwiper(swiper);
@@ -281,10 +309,29 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             var reckoningPromise = new Promise(function(resolve, reject) {
 
-                $.getJSON('./reckoningOrdersJson', function(orders, status) {
+                function applyReckoningBindings(orders) {
                     reckoningOrdersModel = new OrdersModel(orders, swiper);
                     resolve(reckoningOrdersModel);
                     ko.applyBindings(reckoningOrdersModel, $('#reckoningOrders')[0]);
+
+                }
+
+                $.getJSON('./reckoningOrdersJson', function(orders, status) {
+
+                    if (access.products) {
+
+                        productPromise.then(function(products) {
+                            applyProductPrice(products, orders);
+                            applyReckoningBindings(orders);
+
+                        })
+
+                    } else {
+
+                        applyReckoningBindings(orders);
+
+                    }
+
 
 
                 });
@@ -313,13 +360,18 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             }
 
             if (access.products) {
-                $.getJSON('./productsJson', function(products, status) {
+                var productPromise = new Promise(function(resolve, reject) {
+                    $.getJSON('./productsJson', function(products, status) {
 
-                    var productsModel = new ProductsModel(products, swiper);
+                        resolve(products);
 
-                    ko.applyBindings(productsModel, $('#products')[0]);
+                        productsModel = new ProductsModel(products, swiper);
 
-                });
+                        ko.applyBindings(productsModel, $('#products')[0]);
+
+                    });
+
+                })
 
             }
 
@@ -379,7 +431,15 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                     case 'reckoningOrders':
                         if (viewModelStatus['reckoningOrders']) {
+
                             $.getJSON('./reckoningOrdersJson', function(orders, status) {
+
+
+                                if (access.products) {
+
+                                    applyProductPrice(productsModel.products(), orders);
+
+                                }
 
                                 var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
                                 reckoningOrdersModel.orders(observableOrders);
@@ -410,7 +470,17 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                             });
                         }
                         break;
+                    case 'products':
+                        if (viewModelStatus['products']) {
+                            $.getJSON('./productsJson', function(products, status) {
 
+                                productsModel.setProducts(products);
+
+                                viewModelStatus['products'] = false;
+
+                            });
+                        }
+                        break;
                 }
 
                 setTimeout(function() {

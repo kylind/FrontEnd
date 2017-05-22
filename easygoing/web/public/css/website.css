@@ -698,6 +698,10 @@ button {
     flex: 1 1 10%;
 }
 
+.item--reckoning input.font-green{
+    color:#cc0066;
+}
+
 .item--reckoning .item-profit {
     flex: 1 1 10%;
 }
@@ -795,7 +799,7 @@ button {
 }
 
 .historic-items {
-    background-color: #f2f2f2;
+    background-color: #ffcccc;
 }
 
 .historic-item {
@@ -2266,7 +2270,7 @@ button.ispure {
 
 .clientInfo-clients {
     box-sizing: border-box;
-    background-color: #f2f2f2;
+    background-color: #ffcccc;
 }
 
 .client--product {
@@ -2320,11 +2324,11 @@ button.ispure {
 
 .client-space {
     flex: 0 0 70px;
-    box-shadow: 0 1px 0 0 #f2f2f2;
+    box-shadow: 0 1px 0 0 #ffcccc;
 }
 
 .client--header .client-space {
-    background-color: #f2f2f2;
+    background-color: #ffcccc;
 }
 
 .client--product:last-child > .client-space {
@@ -2345,7 +2349,7 @@ button.ispure {
 }
 
 .clientInfo-actions > a:before {
-    color: #cc0066;
+    /*color: #cc0066;*/
     font-size: 1.8rem;
 }
 

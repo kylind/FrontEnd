@@ -24,14 +24,29 @@ define(['common'], function(util) {
 
         self.name = ko.observable(item && item.name ? item.name : '');
         self.quantity = ko.observable(item && item.quantity ? item.quantity : '1');
-        self.buyPrice = ko.observable(item && !isNaN(item.buyPrice) ? item.buyPrice : '');
-        self.sellPrice = ko.observable(item && !isNaN(item.sellPrice) ? item.sellPrice : '');
+
+
+        self.buyPrice = ko.observable(item && item.buyPrice ? item.buyPrice + '' : ''); // !isNaN(item.buyPrice)
+        self.sellPrice = ko.observable(item && item.sellPrice ? item.sellPrice + '' : '');
+
+
+
         self.profit = item && item.profit ? item.profit : '';
         self.note = item && item.note ? item.note : '';
         self.isDone = item && item.isDone ? item.isDone : false;
         self.tag = item && item.tag ? item.tag : '';
 
         self.historicTrades = ko.observableArray([]);
+
+        self.removeDoubt = function(price) {
+            var purePrice = price();
+
+            if (typeof purePrice == 'string' && purePrice.startsWith('?')) {
+                purePrice = purePrice.slice(1);
+                self.isChanged=true;
+            }
+            return purePrice;
+        }
 
         self.isHistoricTradesOpen = false;
 

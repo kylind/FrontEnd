@@ -212,7 +212,7 @@ define(['common'], function(util) {
 
             var itemData = ko.mapping.toJS(item);
 
-            if (!item.isSubItemsOpen) {
+            if (!item.isSubItemsOpen()) {
                 arguments[3]();
                 var succeed = arguments[4]
                 $.getJSON('./subitems', { itemName: itemData._id, itemTag: itemData.tag }, function(res, status) {
@@ -228,7 +228,7 @@ define(['common'], function(util) {
                     }
 
                     $(event.target).parents('.orderitem-cnt').next().slideDown('fast', function() {
-                        item.isSubItemsOpen = true;
+                        item.isSubItemsOpen(true);
                         succeed();
                     });
 
@@ -237,7 +237,7 @@ define(['common'], function(util) {
             } else {
 
                 $(event.target).parents('.orderitem-cnt').next().slideUp('fast', function() {
-                    item.isSubItemsOpen = false;
+                    item.isSubItemsOpen(false);
                     swiper.update();
                 });
 
@@ -248,7 +248,19 @@ define(['common'], function(util) {
 
         };
 
-        self.isSubItemsOpen = false;
+        self.getExpandCollapse = function() {
+            if(self.isSubItemsOpen()){
+                return 'icon-collapse';
+
+            }else{
+                return 'icon-expand';
+
+            }
+
+        }
+
+
+        self.isSubItemsOpen = ko.observable(false);
 
     };
 
