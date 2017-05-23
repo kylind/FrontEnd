@@ -18,9 +18,17 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             products: false
         };
 
-        function applyProductPrice(products, orders) {
+        function applyProductPrice(products, orders, { buyComputing, sellComputing }) {
 
-            var products = ko.mapping.toJS(products);
+            if (typeof products == 'function') {
+
+                products = ko.mapping.toJS(products());
+            }
+
+            if (typeof orders == 'function') {
+                orders = ko.mapping.toJS(orders());
+
+            }
 
             var productsWithPrice = products.filter(product => product.sellPrice || product.buyPrice);
 
@@ -32,11 +40,14 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                     if (productWithPrice) {
 
-                        if (!item.sellPrice && productWithPrice.sellPrice) {
+                        if (sellComputing && !item.sellPrice && productWithPrice.sellPrice) {
                             item.sellPrice = '?' + productWithPrice.sellPrice;
+                            order.isChanged = true;
+
                         }
-                        if (!item.buyPrice  && productWithPrice.buyPrice) {
+                        if (buyComputing && !item.buyPrice && productWithPrice.buyPrice) {
                             item.buyPrice = '?' + productWithPrice.buyPrice;
+                            order.isChanged = true;
                         }
                     }
 
@@ -90,6 +101,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
                     var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+
                     reckoningOrdersModel.orders(observableOrders);
 
                 })
@@ -214,6 +226,22 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
 
+        function getUserSetting() {
+            return new Promise(function(resolve, reject) {
+
+                $.getJSON(`./user/${USER_ID}`, function(rs, status) {
+                    resolve(rs);
+
+                });
+            });
+        }
+
+        var userPromise = getUserSetting();
+
+        userPromise.catch(function(reason) {
+
+        });
+
 
         require(['common', 'ItemsModel', 'ReckoningOrders', 'IncomeList', 'ClientsModel', 'ProductsModel'], function(util, ItemsModel, OrdersModel, IncomeListModel, ClientsModel, ProductsModel) {
 
@@ -222,90 +250,81 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             var ko = util.ko;
 
 
+
+
+
             var purchasePromise = new Promise(function(resolve, reject) {
 
                 $.getJSON('./purchaseItemsJson', function(rs, status) {
 
                     itemsModel = new ItemsModel(rs.items, swiper);
 
+                    ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
 
                     resolve(itemsModel);
 
 
-                    ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
 
-                    var promise = new Promise(function(resolve, reject) {
-                        $.getJSON(`./user/${USER_ID}`, function(rs, status) {
-                            resolve(rs);
-                        });
-                    });
-
-                    promise.catch(function(reason) {
-
-                    })
-
-                    promise.then(function(rs) {
+                });
 
 
-                        var tags = Array.isArray(rs.tags) ? rs.tags : [];
+            });
 
-                        $('.hidden-tag').tag({
-                            tags: tags,
-                            updateTag: function(itemName, oldTag, newTag) {
+            Promise.all([userPromise, purchasePromise]).then(function(user, itemsModel) {
+                var tags = Array.isArray(user.tags) ? user.tags : [];
 
-                                if (oldTag == newTag) return;
+                $('.hidden-tag').tag({
+                    tags: tags,
+                    updateTag: function(itemName, oldTag, newTag) {
 
-                                if (Array.isArray(itemsModel.allItems) && itemsModel.allItems.length > 0) {
-                                    var item = itemsModel.allItems.find(function(item) {
-                                        return item._id == itemName;
+                        if (oldTag == newTag) return;
 
-                                    });
+                        if (Array.isArray(itemsModel.allItems) && itemsModel.allItems.length > 0) {
+                            var item = itemsModel.allItems.find(function(item) {
+                                return item._id == itemName;
 
-                                    item.tag = newTag;
+                            });
 
-                                    if (item) {
+                            item.tag = newTag;
 
-                                        var tags = [];
+                            if (item) {
+
+                                var tags = [];
 
 
-                                        itemsModel.allItems.forEach(function(item) {
+                                itemsModel.allItems.forEach(function(item) {
 
-                                            if (tags.indexOf(item.tag) < 0 && item.tag) {
-                                                tags.push(item.tag);
-                                            }
-
-                                        })
-
-                                        itemsModel.tags(tags);
+                                    if (tags.indexOf(item.tag) < 0 && item.tag) {
+                                        tags.push(item.tag);
                                     }
 
-                                }
+                                })
 
-                                $.post('./itemtag', {
-                                        itemName: itemName,
-                                        oldTag: oldTag,
-                                        newTag: newTag
-
-                                    }, function(res, status) {
-
-                                        //updateAllData();
-                                        setViewModelStatus(swiper.activeIndex);
-
-
-                                    },
-                                    'json'
-                                );
-
+                                itemsModel.tags(tags);
                             }
 
-                        });
+                        }
 
-                    });
+                        $.post('./itemtag', {
+                                itemName: itemName,
+                                oldTag: oldTag,
+                                newTag: newTag
+
+                            }, function(res, status) {
+
+                                //updateAllData();
+                                setViewModelStatus(swiper.activeIndex);
+
+
+                            },
+                            'json'
+                        );
+
+                    }
 
                 });
 
             });
-
 
             var reckoningPromise = new Promise(function(resolve, reject) {
 
@@ -323,6 +342,15 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                         productPromise.then(function(products) {
                             applyProductPrice(products, orders);
                             applyReckoningBindings(orders);
+                        });
+
+                        Promise.all([userPromise, productPromise]).then(function(user, products) {
+
+
+
+                            applyProductPrice(products, orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
+
+                            applyReckoningBindings(orders);
 
                         })
 
@@ -333,14 +361,9 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                     }
 
 
-
                 });
 
-            })
-
-            Promise.all([purchasePromise, reckoningPromise]).then(function(rs) {
-
-            })
+            });
 
             $.getJSON('./incomeListJson', function(incomeList, status) {
                 incomeListModel = new IncomeListModel(incomeList, swiper);
@@ -359,20 +382,19 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             }
 
+            var productPromise;
+
             if (access.products) {
-                var productPromise = new Promise(function(resolve, reject) {
+
+                productPromise = new Promise(function(resolve, reject) {
                     $.getJSON('./productsJson', function(products, status) {
 
                         resolve(products);
-
                         productsModel = new ProductsModel(products, swiper);
-
                         ko.applyBindings(productsModel, $('#products')[0]);
 
                     });
-
                 })
-
             }
 
 
@@ -402,7 +424,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             swiper.params.onSlideChangeStart = function(swiper) {
 
 
-                var id = $('.swiper-slide')[swiper.activeIndex].id
+                var id = $('.swiper-slide')[swiper.activeIndex].id;
 
                 switch (id) {
                     case 'receivedOrders':
@@ -437,12 +459,18 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                                 if (access.products) {
 
-                                    applyProductPrice(productsModel.products(), orders);
+                                    userPromise.then(function(user) {
 
+                                        applyProductPrice(productsModel.products, orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
+                                        var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+                                        reckoningOrdersModel.orders(observableOrders);
+                                    })
+
+                                } else {
+                                    var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+                                    reckoningOrdersModel.orders(observableOrders);
                                 }
 
-                                var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
-                                reckoningOrdersModel.orders(observableOrders);
                                 viewModelStatus['reckoningOrders'] = false;
 
                             })
@@ -509,6 +537,26 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                     setInterval(function() {
                         $.colorbox.resize();
                     }, 200)
+                },
+                onClosed: function() {
+
+                    userPromise = getUserSetting();
+
+                    var id = $('.swiper-slide')[swiper.activeIndex].id;
+
+                    if (id == 'reckoningOrders' && access.products) {
+
+                        userPromise.then(function(user) {
+
+                            var orders = reckoningOrdersModel.orders;
+
+                            applyProductPrice(productsModel.products, orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
+                            var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+                            reckoningOrdersModel.orders(observableOrders);
+                        })
+
+                    }
+
                 }
             });
 

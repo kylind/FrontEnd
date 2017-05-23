@@ -6,6 +6,7 @@
     <!-- endinject -->
     <script>
     var USER_ID = '<%- _id %>';
+    var refreshSetting=true;
 
     var orders = <%- JSON.stringify(orders) %>
 
@@ -34,6 +35,8 @@
 <% }else if (name == 'content') {%>
     <script>
     var USER_ID = '<%- _id %>';
+    var refreshSetting=true;
+
     var access= <%- JSON.stringify(user.access) %>
     var orders = <%- JSON.stringify(orders) %>
     require(['js/requireConfig'], function(util) {

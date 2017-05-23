@@ -26,8 +26,8 @@ define(['common'], function(util) {
         self.quantity = ko.observable(item && item.quantity ? item.quantity : '1');
 
 
-        self.buyPrice = ko.observable(item && item.buyPrice ? item.buyPrice + '' : ''); // !isNaN(item.buyPrice)
-        self.sellPrice = ko.observable(item && item.sellPrice ? item.sellPrice + '' : '');
+        self.buyPrice = ko.observable(item && item.buyPrice ? item.buyPrice: ''); // !isNaN(item.buyPrice)
+        self.sellPrice = ko.observable(item && item.sellPrice ? item.sellPrice:'');
 
 
 
@@ -89,7 +89,7 @@ define(['common'], function(util) {
 
         }
 
-        self.isChanged = false;
+        self.isChanged = order.isChanged || false;
 
         self.items = ko.observableArray(observableItems);
 

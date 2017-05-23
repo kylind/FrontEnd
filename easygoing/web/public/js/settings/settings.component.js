@@ -160,6 +160,8 @@ define(['commonAngular'], function(angular) {
 
                             $.fn.tag.setTags(self.user.tags);
 
+
+
                             setTimeout(function() {
                                 $scope.$apply(function() {
                                     self.myClasses = '';
