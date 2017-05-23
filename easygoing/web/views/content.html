@@ -195,10 +195,10 @@
                                             <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
                                         </span>
                                         <span class="item-buy onlyForMe">
-                                            <input  type="text" data-bind="value: removeDoubt(buyPrice), css:{'font-green': isDoubtPrice(buyPrice)}" placeholder="买" />
+                                            <input  type="text" data-bind="value: buyPrice, css:{'font-green': isDoubtBuyPrice()}" placeholder="买" />
                                         </span>
                                         <span class="item-sell">
-                                            <input  type="text" data-bind="value: removeDoubt(sellPrice), css:{'font-green': isDoubtPrice(buyPrice)}" placeholder="卖" />
+                                            <input  type="text" data-bind="value: sellPrice, css:{'font-green': isDoubtSellPrice()}" placeholder="卖" />
                                         </span>
                                         <span class="item-profit onlyForMe">
                                             <input class='bg-grey' type="text" readonly data-bind="value: profit" placeholder="收益" />

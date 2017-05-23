@@ -26,8 +26,8 @@ define(['common'], function(util) {
         self.quantity = ko.observable(item && item.quantity ? item.quantity : '1');
 
 
-        self.buyPrice = ko.observable(item && item.buyPrice ? item.buyPrice: ''); // !isNaN(item.buyPrice)
-        self.sellPrice = ko.observable(item && item.sellPrice ? item.sellPrice:'');
+        self.buyPrice = ko.observable(item && item.buyPrice ? removeDoubt(item.buyPrice) : ''); // !isNaN(item.buyPrice)
+        self.sellPrice = ko.observable(item && item.sellPrice ? removeDoubt(item.sellPrice) : '');
 
 
 
@@ -38,29 +38,36 @@ define(['common'], function(util) {
 
         self.historicTrades = ko.observableArray([]);
 
-        self.removeDoubt = function(price) {
-            var purePrice = price();
+        function removeDoubt(price) {
+            //var purePrice = price();
+
+            var purePrice = price;
 
             if (typeof purePrice == 'string' && purePrice.startsWith('?')) {
                 purePrice = purePrice.slice(1);
-                self.isChanged=true;
+                self.isChanged = true;
             }
             return purePrice;
         }
 
-        self.isDoubtPrice = function(price) {
+        self.isDoubtSellPrice = function() {
 
-            var purePrice = price();
-
-
-            if (typeof purePrice == 'string' && purePrice.startsWith('?')) {
+            if (typeof item.sellPrice == 'string' && item.sellPrice.startsWith('?')) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
 
         }
+        self.isDoubtBuyPrice = function() {
 
+            if (typeof item.buyPrice == 'string' && item.buyPrice.startsWith('?')) {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
         self.isHistoricTradesOpen = false;
 
         self.isChanged = false;

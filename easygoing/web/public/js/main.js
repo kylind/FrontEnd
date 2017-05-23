@@ -53,6 +53,8 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                 })
             })
+
+            return orders;
         }
 
 
@@ -356,9 +358,9 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                         Promise.all([userPromise, productPromise]).then(([user, products]) => {
 
-                            applyProductPrice(products, orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
+                            let ordersWithPrice = applyProductPrice(products, orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
 
-                            applyReckoningBindings(orders);
+                            applyReckoningBindings(ordersWithPrice);
 
                         })
 
@@ -456,8 +458,8 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                                     userPromise.then(function(user) {
 
-                                        applyProductPrice(productsModel.products, orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
-                                        var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+                                        let ordersWithPrice = applyProductPrice(productsModel.products, orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
+                                        var observableOrders = reckoningOrdersModel.getObservableOrders(ordersWithPrice);
                                         reckoningOrdersModel.orders(observableOrders);
                                     })
 
@@ -543,10 +545,8 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                         userPromise.then(function(user) {
 
-                            var orders = reckoningOrdersModel.orders;
-
-                            applyProductPrice(productsModel.products, orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
-                            var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+                            var ordersWithPrice = applyProductPrice(productsModel.products,  reckoningOrdersModel.orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
+                            var observableOrders = reckoningOrdersModel.getObservableOrders(ordersWithPrice);
                             reckoningOrdersModel.orders(observableOrders);
                         })
 
