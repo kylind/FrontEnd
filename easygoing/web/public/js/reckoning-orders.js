@@ -48,6 +48,19 @@ define(['common'], function(util) {
             return purePrice;
         }
 
+        self.isDoubtPrice = function(price) {
+
+            var purePrice = price();
+
+
+            if (typeof purePrice == 'string' && purePrice.startsWith('?')) {
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
         self.isHistoricTradesOpen = false;
 
         self.isChanged = false;

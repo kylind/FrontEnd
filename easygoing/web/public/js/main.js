@@ -270,7 +270,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             });
 
-            Promise.all([userPromise, purchasePromise]).then(function(user, itemsModel) {
+            Promise.all([userPromise, purchasePromise]).then(([user, itemsModel]) => {
                 var tags = Array.isArray(user.tags) ? user.tags : [];
 
                 $('.hidden-tag').tag({
@@ -326,6 +326,21 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             });
 
+            var productPromise;
+
+            if (access.products) {
+
+                productPromise = new Promise(function(resolve, reject) {
+                    $.getJSON('./productsJson', (products, status) => {
+
+                        resolve(products);
+                        productsModel = new ProductsModel(products, swiper);
+                        ko.applyBindings(productsModel, $('#products')[0]);
+
+                    });
+                })
+            }
+
             var reckoningPromise = new Promise(function(resolve, reject) {
 
                 function applyReckoningBindings(orders) {
@@ -339,14 +354,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                     if (access.products) {
 
-                        productPromise.then(function(products) {
-                            applyProductPrice(products, orders);
-                            applyReckoningBindings(orders);
-                        });
-
-                        Promise.all([userPromise, productPromise]).then(function(user, products) {
-
-
+                        Promise.all([userPromise, productPromise]).then(([user, products]) => {
 
                             applyProductPrice(products, orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
 
@@ -382,20 +390,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             }
 
-            var productPromise;
 
-            if (access.products) {
-
-                productPromise = new Promise(function(resolve, reject) {
-                    $.getJSON('./productsJson', function(products, status) {
-
-                        resolve(products);
-                        productsModel = new ProductsModel(products, swiper);
-                        ko.applyBindings(productsModel, $('#products')[0]);
-
-                    });
-                })
-            }
 
 
             $(document).on('keydown', function(event) {
