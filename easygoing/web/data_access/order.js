@@ -196,7 +196,7 @@ var Collection = function(_name, _productCollection) {
                     }
 
                 }, {
-                    $project: { client: 1, name: '$items.name', quantity: '$items.quantity', note: '$items.note' }
+                    $project: { client: 1, name: '$items.name', sellPrice:'$items.sellPrice', buyPrice:'$items.buyPrice',quantity: '$items.quantity', note: '$items.note' }
                 }
 
             ], { cursor: { batchSize: 1 } }).toArray();
@@ -237,9 +237,6 @@ var Collection = function(_name, _productCollection) {
 
         },
         queryGlobalOrders: function*(text) {
-
-
-
 
             var db = yield MongoClient.connect(url);
 

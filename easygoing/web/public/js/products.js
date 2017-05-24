@@ -16,7 +16,7 @@ define(['common'], function(util) {
         self.sellPrice = ko.observable(productClient && !isNaN(productClient.sellPrice) ? productClient.sellPrice : '');
     }
 
-    function Product(product,swiper) {
+    function Product(product, swiper) {
 
         var self = this;
 
@@ -24,7 +24,7 @@ define(['common'], function(util) {
 
         self.name = ko.observable(product && product.name ? product.name : '');
 
-        self.status = ko.observable(product && product.status ? product.status : '');
+        self.status = ko.observable(product && product.status ? product.status : 'MANUAL');
         self.buyPrice = ko.observable(product && !isNaN(product.buyPrice) ? product.buyPrice : '');
         self.sellPrice = ko.observable(product && !isNaN(product.sellPrice) ? product.sellPrice : '');
 
@@ -36,13 +36,26 @@ define(['common'], function(util) {
         self.isChanged = false;
         self.name.subscribe(function(newValue) {
             self.isChanged = true;
+            if (product && product.name && newValue != product.name) {
+                self.status('MANUAL');
+            }
         });
         self.buyPrice.subscribe(function(newValue) {
             self.isChanged = true;
+            if (product && product.buyPrice && newValue != product.buyPrice) {
+                if (product.status() != 'MANUAL') {
+                    self.status('MODIFIED');
+                }
+            }
         })
 
         self.sellPrice.subscribe(function(newValue) {
             self.isChanged = true;
+            if (product && product.sellPrice && newValue != product.sellPrice) {
+                if (product.status() != 'MANUAL') {
+                    self.status('MODIFIED');
+                }
+            }
         })
 
 
@@ -62,7 +75,7 @@ define(['common'], function(util) {
 
                     if (status == 'success' && Array.isArray(productClients) && productClients.length > 0) {
 
-                       // productClients = [{_id:'', client:'abc', sellPrice:10, buyPrice:20},{_id:'', client:'edf', sellPrice:10, buyPrice:20}];
+                        // productClients = [{_id:'', client:'abc', sellPrice:10, buyPrice:20},{_id:'', client:'edf', sellPrice:10, buyPrice:20}];
 
 
                         var activeClients = productClients.map(client => new ProductClient(client));
@@ -121,10 +134,10 @@ define(['common'], function(util) {
         }
 
         self.getExpandCollapse = function() {
-            if(self.isOpen()){
+            if (self.isOpen()) {
                 return 'icon-collapse';
 
-            }else{
+            } else {
                 return 'icon-expand';
 
             }
@@ -226,7 +239,7 @@ define(['common'], function(util) {
 
         self.addProduct = function() {
 
-            var product = new Product();
+            var product = new Product(null, swiper);
 
             self.products.unshift(product);
             updateSwiper();

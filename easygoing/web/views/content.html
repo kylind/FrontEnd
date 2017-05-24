@@ -245,6 +245,183 @@
                 </script>
             </section>
         <% } %>
+
+
+        <% if ((!user.access) || (user.access && user.access.products)){ %>
+        <section id="products" class="swiper-slide">
+            <div class="searchbox">
+                <button type="button" text="Add" class="fl icon icon-add" data-bind="tap:addProduct"> 新建 </button>
+                <button type="button" text="Add" class="lmargin-5 fl icon icon-save-all action-submit action-enter" data-bind="tap:submitProducts"> 保存</button>
+                <div class="lmargin-220">
+                    <input type="text" class="w-p100 input-search" id="search-products" data-bind="event: {input: searchProducts}" placeholder="搜索产品" />
+                </div>
+            </div>
+
+            <!-- ko if: products().length>0 -->
+            <div class="table table--products" data-bind='template: {afterRender: afterRender }'>
+                <div class="table-header productInfo productInfo--header">
+                    <span class="productInfo-name">产品</span>
+                    <span class="productInfo-buy ">买</span>
+                    <span class="productInfo-sell">卖</span>
+                    <span class="productInfo-date">日期</span>
+                    <span class="productInfo-actions"></span>
+                </div>
+                <div id="productsbody" class="table-body" data-bind="foreach: {data: products,afterRender: afterProductRender}">
+                    <div class="table-row">
+                        <div class="productInfo">
+                            <span class="productInfo-name">
+                                <input  type="hidden" data-bind="value: _id" />
+                                <input  type="text" data-bind="value: name"  placeholder="产品" />
+                            </span>
+                                <span class="productInfo-buy">
+                                <input  type="text" data-bind="value: buyPrice"  placeholder="买" />
+                            </span>
+                            <span class="productInfo-sell">
+                                <input  type="text" data-bind="value: sellPrice"  placeholder="卖" />
+                            </span>
+                            <span class="productInfo-date" data-bind="text: displayDate"></span>
+                            <span class="productInfo-actions">
+                                <a class="icon action-load" data-bind="tap: getActiveClients, css: getExpandCollapse()" ></a>
+                                <a class="icon icon-remove action-submit action-delete" data-bind="tap: $root.removeProduct" ></a>
+                            </span>
+                        </div>
+                        <div class="clientInfo">
+                            <div class="clientInfo-cnt">
+
+                                <div class="client client--product client--header">
+
+                                    <span class="client-name">客户</span>
+                                    <span class="client-buy">
+                                        买
+                                    </span>
+                                    <span class="client-sell">
+                                        卖
+                                    </span>
+                                    <span class="client-note">备注</span>
+                                    <span class="client-space"></span>
+                                </div>
+
+                                <!-- ko if: activeClients().length>0 -->
+                                <div class="clientInfo-clients" data-bind="foreach: { data: activeClients }">
+                                    <div class="client client--product">
+                                        <input  type="hidden" data-bind="value: _id" />
+                                        <span class="client-name oneline" data-bind="text: client"></span>
+                                        <span class="client-buy">
+                                            <input  type="text" data-bind="value: buyPrice"  placeholder="买" />
+                                        </span>
+                                        <span class="client-sell">
+                                            <input  type="text" data-bind="value: sellPrice"  placeholder="卖" />
+                                        </span>
+                                        <span class="client-note oneline" data-bind="text: note"></span>
+                                        <span class="client-space"></span>
+                                    </div>
+                                </div>
+
+                                <div class="clientInfo-actions">
+                                    <a  class="icon icon-save-all action-submit" data-bind="tap: updateClientPrice" ></a>
+                                </div>
+                                <!-- /ko -->
+
+
+
+                                <!-- ko if: activeClients().length==0 -->
+                                <p class="taCenter">暂时没有获取到产品的客户列表。</p>
+                                <!-- /ko -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /ko -->
+        </section>
+        <% } %>
+
+
+
+
+        <% if ((!user.access) || (user.access && user.access.clients)){ %>
+        <section id="clients" class="swiper-slide" data-bind='template: {afterRender: afterRender }'>
+
+
+            <div class="searchbox searchbox--client">
+                <div class="searchbox-btns">
+                    <button class="icon icon-add" data-bind="tap: addClient"> 新建 </button>
+                    <button type="button" class="lmargin-5 icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitClients"> 保存 </button>
+                </div>
+                <div class="searchbox-input">
+                    <input type="text" class="w-p100 input-search" id="search-clients" data-bind="event: {input: $root.searchClients}" placeholder="搜索客户" />
+                </div>
+            </div>
+
+            <section class="senders tmargin-40" data-bind="css: {isEmpty: senders().length==0}, foreach: {data: senders, afterRender: afterSenderRender}">
+                        <div class="sender">
+
+                            <a class="sender-copy icon icon-copy"></a>
+                            <span class="sender-name" data-bind="text: name"></span>
+
+                            <textarea class="sender-receives"  data-bind="text: receives"></textarea>
+
+                        </div>
+
+            </section>
+
+
+        <!-- ko if: clients().length>0 -->
+
+            <div class="allclients" data-bind="foreach: {data: clients, afterRender:afterClientRender}">
+                <section class="client" data-bind="css: {'isActive': isActive()}">
+                    <div class="client-name bg-grey">
+
+                        <div class="inputbox-client">
+                            <a class="sender-singleCopy icon icon-copy"></a>
+                            <input type="hidden" data-bind="value: _id" />
+                            <input type="text" class="w-p30" data-bind="value: name" placeholder="客户" />
+                        </div>
+                    </div>
+                    <div class="client-infos">
+                        <section class="client-actions">
+                            <a href="#" class="icon icon-add" data-bind="tap:addAddress"> </a>
+
+
+
+                            <span class="font-bold" data-bind="text: mailDisplayType(mailType)"> </span>
+
+                            <a href="#" class="icon icon-remove-sign action-submit action-delete" data-bind="tap: $root.removeClient"> </a>
+                        </section>
+                        <!-- ko foreach: addresses -->
+                        <div class="client-address address--client" data-bind="css: defaultAddressCss()">
+
+
+                            <div class="address-cnt">
+                                <span class="recipient"><input type="text" data-bind="value: recipient" placeholder="收件人" /></span>
+
+                                <span class="recipient print"  data-bind="text: $parent.displayPrintName(recipient)"></span>
+
+
+                                <span class="phone"><input type="text"  min="0" max="100" step="1" data-bind="value: phone" placeholder="电话" /></span>
+
+                                <span class="addressDetail"><input type="text" class="client-inputclient" min="0" max="100" step="1" data-bind="value: address" placeholder="地址" /></span>
+                            </div>
+
+                            <span class="address-actions bg-grey">
+
+                                <a href="#" class="icon action-submit" data-bind="tap: $parent.markDefault, css: defaultAddressMarkCss()"></a>
+                                <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $parent.removeAddress"> </a>
+
+                            </span>
+
+
+                        </div>
+                        <!-- /ko -->
+                    </div>
+                </section>
+            </div>
+
+        <!-- /ko -->
+        </section>
+        <% } %>
+
         <% if ((!user.access) || (user.access && user.access.incomeList)){ %>
             <section class="swiper-slide" id="incomeList">
                 <div class="incomelist isMobile tmargin-10" data-bind='template: {afterRender: afterRender }'>
@@ -288,191 +465,6 @@
                 </div>
             </section>
         <% } %>
-
-<% if ((!user.access) || (user.access && user.access.products)){ %>
-<section id="products" class="swiper-slide">
-    <div class="searchbox">
-        <button type="button" text="Add" class="fl icon icon-add" data-bind="tap:addProduct"> 新建 </button>
-        <button type="button" text="Add" class="lmargin-5 fl icon icon-save-all action-submit action-enter" data-bind="tap:submitProducts"> 保存</button>
-        <div class="lmargin-220">
-            <input type="text" class="w-p100 input-search" id="search-products" data-bind="event: {input: searchProducts}" placeholder="搜索产品" />
-        </div>
-    </div>
-
-    <!-- ko if: products().length>0 -->
-    <div class="table table--products" data-bind='template: {afterRender: afterRender }'>
-        <div class="table-header productInfo productInfo--header">
-            <span class="productInfo-name">产品</span>
-            <span class="productInfo-buy ">买</span>
-            <span class="productInfo-sell">卖</span>
-            <span class="productInfo-date">日期</span>
-            <span class="productInfo-actions"></span>
-        </div>
-        <div id="productsbody" class="table-body" data-bind="foreach: {data: products,afterRender: afterProductRender}">
-            <div class="table-row">
-                <div class="productInfo">
-                    <span class="productInfo-name">
-                        <input  type="hidden" data-bind="value: _id" />
-                        <input  type="text" data-bind="value: name"  placeholder="产品" />
-                    </span>
-                        <span class="productInfo-buy">
-                        <input  type="text" data-bind="value: buyPrice"  placeholder="买" />
-                    </span>
-                    <span class="productInfo-sell">
-                        <input  type="text" data-bind="value: sellPrice"  placeholder="卖" />
-                    </span>
-                    <span class="productInfo-date" data-bind="text: displayDate"></span>
-                    <span class="productInfo-actions">
-                        <a class="icon action-load" data-bind="tap: getActiveClients, css: getExpandCollapse()" ></a>
-                        <a class="icon icon-remove action-submit action-delete" data-bind="tap: $root.removeProduct" ></a>
-                    </span>
-                </div>
-                <div class="clientInfo">
-                    <div class="clientInfo-cnt">
-
-                        <div class="client client--product client--header">
-
-                            <span class="client-name">客户</span>
-                            <span class="client-buy">
-                                买
-                            </span>
-                            <span class="client-sell">
-                                卖
-                            </span>
-                            <span class="client-note">备注</span>
-                            <span class="client-space"></span>
-                        </div>
-
-                        <!-- ko if: activeClients().length>0 -->
-                        <div class="clientInfo-clients" data-bind="foreach: { data: activeClients }">
-                            <div class="client client--product">
-                                <input  type="hidden" data-bind="value: _id" />
-                                <span class="client-name oneline" data-bind="text: client"></span>
-                                <span class="client-buy">
-                                    <input  type="text" data-bind="value: buyPrice"  placeholder="买" />
-                                </span>
-                                <span class="client-sell">
-                                    <input  type="text" data-bind="value: sellPrice"  placeholder="卖" />
-                                </span>
-                                <span class="client-note oneline" data-bind="text: note"></span>
-                                <span class="client-space"></span>
-                            </div>
-                        </div>
-
-                        <div class="clientInfo-actions">
-                            <a  class="icon icon-save-all action-submit" data-bind="tap: updateClientPrice" ></a>
-                        </div>
-                        <!-- /ko -->
-
-
-
-                        <!-- ko if: activeClients().length==0 -->
-                        <p class="taCenter">暂时没有获取到产品的客户列表。</p>
-                        <!-- /ko -->
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <!-- /ko -->
-</section>
-<% } %>
-
-
-
-
-<% if ((!user.access) || (user.access && user.access.clients)){ %>
-<section id="clients" class="swiper-slide" data-bind='template: {afterRender: afterRender }'>
-
-
-    <div class="searchbox searchbox--client">
-        <div class="searchbox-btns">
-            <button class="icon icon-add" data-bind="tap: addClient"> 新建 </button>
-            <button type="button" class="lmargin-5 icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitClients"> 保存 </button>
-        </div>
-        <div class="searchbox-input">
-            <input type="text" class="w-p100 input-search" id="search-clients" data-bind="event: {input: $root.searchClients}" placeholder="搜索客户" />
-        </div>
-    </div>
-
-    <section class="senders tmargin-40" data-bind="css: {isEmpty: senders().length==0}, foreach: {data: senders, afterRender: afterSenderRender}">
-                <div class="sender">
-
-                    <a class="sender-copy icon icon-copy"></a>
-                    <span class="sender-name" data-bind="text: name"></span>
-
-                    <textarea class="sender-receives"  data-bind="text: receives"></textarea>
-
-                </div>
-
-    </section>
-
-
-<!-- ko if: clients().length>0 -->
-
-    <div class="allclients" data-bind="foreach: {data: clients, afterRender:afterClientRender}">
-        <section class="client" data-bind="css: {'isActive': isActive()}">
-            <div class="client-name bg-grey">
-
-                <div class="inputbox-client">
-                    <a class="sender-singleCopy icon icon-copy"></a>
-                    <input type="hidden" data-bind="value: _id" />
-                    <input type="text" class="w-p30" data-bind="value: name" placeholder="客户" />
-                </div>
-            </div>
-            <div class="client-infos">
-                <section class="client-actions">
-                    <a href="#" class="icon icon-add" data-bind="tap:addAddress"> </a>
-
-
-
-                    <span class="font-bold" data-bind="text: mailDisplayType(mailType)"> </span>
-
-                    <a href="#" class="icon icon-remove-sign action-submit action-delete" data-bind="tap: $root.removeClient"> </a>
-                </section>
-                <!-- ko foreach: addresses -->
-                <div class="client-address address--client" data-bind="css: defaultAddressCss()">
-
-
-                    <div class="address-cnt">
-                        <span class="recipient"><input type="text" data-bind="value: recipient" placeholder="收件人" /></span>
-
-                        <span class="recipient print"  data-bind="text: $parent.displayPrintName(recipient)"></span>
-
-
-                        <span class="phone"><input type="text"  min="0" max="100" step="1" data-bind="value: phone" placeholder="电话" /></span>
-
-                        <span class="addressDetail"><input type="text" class="client-inputclient" min="0" max="100" step="1" data-bind="value: address" placeholder="地址" /></span>
-                    </div>
-
-                    <span class="address-actions bg-grey">
-
-                        <a href="#" class="icon action-submit" data-bind="tap: $parent.markDefault, css: defaultAddressMarkCss()"></a>
-                        <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $parent.removeAddress"> </a>
-
-                    </span>
-
-
-                </div>
-                <!-- /ko -->
-            </div>
-        </section>
-    </div>
-
-<!-- /ko -->
-</section>
-<% } %>
-
-
-
-
-
-
-
-
-
-
     </div>
 </div>
 

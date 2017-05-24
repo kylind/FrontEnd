@@ -52,20 +52,19 @@ define(['common'], function(util) {
 
         self.isDoubtSellPrice = function() {
 
-            if (typeof item.sellPrice == 'string' && item.sellPrice.startsWith('?')) {
-                return true;
-            } else {
-                return false;
-            }
+            // if (typeof item.sellPrice == 'string' && item.sellPrice.startsWith('?')) {
+            //     return true;
+            // } else {
+            //     return false;
+            // }
+
+            return item.isDoubtSellPrice || false;
 
         }
         self.isDoubtBuyPrice = function() {
 
-            if (typeof item.buyPrice == 'string' && item.buyPrice.startsWith('?')) {
-                return true;
-            } else {
-                return false;
-            }
+            return item.isDoubtBuyPrice || false;
+
 
         }
         self.isHistoricTradesOpen = false;

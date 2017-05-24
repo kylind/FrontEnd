@@ -34,24 +34,45 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             orders.forEach(order => {
 
-                order.items.forEach(item => {
 
-                    let productWithPrice = productsWithPrice.find(product => product.name == item.name);
+                if (order.status == '1RECEIVED' || order.status == '2SENT') {
+                    order.items.forEach(item => {
 
-                    if (productWithPrice) {
+                        let productWithPrice = productsWithPrice.find(product => product.name == item.name);
 
-                        if (sellComputing && !item.sellPrice && productWithPrice.sellPrice) {
-                            item.sellPrice = '?' + productWithPrice.sellPrice;
-                            order.isChanged = true;
+                        if (productWithPrice) {
 
+                            if (sellComputing && !item.sellPrice && productWithPrice.sellPrice) {
+
+                                item.sellPrice = '?' + productWithPrice.sellPrice;
+                                item.isDoubtSellPrice = true;
+                                order.isChanged = true;
+
+                            } else if (!sellComputing && item.isDoubtSellPrice) {
+
+                                item.sellPrice = null;
+                                item.isDoubtSellPrice = false;
+
+                            }
+
+                            if (buyComputing && !item.buyPrice && productWithPrice.buyPrice) {
+
+                                item.buyPrice = '?' + productWithPrice.buyPrice;
+                                item.isDoubtBuyPrice = true;
+                                order.isChanged = true;
+
+                            } else if (!buyComputing && item.isDoubtBuyPrice) {
+
+                                item.buyPrice = null;
+                                item.isDoubtBuyPrice = false;
+
+                            }
                         }
-                        if (buyComputing && !item.buyPrice && productWithPrice.buyPrice) {
-                            item.buyPrice = '?' + productWithPrice.buyPrice;
-                            order.isChanged = true;
-                        }
-                    }
 
-                })
+                    })
+                }
+
+
             })
 
             return orders;
@@ -545,7 +566,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                         userPromise.then(function(user) {
 
-                            var ordersWithPrice = applyProductPrice(productsModel.products,  reckoningOrdersModel.orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
+                            var ordersWithPrice = applyProductPrice(productsModel.products, reckoningOrdersModel.orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
                             var observableOrders = reckoningOrdersModel.getObservableOrders(ordersWithPrice);
                             reckoningOrdersModel.orders(observableOrders);
                         })
