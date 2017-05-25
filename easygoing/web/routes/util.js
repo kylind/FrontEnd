@@ -112,6 +112,8 @@ var util = {
             item.tag = item.tag ? item.tag : '';
             delete item.profit;
             delete item.isChanged;
+            delete item.isDoubtBuyPrice;
+            delete item.isDoubtSellPrice;
         });
 
 

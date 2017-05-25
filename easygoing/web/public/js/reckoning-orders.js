@@ -38,6 +38,9 @@ define(['common'], function(util) {
 
         self.historicTrades = ko.observableArray([]);
 
+        self.isDoubtSellPrice = item.isDoubtSellPrice || false;
+        self.isDoubtBuyPrice = item.isDoubtBuyPrice || false;
+
         function removeDoubt(price) {
             //var purePrice = price();
 
@@ -50,23 +53,23 @@ define(['common'], function(util) {
             return purePrice;
         }
 
-        self.isDoubtSellPrice = function() {
+        // self.isDoubtSellPrice = function() {
 
-            // if (typeof item.sellPrice == 'string' && item.sellPrice.startsWith('?')) {
-            //     return true;
-            // } else {
-            //     return false;
-            // }
+        //     // if (typeof item.sellPrice == 'string' && item.sellPrice.startsWith('?')) {
+        //     //     return true;
+        //     // } else {
+        //     //     return false;
+        //     // }
 
-            return item.isDoubtSellPrice || false;
+        //     return item.isDoubtSellPrice || false;
 
-        }
-        self.isDoubtBuyPrice = function() {
+        // }
+        // self.isDoubtBuyPrice = function() {
 
-            return item.isDoubtBuyPrice || false;
+        //     return item.isDoubtBuyPrice || false;
 
 
-        }
+        // }
         self.isHistoricTradesOpen = false;
 
         self.isChanged = false;
