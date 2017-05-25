@@ -8,17 +8,17 @@ var Collection = require('../data_access/order.js').Collection;
 router = new Router();
 
 
-router.get(/^\/(v4\.1)?$/, function*() {
+router.get(/^\/(v5)?$/, function*() {
 
 
-    this.redirect('/v4.1/index');
+    this.redirect('/v5/index');
 
 });
 
 router.get('/login', function*() {
 
     if (this.isAuthenticated()) {
-        this.redirect('v4.1/index');
+        this.redirect('v5/index');
 
     } else {
 
@@ -60,7 +60,6 @@ router.get('/logout', function*() {
 
     this.body = { success: true };
 
-    //this.redirect('/v4/login');
 });
 
 router.get('/register', function*() {

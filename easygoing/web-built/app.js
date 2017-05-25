@@ -84,14 +84,16 @@ app.use(loginRouter.routes());
 var itemRouter = require('./routes/itemRouter.js').router;
 var orderRouter = require('./routes/orderRouter.js').router;
 var clientRouter = require('./routes/clientRouter.js').router;
+var productRouter = require('./routes/productRouter.js').router;
 var otherRouter = require('./routes/otherRouter.js').router;
 
 app.use(orderRouter.routes());
 app.use(itemRouter.routes());
 app.use(clientRouter.routes());
+app.use(productRouter.routes());
 app.use(otherRouter.routes());
 
-app.listen({port:3041,host:"127.0.0.1"});//process.env.port
+app.listen({port:3050,host:"127.0.0.1"});//process.env.port
 
 console.log(process.env.NODE_ENV);
 console.log(process.env.db);

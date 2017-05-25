@@ -1,0 +1,47 @@
+<div id="products">
+    <div class="searchbox">
+        <button type="button" text="Add" class="fl icon icon-add" data-bind="tap:addProduct"> 新建 </button>
+        <button type="button" text="Add" class="lmargin-5 fl icon icon-save-all action-submit action-enter" data-bind="tap:submitProducts"> 保存</button>
+        <div class="lmargin-220">
+            <input type="text" class="w-p100 input-search" id="search-products" data-bind="event: {input: searchProducts}" placeholder="搜索产品" />
+        </div>
+    </div>
+
+<!-- ko if: products().length>0 -->
+    <div class="table">
+        <div class="table-header">
+            <span class="w-p30 lpadding-5">产品</span>
+            <span class="w-p15 lpadding-5 ">买</span>
+            <span class="w-p15 lpadding-5">卖</span>
+            <span class="w-p30 lpadding-5">日期</span>
+            <span class="w-p10 taRight"></span>
+        </div>
+        <div data-bind="foreach: {data: products,afterRender: afterRender}">
+            <div class="table-row">
+                <span class="w-p30">
+                    <input  type="hidden" data-bind="value: _id" />
+                    <input  type="text" data-bind="value: name"  placeholder="产品" />
+                </span>
+                    <span class=" w-p15 lpadding-5">
+                    <input  type="text" data-bind="value: buyPrice"  placeholder="买" />
+                </span>
+                    <span class=" w-p15 lpadding-5">
+                    <input  type="text" data-bind="value: sellPrice"  placeholder="卖" />
+                </span>
+                <span class=" w-p30 lpadding-5" data-bind="text: displayDate"></span>
+                <span class="w-p10 taRight rpadding-5">
+                    <a href="#" class="icon icon-remove action-submit action-delete" data-bind="tap: $root.removeProduct" ></a>
+                </span>
+            </div>
+        </div>
+    </div>
+<!-- /ko -->
+</div>
+<div class="prompt">
+    <span class="prompt-submitting"><i class="fa fa-spinner fa-pulse"></i> <span> 提交中...</span></span>
+    <span class="prompt-succeed disappeared icon icon-peace"> 提交成功!</span>
+</div>
+<div class="confirm">
+    <button type="button" class="ispure confirm-submit taCenter ">确认</button>
+    <button type="button" class="ispure confirm-cancel taCenter lmargin-5">取消</button>
+</div>

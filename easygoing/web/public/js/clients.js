@@ -96,7 +96,7 @@ define(['common', 'clipboard'], function(util, Clipboard) {
             self.addresses = ko.observableArray(client.addresses.map(address => new AddressModel(address)));
 
         } else {
-            self.addresses = ko.observableArray([new AddressModel()]);
+            self.addresses = ko.observableArray([new AddressModel({ isActive: true })]);
 
         }
 
@@ -115,7 +115,13 @@ define(['common', 'clipboard'], function(util, Clipboard) {
 
         self.addAddress = function() {
 
-            self.addresses.unshift(new AddressModel());
+            if (self.addresses().length > 0) {
+                self.addresses.unshift(new AddressModel());
+            } else {
+                self.addresses.unshift(new AddressModel({ isActive: true }));
+            }
+
+
             swiper.update();
         };
 

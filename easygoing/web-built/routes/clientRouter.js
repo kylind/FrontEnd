@@ -5,13 +5,15 @@ var ClientCollection = require('../data_access/client.js').Collection
 
 var OrderCollection = require('../data_access/order.js').Collection
 
-router = new Router();
+var router = new Router();
+
+var orderOperation, clientOperation;
 
 router.use(function*(next) {
 
     if (this.isAuthenticated()) {
         clientOperation = new ClientCollection(this.req.user.clientCollection);
-        orderOperation = new OrderCollection(this.req.user.collection);
+        orderOperation = new OrderCollection(this.req.user.collection, this.req.user.productCollection);
 
     }
 
@@ -137,17 +139,6 @@ function* getClients() {
 
             return name == client.name;
 
-
-
-            // if (order.client.endsWith('?') || order.client.endsWith('？')) {
-            //     name = order.client.slice(0, order.client.length - 1);
-
-            // }
-
-            //return order.client == client.name;
-
-
-
         });
 
 
@@ -168,21 +159,10 @@ function* getClients() {
             client.isActive = true;
             client.mailType = mailType;
 
-
             return client;
         }
 
     });
-
-    //allClients.splice(index, 1);
-    // var clients = activeClients.concat(allClients).sort(function(a, b) {
-    //     if (a.isActive) {
-    //         return -1;
-    //     } else {
-    //         return 1;
-    //     }
-    // });
-
 
     return activeClients;
 }

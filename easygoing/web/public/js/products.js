@@ -65,7 +65,7 @@ define(['common'], function(util) {
 
         self.getActiveClients = function(product, parent, event) {
 
-            $activeClients = $(event.target).closest('.table-row').children('.clientInfo');
+            var $activeClients = $(event.target).closest('.table-row').children('.clientInfo');
 
 
             if (!self.isOpen()) {

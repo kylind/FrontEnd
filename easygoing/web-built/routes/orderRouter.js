@@ -1,6 +1,7 @@
 var Router = require('koa-router');
 var ObjectID = require('mongodb').ObjectID;
 var Collection = require('../data_access/order.js').Collection;
+var ProductCollection = require('../data_access/product.js').Collection;
 var util = require('./util.js').util;
 
 var dateFormatting = {
@@ -39,6 +40,7 @@ router.use(function*(next) {
 
     if (this.isAuthenticated()) {
         orderOperation = new Collection(this.req.user.collection);
+
         RATE = this.req.user.rate || 0.9;
     }
 
@@ -116,6 +118,8 @@ router.post('/orders', function*() {
 
 });
 
+
+
 router.put('/orderStatus/:id', function*() {
 
     var orderStatus = this.request.body;
@@ -149,6 +153,7 @@ router.delete('/order/:id', function*() {
 
 });
 
+
 router.get('/index', function*() {
 
     var model = {
@@ -173,6 +178,8 @@ router.get('/index', function*() {
     }
     yield this.render('index', model);
 });
+
+
 
 router.get('/content', function*() {
 
@@ -414,6 +421,9 @@ router.get('/historictrades', function*() {
     this.status = 200;
 
 });
+
+
+
 
 
 exports.router = router;
