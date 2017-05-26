@@ -33,7 +33,6 @@ var Collection = function(_name, _productCollection) {
                 });
             });
 
-
         },
         updateById: function*(id, order) {
 

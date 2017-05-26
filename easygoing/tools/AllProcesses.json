@@ -1,28 +1,11 @@
 {
   "apps" : [{
-    "name"       : "website4.1",
-    "script"      : "./web4.1/app.js",
-    "max_memory_restart" : "55M",
-    "watch"       : false,
-    "exec_mode"  : "cluster",
-    "instances"  : 2,
-    "env": {
-      "NODE_ENV": "production",
-       "db":"127.0.0.1",
-       "port":3041
-    },
-    "env_production" : {
-       "NODE_ENV": "production",
-       "db":"120.24.63.42",
-       "port":3041
-    }
-  },{
     "name"       : "website5",
     "script"      : "./web5/app.js",
     "max_memory_restart" : "55M",
     "watch"       : false,
     "exec_mode"  : "cluster",
-    "instances"  : 2,
+    "instances"  : 4,
     "env": {
       "NODE_ENV": "production",
        "db":"127.0.0.1",
