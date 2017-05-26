@@ -293,7 +293,10 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             });
 
+
+
             Promise.all([userPromise, purchasePromise]).then(([user, itemsModel]) => {
+
                 var tags = Array.isArray(user.tags) ? user.tags : [];
 
                 $('.hidden-tag').tag({
@@ -348,6 +351,9 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 });
 
             });
+
+
+
 
             var productPromise;
 
@@ -425,14 +431,19 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 if (event.keyCode == 13) {
                     // && (swiper.activeIndex == 0 || swiper.activeIndex == 2)
                     //var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
-                    $(document.activeElement).blur();
+
 
                     //var targetPage = swiper.activeIndex == 0 ? 'receivedOrders' : 'reckoningOrders'
 
                     var $target = $('#' + id + ' .action-enter');
-                    setTimeout(function() {
-                        $target.trigger('click')
-                    }, 100);
+
+                    if ($target.length > 0) {
+                        $(document.activeElement).blur();
+                        setTimeout(function() {
+                            $target.trigger('click')
+                        }, 100);
+                    }
+
                     return false;
                 }
 

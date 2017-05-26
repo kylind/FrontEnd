@@ -414,6 +414,7 @@ input[type="password"] {
     padding: 0 0 0 5px;
     font-size: 1.3rem;
     line-height: 18px;
+
     color: #333;
 }
 
@@ -1108,6 +1109,7 @@ span.orderitem-cnt-btns {
 
 .tag.isActive .tag-input {
     display: inline-block;
+    vertical-align: top;
 }
 
 .tag.isActive .tag-label {
@@ -2213,6 +2215,7 @@ button.ispure {
     border-right: 1px solid #cc0066;
     vertical-align: top;
     height: 18px;
+
 }
 
 .productInfo > span.taRight {
@@ -2228,6 +2231,7 @@ button.ispure {
     vertical-align: top;
     width: 100%;
     padding-left: 0;
+    height: 18px;
 }
 
 .productInfo-name {
@@ -2244,6 +2248,10 @@ button.ispure {
 
 .productInfo-date {
     flex: 0 0 100px;
+    background-color: #f2f2f2;
+}
+.productInfo--header > .productInfo-date {
+    background-color: #cc0066;
 }
 
 .productInfo-actions {

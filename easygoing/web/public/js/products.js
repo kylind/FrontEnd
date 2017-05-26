@@ -385,7 +385,7 @@ define(['common'], function(util) {
                         success: function(data, status) {
 
                             if (!/^\s?$/.test(newKeywords)) {
-                                self.setProducts(products);
+                                self.setProducts(data);
                             }
 
                             //updateSwiper();

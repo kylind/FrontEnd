@@ -195,7 +195,7 @@ var Collection = function(_name, _productCollection) {
                     }
 
                 }, {
-                    $project: { client: 1, name: '$items.name', sellPrice:'$items.sellPrice', buyPrice:'$items.buyPrice',quantity: '$items.quantity', note: '$items.note' }
+                    $project: { client: 1, name: '$items.name', sellPrice: '$items.sellPrice', buyPrice: '$items.buyPrice', quantity: '$items.quantity', note: '$items.note' }
                 }
 
             ], { cursor: { batchSize: 1 } }).toArray();
@@ -235,28 +235,30 @@ var Collection = function(_name, _productCollection) {
             });
 
         },
-        queryGlobalOrders: function*(text) {
+        queryGlobalOrders: function*(keywords) {
 
             var db = yield MongoClient.connect(url);
 
-            var res = yield db.collection(_name).aggregate([{
-                    $match: { $text: { $search: text } }
-                }
-                // ,
+            // var res = yield db.collection(_name).aggregate([{
+            //         $match: { $text: { $search: text } }
+            //     }
 
-                // {
-                //     $lookup: {
-                //         from: "addresses",
-                //         localField: "client",
-                //         foreignField: "client",
-                //         as: "addresses"
-                //     }
-                // }
+            // ], { cursor: { batchSize: 1 } })
 
-            ], { cursor: { batchSize: 1 } }).sort({ 'status': 1, 'createDate': -1 }).toArray();
 
+
+
+
+            var db = yield MongoClient.connect(url);
+
+            let regex = `.*${keywords}.*`;
+
+            var res = yield db.collection(_name).find({
+                client: { $regex: regex }
+            }).sort({ 'status': 1, 'createDate': -1 }).toArray();
 
             return res;
+
 
         },
 
