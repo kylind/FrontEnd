@@ -19,7 +19,7 @@
 }
 
 .taLeft {
-    text-align: left;
+    text-align: left
 }
 
 .taRight {
@@ -157,7 +157,9 @@
 .font-bold {
     font-weight: bold;
 }
-
+.font-grey {
+    color: #f2f2f2;
+}
 .font-red {
     color: #cc0066;
 }
@@ -526,7 +528,8 @@ button {
 
 .order--received .order-client,
 .order--reckoning .order-client {
-    width: 120px;
+    width: 20%;
+    max-width: 120px;
     display: table-cell;
     border-right: 1px solid #cc0066;
 }
@@ -2024,12 +2027,13 @@ button.ispure {
 }
 
 .allclients .client-name {
-    width: 150px;
+    flex: 1 1 20%;
+    max-width: 150px;
     border-right: solid 1px #cc0066;
 }
 
 .allclients .client-infos {
-    flex: 1 1;
+    flex: 1 1 80%;
 }
 
 .inputbox-client {
@@ -2207,7 +2211,7 @@ button.ispure {
     box-sizing: border-box;
     padding-left: 5px;
     border-right: 1px solid #cc0066;
-    vertical-align: middle;
+    vertical-align: top;
     height: 18px;
 }
 

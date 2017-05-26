@@ -190,6 +190,8 @@ define(['common'], function(util) {
                 return 'font-green';
             } else if (self.status() == '2SENT') {
                 return 'font-yellow';
+            } else if(self.packingStatus!='3PACKED'){
+                return 'font-grey';
             }
         });
 
@@ -423,6 +425,10 @@ define(['common'], function(util) {
         };
 
         self.markDone = function(order) {
+
+
+            if(order.status() == '1RECEIVED' && order.packingStatus != '3PACKED') return;
+
             arguments[3]();
             var succeed = arguments[4];
             var parent = arguments[1];
