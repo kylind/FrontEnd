@@ -22,7 +22,7 @@
                 items: [],
                 getItems() {
 
-                    return settings.tags;
+                    return [];
 
                 },
 
@@ -147,57 +147,53 @@
 
             });
 
+            function setDropdown($target, items) {
+
+                if (Array.isArray(items) && items.length > 0 && $(window).width() > 420) {
+
+                    var offset = $target.offset();
+                    var width = $target.outerWidth();
+
+                    var olClass = `ol-${settings.itemType}s`;
+
+                    var olHtml = `<ol class="${olClass}">`
+                    items.forEach(function(item) {
+                        olHtml += `<li class="item--${settings.itemType}">${item}</li>`;
+                    });
+                    olHtml += '</ol>';
+
+                    var $ol = $(olHtml);
+
+                    $ol.css('width', width);
+                    $ol.offset({ left: offset.left, top: offset.top + 18 });
+
+                    $ol.children('li').one('click', function() {
+
+                        $target.val($(this).text());
+
+                        $(`.${olClass}`).remove();
+
+                        return false;
+
+                    });
+
+                    $('main').append($ol);
+                }
+            }
+
             return this.each(function() {
 
                 var $this = $(this);
-
-
-                function getList(items) {
-
-                    if (Array.isArray(items) && items.length > 0 && $(window).width() > 420) {
-
-                        var offset = $this.offset();
-                        var width = $this.outerWidth();
-
-                        var olClass = `ol-${settings.itemType}s`;
-
-                        var olHtml = `<ol class="${olClass}">`
-                        items.forEach(function(item) {
-                            olHtml += `<li class="item--${settings.itemType}">${item}</li>`;
-                        });
-                        olHtml += '</ol>';
-
-                        var $ol = $(olHtml);
-
-                        $ol.css('width', width);
-                        $ol.offset({ left: offset.left, top: offset.top + 18 });
-
-                        $ol.children('li').one('click', function() {
-
-                            $this.val($(this).text());
-
-                            $(`.${olClass}`).remove();
-
-                            return false;
-
-                        });
-
-                        $('main').append($ol);
-                    }
-                }
-
-
 
 
                 $this.bind('change', function() {
 
                     $('.ol-items').remove();
 
-                    var items = getTags();
+                    var keywords = $this.val();
 
-
-
-
+                    let items = filterItems(keywords);
+                    setDropdown(items);
 
 
                     return false;
@@ -209,23 +205,13 @@
                     $('.livesearch.isActive').removeClass('isActive');
 
                     $this.addClass('isActive');
-
-
-
-
-                    var keywords = $this.val();
+z ,x az
 
                     if (keywords != '') {
-
-                        var items = getTags();
+                        let items = filterItems(keywords);
+                        setDropdown(items);
 
                     }
-
-
-
-
-
-
 
 
                     return false;
@@ -243,7 +229,7 @@
         }
     };
 
-    $.fn.tag = function() {
+    $.fn.dropdown = function() {
 
         var method = arguments[0];
 
@@ -260,26 +246,9 @@
         method.apply(this, methodArguments);
     };
 
-    $.fn.tag.setTags = function(_items) {
-        if (Array.isArray(_items) && _items.length > 0) {
 
-            var items = _items.concat([]);
-
-            newTags.forEach(function(item) {
-                if (items.indexOf(item) < 0) {
-                    items.unshift(item);
-                }
-
-            })
-
-            settings.items = items;
-
-        }
-
-    };
-
-    $.fn.tag.settings = settings;
 
 
 
 })(jQuery);
+,qz,asq
