@@ -456,6 +456,7 @@ input[type="text"].postage {
 .order--reckoning input {
     border: 0;
     width: 100%;
+    vertical-align: top;
 }
 
 .order--received input.client,
@@ -1142,7 +1143,7 @@ span.orderitem-cnt-btns {
     z-index: 3333;
     list-style: none;
     width: 100%;
-    box-shadow: 0 16px 16px -8px #cc0066;
+    box-shadow: 0 8px 8px -4px #cc0066;
 }
 
 .ol-tags li {
@@ -2363,6 +2364,35 @@ button.ispure {
 .clientInfo-actions > a:before {
     /*color: #cc0066;*/
     font-size: 1.8rem;
+}
+
+
+
+/*** dropdown plugin ***/
+.dropdown {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #ff9999;
+    z-index: 3333;
+    list-style: none;
+    width: 100%;
+    box-shadow: 0 8px 8px -4px #cc0066;
+}
+
+.dropdown li {
+    cursor: pointer;
+    text-align: center;
+    /*font-weight: bold;*/
+    border-top: solid 1px #cc0066;
+}
+
+.dropdown li:hover {
+    background-color: #ffcccc;
+}
+
+.dropdown li.isActive {
+    background-color: #ffcccc;
 }
 
 

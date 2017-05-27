@@ -16,16 +16,12 @@
 
         init: function(options) {
 
+            if ($(window).width() <= 420) return;
+
             var defaults = {
-                inputClass: '.livesearch',
+                //inputClass: '.livesearch',
                 itemType: 'product',
-                items: [],
-                getItems() {
-
-                    return [];
-
-                },
-
+                items: ['Kylin', 'Lanlan', 'Nancy', 'Caisong', 'Zoe', 'Sophia', 'Ruolan']
 
             };
 
@@ -35,130 +31,83 @@
                 settings = $.extend({}, defaults, settings);
             }
 
-
-
-
-
+            var olClass = `dropdown--${settings.itemType}s`;
+            var liClass = `option--${settings.itemType}`;
+            var searchClass = `livesearch--${settings.itemType}`;
+            var isDropdownShow = false;
 
             $(document).bind('click', function(event) {
 
+                var $target = $(document.activeElement);
 
-                var $active = $('.tag.isActive');
-                if ($active.length > 0) {
-                    var $input = $active.find('.tag-input');
-                    var $label = $active.find('.tag-label');
-                    var itemName = $active.next('.hidden-item').val();
-
-                    var val = $input.val();
-
-                    if (val == '') {
-                        $active.addClass('isEmpty');
-                    } else {
-                        $active.addClass('isLabel');
-                        addTag(val)
-                    }
-
-                    var $hiddenTag = $active.prev('.hidden-tag');
-
-                    var oldVal = $hiddenTag.val();
-
-                    $hiddenTag.val(val);
-                    $hiddenTag.change();
-
-                    $label.text(val);
-                    settings.updateTag(itemName, oldVal, val);
-
-                    $('.ol-items').remove();
-
-                    $active.removeClass('isActive');
-
+                if (!$target.hasClass(searchClass)) {
+                    $(`.${olClass}`).remove();
                 }
 
-                $('.ol-items').remove();
-                isListActive = false;
-
-
             });
-
-            var isListActive = false;
 
             $(document).on('keydown', function(event) {
 
                 var $target = $(document.activeElement)
 
-                if ($target.hasClass('tag-input')) {
+                //if (!$target.hasClass(searchClass)) return;
 
+                if (isDropdownShow) {
 
-                    if (!isListActive) {
+                    $activeOption = $(`.${liClass}.isActive`);
 
-                        if (event.keyCode == 13) {
-                            $(document).click();
-                        } else if (event.keyCode == 40) {
-
-                            var $items = $('.ol-items > li');
-
-                            $nextInput = $target.closest('.orderitem').next('.orderitem').find('.tag-input');
-
-                            if ($items.length > 0) {
-
-                                var $first = $items.first();
-
-                                $first.addClass('isActive');
-                                isListActive = true;
-
-
-                            }
-
-
-                        }
-
-                    } else {
-
-                        $activeTag = $('.item--tag.isActive');
+                    if ($activeOption.length > 0) {
 
                         if (event.keyCode == 38) {
-                            $prevTag = $activeTag.prev('.item--tag');
 
-                            if ($prevTag.length > 0) {
-                                $activeTag.removeClass('isActive');
-                                $prevTag.addClass('isActive');
+                            $prevOption = $activeOption.prev(`.${liClass}`);
+                            if ($prevOption.length > 0) {
+                                $activeOption.removeClass('isActive');
+                                $prevOption.addClass('isActive');
                             }
-
 
                         } else if (event.keyCode == 40) {
 
-                            $nextTag = $activeTag.next('.item--tag');
-
-                            if ($nextTag.length > 0) {
-                                $activeTag.removeClass('isActive');
-                                $nextTag.addClass('isActive');
-                                $activeTag = $nextTag;
+                            $nextOption = $activeOption.next(`.${liClass}`);
+                            if ($nextOption.length > 0) {
+                                $activeOption.removeClass('isActive');
+                                $nextOption.addClass('isActive');
                             }
 
-
                         } else if (event.keyCode == 13) {
-                            isListActive = false;
-                            $activeTag.click();
+
+                            //$activeOption.click();
+
                         }
+
+                    } else if (event.keyCode == 40) {
+                        let $options = $(`.${liClass}`);
+
+                        if ($options.length > 0) {
+
+                            var $first = $options.first();
+                            $first.addClass('isActive');
+
+                        }
+
                     }
 
                 }
-
 
             });
 
             function setDropdown($target, items) {
 
-                if (Array.isArray(items) && items.length > 0 && $(window).width() > 420) {
+                if (Array.isArray(items) && items.length > 0) {
 
                     var offset = $target.offset();
                     var width = $target.outerWidth();
 
-                    var olClass = `ol-${settings.itemType}s`;
 
-                    var olHtml = `<ol class="${olClass}">`
+
+                    var olHtml = `<ol class="dropdown ${olClass}">`
                     items.forEach(function(item) {
-                        olHtml += `<li class="item--${settings.itemType}">${item}</li>`;
+                        olHtml += `<li class="option ${liClass}">${item}</li>`;
                     });
                     olHtml += '</ol>';
 
@@ -170,6 +119,7 @@
                     $ol.children('li').one('click', function() {
 
                         $target.val($(this).text());
+                        $target.change()
 
                         $(`.${olClass}`).remove();
 
@@ -178,50 +128,51 @@
                     });
 
                     $('main').append($ol);
+
+                    return true;
+
+                } else {
+
+                    return false;
                 }
+            }
+
+            function filterItems(keywords) {
+                keywords=keywords.toLowerCase();
+                return settings.items.filter(item => item.toLowerCase().includes(keywords));
             }
 
             return this.each(function() {
 
                 var $this = $(this);
 
+                $this.bind('input', function() {
 
-                $this.bind('change', function() {
-
-                    $('.ol-items').remove();
+                    $(`.${olClass}`).remove();
 
                     var keywords = $this.val();
+                    if (keywords != '') {
 
-                    let items = filterItems(keywords);
-                    setDropdown(items);
+                        let items = filterItems(keywords);
 
+                        isDropdownShow = setDropdown($this, items);
+                    }
 
                     return false;
                 });
 
                 $this.bind('focus', function() {
 
-
-                    $('.livesearch.isActive').removeClass('isActive');
-
-                    $this.addClass('isActive');
-z ,x az
+                    var keywords = $this.val();
 
                     if (keywords != '') {
                         let items = filterItems(keywords);
-                        setDropdown(items);
-
+                        isDropdownShow = setDropdown($this, items);
                     }
-
 
                     return false;
 
-
-
                 });
-
-
-                $this.after($tag);
 
 
             });
@@ -248,7 +199,4 @@ z ,x az
 
 
 
-
-
 })(jQuery);
-,qz,asq

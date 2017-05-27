@@ -115,9 +115,7 @@
                                 $first.addClass('isActive');
                                 isListActive = true;
 
-
                             }
-
 
                         }
 

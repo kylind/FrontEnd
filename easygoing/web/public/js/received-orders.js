@@ -417,6 +417,10 @@ define(['common'], function(util) {
 
             if ($('#receivedOrdersBody').children().length === self.orders().length) {
 
+
+
+                $('.livesearch--product').dropdown({itemType:'product'});
+
                 updateSwiper();
             }
         }

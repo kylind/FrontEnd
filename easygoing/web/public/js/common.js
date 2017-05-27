@@ -1,4 +1,4 @@
-define(['jquery', 'knockout', 'knockout.mapping', 'swiper', 'colorbox', 'tag'], function($, ko, mapping, Swiper) {
+define(['jquery', 'knockout', 'knockout.mapping', 'swiper', 'colorbox', 'tag','dropdown'], function($, ko, mapping, Swiper) {
 
 
 
