@@ -419,7 +419,7 @@ define(['common'], function(util) {
 
 
 
-                $('.livesearch--product').dropdown({itemType:'product'});
+               // $('.livesearch--product').dropdown({itemType:'product'});
 
                 updateSwiper();
             }

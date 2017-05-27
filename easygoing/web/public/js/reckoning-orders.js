@@ -38,8 +38,8 @@ define(['common'], function(util) {
 
         self.historicTrades = ko.observableArray([]);
 
-        self.isDoubtSellPrice = item.isDoubtSellPrice || false;
-        self.isDoubtBuyPrice = item.isDoubtBuyPrice || false;
+        self.isDoubtSellPrice = item && item.isDoubtSellPrice || false;
+        self.isDoubtBuyPrice = item && item.isDoubtBuyPrice || false;
 
         function removeDoubt(price) {
             //var purePrice = price();
@@ -111,7 +111,7 @@ define(['common'], function(util) {
 
         }
 
-        self.isChanged = order.isChanged || false;
+        self.isChanged = order && order.isChanged;
 
         self.items = ko.observableArray(observableItems);
 
@@ -193,9 +193,11 @@ define(['common'], function(util) {
                 return 'font-green';
             } else if (self.status() == '2SENT') {
                 return 'font-yellow';
-            } else if(self.packingStatus!='3PACKED'){
-                return 'font-grey';
             }
+
+            //  else if(self.packingStatus!='3PACKED'){
+            //     return 'font-grey';
+            // }
         });
 
         self.getHistoricTrades = function(item, parent, event) {
@@ -430,7 +432,7 @@ define(['common'], function(util) {
         self.markDone = function(order) {
 
 
-            if(order.status() == '1RECEIVED' && order.packingStatus != '3PACKED') return;
+            //if(order.status() == '1RECEIVED' && order.packingStatus != '3PACKED') return;
 
             arguments[3]();
             var succeed = arguments[4];

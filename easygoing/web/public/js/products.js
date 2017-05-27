@@ -43,7 +43,7 @@ define(['common'], function(util) {
         self.buyPrice.subscribe(function(newValue) {
             self.isChanged = true;
             if (product && product.buyPrice && newValue != product.buyPrice) {
-                if (product.status() != 'MANUAL') {
+                if (product.status != 'MANUAL') {
                     self.status('MODIFIED');
                 }
             }
@@ -52,7 +52,7 @@ define(['common'], function(util) {
         self.sellPrice.subscribe(function(newValue) {
             self.isChanged = true;
             if (product && product.sellPrice && newValue != product.sellPrice) {
-                if (product.status() != 'MANUAL') {
+                if (product.status != 'MANUAL') {
                     self.status('MODIFIED');
                 }
             }

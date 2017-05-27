@@ -491,6 +491,18 @@ button {
     height: 20px;
 }
 
+.searchbox--reckoning{
+    display: flex;
+}
+
+.searchbox--reckoning > .searchbox-btns{
+    flex: 0 0 170px;
+
+}
+.searchbox--reckoning > .searchbox-input{
+    flex: 1 1;
+
+}
 .orders.isClientView .onlyForMe {
     display: none;
 }
