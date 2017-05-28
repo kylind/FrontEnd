@@ -14,8 +14,8 @@ app.use(session({
         // host: "120.24.63.42",
         host:"127.0.0.1",
         db: "orders"
-        // user: "website",
-        // password: "zombie.123"
+        user: "website",
+        password: "zombie.123"
     }),
     cookie: {
         maxage: 604800000,

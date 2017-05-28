@@ -6,6 +6,7 @@ requirejs.config({
 
         'common': '../js/common',
         'tag': '../js/jquery.tag',
+        'dropdown': '../js/jquery.dropdown',
         'jquery': './jquery/dist/jquery.min',
         'knockout': './knockout/dist/knockout',
         'knockout.mapping': '../js/knockout.mapping.2.4.1.min',

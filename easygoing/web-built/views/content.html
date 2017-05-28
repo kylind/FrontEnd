@@ -32,7 +32,7 @@
                     </div>
                 </div>
 
-                <div id='#receivedOrdersBody' class="tmargin-40" data-bind="foreach: {data:orders, afterRender: afterOrderRender}">
+                <div id='receivedOrdersBody' class="tmargin-40" data-bind="foreach: {data:orders, afterRender: afterOrderRender}">
                     <section class="order order--received enterArea">
                         <div class="order-client bg-grey">
                             <input type="hidden" data-bind="value: _id" />
@@ -50,7 +50,7 @@
                             <!-- ko foreach: items -->
                             <div class="item item--received">
                                 <span class="item-product">
-                                    <input  type="text" class="oneline" data-bind="value: name" placeholder="产品" />
+                                    <input  type="text" class="oneline livesearch livesearch--product" data-bind="value: name" placeholder="产品" />
                                 </span>
                                 <span class="item-quantity">
                                     <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
@@ -140,10 +140,13 @@
         <% } %>
         <% if ((!user.access) || (user.access && user.access.reckoningOrders)){ %>
             <section class="swiper-slide" id="reckoningOrders" data-bind='template: {afterRender: afterRender }'>
-                <div class="searchbox">
-                    <button type="button" text="Add" class="rmargin-20 fl icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> 保存 </button>
-                    <a href="#" class="fl icon icon-eye" data-bind="tap: $root.toggleClientView"></a>
-                    <div class="lmargin-150">
+                <div class="searchbox searchbox--reckoning">
+                    <div class='searchbox-btns'>
+                        <button type="button" text="Add" class="icon icon-add" data-bind="tap:$root.addOrder"> 新建 </button>
+                        <button type="button" text="Add" class="icon icon-save-all action-submit action-enter" data-bind="tap:$root.submitOrders"> 保存 </button>
+                        <a href="#" class="icon icon-eye" data-bind="tap: $root.toggleClientView"></a>
+                    </div>
+                    <div class="searchbox-input">
                         <input type="text" class="w-p100 input-search" id="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="搜索客户订单" />
                     </div>
                 </div>
