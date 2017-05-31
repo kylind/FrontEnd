@@ -104,6 +104,19 @@ router.get('/clientsJson', function*() {
 
 });
 
+
+router.get('/allClientNamesJson', function*() {
+
+    var res = yield clientOperation.queryClients();
+
+    clientNames = res.map(client => client.name);
+
+
+    this.body = clientNames;
+    this.status = 200;
+
+});
+
 router.get('/clientsByKeywords', function*() {
 
     var req = this.request.query;

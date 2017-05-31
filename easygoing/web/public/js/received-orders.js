@@ -19,7 +19,21 @@ define(['common'], function(util) {
         self.isDone = (item && typeof item.isDone != 'undefined') ? item.isDone : false;
         self.tag = item && item.tag ? item.tag : '';
 
+
+        self.isLiveSearch=false;
+
+        self.bindLiveSearch=function(data, event){
+
+            if(!self.isLiveSearch){
+                self.isLiveSearch=true;
+                $(event.target).dropdown({itemType:'product',trigger:true})
+
+            }
+
+        }
+
         self.isChanged = false;
+
 
         self.name.subscribe(function(newValue) {
             self.isChanged = true;
@@ -32,22 +46,10 @@ define(['common'], function(util) {
             self.isChanged = true;
         })
 
-        self.isLiveSearch = false;
-
-
-        self.bindLiveSearch=function(data, event){
-
-            if(!self.isLiveSearch){
-                self.isLiveSearch=true;
-                $(event.target).dropdown({trigger:true});
-
-            }
-
-        }
     }
 
 
-    var OrderModel = function(order) {
+    var OrderModel = function(order,swiper) {
         var self = this;
         self._id = ko.observable(order && order._id ? order._id : '');
         self.client = ko.observable(order && order.client ? order.client : '');
@@ -61,7 +63,28 @@ define(['common'], function(util) {
         self.status = order && order.status ? order.status : '1RECEIVED';
         self.createDate = order && order.createDate ? order.createDate : '';
 
+        self.isLiveSearch=false;
 
+
+
+        self.bindLiveSearch=function(data, event){
+
+            if(!self.isLiveSearch){
+                self.isLiveSearch=true;
+                $(event.target).dropdown({itemType:'client',trigger:true})
+
+            }
+
+        }
+
+        var dateFormatting = {
+            month: "2-digit",
+            day: "numeric",
+            weekday: "short"
+        };
+
+
+        self.displayDate = self.createDate ? new Date(self.createDate).toLocaleDateString("en-US", dateFormatting) : '';
 
         var observableItems = [];
 
@@ -88,6 +111,16 @@ define(['common'], function(util) {
             self.isChanged = true;
         })
 
+        self.addItem = function() {
+
+            self.items.unshift(new Item());
+            swiper.update();
+        };
+
+        self.removeItem = function(item) {
+            self.items.remove(item);
+            swiper.update();
+        };
 
 
         self.orderPackingStatus = ko.pureComputed(function() {
@@ -122,13 +155,13 @@ define(['common'], function(util) {
             if (Array.isArray(orders) && orders.length > 0) {
                 orders.forEach(function(order) {
 
-                    observableOrders.push(new OrderModel(order));
+                    observableOrders.push(new OrderModel(order,swiper));
 
                 })
             } else {
 
                 for (var i = 0; i < 30; i++) {
-                    observableOrders.push(new OrderModel());
+                    observableOrders.push(new OrderModel(null,swiper));
 
                 }
 
@@ -177,23 +210,7 @@ define(['common'], function(util) {
 
         }
 
-        self.addItem = function(data) {
 
-            data.items.unshift({
-                name: "",
-                quantity: 1,
-                note: '',
-                buyPrice: '',
-                sellPrice: '',
-                isDone: false
-            });
-            updateSwiper();
-        };
-
-        self.removeItem = function(data, parent) {
-            parent.items.remove(data);
-            updateSwiper();
-        };
 
         self.submitOrder = function(order) {
             arguments[3]();
@@ -353,7 +370,7 @@ define(['common'], function(util) {
 
         self.addOrder = function() {
 
-            var order = new OrderModel();
+            var order = new OrderModel(null,swiper);
 
             self.orders.unshift(order);
             updateSwiper();

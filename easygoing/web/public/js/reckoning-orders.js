@@ -38,6 +38,21 @@ define(['common'], function(util) {
 
         self.historicTrades = ko.observableArray([]);
 
+
+
+        self.isLiveSearch=false;
+
+        self.bindLiveSearch=function(data, event){
+
+            if(!self.isLiveSearch){
+                self.isLiveSearch=true;
+                $(event.target).dropdown({itemType:'product',trigger:true})
+
+            }
+
+        }
+
+
         self.isDoubtSellPrice = item && item.isDoubtSellPrice || false;
         self.isDoubtBuyPrice = item && item.isDoubtBuyPrice || false;
 
@@ -61,7 +76,7 @@ define(['common'], function(util) {
 
             if(!self.isLiveSearch){
                 self.isLiveSearch=true;
-                $(event.target).dropdown({trigger:true});
+                $(event.target).dropdown({itemType:'product',trigger:true})
 
             }
 
@@ -142,6 +157,22 @@ define(['common'], function(util) {
         self.sellPrice = ko.observable(order && order.sellPrice ? order.sellPrice : '');
         self.profit = ko.observable(order && order.profit ? order.profit : '');
         self.isComplete = ko.observable(order && order.isComplete ? order.isComplete : false);
+
+
+        self.isLiveSearch=false;
+
+
+
+        self.bindLiveSearch=function(data, event){
+
+            if(!self.isLiveSearch){
+                self.isLiveSearch=true;
+                $(event.target).dropdown({itemType:'client',trigger:true})
+
+            }
+
+        }
+
 
         self.formatPrice = function(price) {
 

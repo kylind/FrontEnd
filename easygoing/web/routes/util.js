@@ -114,6 +114,7 @@ var util = {
             delete item.isChanged;
             delete item.isDoubtBuyPrice;
             delete item.isDoubtSellPrice;
+            delete item.isLiveSearch;
         });
 
 
@@ -124,6 +125,7 @@ var util = {
         delete order.orderReadyStatus;
         delete order.isChanged;
         delete order.__ko_mapping__;
+        delete order.isLiveSearch;
 
 
         let name = order.client.trim().replace(/[\?\uff1f]$/, '?'); ///[\uff00|\uff1f]/g
