@@ -95,6 +95,18 @@ router.get('/productsJson', function*() {
 
 });
 
+router.get('/allProductNamesJson', function*() {
+
+    var res = yield productOperation.queryProducts();
+
+    productNames = res.map(product => product.name);
+
+
+    this.body = productNames;
+    this.status = 200;
+
+});
+
 router.get('/activeClientsByProduct', function*() {
 
     var req = this.request.query;
@@ -145,6 +157,10 @@ router.post('/updateClientPrice', function*() {
     this.status = 200;
 
 });
+
+
+
+
 
 function* getActiveProducts() {
 

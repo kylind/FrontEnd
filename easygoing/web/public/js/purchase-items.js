@@ -22,10 +22,7 @@ define(['common'], function(util) {
         self.tag = ko.observable((item && item.tag) ? item.tag : '');
         self.purchaseDetail = ko.observableArray(item ? item.purchaseDetail : []);
 
-
-
         self.subItems = ko.observableArray([]);
-
 
         self.updateSubItems = function(subItems) {
 

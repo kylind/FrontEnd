@@ -2394,7 +2394,7 @@ button.ispure {
 
 .dropdown li {
     cursor: pointer;
-    text-align: center;
+    padding-left:5px;
     /*font-weight: bold;*/
     border-top: solid 1px #cc0066;
 }

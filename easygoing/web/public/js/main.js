@@ -367,7 +367,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                         ko.applyBindings(productsModel, $('#products')[0]);
 
                     });
-                })
+                });
             }
 
             var reckoningPromise = new Promise(function(resolve, reject) {
@@ -409,6 +409,10 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             });
 
 
+
+
+
+
             if (access.clients) {
                 $.getJSON('./clientsJson', function(clients, status) {
 
@@ -419,8 +423,25 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             }
 
+            productNamePromise = new Promise(function(resolve, reject) {
+                $.getJSON('./allProductNamesJson', (productNames, status) => {
+                    resolve(productNames);
+                });
+            });
 
+            productNamePromise.then(productNames => {
+                $.fn.dropdown.settings.products=productNames;
+            })
 
+            clientNamePromise = new Promise(function(resolve, reject) {
+                $.getJSON('./allClientNamesJson', (clientNames, status) => {
+                    resolve(clientNames);
+                });
+            });
+
+            clientNamePromise.then(clientNames => {
+                $.fn.dropdown.settings.clients=clientNames;
+            });
 
             $(document).on('keydown', function(event) {
 

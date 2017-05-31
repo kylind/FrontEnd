@@ -216,6 +216,7 @@ router.get('/loading', function*() {
 
 
     var res = yield orderOperation.queryReceivedOrders();
+
     res = res && res.length > 0 ? res : [];
 
     yield this.render('loading', {
@@ -233,6 +234,7 @@ router.get('/receivedOrders', function*() {
 
 
     var res = yield orderOperation.queryReceivedOrders();
+
     res = res && res.length > 0 ? res : [];
 
     yield this.render('receivedOrders', {
@@ -249,6 +251,7 @@ router.get('/receivedOrdersJson', function*() {
 
 
     var res = yield orderOperation.queryReceivedOrders();
+
     res = res && res.length > 0 ? res : [];
 
     this.body = res;
@@ -316,6 +319,7 @@ router.get('/reckoningOrdersJson', function*() {
     this.status = 200;
 
 });
+
 router.get('/incomeList', function*() {
 
     var res = yield orderOperation.summarizeProfit();

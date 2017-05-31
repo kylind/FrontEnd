@@ -19,7 +19,21 @@ define(['common'], function(util) {
         self.isDone = (item && typeof item.isDone != 'undefined') ? item.isDone : false;
         self.tag = item && item.tag ? item.tag : '';
 
+
+        self.isLiveSearch=false;
+
+        self.bindLiveSearch=function(data, event){
+
+            if(!self.isLiveSearch){
+                self.isLiveSearch=true;
+                $(event.target).dropdown({itemType:'product',needTrigger:true})
+
+            }
+
+        }
+
         self.isChanged = false;
+
 
         self.name.subscribe(function(newValue) {
             self.isChanged = true;
@@ -48,7 +62,28 @@ define(['common'], function(util) {
         self.status = order && order.status ? order.status : '1RECEIVED';
         self.createDate = order && order.createDate ? order.createDate : '';
 
+        self.isLiveSearch=false;
 
+
+
+        self.bindLiveSearch=function(data, event){
+
+            if(!self.isLiveSearch){
+                self.isLiveSearch=true;
+                $(event.target).dropdown({itemType:'client',needTrigger:true})
+
+            }
+
+        }
+
+        var dateFormatting = {
+            month: "2-digit",
+            day: "numeric",
+            weekday: "short"
+        };
+
+
+        self.displayDate = self.createDate ? new Date(self.createDate).toLocaleDateString("en-US", dateFormatting) : '';
 
         var observableItems = [];
 

@@ -8,7 +8,7 @@
     };
 
     var newTags = [];
-    var settings = {};
+
     var $activeInput;
     var $activeTag;
 
@@ -20,16 +20,23 @@
 
             var defaults = {
                 //inputClass: '.livesearch',
-                itemType: 'product',
-                items: ['Kylin', 'Lanlan', 'Nancy', 'Caisong', 'Zoe', 'Sophia', 'Ruolan']
+                //itemType: 'product',
+                products: ['Kylin', 'Lanlan', 'Nancy', 'Caisong', 'Zoe', 'Sophia', 'Ruolan'],
+                clients: ['Kylin', 'Lanlan', 'Nancy', 'Caisong', 'Zoe', 'Sophia', 'Ruolan']
 
             };
 
+            var settings = {};
+
+            var globalSettings = $.fn.dropdown.settings || {};
+
             if (options) {
-                settings = $.extend({}, defaults, options);
+                settings = $.extend(defaults, globalSettings, options);
             } else {
-                settings = $.extend({}, defaults, settings);
+                settings = $.extend(defaults, globalSettings, {});
             }
+
+            $.fn.dropdown.settings = settings;
 
             var olClass = `dropdown--${settings.itemType}s`;
             var liClass = `option--${settings.itemType}`;
@@ -46,7 +53,7 @@
 
             });
 
-            $(document).on('keydown', function(event) {
+            $(`.${searchClass}`).on('keydown', function(event) {
 
                 var $target = $(document.activeElement)
 
@@ -76,7 +83,8 @@
 
                         } else if (event.keyCode == 13) {
 
-                            //$activeOption.click();
+                            $activeOption.click();
+                            return false;
 
                         }
 
@@ -138,8 +146,24 @@
             }
 
             function filterItems(keywords) {
-                keywords=keywords.toLowerCase();
-                return settings.items.filter(item => item.toLowerCase().includes(keywords));
+                keywords = keywords.toLowerCase();
+
+                let items;
+
+                switch (settings.itemType) {
+
+                    case 'product':
+
+                        items = settings.products.length==0? globalSettings.products:settings.products;
+                        break;
+
+                    case 'client':
+                        items = settings.clients.length==0? globalSettings.clients:settings.clients;
+                        break;
+
+                }
+
+                return items.filter(item => item.toLowerCase().includes(keywords));
             }
 
             return this.each(function() {
@@ -163,6 +187,8 @@
 
                 $this.bind('focus', function() {
 
+                     $(`.${olClass}`).remove();
+
                     var keywords = $this.val();
 
                     if (keywords != '') {
@@ -173,6 +199,10 @@
                     return false;
 
                 });
+
+                if (settings.needTrigger) {
+                    $this.focus();
+                }
 
 
             });
@@ -197,6 +227,7 @@
         method.apply(this, methodArguments);
     };
 
+    $.fn.dropdown.settings = settings;
 
 
 })(jQuery);

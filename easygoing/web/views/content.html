@@ -37,7 +37,10 @@
                         <div class="order-client bg-grey">
                             <input type="hidden" data-bind="value: _id" />
                             <div class="order-clientbox">
-                                <input type="text" class="client oneline" data-bind="value: client" placeholder="客户" />
+                                <input type="text" class="client oneline" data-bind="value: client,event:{focus:bindLiveSearch}" placeholder="客户" />
+                            </div>
+                            <div class="taCenter">
+                                <span data-bind="text: displayDate"></span>
                             </div>
                         </div>
                         <div class="order-items">
@@ -50,7 +53,7 @@
                             <!-- ko foreach: items -->
                             <div class="item item--received">
                                 <span class="item-product">
-                                    <input  type="text" class="oneline livesearch livesearch--product" data-bind="value: name" placeholder="产品" />
+                                    <input  type="text" class="oneline livesearch livesearch--product" data-bind="value: name,event:{focus:bindLiveSearch}" placeholder="产品" />
                                 </span>
                                 <span class="item-quantity">
                                     <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
