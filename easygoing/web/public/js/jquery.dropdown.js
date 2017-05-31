@@ -46,55 +46,7 @@
 
             });
 
-            $(document).on('keydown', function(event) {
 
-                var $target = $(document.activeElement)
-
-                //if (!$target.hasClass(searchClass)) return;
-
-                if (isDropdownShow) {
-
-                    $activeOption = $(`.${liClass}.isActive`);
-
-                    if ($activeOption.length > 0) {
-
-                        if (event.keyCode == 38) {
-
-                            $prevOption = $activeOption.prev(`.${liClass}`);
-                            if ($prevOption.length > 0) {
-                                $activeOption.removeClass('isActive');
-                                $prevOption.addClass('isActive');
-                            }
-
-                        } else if (event.keyCode == 40) {
-
-                            $nextOption = $activeOption.next(`.${liClass}`);
-                            if ($nextOption.length > 0) {
-                                $activeOption.removeClass('isActive');
-                                $nextOption.addClass('isActive');
-                            }
-
-                        } else if (event.keyCode == 13) {
-
-                            //$activeOption.click();
-
-                        }
-
-                    } else if (event.keyCode == 40) {
-                        let $options = $(`.${liClass}`);
-
-                        if ($options.length > 0) {
-
-                            var $first = $options.first();
-                            $first.addClass('isActive');
-
-                        }
-
-                    }
-
-                }
-
-            });
 
             function setDropdown($target, items) {
 
@@ -106,8 +58,10 @@
 
 
                     var olHtml = `<ol class="dropdown ${olClass}">`
-                    items.forEach(function(item) {
-                        olHtml += `<li class="option ${liClass}">${item}</li>`;
+                    items.forEach(function(item,index) {
+                        if(index<15){
+                            olHtml += `<li class="option ${liClass}">${item}</li>`;
+                        }
                     });
                     olHtml += '</ol>';
 
@@ -138,7 +92,7 @@
             }
 
             function filterItems(keywords) {
-                keywords=keywords.toLowerCase();
+                keywords = keywords.toLowerCase();
                 return settings.items.filter(item => item.toLowerCase().includes(keywords));
             }
 
@@ -174,6 +128,63 @@
 
                 });
 
+                $this.on('keydown', function(event) {
+
+                    var $target = $(document.activeElement)
+
+
+                    if (isDropdownShow) {
+
+                        $activeOption = $(`.${liClass}.isActive`);
+
+                        if ($activeOption.length > 0) {
+
+                            if (event.keyCode == 38) {
+
+                                $prevOption = $activeOption.prev(`.${liClass}`);
+                                if ($prevOption.length > 0) {
+                                    $activeOption.removeClass('isActive');
+                                    $prevOption.addClass('isActive');
+                                }
+
+                            } else if (event.keyCode == 40) {
+
+                                $nextOption = $activeOption.next(`.${liClass}`);
+                                if ($nextOption.length > 0) {
+                                    $activeOption.removeClass('isActive');
+                                    $nextOption.addClass('isActive');
+                                }
+
+                            } else if (event.keyCode == 13) {
+
+                                $activeOption.click();
+                                return false;
+
+                            }
+
+                        } else if (event.keyCode == 40) {
+                            let $options = $(`.${liClass}`);
+
+                            if ($options.length > 0) {
+
+                                var $first = $options.first();
+                                $first.addClass('isActive');
+
+                            }
+
+                        }
+
+                    }
+
+
+                });
+
+                if (settings.trigger) {
+                    $this.focus();
+                }
+
+
+
 
             });
 
@@ -196,6 +207,11 @@
 
         method.apply(this, methodArguments);
     };
+
+    $.fn.dropdown.setOptions = function(items) {
+        settings.items = items;
+
+    }
 
 
 

@@ -31,6 +31,19 @@ define(['common'], function(util) {
         self.note.subscribe(function(newValue) {
             self.isChanged = true;
         })
+
+        self.isLiveSearch = false;
+
+
+        self.bindLiveSearch=function(data, event){
+
+            if(!self.isLiveSearch){
+                self.isLiveSearch=true;
+                $(event.target).dropdown({trigger:true});
+
+            }
+
+        }
     }
 
 
@@ -279,8 +292,6 @@ define(['common'], function(util) {
 
         };
 
-
-
         self.markPackingStatus = function(order) {
             arguments[3]();
             var succeed = arguments[4];
@@ -417,9 +428,7 @@ define(['common'], function(util) {
 
             if ($('#receivedOrdersBody').children().length === self.orders().length) {
 
-
-
-               // $('.livesearch--product').dropdown({itemType:'product'});
+              // $('.livesearch--product').dropdown({itemType:'product'});
 
                 updateSwiper();
             }

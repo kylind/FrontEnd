@@ -83,6 +83,7 @@ define(['common'], function(util) {
         });
 
         function synchronizePurchaseDetail(allItems) {
+
             var index = allItems.findIndex(function(_item) {
                 return _item._id == self._id && _item.tag == self.tag();
 
@@ -91,8 +92,6 @@ define(['common'], function(util) {
             if (index > -1) {
                 allItems[index] = ko.mapping.toJS(self);
             }
-
-
 
         }
 

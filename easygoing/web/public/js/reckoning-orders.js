@@ -53,23 +53,21 @@ define(['common'], function(util) {
             return purePrice;
         }
 
-        // self.isDoubtSellPrice = function() {
 
-        //     // if (typeof item.sellPrice == 'string' && item.sellPrice.startsWith('?')) {
-        //     //     return true;
-        //     // } else {
-        //     //     return false;
-        //     // }
-
-        //     return item.isDoubtSellPrice || false;
-
-        // }
-        // self.isDoubtBuyPrice = function() {
-
-        //     return item.isDoubtBuyPrice || false;
+        self.isLiveSearch = false;
 
 
-        // }
+        self.bindLiveSearch=function(data, event){
+
+            if(!self.isLiveSearch){
+                self.isLiveSearch=true;
+                $(event.target).dropdown({trigger:true});
+
+            }
+
+        }
+
+
         self.isHistoricTradesOpen = false;
 
         self.isChanged = false;
