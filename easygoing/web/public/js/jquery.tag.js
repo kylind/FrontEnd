@@ -23,9 +23,9 @@
             };
 
 
-            if(options){
+            if (options) {
                 settings = $.extend({}, defaults, options);
-            }else{
+            } else {
                 settings = $.extend({}, defaults, settings);
             }
 
@@ -67,92 +67,29 @@
                         addTag(val)
                     }
 
-                    var $hiddenTag=$active.prev('.hidden-tag');
+                    var $hiddenTag = $active.prev('.hidden-tag');
 
-                    var oldVal=$hiddenTag.val();
+                    var oldVal = $hiddenTag.val();
 
                     $hiddenTag.val(val);
                     $hiddenTag.change();
 
                     $label.text(val);
-                    settings.updateTag(itemName,oldVal, val);
-
-                    $('.ol-tags').remove();
+                    settings.updateTag(itemName, oldVal, val);
 
                     $active.removeClass('isActive');
 
                 }
 
                 $('.ol-tags').remove();
-                isListActive=false;
+                isListActive = false;
 
 
             });
 
             var isListActive = false;
 
-            $(document).on('keydown', function(event) {
 
-                var $target = $(document.activeElement)
-
-                if ($target.hasClass('tag-input')) {
-
-
-                    if (!isListActive) {
-
-                        if (event.keyCode == 13) {
-                            $(document).click();
-                        } else if (event.keyCode == 40) {
-
-                            var $tags = $('.ol-tags > li');
-
-                            $nextInput = $target.closest('.orderitem').next('.orderitem').find('.tag-input');
-
-                            if ($tags.length > 0) {
-
-                                var $first = $tags.first();
-
-                                $first.addClass('isActive');
-                                isListActive = true;
-
-                            }
-
-                        }
-
-                    } else {
-
-                        $activeTag = $('.item--tag.isActive');
-
-                        if (event.keyCode == 38) {
-                            $prevTag = $activeTag.prev('.item--tag');
-
-                            if ($prevTag.length > 0) {
-                                $activeTag.removeClass('isActive');
-                                $prevTag.addClass('isActive');
-                            }
-
-
-                        } else if (event.keyCode == 40) {
-
-                            $nextTag = $activeTag.next('.item--tag');
-
-                            if ($nextTag.length > 0) {
-                                $activeTag.removeClass('isActive');
-                                $nextTag.addClass('isActive');
-                                $activeTag = $nextTag;
-                            }
-
-
-                        } else if (event.keyCode == 13) {
-                            isListActive=false;
-                            $activeTag.click();
-                        }
-                    }
-
-                }
-
-
-            });
 
             return this.each(function() {
 
@@ -184,9 +121,9 @@
                             addTag(val)
                         }
 
-                        var $hiddenTag=$active.prev('.hidden-tag');
+                        var $hiddenTag = $active.prev('.hidden-tag');
 
-                        var oldVal=$hiddenTag.val();
+                        var oldVal = $hiddenTag.val();
 
                         $hiddenTag.val(val);
                         $activeLabel.text(val);
@@ -194,7 +131,7 @@
                         $hiddenTag.change();
 
                         $active.removeClass('isActive');
-                        settings.updateTag(itemName, oldVal,val);
+                        settings.updateTag(itemName, oldVal, val);
                     }
 
 
@@ -236,13 +173,13 @@
                             $input.val(val);
                             $label.text(val);
 
-                            var oldVal=$this.val();
+                            var oldVal = $this.val();
 
                             $this.val(val);
                             $this.change();
 
 
-                            settings.updateTag(itemName,oldVal, val);
+                            settings.updateTag(itemName, oldVal, val);
 
                             $tag.removeClass('isActive');
                             $tag.addClass('isLabel');
@@ -261,6 +198,73 @@
 
 
                 });
+
+
+                $input.on('keydown', function(event) {
+
+                    var $target = $(document.activeElement)
+
+                    if ($target.hasClass('tag-input')) {
+
+
+                        if (!isListActive) {
+
+                            if (event.keyCode == 13) {
+                                $(document).click();
+                                return false;
+                            } else if (event.keyCode == 40) {
+
+                                let $tags = $('.ol-tags > li');
+
+                                let $nextInput = $target.closest('.orderitem').next('.orderitem').find('.tag-input');
+
+                                if ($tags.length > 0) {
+
+                                    var $first = $tags.first();
+
+                                    $first.addClass('isActive');
+                                    isListActive = true;
+
+                                }
+
+                            }
+
+                        } else {
+
+                            let $activeTag = $('.item--tag.isActive');
+
+                            if (event.keyCode == 38) {
+                                let $prevTag = $activeTag.prev('.item--tag');
+
+                                if ($prevTag.length > 0) {
+                                    $activeTag.removeClass('isActive');
+                                    $prevTag.addClass('isActive');
+                                }
+
+
+                            } else if (event.keyCode == 40) {
+
+                                let $nextTag = $activeTag.next('.item--tag');
+
+                                if ($nextTag.length > 0) {
+                                    $activeTag.removeClass('isActive');
+                                    $nextTag.addClass('isActive');
+                                    $activeTag = $nextTag;
+                                }
+
+
+                            } else if (event.keyCode == 13) {
+                                isListActive = false;
+                                $activeTag.click();
+
+                            }
+                        }
+
+                    }
+
+
+                });
+
 
 
                 $this.after($tag);
@@ -285,7 +289,7 @@
             var methodArguments = Array.prototype.slice(arguments, 1);
         } else if (typeof(method) == 'object' || !method) {
             method = methods['init'];
-            methodArguments=arguments;
+            methodArguments = arguments;
         } else {
             $.error('method is not existed');
         }
@@ -311,10 +315,8 @@
 
     };
 
-    $.fn.tag.settings=settings;
+    $.fn.tag.settings = settings;
 
 
 
 })(jQuery);
-
-

@@ -22,7 +22,10 @@
                 //inputClass: '.livesearch',
                 //itemType: 'product',
                 products: [],
-                clients: []
+                clients: [],
+                productNames: [],
+                sellComputing: true,
+                buyComputing: true
 
             };
 
@@ -78,7 +81,26 @@
 
                     $ol.children('li').one('click', function() {
 
-                        $target.val($(this).text());
+                        let chosenVal = $(this).text();
+                        $target.val(chosenVal);
+
+                        if (settings.afterChosen) {
+
+                            let products = settings.products.length == 0 ? globalSettings.products : settings.products;
+
+                            let product = products.find(product => product.name == chosenVal);
+
+
+                            settings.afterChosen({
+                                buyPrice: settings.buyComputing ? product.buyPrice : '',
+                                sellPrice: settings.sellComputing ? product.sellPrice : ''
+
+                            });
+
+                        }
+
+
+
                         $target.change()
 
                         $(`.${olClass}`).remove();
@@ -106,7 +128,7 @@
 
                     case 'product':
 
-                        items = settings.products.length == 0 ? globalSettings.products : settings.products;
+                        items = settings.productNames.length == 0 ? globalSettings.productNames : settings.productNames;
                         break;
 
                     case 'client':
@@ -161,13 +183,13 @@
 
                     if (isDropdownShow) {
 
-                        $activeOption = $(`.${liClass}.isActive`);
+                        var $activeOption = $(`.${liClass}.isActive`);
 
                         if ($activeOption.length > 0) {
 
                             if (event.keyCode == 38) {
 
-                                $prevOption = $activeOption.prev(`.${liClass}`);
+                                let $prevOption = $activeOption.prev(`.${liClass}`);
                                 if ($prevOption.length > 0) {
                                     $activeOption.removeClass('isActive');
                                     $prevOption.addClass('isActive');
@@ -175,7 +197,7 @@
 
                             } else if (event.keyCode == 40) {
 
-                                $nextOption = $activeOption.next(`.${liClass}`);
+                                let $nextOption = $activeOption.next(`.${liClass}`);
                                 if ($nextOption.length > 0) {
                                     $activeOption.removeClass('isActive');
                                     $nextOption.addClass('isActive');
@@ -209,10 +231,6 @@
                     $this.focus();
                 }
 
-
-
-
-
             });
 
         }
@@ -235,6 +253,6 @@
         method.apply(this, methodArguments);
     };
 
-  $.fn.dropdown.settings={products:[],clients:[]}
+    $.fn.dropdown.settings = { products: [], clients: [], productNames: [], sellComputing: true, buyComputing: true }
 
 })(jQuery);

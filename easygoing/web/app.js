@@ -93,7 +93,7 @@ app.use(clientRouter.routes());
 app.use(productRouter.routes());
 app.use(otherRouter.routes());
 
-app.listen({port:3050,host:"127.0.0.1"});//process.env.port
+app.listen({port:3051,host:"127.0.0.1"});//process.env.port
 
 console.log(process.env.NODE_ENV);
 console.log(process.env.db);

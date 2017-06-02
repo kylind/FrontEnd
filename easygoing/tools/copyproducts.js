@@ -51,3 +51,31 @@ historicProducts.forEach(function(historicProduct) {
     }
 
 });
+
+
+
+
+
+
+
+
+var historicClients = db.Mabing_orders.aggregate([ {
+        $group: {
+            '_id': '$client'
+
+        }
+    }, {
+        $addFields: {
+            'addresses':[],
+            'createDate':new Date()
+        }
+    }, {
+        $project: { '_id':0, name: '$_id', createDate:1,'addresses':1 }
+    }]).sort({ 'name': 1 }).toArray();
+
+
+historicClients.forEach(function(historicClient) {
+
+        db.Mabing_clients.save(historicClient);
+
+});

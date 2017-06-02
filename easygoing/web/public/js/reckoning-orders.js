@@ -39,22 +39,8 @@ define(['common'], function(util) {
         self.historicTrades = ko.observableArray([]);
 
 
-
-        self.isLiveSearch=false;
-
-        self.bindLiveSearch=function(data, event){
-
-            if(!self.isLiveSearch){
-                self.isLiveSearch=true;
-                $(event.target).dropdown({itemType:'product',trigger:true})
-
-            }
-
-        }
-
-
-        self.isDoubtSellPrice = item && item.isDoubtSellPrice || false;
-        self.isDoubtBuyPrice = item && item.isDoubtBuyPrice || false;
+        self.isDoubtSellPrice = ko.observable(item && item.isDoubtSellPrice || false);
+        self.isDoubtBuyPrice = ko.observable(item && item.isDoubtBuyPrice || false);
 
         function removeDoubt(price) {
             //var purePrice = price();
@@ -76,7 +62,22 @@ define(['common'], function(util) {
 
             if(!self.isLiveSearch){
                 self.isLiveSearch=true;
-                $(event.target).dropdown({itemType:'product',trigger:true})
+                $(event.target).dropdown({itemType:'product',trigger:true, afterChosen:function({sellPrice='', buyPrice=''}){
+
+                    if(self.isDoubtSellPrice() || self.sellPrice()==''){
+
+                        self.sellPrice(sellPrice);
+                        self.isDoubtSellPrice(true);
+
+                    }
+
+                    if(self.isDoubtBuyPrice() || self.buyPrice()==''){
+
+                        self.buyPrice(buyPrice);
+                        self.isDoubtBuyPrice(true);
+                    }
+
+                }})
 
             }
 

@@ -244,7 +244,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         var itemsModel, reckoningOrdersModel, incomeListModel, addressesModel, clientsModel, productsModel;
 
-        var ordersModel = new OrdersModel(orders,swiper);
+        var ordersModel = new OrdersModel(orders, swiper);
         //ordersModel.setSwiper(swiper);
 
         ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
@@ -268,13 +268,8 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         require(['common', 'ItemsModel', 'ReckoningOrders', 'IncomeList', 'ClientsModel', 'ProductsModel'], function(util, ItemsModel, OrdersModel, IncomeListModel, ClientsModel, ProductsModel) {
 
-
             var $ = util.$;
             var ko = util.ko;
-
-
-
-
 
             var purchasePromise = new Promise(function(resolve, reject) {
 
@@ -285,8 +280,6 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                     ko.applyBindings(itemsModel, $('#purchaseItems')[0]);
 
                     resolve(itemsModel);
-
-
 
                 });
 
@@ -408,11 +401,6 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             });
 
-
-
-
-
-
             if (access.clients) {
                 $.getJSON('./clientsJson', function(clients, status) {
 
@@ -423,24 +411,31 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             }
 
-            productNamePromise = new Promise(function(resolve, reject) {
-                $.getJSON('./allProductNamesJson', (productNames, status) => {
-                    resolve(productNames);
+            var productNamePromise = new Promise(function(resolve, reject) {
+                $.getJSON('./allProductsDropdownJson', (products, status) => {
+                    resolve(products);
                 });
             });
 
-            productNamePromise.then(productNames => {
-                $.fn.dropdown.settings.products=productNames;
+
+            Promise.all([userPromise, productNamePromise]).then(([user, products]) => {
+
+                $.fn.dropdown.settings.products = products;
+                $.fn.dropdown.settings.productNames = products.map(product => product.name);
+                $.fn.dropdown.settings.buyComputing = user.buyComputing;
+                $.fn.dropdown.settings.sellComputing = user.sellComputing;
+
+
             })
 
-            clientNamePromise = new Promise(function(resolve, reject) {
+            var clientNamePromise = new Promise(function(resolve, reject) {
                 $.getJSON('./allClientNamesJson', (clientNames, status) => {
                     resolve(clientNames);
                 });
             });
 
             clientNamePromise.then(clientNames => {
-                $.fn.dropdown.settings.clients=clientNames;
+                $.fn.dropdown.settings.clients = clientNames;
             });
 
             $(document).on('keydown', function(event) {
@@ -597,6 +592,9 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                     if (id == 'reckoningOrders' && access.products) {
 
                         userPromise.then(function(user) {
+
+                            $.fn.dropdown.settings.buyComputing = user.buyComputing;
+                            $.fn.dropdown.settings.sellComputing = user.sellComputing;
 
                             var ordersWithPrice = applyProductPrice(productsModel.products, reckoningOrdersModel.orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
                             var observableOrders = reckoningOrdersModel.getObservableOrders(ordersWithPrice);

@@ -31,7 +31,22 @@ class Collection {
 
         var db = yield MongoClient.connect(url);
 
-        var res = yield db.collection(this.name).find().sort({ 'createDate': -1, 'name': 1 }).toArray();
+        var res = yield db.collection(this.name).find({}).sort({ 'createDate': -1, 'name': 1 }).toArray();
+
+        return res;
+
+    }
+
+
+    * queryProductsForDropdown() {
+
+        var db = yield MongoClient.connect(url);
+
+        var res = yield db.collection(this.name).aggregate([{
+
+             $project: { _id: 0, name: 1, buyPrice: 1, sellPrice: 1 }
+
+        }]).sort({ 'name': 1 }).toArray();
 
         return res;
 

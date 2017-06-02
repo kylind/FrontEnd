@@ -37,12 +37,15 @@
                         <div class="order-client bg-grey">
                             <input type="hidden" data-bind="value: _id" />
                             <div class="order-clientbox">
-                                <input type="text" class="client oneline" data-bind="value: client" placeholder="客户" />
+                                <input type="text" class="client oneline oneline livesearch livesearch--client" data-bind="value: client,event:{focus:bindLiveSearch}" placeholder="客户" />
+                            </div>
+                            <div class="taCenter">
+                                <span data-bind="text: displayDate"></span>
                             </div>
                         </div>
                         <div class="order-items">
                             <div class="order-actionbox">
-                                <a href="#" class="icon icon-add" data-bind="tap:$root.addItem"> </a>
+                                <a href="#" class="icon icon-add" data-bind="tap:addItem"> </a>
                                 <a href="#" class="icon icon-leaf action-submit action-mark" data-bind="tap: $root.markPackingStatus, css: orderPackingStatus"> </a>
                                 <a href="#" class="icon action-submit action-mark" data-bind="tap: $root.markPackingStatus, css: orderReadyStatus"> </a>
                                 <a href="#" class="icon icon-remove-sign action-submit action-delete" data-bind="tap: $root.removeOrder"></a>
@@ -50,7 +53,9 @@
                             <!-- ko foreach: items -->
                             <div class="item item--received">
                                 <span class="item-product">
-                                    <input  type="text" class="oneline livesearch livesearch--product" data-bind="value: name" placeholder="产品" />
+
+                                    <input  type="text" class="oneline livesearch livesearch--product" data-bind="value: name,event:{focus:bindLiveSearch}" placeholder="产品" />
+
                                 </span>
                                 <span class="item-quantity">
                                     <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
@@ -59,7 +64,7 @@
                                     <input  type="text" data-bind="value: note" placeholder="备注:" />
                                 </span>
                                 <span class="bg-grey item-actions">
-                                     <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $root.removeItem"></a>
+                                     <a href="#" class="icon icon-remove  action-submit" data-bind="tap: $parent.removeItem"></a>
                                 </span>
                             </div>
                             <!-- /ko -->
@@ -156,7 +161,7 @@
                             <input type="hidden" data-bind="value: _id" />
                             <input type="hidden" data-bind="value: rate" />
                             <div class="order-clientbox">
-                                <input type="text" class="client oneline" data-bind="value: client" placeholder="客户" />
+                                <input type="text" class="client oneline livesearch livesearch--client" data-bind="value: client,event:{focus:bindLiveSearch}" placeholder="客户" />
                             </div>
                             <div class="taCenter">
                                 <span data-bind="text: displayDate"></span>
@@ -192,16 +197,16 @@
                                 <fieldset class="itembox--reckoning">
                                     <div class="item item--reckoning">
                                         <span class="item-name">
-                                            <input  type="text" class="oneline" data-bind="value: name" placeholder="产品" />
+                                            <input  type="text" class="oneline livesearch livesearch--product" data-bind="value: name,event:{focus:bindLiveSearch}" placeholder="产品" />
                                         </span>
                                         <span class="item-quantity">
                                             <input type="number" min="0" max="100" step="1" data-bind="value: quantity" placeholder="数量" />
                                         </span>
                                         <span class="item-buy onlyForMe">
-                                            <input  type="text" data-bind="value: buyPrice, css:{'font-green': isDoubtBuyPrice}" placeholder="买" />
+                                            <input  type="text" data-bind="value: buyPrice, css:{'font-green': isDoubtBuyPrice()}" placeholder="买" />
                                         </span>
                                         <span class="item-sell">
-                                            <input  type="text" data-bind="value: sellPrice, css:{'font-green': isDoubtSellPrice}" placeholder="卖" />
+                                            <input  type="text" data-bind="value: sellPrice, css:{'font-green': isDoubtSellPrice()}" placeholder="卖" />
                                         </span>
                                         <span class="item-profit onlyForMe">
                                             <input class='bg-grey' type="text" readonly data-bind="value: profit" placeholder="收益" />
