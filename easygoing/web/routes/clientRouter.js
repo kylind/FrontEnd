@@ -56,7 +56,9 @@ router.post('/clients', function*() {
         if (Array.isArray(client.addresses)) {
             client.addresses.forEach(address => {
 
-                delete address.isChanged
+                delete address.isChanged;
+                delete address.defaultAddressCss;
+                delete address.defaultAddressMarkCss;
 
                 if (address.isActive == 'true') {
                     address.isActive = true;
