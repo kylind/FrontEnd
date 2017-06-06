@@ -7,7 +7,7 @@ var historicProducts = db.xumin_orders.aggregate([{
     }
 }, {
     $match: {
-        'items.buyPrice': { $nin: [null, ''] }
+        'items.buyPrice': { $nin: [null, ''] },
         'items.sellPrice': { $nin: [null, ''] }
 
     }

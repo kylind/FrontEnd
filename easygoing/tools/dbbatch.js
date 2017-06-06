@@ -6,64 +6,80 @@ var url = 'mongodb://website:zombie.123@127.0.0.1:27017/orders'; //'mongodb://we
 
 
 var users = Symbol('users');
-var users = Symbol('users');
+
 
 class Order {
 
-    constructor(users) {
+    constructor(_users) {
 
-        this[users] = users;
+        this[users] = _users;
 
     }
 
     synchronizeClients() {
 
-        var db = MongoClient.connect(url);
+        var dbPromise = MongoClient.connect(url);
 
 
-        this[users].forEach(function(user) {
 
-            let orders = `${user}_orders`;
-            let clients = `${user}_clients`;
 
-            let newClients = db.collection(orders).aggregate([{
-                $group: {
-                    '_id': '$client'
+        dbPromise.then(function(db) {
 
-                }
-            }, {
+            this[users].forEach(function(user) {
 
-                $lookup: {
-                    from: clients,
-                    localField: "_id",
-                    foreignField: "name",
-                    as: "clientInfo"
-                }
+                let orders = `${user}_orders`;
+                let clients = `${user}_clients`;
 
-            }, {
-                $match: {
-                    clientInfo: { $size: 0 }
-                }
-            }, {
-                $addFields: {
-                    'addresses': [],
-                    'createDate': new Date()
-                }
-            }, {
-                $project: { '_id': 0, name: '$_id', createDate: 1, 'addresses': 1 }
-            }], {
-                cursor: {
-                    batchSize: 1
-                }
-            }).toArray();
 
-            newClients.forEach(function(client) {
+                let newClients = db.collection(orders).aggregate([{
+                    $group: {
+                        '_id': '$client'
 
-                db.collection(clients).save(client);
+                    }
+                }, {
+
+                    $lookup: {
+                        from: clients,
+                        localField: "_id",
+                        foreignField: "name",
+                        as: "clientInfo"
+                    }
+
+                }, {
+                    $match: {
+                        clientInfo: { $size: 0 }
+                    }
+                }, {
+                    $addFields: {
+                        'addresses': [],
+                        'createDate': new Date()
+                    }
+                }, {
+                    $project: { '_id': 0, name: '$_id', createDate: 1, 'addresses': 1 }
+                }], {
+                    cursor: {
+                        batchSize: 1
+                    }
+                }).toArray();
+
+
+
+
+
+                newClients.forEach(function(client) {
+
+                    db.collection(clients).save(client);
+
+                });
 
             });
 
+
+
         });
+
+
+
 
 
     }
@@ -75,69 +91,75 @@ class Order {
 
         this[users].forEach(function(user) {
 
-                let orders = `${user}_orders`;
-                let clients = `${user}_clients`;
+            let orders = `${user}_orders`;
+            let clients = `${user}_clients`;
 
 
-                var historicProducts = db.xumin_orders.aggregate([{
-                    $unwind: {
+            var historicProducts = db.collection(orders).aggregate([{
+                $unwind: {
 
-                        path: '$items',
+                    path: '$items',
 
-                        preserveNullAndEmptyArrays: true
-                    }
-                }, {
-                    $match: {
-                        'items.buyPrice': { $nin: [null, ''] }
-                        'items.sellPrice': { $nin: [null, ''] }
+                    preserveNullAndEmptyArrays: true
+                }
+            }, {
+                $match: {
+                    'items.buyPrice': { $nin: [null, ''] },
+                    'items.sellPrice': { $nin: [null, ''] }
 
-                    }
+                }
 
-                }, {
-                    $group: {
-                        '_id': '$items.name',
+            }, {
+                $group: {
+                    '_id': '$items.name',
 
-                        'buyPrice': { $last: '$items.buyPrice' },
-                        'sellPrice': { $last: '$items.sellPrice' }
-                    }
-                }, {
-                    $addFields: {
-                        'status': 'IMPORT',
-                        'modifiedDate': new Date()
-                    }
-                }, {
-                    $project: { '_id': 0, name: '$_id', buyPrice: 1, sellPrice: 1, status: 1, modifiedDate: 1 }
-                }], {
-                    cursor: {
-                        batchSize: 1
-                    }
-                }).sort({ 'name': 1 }).toArray();
-
-
-                var products = db.xumin_products.find().toArray();
+                    'buyPrice': { $last: '$items.buyPrice' },
+                    'sellPrice': { $last: '$items.sellPrice' }
+                }
+            }, {
+                $addFields: {
+                    'status': 'IMPORT',
+                    'modifiedDate': new Date()
+                }
+            }, {
+                $project: { '_id': 0, name: '$_id', buyPrice: 1, sellPrice: 1, status: 1, modifiedDate: 1 }
+            }], {
+                cursor: {
+                    batchSize: 1
+                }
+            }).sort({ 'name': 1 }).toArray();
 
 
-                historicProducts.forEach(function(historicProduct) {
+            var products = db.collection(products).find({}).toArray();
 
-                    var product = products.find(product => product.name == historicProduct.name);
 
-                    if (product && (product.sellPrice != historicProduct.sellPrice || product.buyPrice != historicProduct.buyPrice)) {
+            historicProducts.forEach(function(historicProduct) {
 
-                        product.sellPrice = historicProduct.sellPrice;
-                        product.buyPrice = historicProduct.buyPrice;
-                        if (product.status == 'MANUAL' || product.status == 'MODIFIED') {
-                            product.status = 'OVERRIDE';
-                        }
+                var product = products.find(product => product.name == historicProduct.name);
 
-                        db.xumin_products.save(product);
+                if (product && (product.sellPrice != historicProduct.sellPrice || product.buyPrice != historicProduct.buyPrice)) {
 
-                    } else {
-                        db.xumin_products.save(historicProduct);
+                    product.sellPrice = historicProduct.sellPrice;
+                    product.buyPrice = historicProduct.buyPrice;
+                    if (product.status == 'MANUAL' || product.status == 'MODIFIED') {
+                        product.status = 'OVERRIDE';
                     }
 
-                });
+                    db.collection(products).save(product);
 
-            }
+                } else {
+                    db.collection(products).save(historicProduct);
+                }
 
-        }
+            });
+
+        });
+
     }
+}
+
+
+var order = new Order(['daiweiwei']);
+
+order.synchronizeClients();
+//order.synchronizeProducts();
