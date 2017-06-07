@@ -94,9 +94,9 @@ var Collection = function(_name, _productCollection) {
 
             var db = yield MongoClient.connect(url);
 
-            //var res = yield db.collection(_name).find({ status: '1RECEIVED' }).sort({ 'packingStatus': 1, 'createDate': -1 }).toArray();
+            var res = yield db.collection(_name).find({ status: '1RECEIVED' }).sort({ 'packingStatus': 1, 'createDate': -1 }).toArray();
 
-            var res = yield db.collection(_name).find({ $or:[{packingStatus:'1ISREADY'},{packingStatus:'2NOTREADY'},{packingStatus:'3PACKED',status:'1RECEIVED'}] }).sort({ 'packingStatus': 1, 'createDate': -1 }).toArray();
+            //var res = yield db.collection(_name).find({ $or:[{packingStatus:'1ISREADY'},{packingStatus:'2NOTREADY'},{packingStatus:'3PACKED',status:'1RECEIVED'}] }).sort({ 'packingStatus': 1, 'createDate': -1 }).toArray();
 
             return res;
 

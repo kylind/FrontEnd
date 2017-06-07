@@ -16,86 +16,87 @@ class Order {
 
     }
 
-    synchronizeClients() {
+    async synchronizeClients() {
 
-        var dbPromise = MongoClient.connect(url);
+        console.log(`Start synchronizing Clients...`);
 
-
-
-
-        dbPromise.then(function(db) {
-
-            this[users].forEach(function(user) {
-
-                let orders = `${user}_orders`;
-                let clients = `${user}_clients`;
-
-
-                let newClients = db.collection(orders).aggregate([{
-                    $group: {
-                        '_id': '$client'
-
-                    }
-                }, {
-
-                    $lookup: {
-                        from: clients,
-                        localField: "_id",
-                        foreignField: "name",
-                        as: "clientInfo"
-                    }
-
-                }, {
-                    $match: {
-                        clientInfo: { $size: 0 }
-                    }
-                }, {
-                    $addFields: {
-                        'addresses': [],
-                        'createDate': new Date()
-                    }
-                }, {
-                    $project: { '_id': 0, name: '$_id', createDate: 1, 'addresses': 1 }
-                }], {
-                    cursor: {
-                        batchSize: 1
-                    }
-                }).toArray();
+        var db = await MongoClient.connect(url);
 
 
 
 
-
-                newClients.forEach(function(client) {
-
-                    db.collection(clients).save(client);
-
-                });
-
-            });
-
-
-
-        });
-
-
-
-
-
-    }
-
-    synchronizeProducts() {
-
-        var db = MongoClient.connect(url);
-
-
-        this[users].forEach(function(user) {
+        for (let user of this[users]) {
 
             let orders = `${user}_orders`;
             let clients = `${user}_clients`;
 
 
-            var historicProducts = db.collection(orders).aggregate([{
+            console.log(`Start synchronizing clients for ${user}...`);
+
+
+            let newClients = await db.collection(orders).aggregate([{
+                $group: {
+                    '_id': '$client'
+
+                }
+            }, {
+
+                $lookup: {
+                    from: clients,
+                    localField: "_id",
+                    foreignField: "name",
+                    as: "clientInfo"
+                }
+
+            }, {
+                $match: {
+                    clientInfo: { $size: 0 }
+                }
+            }, {
+                $addFields: {
+                    'addresses': [],
+                    'createDate': new Date()
+                }
+            }, {
+                $project: { '_id': 0, name: '$_id', createDate: 1, 'addresses': 1 }
+            }], {
+                cursor: {
+                    batchSize: 1
+                }
+            }).toArray();
+
+            newClients.forEach(function(client) {
+
+                console.log(`New client: ${client.name}!`)
+
+                db.collection(clients).save(client);
+
+            });
+
+             console.log(`Finish synchronizing client for ${user}!`)
+
+        }
+
+        console.log(`Finish synchronizing Clients...`);
+
+    }
+
+    async synchronizeProducts() {
+
+        console.log(`Start synchronizing products...`);
+
+
+        var db = await MongoClient.connect(url);
+
+
+        for( let user of this[users]){
+
+            console.log(`Start synchronizing products for ${user}...`);
+
+            let orders = `${user}_orders`;
+            let products = `${user}_products`;
+
+            var allProducts = await db.collection(orders).aggregate([{
                 $unwind: {
 
                     path: '$items',
@@ -129,37 +130,43 @@ class Order {
                 }
             }).sort({ 'name': 1 }).toArray();
 
+            let existingProducts = await db.collection(products).find().toArray();
 
-            var products = db.collection(products).find({}).toArray();
 
+            allProducts.forEach(function(_product) {
 
-            historicProducts.forEach(function(historicProduct) {
+                var product = existingProducts.find(product => product.name == _product.name);
 
-                var product = products.find(product => product.name == historicProduct.name);
+                if (product && (product.sellPrice != _product.sellPrice || product.buyPrice != _product.buyPrice)) {
 
-                if (product && (product.sellPrice != historicProduct.sellPrice || product.buyPrice != historicProduct.buyPrice)) {
-
-                    product.sellPrice = historicProduct.sellPrice;
-                    product.buyPrice = historicProduct.buyPrice;
+                    product.sellPrice = _product.sellPrice;
+                    product.buyPrice = _product.buyPrice;
                     if (product.status == 'MANUAL' || product.status == 'MODIFIED') {
                         product.status = 'OVERRIDE';
                     }
 
+                    console.log(`update product: ${product.name}!`)
+
                     db.collection(products).save(product);
 
                 } else {
-                    db.collection(products).save(historicProduct);
+                    console.log(`new product: ${product.name}!`)
+                    db.collection(products).save(_product);
                 }
 
             });
 
-        });
+            console.log(`Finish synchronizing products for ${user}...`);
+
+        }
+
+         console.log(`Finish synchronizing products...`);
 
     }
 }
 
 
-var order = new Order(['daiweiwei']);
+var order = new Order(['zhuqin']);
 
-order.synchronizeClients();
-//order.synchronizeProducts();
+//order.synchronizeClients();
+order.synchronizeProducts();
