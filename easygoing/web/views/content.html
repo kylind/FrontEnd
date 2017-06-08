@@ -8,7 +8,6 @@
                 <img class="logo" src="./images/logoname.jpg"/>
             </div>
             <div class='cogbox'>
-                <a href='' class="icon icon-question"></a>
                 <a href="#settings" class="icon icon-cog"></a>
                 <a href=""  class="icon icon-signout"></a>
             </div>
@@ -156,33 +155,7 @@
                         <input type="text" class="w-p100 input-search" id="search-reckoningOrders" data-bind="event: {input: $root.searchOrders}" placeholder="搜索客户订单" />
 
                         <a href="" class="icon icon-question"></a>
-<div class="dNone">
 
-    <div id="manual-search">
-         <h2>你知道如何使用算帐页里的搜索吗？</h2>
-        <p>默认下算帐页会显示灰色，黑色，黄色， 以及最近一周的绿色订单。</p>
-        <p>
-        如果你需要在默认的订单列表中进行搜索，你可以直接输入关键字，例如：
-        输入“小”， 则会显示名字包含”小“的客户，例如： 王小二， 小娟， 发小......
-        </p>
-        <p>
-        如果你需要搜索指定颜色的订单，你可以输入关键字：
-        ”／g"：  绿色订单
-        ”／b"：  黑色订单
-        ”／y"：  黄色订单
-        ”小／g"：  名字包含小的绿色订单
-        ”小／b"：  名字包含小的黑色订单
-        ”小／y"：  名字包含小的黄色订单
-        </p>
-        <p>
-        如果你需要在所有的订单包含哪些已经是绿色并归档的订单中进行搜索，你需要先输入空格，然后输入关键字，根据需要加上／g／b／y再进行过滤，例如：
-        “  小／g"：名字包含小的所有绿色订单
-        ......
-        基本上与在默认订单列表中搜索一样， 唯一需要注意的，出于性能的考虑，全文搜索必须输入至少一个关键字。
-        </p>
-
-    </div>
-</div>
 
                     </div>
                 </div>
@@ -519,5 +492,28 @@
 <div class="dNone">
     <div id="settings">
         <settings></settings>
+    </div>
+
+    <div id="manual-search" class="pop pop-search">
+
+
+        <h2 class="heading-15">如何使用算帐页里的搜索？</h2>
+<pre>
+
+默认下算帐页会显示灰色，黑色，黄色，以及最近一周的绿色订单。
+
+如果你需要在默认的订单列表中进行搜索，你可以直接输入关键字，例如：输入“小”， 则会显示名字包含”小“的客户，例如： 王小二，小娟， 发小......
+
+如果你需要搜索指定颜色的订单，你可以输入关键字：
+”／g"：  绿色订单
+”／b"：  黑色订单
+”／y"：  黄色订单
+”小／g"：  名字包含小的绿色订单
+”小／b"：  名字包含小的黑色订单
+”小／y"：  名字包含小的黄色订单
+
+如果你需要在所有的订单包含哪些已经是绿色并归档的订单中进行搜索，你需要先输入空格，然后输入关键字，根据需要加上／g／b／y再进行过滤，例如：“  小／g"：名字包含小的所有绿色订单......基本上与在默认订单列表中搜索一样， 唯一需要注意的，出于性能的考虑，全文搜索必须输入至少一个关键字。
+</pre>
+
     </div>
 </div>

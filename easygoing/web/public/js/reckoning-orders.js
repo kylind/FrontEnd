@@ -617,6 +617,21 @@ define(['common'], function(util) {
 
             updateSwiper();
 
+            $('.icon-question').colorbox({
+                inline: true,
+                href: "#manual-search",
+                width: 335,
+                height: 200,
+                scrolling: false,
+                close: '',
+                top: 0,
+                onComplete: function() {
+                    setInterval(function() {
+                        $.colorbox.resize();
+                    }, 200)
+                }
+            });
+
         }
 
         self.afterOrderRender = function() {

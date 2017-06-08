@@ -640,15 +640,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         });
 
-        $('.icon-question').colorbox({
-            inline: true,
-            href:"#manual-search",
-            width: 335,
-            height: 200,
-            scrolling: false,
-            close: '',
-            top: 0
-        });
+
 
     }
 

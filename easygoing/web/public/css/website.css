@@ -2425,6 +2425,19 @@ button.ispure {
 }
 
 
+/*** pop up ***/
+.pop {
+    width: 315px;
+    position: relative;
+    padding: 10px;
+    font-size:11px;
+}
+
+.pop > pre{
+
+    white-space: pre-line;
+}
+
 /**** print **/
 
 @media print {

@@ -439,6 +439,8 @@ define(['common'], function(util) {
         self.afterRender = function() {
             updateSwiper();
             $('.mask').removeClass('isShow');
+
+
         }
 
         self.afterOrderRender = function() {
