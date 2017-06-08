@@ -265,9 +265,10 @@ router.get('/ordersByName', function*() {
 
     var client = req.client;
 
+
     var res = null;
 
-    res = yield orderOperation.queryGlobalOrders(client);
+    res = yield orderOperation.queryGlobalOrders(client,req.status);
 
     res = res && res.length > 0 ? res : [];
 

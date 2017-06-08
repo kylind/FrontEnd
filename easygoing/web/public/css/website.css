@@ -405,6 +405,10 @@ a.icon:before {}
 .icon-collapse:before {
     content: "\f102";
 }
+.icon-question:before {
+    content: "\f29c";
+}
+
 
 input[type="text"],
 input[type="number"],
@@ -501,8 +505,21 @@ button {
 }
 .searchbox--reckoning > .searchbox-input{
     flex: 1 1;
+    position: relative;
 
 }
+.searchbox--reckoning > .searchbox-input >input{
+    padding-right:35px;
+
+}
+
+.searchbox--reckoning > .searchbox-input > .icon{
+    position: absolute;
+    right: 0;
+    top:0;
+
+}
+
 .orders.isClientView .onlyForMe {
     display: none;
 }

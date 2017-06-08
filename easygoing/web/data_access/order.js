@@ -237,7 +237,7 @@ var Collection = function(_name, _productCollection) {
             });
 
         },
-        queryGlobalOrders: function*(keywords) {
+        queryGlobalOrders: function*(keywords, status) {
 
             var db = yield MongoClient.connect(url);
 
@@ -250,14 +250,22 @@ var Collection = function(_name, _productCollection) {
 
 
 
-
             var db = yield MongoClient.connect(url);
 
             let regex = `.*${keywords}.*`;
 
-            var res = yield db.collection(_name).find({
+            var condition = {
                 client: { $regex: regex }
-            }).sort({ 'status': 1, 'createDate': -1 }).toArray();
+
+            }
+
+            if (status) {
+                condition.status = status;
+            }
+
+
+
+            var res = yield db.collection(_name).find(condition).sort({ 'status': 1, 'createDate': -1 }).toArray();
 
             return res;
 

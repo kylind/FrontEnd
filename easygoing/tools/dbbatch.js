@@ -73,7 +73,7 @@ class Order {
 
             });
 
-             console.log(`Finish synchronizing client for ${user}!`)
+            console.log(`Finish synchronizing client for ${user}!`)
 
         }
 
@@ -89,7 +89,7 @@ class Order {
         var db = await MongoClient.connect(url);
 
 
-        for( let user of this[users]){
+        for (let user of this[users]) {
 
             console.log(`Start synchronizing products for ${user}...`);
 
@@ -149,8 +149,8 @@ class Order {
 
                     db.collection(products).save(product);
 
-                } else {
-                    console.log(`new product: ${product.name}!`)
+                } else if (!product) {
+                    console.log(`new product: ${_product.name}!`)
                     db.collection(products).save(_product);
                 }
 
@@ -160,13 +160,19 @@ class Order {
 
         }
 
-         console.log(`Finish synchronizing products...`);
+        console.log(`Finish synchronizing products...`);
 
     }
 }
 
 
-var order = new Order(['zhuqin']);
+async function synchronizing() {
 
-//order.synchronizeClients();
-order.synchronizeProducts();
+    var order = new Order(['zhuqin','xiangxiang','yangna','xumin','Mabing']);
+
+    await order.synchronizeClients();
+    await order.synchronizeProducts();
+}
+
+
+synchronizing();

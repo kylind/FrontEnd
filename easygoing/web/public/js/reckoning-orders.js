@@ -58,26 +58,30 @@ define(['common'], function(util) {
         self.isLiveSearch = false;
 
 
-        self.bindLiveSearch=function(data, event){
+        self.bindLiveSearch = function(data, event) {
 
-            if(!self.isLiveSearch){
-                self.isLiveSearch=true;
-                $(event.target).dropdown({itemType:'product',trigger:true, afterChosen:function({sellPrice='', buyPrice=''}){
+            if (!self.isLiveSearch) {
+                self.isLiveSearch = true;
+                $(event.target).dropdown({
+                    itemType: 'product',
+                    trigger: true,
+                    afterChosen: function({ sellPrice = '', buyPrice = '' }) {
 
-                    if(self.isDoubtSellPrice() || self.sellPrice()==''){
+                        if (self.isDoubtSellPrice() || self.sellPrice() == '') {
 
-                        self.sellPrice(sellPrice);
-                        self.isDoubtSellPrice(true);
+                            self.sellPrice(sellPrice);
+                            self.isDoubtSellPrice(true);
+
+                        }
+
+                        if (self.isDoubtBuyPrice() || self.buyPrice() == '') {
+
+                            self.buyPrice(buyPrice);
+                            self.isDoubtBuyPrice(true);
+                        }
 
                     }
-
-                    if(self.isDoubtBuyPrice() || self.buyPrice()==''){
-
-                        self.buyPrice(buyPrice);
-                        self.isDoubtBuyPrice(true);
-                    }
-
-                }})
+                })
 
             }
 
@@ -160,15 +164,15 @@ define(['common'], function(util) {
         self.isComplete = ko.observable(order && order.isComplete ? order.isComplete : false);
 
 
-        self.isLiveSearch=false;
+        self.isLiveSearch = false;
 
 
 
-        self.bindLiveSearch=function(data, event){
+        self.bindLiveSearch = function(data, event) {
 
-            if(!self.isLiveSearch){
-                self.isLiveSearch=true;
-                $(event.target).dropdown({itemType:'client',trigger:true})
+            if (!self.isLiveSearch) {
+                self.isLiveSearch = true;
+                $(event.target).dropdown({ itemType: 'client', trigger: true })
 
             }
 
@@ -223,11 +227,9 @@ define(['common'], function(util) {
                 return 'font-green';
             } else if (self.status() == '2SENT') {
                 return 'font-yellow';
+            } else if (self.packingStatus != '3PACKED') {
+                return 'font-grey';
             }
-
-            //  else if(self.packingStatus!='3PACKED'){
-            //     return 'font-grey';
-            // }
         });
 
         self.getHistoricTrades = function(item, parent, event) {
@@ -682,14 +684,14 @@ define(['common'], function(util) {
 
         };
 
-        var reservedOrders, needRefresh, isSearchStatus, newKeywords, isDoing;
+        var reservedOrders, needRefresh, isSearchStatus, newKeywords, isDoing, appending;
         self.searchOrders = function(data, event) {
 
 
             var keywords = $(event.target).val();
 
-            var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D\w]+[\u4E00-\u9FA5\uF900-\uFA2D\w ]*)/;
-
+            var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D\w ]*)([\/\uff0f][bgy])?/;
+            //[\u4E00-\u9FA5\uF900-\uFA2D\w]+
 
             var matchedRes = keywords.match(regex);
 
@@ -704,8 +706,34 @@ define(['common'], function(util) {
                 isSearchStatus = true;
 
                 newKeywords = matchedRes[2];
+                appending = matchedRes[3] && matchedRes[3].substr(1);
 
-                if (matchedRes[1] == "") {
+                if (/^\s?$/.test(keywords)) {
+
+                    newKeywords = '';
+                    isSearchStatus = false;
+                    isDoing = false;
+
+                    if (needRefresh && !isDoing) {
+                        isDoing = true;
+
+                        $.getJSON('./reckoningOrdersJson', function(orders, status) {
+                            needRefresh = false;
+                            isDoing = false;
+
+                            var observableOrders = self.getObservableOrders(orders);
+                            self.orders(observableOrders);
+                            reservedOrders = observableOrders;
+
+                        });
+
+
+                    } else {
+
+                        self.sortOrders(reservedOrders);
+                        self.orders(reservedOrders);
+                    }
+                } else if (matchedRes[1] == "") {
                     searchCurrentOrders()
 
                 } else {
@@ -713,40 +741,34 @@ define(['common'], function(util) {
                     searchGlobalOrders()
                 }
 
-            } else if (/^\s?$/.test(keywords)) {
-
-                newKeywords = '';
-                isSearchStatus = false;
-                isDoing = false;
-
-                if (needRefresh && !isDoing) {
-                    isDoing = true;
-
-                    $.getJSON('./reckoningOrdersJson', function(orders, status) {
-                        needRefresh = false;
-                        isDoing = false;
-
-                        var observableOrders = self.getObservableOrders(orders);
-                        self.orders(observableOrders);
-                        reservedOrders = observableOrders;
-
-                    });
-
-
-                } else {
-
-                    self.sortOrders(reservedOrders);
-                    self.orders(reservedOrders);
-                }
             }
         }
 
         function searchCurrentOrders() {
 
+            let targetStatus = '';
+
+            if (appending == 'b') {
+                targetStatus = '1RECEIVED';
+
+            } else if (appending == 'y') {
+                targetStatus = '2SENT';
+            } else if (appending == 'g') {
+                targetStatus = '3DONE';
+            }
+
 
             var searchedOrders = reservedOrders.filter(function(order) {
 
-                return order.client().indexOf(newKeywords) >= 0;
+                let includingKeywords = order.client().indexOf(newKeywords) >= 0;
+
+                if (targetStatus != '') {
+                    return includingKeywords && order.status() == targetStatus;
+                } else {
+                    return includingKeywords;
+                }
+
+
             });
 
             self.orders(searchedOrders);
@@ -767,10 +789,28 @@ define(['common'], function(util) {
 
                 if (newKeywords != '') {
 
+
+                    let targetStatus = '';
+
+                    if (appending == 'b') {
+                        targetStatus = '1RECEIVED';
+
+                    } else if (appending == 'y') {
+                        targetStatus = '2SENT';
+                    } else if (appending == 'g') {
+                        targetStatus = '3DONE';
+                    }
+
+                    var condition = {
+                        client: newKeywords
+                    };
+
+                    if (targetStatus != '') {
+                        condition.status = targetStatus;
+                    }
+
                     $.ajax('./ordersByName', {
-                        data: {
-                            client: newKeywords
-                        },
+                        data: condition,
                         type: 'GET',
                         success: function(data, status) {
 
