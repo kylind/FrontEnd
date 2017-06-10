@@ -16,3 +16,17 @@ var c=5;
 var c = c||'b';
 
 console.log(c);
+
+
+
+var d='d';
+
+function testd(){
+
+    var d;
+
+    console.log(d);
+
+}
+
+testd();
