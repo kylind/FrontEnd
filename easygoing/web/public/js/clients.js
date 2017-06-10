@@ -232,7 +232,7 @@ define(['common', 'clipboard'], function(util, Clipboard) {
                 let phone = address.phone();
                 let addressDetail = address.address();
 
-                if (recipient != '' && phone != '' && addressDetail != '') {
+                if (recipient  && phone && addressDetail) {
                     addresses += `${address.recipient()}，${address.phone()}，${address.address()}；`;
                 }
 
