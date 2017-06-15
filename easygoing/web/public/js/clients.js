@@ -7,9 +7,9 @@ define(['common', 'clipboard'], function(util, Clipboard) {
     var AddressModel = function(address) {
         var self = this;
 
-        self.recipient = ko.observable(address ? address.recipient : '');
-        self.address = ko.observable(address ? address.address : '');
-        self.phone = ko.observable(address ? address.phone : '');
+        self.recipient = ko.observable(address && address.recipient ? address.recipient : '');
+        self.address = ko.observable(address && address.address ? address.address : '');
+        self.phone = ko.observable(address && address.phone ? address.phone : '');
         self.isActive = ko.observable((address && address.isActive) ? true : false);
 
 
@@ -232,7 +232,7 @@ define(['common', 'clipboard'], function(util, Clipboard) {
                 let phone = address.phone();
                 let addressDetail = address.address();
 
-                if (recipient != '' && phone != '' && addressDetail != '') {
+                if (recipient && phone && addressDetail) {
                     addresses += `${address.recipient()}，${address.phone()}，${address.address()}；`;
                 }
 
