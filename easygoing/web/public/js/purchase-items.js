@@ -440,13 +440,6 @@ define(['common'], function(util) {
                 });
             }
 
-            if (needBinding) {
-                setTimeout(function() {
-                    $('.hidden-tag').tag();
-
-                }, 10);
-            }
-
             setTimeout(function() {
                 swiper.update();
             }, 100);
@@ -477,10 +470,6 @@ define(['common'], function(util) {
 
             self.items(items);
 
-            setTimeout(function() {
-                $('.hidden-tag').tag();
-
-            }, 10);
 
         };
 

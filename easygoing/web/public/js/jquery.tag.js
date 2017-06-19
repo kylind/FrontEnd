@@ -23,6 +23,8 @@
 
             let settings = Object.assign({}, defaults, options);
 
+            console.log(settings.itemName);
+
 
             function getTags() {
 
@@ -37,23 +39,32 @@
                 }
             }
 
-            $(document).bind('click', function(event) {
-
+            $(document).on('click', function(event) {
 
                 var $previousInput = $('.tag-input.isActive');
+
                 if ($previousInput.length > 0) {
 
+
+
+
                     var $previousLabel = $previousInput.prev('.tag-label');
+                    var $previousItem = $previousInput.next('.hidden-item');
 
                     let oldVal = $previousLabel.text();
 
                     let val = $previousInput.val();
+
+                    let itemName = $previousItem.val();
 
                     $previousLabel.text(val);
                     $previousInput.change();
 
                     $previousInput.removeClass('isActive');
                     $previousLabel.addClass('isActive');
+
+
+                    console.log('document' + $previousInput.length +   itemName);
 
                     if (!val) {
                         $previousLabel.addClass('isEmpty');
@@ -62,7 +73,7 @@
                         addTag(val)
                     }
 
-                    globalSettings.updateTag(settings.itemName, oldVal, val);
+                    globalSettings.updateTag(itemName, oldVal, val);
                 }
 
                 $('.ol-tags').remove();
@@ -76,10 +87,7 @@
 
                 let $label = $(this);
 
-                let tagVal = $label.text();
-
-
-                let $input = $(`<input type="text" class="tag-input" value="${tagVal}" />`);
+                let $input = $label.next('.tag-input');
 
                 $input.on('keydown', function(event) {
 
@@ -204,8 +212,7 @@
 
                 });
 
-
-                $label.after($input);
+                //$label.after($input);
 
                 $label.bind('click', function() {
 

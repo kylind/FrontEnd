@@ -310,14 +310,21 @@ define(['common'], function(util) {
         };
 
         self.markPackingStatus = function(order) {
+
+            var $target = $(arguments[2].target);
+            var packingStatus = order.packingStatus();
+
+            if ($target.hasClass('icon-leaf') && packingStatus=='2NOTREADY') return;
+
             arguments[3]();
             var succeed = arguments[4];
             var parent = arguments[1];
             var id = order._id();
 
-            var packingStatus = order.packingStatus()
 
-            var $target = $(arguments[2].target);
+
+
+
 
             var newStatus = '';
 
