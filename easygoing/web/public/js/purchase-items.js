@@ -22,6 +22,14 @@ define(['common'], function(util) {
         self.tag = ko.observable((item && item.tag) ? item.tag : '');
         self.purchaseDetail = ko.observableArray(item ? item.purchaseDetail : []);
 
+
+        self.getEmptyCss = function() {
+            if (!self.tag()) {
+                return 'isEmpty';
+
+            }
+        }
+
         self.subItems = ko.observableArray([]);
 
         self.updateSubItems = function(subItems) {
@@ -78,6 +86,18 @@ define(['common'], function(util) {
             return self.subItems().length > 0;
 
         });
+
+        self.isLiveSearch = false;
+
+        self.bindLiveSearch = function() {
+
+            if (!self.isLiveSearch) {
+                self.isLiveSearch = true;
+                $(arguments[2].target).tag({ itemName: self._id, trigger: true });
+
+            }
+
+        }
 
         function synchronizePurchaseDetail(allItems) {
 
@@ -245,10 +265,10 @@ define(['common'], function(util) {
         };
 
         self.getExpandCollapse = function() {
-            if(self.isSubItemsOpen()){
+            if (self.isSubItemsOpen()) {
                 return 'icon-collapse';
 
-            }else{
+            } else {
                 return 'icon-expand';
 
             }
@@ -494,7 +514,7 @@ define(['common'], function(util) {
             $(document).click();
 
         };
-        self.afterRender=function(){
+        self.afterRender = function() {
             swiper.update();
         };
 

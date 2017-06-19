@@ -294,8 +294,8 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                 var tags = Array.isArray(user.tags) ? user.tags : [];
 
-                $('.hidden-tag').tag({
-                    tags: tags,
+                $.fn.tag.globalSettings = {
+                    tags,
                     updateTag: function(itemName, oldTag, newTag) {
 
                         if (oldTag == newTag) return;
@@ -303,15 +303,13 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                         if (Array.isArray(itemsModel.allItems) && itemsModel.allItems.length > 0) {
                             var item = itemsModel.allItems.find(function(item) {
                                 return item._id == itemName;
-
                             });
-
-                            item.tag = newTag;
 
                             if (item) {
 
-                                var tags = [];
+                                item.tag = newTag;
 
+                                var tags = [];
 
                                 itemsModel.allItems.forEach(function(item) {
 
@@ -343,7 +341,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                     }
 
-                });
+                };
 
             });
 
@@ -615,7 +613,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             $.get('./logout', function(res, status) {
                     if (res.success) {
 
-                        swiper.destroy(true,true);
+                        swiper.destroy(true, true);
 
                         $.get('./content', function(rs, status) {
 

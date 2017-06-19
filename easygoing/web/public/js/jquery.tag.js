@@ -7,172 +7,79 @@
         return _on.apply(this, arguments);
     };
 
-    var newTags = [];
-    var settings = {};
 
-    var $activeTag;
+
 
     var methods = {
 
         init: function(options) {
 
             var defaults = {
-                inputClass: '.hidden-tag',
-                tags: []
 
             };
 
 
-            if (options) {
-                settings = $.extend({}, defaults, options);
-            } else {
-                settings = $.extend({}, defaults, settings);
-            }
+            let globalSettings = $.fn.tag.globalSettings;
+
+            let settings = Object.assign({}, defaults, options);
 
 
             function getTags() {
 
-                return settings.tags;
+                return globalSettings.tags;
             }
 
 
             function addTag(newTag) {
-                if (settings.tags.indexOf(newTag) >= 0);
+                if (globalSettings.tags.indexOf(newTag) >= 0);
                 else {
-                    settings.tags.unshift(newTag);
-                    newTags.unshift(newTag);
+                    globalSettings.tags.unshift(newTag);
                 }
             }
 
             $(document).bind('click', function(event) {
 
 
-                var $active = $('.tag.isActive');
-                if ($active.length > 0) {
-                    var $input = $active.find('.tag-input');
-                    var $label = $active.find('.tag-label');
-                    var itemName = $active.next('.hidden-item').val();
+                var $previousInput = $('.tag-input.isActive');
+                if ($previousInput.length > 0) {
 
-                    var val = $input.val();
+                    var $previousLabel = $previousInput.prev('.tag-label');
 
-                    if (val == '') {
-                        $active.addClass('isEmpty');
+                    let oldVal = $previousLabel.text();
+
+                    let val = $previousInput.val();
+
+                    $previousLabel.text(val);
+                    $previousInput.change();
+
+                    $previousInput.removeClass('isActive');
+                    $previousLabel.addClass('isActive');
+
+                    if (!val) {
+                        $previousLabel.addClass('isEmpty');
                     } else {
-                        $active.addClass('isLabel');
+                        $previousLabel.removeClass('isEmpty');
                         addTag(val)
                     }
 
-                    var $hiddenTag = $active.prev('.hidden-tag');
-
-                    var oldVal = $hiddenTag.val();
-
-                    $hiddenTag.val(val);
-                    $hiddenTag.change();
-
-                    $label.text(val);
-                    settings.updateTag(itemName, oldVal, val);
-
-                    $active.removeClass('isActive');
-
+                    globalSettings.updateTag(settings.itemName, oldVal, val);
                 }
 
                 $('.ol-tags').remove();
                 isListActive = false;
 
-
             });
 
             var isListActive = false;
-
-
 
             return this.each(function() {
 
                 let $label = $(this);
 
-                $label.addClass('isActive');
-
                 let tagVal = $label.text();
-                if(!tagVal){
-                    $label.addClass('isEmpty');
-                }
-
-                let $input = $(`<input type="text" class="tag-input" value="${tagVal}">`);
-
-                $this.after($tag);
-
-                $label.bind('click', function() {
 
 
-
-
-
-
-
-
-
-
-
-                    $label.removeClass('isActive');
-                    $input.addClass('isActive');
-
-
-
-
-                    $input.focus();
-                    return false;
-                });
-
-                $input.bind('focus', function() {
-
-                    var offset = $input.offset();
-                    var width = $input.outerWidth();
-
-                    $('.ol-tags').remove();
-
-                    var tags = getTags();
-
-                    if (Array.isArray(tags) && tags.length > 0 && $(window).width() > 420) {
-                        var olHtml = '<ol class="ol-tags">'
-                        tags.forEach(function(item) {
-                            olHtml += `<li class="item--tag">${item}</li>`;
-                        });
-                        olHtml += '</ol>';
-
-                        var $ol = $(olHtml);
-
-                        $ol.css('width', width);
-                        $ol.offset({ left: offset.left, top: offset.top + 18 });
-
-                        $ol.children('li').one('click', function() {
-                            var val = $(this).text();
-
-
-                            var oldVal = $input.val();
-
-                            $input.val(val);
-                            $label.text(val);
-
-                            $input.change();
-
-                            settings.updateTag(settings.itemName, oldVal, val);
-
-                            $input.removeClass('isActive');
-                            $label.addClass('isActive');
-
-                            $('.ol-tags').remove();
-
-                            return false;
-
-                        });
-
-                        $('main').append($ol);
-                    }
-
-                    return false;
-
-                });
-
+                let $input = $(`<input type="text" class="tag-input" value="${tagVal}" />`);
 
                 $input.on('keydown', function(event) {
 
@@ -239,6 +146,107 @@
 
                 });
 
+                $input.bind('click', function() {
+
+                    return false;
+
+                });
+
+                $input.bind('focus', function() {
+
+                    var offset = $input.offset();
+                    var width = $input.outerWidth();
+
+                    $('.ol-tags').remove();
+
+                    var tags = getTags();
+
+                    if (Array.isArray(tags) && tags.length > 0 && $(window).width() > 420) {
+                        var olHtml = '<ol class="ol-tags">'
+                        tags.forEach(function(item) {
+                            olHtml += `<li class="item--tag">${item}</li>`;
+                        });
+                        olHtml += '</ol>';
+
+                        var $ol = $(olHtml);
+
+                        $ol.css('width', width);
+                        $ol.offset({ left: offset.left, top: offset.top + 18 });
+
+                        $ol.children('li').one('click', function() {
+                            var val = $(this).text();
+
+
+                            var oldVal = $input.val();
+
+
+
+                            $label.text(val);
+                            $label.removeClass('isEmpty');
+                            $label.addClass('isActive');
+
+                            $input.val(val);
+                            $input.change();
+                            $input.removeClass('isActive');
+
+                            globalSettings.updateTag(settings.itemName, oldVal, val);
+
+                            $('.ol-tags').remove();
+
+                            return false;
+
+                        });
+
+                        $('main').append($ol);
+                    }
+
+                    return false;
+
+                });
+
+
+                $label.after($input);
+
+                $label.bind('click', function() {
+
+                    var $previousInput = $('.tag-input.isActive');
+                    if ($previousInput.length > 0) {
+
+                        var $previousLabel = $previousInput.prev('.tag-label');
+
+                        let oldVal = $previousLabel.text();
+                        let val = $previousInput.val();
+
+                        $previousLabel.text(val);
+                        $previousInput.change();
+
+                        $previousInput.removeClass('isActive');
+                        $previousLabel.addClass('isActive');
+
+                        if (!val) {
+                            $previousLabel.addClass('isEmpty');
+                        } else {
+                            $previousLabel.removeClass('isEmpty');
+                            addTag(val)
+                        }
+
+                        globalSettings.updateTag(settings.itemName, oldVal, val);
+                    }
+
+                    $('.ol-tags').remove();
+                    isListActive = false;
+
+
+                    $label.removeClass('isActive');
+                    $input.addClass('isActive');
+
+                    $input.focus();
+                    return false;
+                });
+
+                if (settings.trigger) {
+                    $label.click();
+                }
 
             });
 
@@ -265,23 +273,15 @@
     $.fn.tag.setTags = function(_tags) {
         if (Array.isArray(_tags) && _tags.length > 0) {
 
-            var tags = _tags.concat([]);
 
-            newTags.forEach(function(item) {
-                if (tags.indexOf(item) < 0) {
-                    tags.unshift(item);
-                }
+            let tags = Array.from(new Set([..._tags, ...$.fn.tag.globalSettings.tags]));
 
-            })
-
-            settings.tags = tags;
+            $.fn.tag.globalSettings.tags = tags;
 
         }
 
     };
 
-    $.fn.tag.settings = settings;
-
-
+    // $.fn.tag.settings = settings;
 
 })(jQuery);

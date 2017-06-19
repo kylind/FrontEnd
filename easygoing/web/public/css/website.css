@@ -1108,6 +1108,7 @@ span.orderitem-cnt-btns {
     vertical-align: top;
 }
 
+
 .link-tag.isActive {
     color: #fff;
     background-color: #cc0066;
@@ -1117,7 +1118,7 @@ span.orderitem-cnt-btns {
     cursor: pointer;
     width: 100%;
     text-align: center;
-    display: inline-block;
+    display: none;
     height: 18px;
     vertical-align: top;
 }
@@ -1125,43 +1126,28 @@ span.orderitem-cnt-btns {
 .tag-label:hover {
     background-color: #ff9999;
 }
+.tag-label.isActive {
+    display: inline-block;
+}
+
+.tag-label.isEmpty{
+
+    background-color: #fff;
+}
+
+.tag-label.isEmpty:hover {
+    background-color: #ff9999;
+}
 
 .tag-input {
     width: 100%;
     text-align: center;
-    display: inline-block;
-}
-
-.tag-inputbox {
     display: none;
-    width: 100%;
 }
 
-.tag.isActive .tag-input {
+.tag-input.isActive {
     display: inline-block;
     vertical-align: top;
-}
-
-.tag.isActive .tag-label {
-    display: none;
-}
-
-.tag.isLabel .tag-input {
-    display: none;
-}
-
-.tag.isEmpty .tag-label {
-    /*background-color: #cc0066;*/
-    /*box-shadow: 0 -1px 0 0 #fff;*/
-    background-color: #fff;
-}
-
-.tag.isEmpty .tag-label:hover {
-    background-color: #ff9999;
-}
-
-.tag.isEmpty .tag-input {
-    display: none;
 }
 
 .ol-tags {
