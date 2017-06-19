@@ -97,7 +97,12 @@
                         <div class="orderitem">
                             <div class="orderitem-cnt">
                                 <span class="taLeft w-p30">
-                                    <input  type="text" data-bind="value: tag" class="hidden-tag" />
+
+
+                                    <label class="tag-label" data-bind="text: tag"></label>
+
+                                    <!-- <input  type="text" data-bind="value: tag" class="hidden-tag" /> -->
+
                                     <input  type="hidden" data-bind="value: _id" class="hidden-item" />
                                 </span>
                                 <span class="taLeft w-p30 oneline" data-bind="text: _id"></span>

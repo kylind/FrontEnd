@@ -9,7 +9,7 @@
 
     var newTags = [];
     var settings = {};
-    var $activeInput;
+
     var $activeTag;
 
     var methods = {
@@ -88,64 +88,45 @@
 
             return this.each(function() {
 
-                var $this = $(this);
-                var tagVal = $this.val();
+                let $label = $(this);
 
-                var itemName = $this.next('.hidden-item').val();
+                $label.addClass('isActive');
 
-                var $tag = $(`<span class="tag"><span class="tag-label">${tagVal}</span><input type="text" class="tag-input" value="${tagVal}"></span></span>`);
+                let tagVal = $label.text();
+                if(!tagVal){
+                    $label.addClass('isEmpty');
+                }
 
-                var $label = $tag.find('.tag-label')
+                let $input = $(`<input type="text" class="tag-input" value="${tagVal}">`);
 
-                var $input = $tag.find('.tag-input');
+                $this.after($tag);
 
                 $label.bind('click', function() {
 
 
-                    var $active = $('.tag.isActive');
-                    if ($active.length > 0) {
-                        var $activeInput = $active.find('.tag-input');
-                        var $activeLabel = $active.find('.tag-label');
-
-                        var val = $activeInput.val();
-
-                        if (val == '') {
-                            $active.addClass('isEmpty');
-                        } else {
-                            $active.addClass('isLabel');
-                            addTag(val)
-                        }
-
-                        var $hiddenTag = $active.prev('.hidden-tag');
-
-                        var oldVal = $hiddenTag.val();
-
-                        $hiddenTag.val(val);
-                        $activeLabel.text(val);
-
-                        $hiddenTag.change();
-
-                        $active.removeClass('isActive');
-                        settings.updateTag(itemName, oldVal, val);
-                    }
 
 
-                    $tag.removeClass('isLabel isEmpty');
 
-                    $tag.addClass('isActive');
+
+
+
+
+
+
+                    $label.removeClass('isActive');
+                    $input.addClass('isActive');
+
+
+
 
                     $input.focus();
-
                     return false;
                 });
 
                 $input.bind('focus', function() {
 
-
                     var offset = $input.offset();
                     var width = $input.outerWidth();
-
-                    $activeInput = $input;
 
                     $('.ol-tags').remove();
 
@@ -165,19 +146,19 @@
 
                         $ol.children('li').one('click', function() {
                             var val = $(this).text();
+
+
+                            var oldVal = $input.val();
+
                             $input.val(val);
                             $label.text(val);
 
-                            var oldVal = $this.val();
+                            $input.change();
 
-                            $this.val(val);
-                            $this.change();
+                            settings.updateTag(settings.itemName, oldVal, val);
 
-
-                            settings.updateTag(itemName, oldVal, val);
-
-                            $tag.removeClass('isActive');
-                            $tag.addClass('isLabel');
+                            $input.removeClass('isActive');
+                            $label.addClass('isActive');
 
                             $('.ol-tags').remove();
 
@@ -189,8 +170,6 @@
                     }
 
                     return false;
-
-
 
                 });
 
@@ -260,15 +239,6 @@
 
                 });
 
-
-
-                $this.after($tag);
-
-                if (tagVal != '') {
-                    $tag.addClass('isLabel');
-                } else {
-                    $tag.addClass('isEmpty');
-                }
 
             });
 
