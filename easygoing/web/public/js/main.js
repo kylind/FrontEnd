@@ -195,6 +195,8 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             shortSwipes: false,
             longSwipes: false,
             paginationBulletRender: function(index, className) {
+
+
                 var bulletName = '';
 
 
@@ -438,18 +440,11 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 $.fn.dropdown.settings.clients = clientNames;
             });
 
-            $(document).on('keydown', function(event) {
-
-
-                var id = $('.swiper-slide')[swiper.activeIndex].id
-
+            $('.swiper-wrapper').on('keydown', function(event) {
 
                 if (event.keyCode == 13) {
-                    // && (swiper.activeIndex == 0 || swiper.activeIndex == 2)
-                    //var $target = $(document.activeElement).closest('.enterArea').find('.action-enter');
 
-
-                    //var targetPage = swiper.activeIndex == 0 ? 'receivedOrders' : 'reckoningOrders'
+                    var id = $('.swiper-slide')[swiper.activeIndex].id
 
                     var $target = $('#' + id + ' .action-enter');
 
@@ -608,9 +603,6 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             $(window).scroll(function() {
                 var top = $(window).scrollTop();
-                //$(".cogbox").css("top", top + 30);
-                //$(".swiper-pagination").css('top', top);
-                // $(".header-cnt").css('top', top);
                 $(".searchbox").css("top", top);
 
             });
@@ -622,6 +614,8 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             $('.mask').addClass('isLoginShow');
             $.get('./logout', function(res, status) {
                     if (res.success) {
+
+                        swiper.destroy(true,true);
 
                         $.get('./content', function(rs, status) {
 

@@ -30,14 +30,9 @@
             }
 
 
-            //settings = $.extend({}, defaults, options);
-
             function getTags() {
 
-                // var tags=Array.isArray($.fn.tag.list)?$.fn.tag.list:[];
-
                 return settings.tags;
-
             }
 
 

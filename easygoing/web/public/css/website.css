@@ -1343,12 +1343,14 @@ span.orderitem-cnt-btns {
     overflow: hidden;
     z-index: 0;
     transition: all 500ms linear;
+    height: 0;
 }
 
 .form-login.isActive {
     transition: all 500ms 500ms linear;
     opacity: 100;
     z-index: 99;
+    height: auto;
 }
 
 .form-login > span {
@@ -1411,10 +1413,12 @@ span.orderitem-cnt-btns {
     transition: all 500ms linear;
     overflow: hidden;
     z-index: 0;
+    height: 0;
 }
 
 .registration.isActive {
     transition-delay: 500ms;
+    height: auto;
     opacity: 100;
     z-index: 99;
 }

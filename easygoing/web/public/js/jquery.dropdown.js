@@ -29,21 +29,25 @@
 
             };
 
-            var settings = {};
+
 
             var globalSettings = $.fn.dropdown.settings;
 
-            if (options) {
-                settings = $.extend(defaults, globalSettings, options);
-            } else {
-                settings = $.extend(defaults, globalSettings, {});
-            }
+            // if (options) {
+            //     settings = $.extend(defaults, globalSettings, options);
+            // } else {
+            //     settings = $.extend(defaults, globalSettings, {});
+            // }
+
+            let settings=Object.assign({},defaults,globalSettings,options);
 
 
             var olClass = `dropdown--${settings.itemType}s`;
             var liClass = `option--${settings.itemType}`;
             var searchClass = `livesearch--${settings.itemType}`;
             var isDropdownShow = false;
+
+
 
             $(document).bind('click', function(event) {
 
