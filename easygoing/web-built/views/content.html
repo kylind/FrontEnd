@@ -87,7 +87,7 @@
                 </div>
                 <div class="orderitems" data-bind='template: {afterRender: afterRender }'>
                     <div class="orderitems-header">
-                        <span class="w-p30 taCenter"><a class="icon icon-refresh"  data-bind="tap:function(){$root.refreshItems('')}"></a>标签</span>
+                        <span class="w-p30 taCenter"><a class="icon icon-refresh" data-bind="tap:function(){$root.refreshItems('')}"></a>标签</span>
                         <span class="w-p30 taLeft">产品</span>
                         <span class="w-p10 taRight rpadding-5">数量</span>
                         <span class="w-p20 taRight  rpadding-5"><a class="icon icon-refresh" data-bind="tap: function(){$root.refreshItems('status')}"></a>标记</span>
@@ -97,8 +97,10 @@
                         <div class="orderitem">
                             <div class="orderitem-cnt">
                                 <span class="taLeft w-p30">
-                                    <input  type="text" data-bind="value: tag" class="hidden-tag" />
-                                    <input  type="hidden" data-bind="value: _id" class="hidden-item" />
+                                    <label class="tag-label isActive" data-bind="text: tag, tap:bindLiveSearch, css: {'isEmpty': !tag()}"></label>
+                                    <input type="text" class="tag-input" data-bind="value: tag" />
+                                    <input type="hidden" class="hidden-item" data-bind="value:_id"  />
+
                                 </span>
                                 <span class="taLeft w-p30 oneline" data-bind="text: _id"></span>
                                 <span class="taRight w-p10 rpadding-5" data-bind="text: quantity"></span>

@@ -18,13 +18,9 @@
 
             };
 
-
             let globalSettings = $.fn.tag.globalSettings;
 
             let settings = Object.assign({}, defaults, options);
-
-            console.log(settings.itemName);
-
 
             function getTags() {
 
@@ -45,26 +41,21 @@
 
                 if ($previousInput.length > 0) {
 
-
-
-
                     var $previousLabel = $previousInput.prev('.tag-label');
                     var $previousItem = $previousInput.next('.hidden-item');
 
-                    let oldVal = $previousLabel.text();
+                    //let oldVal = $previousLabel.text();
 
                     let val = $previousInput.val();
 
                     let itemName = $previousItem.val();
 
-                    $previousLabel.text(val);
-                    $previousInput.change();
-
-                    $previousInput.removeClass('isActive');
+                    //$previousLabel.text(val);
                     $previousLabel.addClass('isActive');
 
+                    $previousInput.change();
+                    $previousInput.removeClass('isActive');
 
-                    console.log('document' + $previousInput.length +   itemName);
 
                     if (!val) {
                         $previousLabel.addClass('isEmpty');
@@ -73,7 +64,7 @@
                         addTag(val)
                     }
 
-                    globalSettings.updateTag(itemName, oldVal, val);
+                    globalSettings.updateTag(itemName, null, val);
                 }
 
                 $('.ol-tags').remove();
@@ -184,20 +175,17 @@
                         $ol.children('li').one('click', function() {
                             var val = $(this).text();
 
-
-                            var oldVal = $input.val();
-
-
-
-                            $label.text(val);
-                            $label.removeClass('isEmpty');
-                            $label.addClass('isActive');
+                            //var oldVal = $label.text();
 
                             $input.val(val);
                             $input.change();
                             $input.removeClass('isActive');
 
-                            globalSettings.updateTag(settings.itemName, oldVal, val);
+                            //$label.text(val);
+                            $label.removeClass('isEmpty');
+                            $label.addClass('isActive');
+
+                            globalSettings.updateTag(settings.itemName, null, val);
 
                             $('.ol-tags').remove();
 
@@ -217,17 +205,18 @@
                 $label.bind('click', function() {
 
                     var $previousInput = $('.tag-input.isActive');
+
                     if ($previousInput.length > 0) {
 
                         var $previousLabel = $previousInput.prev('.tag-label');
 
-                        let oldVal = $previousLabel.text();
+                        //let oldVal = $previousLabel.text();
                         let val = $previousInput.val();
-
-                        $previousLabel.text(val);
                         $previousInput.change();
 
                         $previousInput.removeClass('isActive');
+
+                        //$previousLabel.text(val);
                         $previousLabel.addClass('isActive');
 
                         if (!val) {
@@ -237,7 +226,7 @@
                             addTag(val)
                         }
 
-                        globalSettings.updateTag(settings.itemName, oldVal, val);
+                        globalSettings.updateTag(settings.itemName, null, val);
                     }
 
                     $('.ol-tags').remove();
