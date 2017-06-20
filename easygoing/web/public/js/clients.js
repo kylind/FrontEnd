@@ -13,8 +13,6 @@ define(['common', 'clipboard'], function(util, Clipboard) {
         self.isActive = ko.observable((address && address.isActive) ? true : false);
 
 
-
-
         self.defaultAddressMarkCss = ko.pureComputed(function() {
 
             return self.isActive() ? 'icon-radio-selected' : 'icon-radio';

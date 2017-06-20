@@ -157,9 +157,11 @@
 .font-bold {
     font-weight: bold;
 }
+
 .font-grey {
     color: #f2f2f2;
 }
+
 .font-red {
     color: #cc0066;
 }
@@ -405,10 +407,10 @@ a.icon:before {}
 .icon-collapse:before {
     content: "\f102";
 }
+
 .icon-question:before {
     content: "\f29c";
 }
-
 
 input[type="text"],
 input[type="number"],
@@ -418,7 +420,6 @@ input[type="password"] {
     padding: 0 0 0 5px;
     font-size: 1.3rem;
     line-height: 18px;
-
     color: #333;
 }
 
@@ -495,29 +496,27 @@ button {
     height: 20px;
 }
 
-.searchbox--reckoning{
+.searchbox--reckoning {
     display: flex;
 }
 
-.searchbox--reckoning > .searchbox-btns{
+.searchbox--reckoning > .searchbox-btns {
     flex: 0 0 170px;
-
 }
-.searchbox--reckoning > .searchbox-input{
+
+.searchbox--reckoning > .searchbox-input {
     flex: 1 1;
     position: relative;
-
-}
-.searchbox--reckoning > .searchbox-input >input{
-    padding-right:35px;
-
 }
 
-.searchbox--reckoning > .searchbox-input > .icon{
+.searchbox--reckoning > .searchbox-input >input {
+    padding-right: 35px;
+}
+
+.searchbox--reckoning > .searchbox-input > .icon {
     position: absolute;
     right: 0;
-    top:0;
-
+    top: 0;
 }
 
 .orders.isClientView .onlyForMe {
@@ -732,8 +731,8 @@ button {
     flex: 1 1 10%;
 }
 
-.item--reckoning input.font-green{
-    color:#cc0066;
+.item--reckoning input.font-green {
+    color: #cc0066;
 }
 
 .item--reckoning .item-profit {
@@ -822,6 +821,7 @@ button {
 .item--historic > .item-sell {
     flex: 1 1 10%;
 }
+
 .item--historicheader > .item-date,
 .item--historic > .item-date {
     flex: 1 1 10%;
@@ -1108,7 +1108,6 @@ span.orderitem-cnt-btns {
     vertical-align: top;
 }
 
-
 .link-tag.isActive {
     color: #fff;
     background-color: #cc0066;
@@ -1123,31 +1122,36 @@ span.orderitem-cnt-btns {
     vertical-align: top;
 }
 
-.tag-label:hover {
-    background-color: #ff9999;
+@media all and (min-width: 420px) {
+    .tag-label:hover {
+        background-color: #ff9999;
+    }
 }
+
 .tag-label.isActive {
     display: inline-block;
 }
 
-.tag-label.isEmpty{
-
+.tag-label.isEmpty {
     background-color: #fff;
 }
 
-.tag-label.isEmpty:hover {
-    background-color: #ff9999;
+@media all and (min-width: 420px) {
+    .tag-label.isEmpty:hover {
+        background-color: #ff9999;
+    }
 }
 
 .tag-input {
     width: 100%;
     text-align: center;
     display: none;
+    height: 18px;
+    vertical-align: top;
 }
 
 .tag-input.isActive {
     display: inline-block;
-    vertical-align: top;
 }
 
 .ol-tags {
@@ -2235,7 +2239,6 @@ button.ispure {
     border-right: 1px solid #cc0066;
     vertical-align: top;
     height: 18px;
-
 }
 
 .productInfo > span.taRight {
@@ -2270,6 +2273,7 @@ button.ispure {
     flex: 0 0 100px;
     background-color: #f2f2f2;
 }
+
 .productInfo--header > .productInfo-date {
     background-color: #cc0066;
 }
@@ -2386,8 +2390,8 @@ button.ispure {
 }
 
 
-
 /*** dropdown plugin ***/
+
 .dropdown {
     position: absolute;
     left: 0;
@@ -2401,7 +2405,7 @@ button.ispure {
 
 .dropdown li {
     cursor: pointer;
-    padding-left:5px;
+    padding-left: 5px;
     /*font-weight: bold;*/
     border-top: solid 1px #cc0066;
 }
@@ -2416,17 +2420,18 @@ button.ispure {
 
 
 /*** pop up ***/
+
 .pop {
     width: 315px;
     position: relative;
     padding: 10px;
-    font-size:11px;
+    font-size: 11px;
 }
 
-.pop > pre{
-
+.pop > pre {
     white-space: pre-line;
 }
+
 
 /**** print **/
 
