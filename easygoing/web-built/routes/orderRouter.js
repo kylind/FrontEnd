@@ -97,6 +97,12 @@ router.post('/orders', function*() {
 
     var orders = req.orders;
 
+    if(typeof orders =='object'){
+
+        orders = Object.values(orders);
+
+    }
+
     if (Array.isArray(orders) && orders.length > 0) {
         for (var i = 0; i < orders.length; i++) {
 
