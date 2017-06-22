@@ -209,9 +209,12 @@
                     if ($previousInput.length > 0) {
 
                         var $previousLabel = $previousInput.prev('.tag-label');
+                        var $previousItem = $previousInput.next('.hidden-item');
 
-                        //let oldVal = $previousLabel.text();
+
+                        let itemName = $previousItem.val();
                         let val = $previousInput.val();
+
                         $previousInput.change();
 
                         $previousInput.removeClass('isActive');
@@ -226,7 +229,7 @@
                             addTag(val)
                         }
 
-                        globalSettings.updateTag(settings.itemName, null, val);
+                        globalSettings.updateTag(itemName, null, val);
                     }
 
                     $('.ol-tags').remove();
@@ -269,8 +272,10 @@
     $.fn.tag.setTags = function(_tags) {
         if (Array.isArray(_tags) && _tags.length > 0) {
 
+            console.log($.fn.tag.globalSettings.tags);
 
-            let tags = Array.from(new Set([..._tags, ...$.fn.tag.globalSettings.tags]));
+
+            let tags = Array.from(new Set([..._tags, ...($.fn.tag.globalSettings.tags)]));
 
             $.fn.tag.globalSettings.tags = tags;
 
@@ -278,6 +283,4 @@
 
     };
 
-    // $.fn.tag.settings = settings;
-
-})(jQuery);
+})($);

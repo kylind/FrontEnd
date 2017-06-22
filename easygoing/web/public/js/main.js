@@ -294,8 +294,10 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                 var tags = Array.isArray(user.tags) ? user.tags : [];
 
+
+
                 $.fn.tag.globalSettings = {
-                    tags,
+                    tags: tags,
                     updateTag: function(itemName, oldTag, newTag) {
 
                         if (oldTag == newTag) return;
@@ -342,6 +344,8 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                     }
 
                 };
+
+                console.log('tags' + $.fn.tag.globalSettings.tags);
 
             });
 
