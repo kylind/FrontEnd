@@ -272,7 +272,7 @@
     $.fn.tag.setTags = function(_tags) {
         if (Array.isArray(_tags) && _tags.length > 0) {
 
-            console.log($.fn.tag.globalSettings.tags);
+            console.log($.fn.tag.globalSettings);
 
 
             let tags = Array.from(new Set([..._tags, ...($.fn.tag.globalSettings.tags)]));
@@ -283,4 +283,4 @@
 
     };
 
-})($);
+})(jQuery);
