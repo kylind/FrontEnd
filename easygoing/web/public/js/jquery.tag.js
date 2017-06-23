@@ -8,6 +8,8 @@
     };
 
 
+    let globalSettings={tags:[]};
+
 
 
     var methods = {
@@ -18,7 +20,6 @@
 
             };
 
-            let globalSettings = $.fn.tag.globalSettings;
 
             let settings = Object.assign({}, defaults, options);
 
@@ -269,15 +270,22 @@
         method.apply(this, methodArguments);
     };
 
+    $.fn.tag.setGlobalSettings = function(settings){
+
+        globalSettings=settings;
+
+    };
+
     $.fn.tag.setTags = function(_tags) {
         if (Array.isArray(_tags) && _tags.length > 0) {
 
-            console.log($.fn.tag.globalSettings);
 
 
-            let tags = Array.from(new Set([..._tags, ...($.fn.tag.globalSettings.tags)]));
 
-            $.fn.tag.globalSettings.tags = tags;
+            let tags = Array.from(new Set([..._tags, ...(globalSettings.tags)]));
+
+            globalSettings.tags = tags;
+             console.log(globalSettings);
 
         }
 
