@@ -10,6 +10,8 @@
 
     let globalSettings={tags:[]};
 
+    let temporaryTags=[];
+
 
 
     var methods = {
@@ -33,6 +35,7 @@
                 if (globalSettings.tags.indexOf(newTag) >= 0);
                 else {
                     globalSettings.tags.unshift(newTag);
+                    temporaryTags.unshift(newTag);
                 }
             }
 
@@ -282,10 +285,9 @@
 
 
 
-            let tags = Array.from(new Set([..._tags, ...(globalSettings.tags)]));
+            let tags = Array.from(new Set([..._tags, ...temporaryTags]));
 
             globalSettings.tags = tags;
-             console.log(globalSettings);
 
         }
 

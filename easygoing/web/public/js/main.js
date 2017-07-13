@@ -596,9 +596,15 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                             var ordersWithPrice = applyProductPrice(productsModel.products, reckoningOrdersModel.orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
                             var observableOrders = reckoningOrdersModel.getObservableOrders(ordersWithPrice);
                             reckoningOrdersModel.orders(observableOrders);
+
                         })
 
                     }
+
+                    userPromise.then(function(user) {
+
+                        $.fn.tag.setTags(user.tags);
+                    })
 
                 }
             });

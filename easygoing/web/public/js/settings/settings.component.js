@@ -158,10 +158,6 @@ define(['commonAngular'], function(angular) {
 
                             self.myClasses = 'isSuccess';
 
-                            $.fn.tag.setTags(self.user.tags);
-
-
-
                             setTimeout(function() {
                                 $scope.$apply(function() {
                                     self.myClasses = '';
