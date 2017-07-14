@@ -15,10 +15,10 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Launch Program 1",
             "program": "${file}"
         }
-        
+
     ]
 
 }
