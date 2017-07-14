@@ -2,7 +2,7 @@ define(['angularApp'], function(angularApp) {
 
     return function(){
 
-        var angular=angularApp();
+        let angular=angularApp();
 
         angular.bootstrap(document.getElementById('registration'), ['registration']);
     }
