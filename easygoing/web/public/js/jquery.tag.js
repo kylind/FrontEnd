@@ -279,15 +279,8 @@
     $.fn.tag.setTags = function(_tags) {
         if (Array.isArray(_tags) && _tags.length > 0) {
 
-<<<<<<< HEAD
-
-
-
             let tags = Array.from(new Set([..._tags, ...temporaryTags]));
 
-=======
-            let tags = Array.from(new Set([..._tags, ...(globalSettings.tags)]));
->>>>>>> ed78e46f9d3087f59f27fb5e830970d6b32a5ab6
             globalSettings.tags = tags;
 
         }
