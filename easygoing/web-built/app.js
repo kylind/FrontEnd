@@ -18,7 +18,7 @@ app.use(session({
         password: "zombie.123"
     }),
     cookie: {
-        maxage: 604800000,
+        maxage: 86400000,
         overwrite:true
     }
 }));
