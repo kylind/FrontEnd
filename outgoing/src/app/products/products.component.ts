@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { Product } from './product';
+import { ProductService } from './product.service';
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -12,15 +14,23 @@ export class ProductsComponent implements OnInit {
     products: Product[];
 
 
-    constructor() {
+    constructor(private productService: ProductService) {
     }
 
     ngOnInit() {
         // tslint:disable-next-line:max-line-length
-        this.products = [{ name: 'product1', sell: 10, buy: 20, des: 'this is fantastic.' },
-         { name: 'product1', sell: 10, buy: 20, des: 'this is fantastic.' },
-         { name: 'product1', sell: 10, buy: 20, des: 'this is fantastic.' },
-         { name: 'product1', sell: 10, buy: 20, des: 'this is fantastic.' }];
+
     }
+
+    getMockProductsPromise() {
+        this.productService.getMockProductsPromise().then((products: Product[]) => {
+            this.products = products;
+        });
+    }
+
+    getProductsFromMockAPI(){
+
+    }
+
 
 }
