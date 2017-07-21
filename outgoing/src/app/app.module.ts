@@ -9,12 +9,14 @@ import { ProductService } from './products/product.service';
 import { HttpModule } from '@angular/http';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryProductService } from './products/product';
+import { ProductComponent } from './product/product.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductsComponent
-  ],
+    ProductsComponent,
+    ProductComponent
+],
   imports: [
     BrowserModule,
     HttpModule,
