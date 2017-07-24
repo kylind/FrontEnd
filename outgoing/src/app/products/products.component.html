@@ -2,13 +2,13 @@
     <button (click)='getProductsByPromiseWithConstData()'>Get by Promise with Const Data</button>
     <button (click)='getProductsByPromiseWithMockAPI()'>Get by Promise with MockAPI</button>
     <ul *ngIf='products'>
-        <li *ngFor='let product of products'>{{product.name}}</li>
+        <li *ngFor='let product of products'><a routerLink='product/{{product.id}}' routerLinkActive="active">{{product.name}}</a></li>
     </ul>
 </div>
 <div>
     <button (click)='getProductsByRxjsWithConstData()'>Get by RxJS with Const Data</button>
     <button (click)='getProductsByRxJSWithMockAPI()'>Get by RxJS with MockAPI</button>
     <ul *ngIf='observableProducts'>
-        <li *ngFor='let product of observableProducts|async'>{{product.name}}</li>
+        <li *ngFor='let product of observableProducts|async'><a routerLink='product/{{product.id}}' routerLinkActive="active">{{product.name}}</a></li>
     </ul>
 </div>

@@ -7,8 +7,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
-
-
 @Injectable()
 export class ProductService {
     constructor(private http: Http) {
@@ -41,5 +39,19 @@ export class ProductService {
         return this.http.get(url).map(response => response.json().data as Product[]);
     }
 
+    getProductFromConst(id: number): Observable<Product> {
+
+        // tslint:disable-next-line:no-shadowed-variable
+        const product = PRODUCTS.find(product => id === product.id);
+
+        return Observable.of(product);
+
+    }
+
+    getProductFromAPI(id: number): Observable<Product> {
+
+        const url = `api/products_markup/${id}`;
+        return this.http.get(url).map(response => response.json().data as Product);
+    }
 
 }
