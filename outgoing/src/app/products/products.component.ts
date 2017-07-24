@@ -14,6 +14,7 @@ export class ProductsComponent implements OnInit {
 
     products: Product[];
     observableProducts: Observable<Product[]>;
+    isMakeupList: boolean;
 
 
     constructor(private productService: ProductService) {
@@ -27,21 +28,27 @@ export class ProductsComponent implements OnInit {
     getProductsByPromiseWithMockAPI() {
         this.productService.getProductsByPromiseWithMockAPI().then((products: Product[]) => {
             this.products = products;
+            this.isMakeupList = true;
         });
     }
 
     getProductsByPromiseWithConstData() {
         this.productService.getProductsByPromiseWithConstData().then((products: Product[]) => {
             this.products = products;
+            this.isMakeupList = false;
         });
     }
 
     getProductsByRxjsWithConstData() {
         this.observableProducts = this.productService.getProductsByRxjsWithConstData();
+        this.isMakeupList = false;
+
     }
 
     getProductsByRxJSWithMockAPI() {
         this.observableProducts = this.productService.getProductsByRxJSWithMockAPI();
+        this.isMakeupList = true;
+
 
     }
 
