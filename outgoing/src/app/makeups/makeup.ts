@@ -30,7 +30,7 @@ export const MAKEUPS: Makeup[] = [{ id: 1, name: 'Product Markup 1', sell: 10, b
 export class InMemoryMakeupService implements InMemoryDbService {
 
     createDb() {
-        return { makeups: MAKEUPS };
+        return { makeups: MAKEUPS, special_makeups: SPECIAL_MAKEUPS };
     }
 
 }

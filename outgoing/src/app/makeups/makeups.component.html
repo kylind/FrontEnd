@@ -1,13 +1,11 @@
 
 <div>
-    <button (click)='getProductsByRxjsWithConstData()'>Get by RxJS with Const Data</button>
-    <button (click)='getProductsByRxJSWithMockAPI()'>Get by RxJS with MockAPI</button>
+    <button (click)='getProductsByRxjsWithConstData($event)'>Get by RxJS with Const Data</button>
+    <button (click)='getProductsByRxJSWithMockAPI($event)'>Get by RxJS with MockAPI</button>
 
-    <ul *ngIf='observableProducts && !isMakeupList'>
-        <li *ngFor='let product of observableProducts|async'><a routerLink='product/{{product.id}}'  routerLinkActive="active">{{product.name}}</a></li>
+    <ul *ngIf='observableProducts'>
+        <li *ngFor='let product of observableProducts|async'><a [routerLink]='["product",product.id,{isSpecial: isSpecial}]' routerLinkActive="active">{{product.name}}</a></li>
     </ul>
 
-    <ul *ngIf='observableProducts && isMakeupList'>
-        <li *ngFor='let product of observableProducts|async'><a [routerLink]='["product",product.id,{from:"api"}]' routerLinkActive="active">{{product.name}}</a></li>
-    </ul>
+    <router-outlet></router-outlet>
 </div>

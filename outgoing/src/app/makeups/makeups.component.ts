@@ -14,7 +14,7 @@ export class MakeupsComponent implements OnInit {
 
     makeups: Makeup[];
     observableMakeups: Observable<Makeup[]>;
-    isMakeupList: boolean;
+    isSpecial: boolean;
 
 
     constructor(private makeupService: MakeupService) {
@@ -26,18 +26,20 @@ export class MakeupsComponent implements OnInit {
     }
 
 
-    getmakeupsByRxjsWithConstData() {
-        this.observableMakeups = this.makeupService.getMakeupsByRxjsWithConstData();
-        this.isMakeupList = false;
+    getmakeupsByRxjs(event) {
+        const targeName = event.target.name;
+        if (targeName === 'const') {
+            this.observableMakeups = this.makeupService.getMakeupsByRxjsWithConstData();
+            this.isSpecial = false;
+
+        } else {
+            this.observableMakeups = this.makeupService.getMakeupsByRxJSWithMockAPI();
+            this.isSpecial = true;
+        }
 
     }
 
-    getMakeupsByRxJSWithMockAPI() {
-        this.observableMakeups = this.makeupService.getMakeupsByRxJSWithMockAPI();
-        this.isMakeupList = true;
 
-
-    }
 
 
 }

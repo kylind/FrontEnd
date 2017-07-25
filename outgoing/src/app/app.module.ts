@@ -13,6 +13,8 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryProductService } from './products/product';
 import { ProductComponent } from './product/product.component';
 
+import { MakeupModule } from './makeups/makeup.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +22,7 @@ import { ProductComponent } from './product/product.component';
     ProductComponent
 ],
   imports: [
+    MakeupModule,
     AppRoutingModule,
     BrowserModule,
     HttpModule,

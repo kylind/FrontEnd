@@ -20,14 +20,14 @@ export class MakeupService {
     }
 
     getMakeupsByRxJSWithMockAPI(): Observable<Makeup[]> {
-        const url = 'api/makeups';
+        const url = 'api/special_makeups';
         return this.http.get(url).map(response => response.json().data as Makeup[]);
     }
 
 
     getMakeupFromAPI(id: number): Observable<Makeup> {
 
-        const url = `api/makeups/${id}`;
+        const url = `api/special_makeups/${id}`;
         return this.http.get(url).map(response => response.json().data as Makeup);
     }
 

@@ -6,7 +6,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
 
 @Component({
-  selector: 'makeup',
+  selector: 'app-makeup',
   templateUrl: './makeup.component.html',
   styleUrls: ['./makeup.component.css']
 })
@@ -22,9 +22,9 @@ export class MakeupComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap
       .switchMap((params: ParamMap) => {
-        const from = params.get('from');
+        const isSpecial = params.get('from');
 
-        if (from === 'api') {
+        if (isSpecial) {
           return this.makeupService.getMakeupFromAPI(+params.get('id'));
 
         } else {

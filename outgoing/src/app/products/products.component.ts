@@ -5,8 +5,7 @@ import { ProductService } from './product.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
-    // tslint:disable-next-line:component-selector
-    selector: 'component-products',
+    selector: 'app-products',
     templateUrl: './products.component.html',
     styleUrls: ['./products.component.css']
 })
