@@ -26,7 +26,7 @@ export class MakeupsComponent implements OnInit {
     }
 
 
-    getmakeupsByRxjs(event) {
+    getMakeupsByRxjs(event) {
         const targeName = event.target.name;
         if (targeName === 'const') {
             this.observableMakeups = this.makeupService.getMakeupsByRxjsWithConstData();

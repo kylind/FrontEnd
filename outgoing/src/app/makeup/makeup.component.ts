@@ -22,7 +22,7 @@ export class MakeupComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap
       .switchMap((params: ParamMap) => {
-        const isSpecial = params.get('from');
+        const isSpecial = params.get('isSpecial');
 
         if (isSpecial) {
           return this.makeupService.getMakeupFromAPI(+params.get('id'));

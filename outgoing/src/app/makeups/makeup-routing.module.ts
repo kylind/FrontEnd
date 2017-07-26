@@ -10,10 +10,11 @@ const routes: Routes = [
         component: MakeupHomeComponent,
         children: [{
             path: '',
-            component: MakeupsComponent
-        }, {
-            path: ':id',
-            component: MakeupComponent
+            component: MakeupsComponent,
+            children: [{
+                path: ':id',
+                component: MakeupComponent
+            }]
         }]
     }
 ];

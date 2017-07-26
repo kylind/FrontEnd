@@ -14,13 +14,14 @@ import { InMemoryProductService } from './products/product';
 import { ProductComponent } from './product/product.component';
 
 import { MakeupModule } from './makeups/makeup.module';
+import { MakeupService } from './makeups/makeup.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductsComponent,
     ProductComponent
-],
+  ],
   imports: [
     MakeupModule,
     AppRoutingModule,
@@ -28,8 +29,10 @@ import { MakeupModule } from './makeups/makeup.module';
     HttpModule,
     FormsModule,
     InMemoryWebApiModule.forRoot(InMemoryProductService)
+
   ],
   bootstrap: [AppComponent],
-  providers: [ProductService]
+  providers: [MakeupService, ProductService]
 })
 export class AppModule { }
+ 

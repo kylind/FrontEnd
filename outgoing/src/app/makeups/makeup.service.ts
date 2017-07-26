@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { MAKEUPS, Makeup } from './makeup';
+import { Makeup } from './makeup';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
+import { MAKEUPS } from '../products/product';
 
 @Injectable()
 export class MakeupService {

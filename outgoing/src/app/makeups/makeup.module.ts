@@ -9,8 +9,6 @@ import { MakeupComponent } from '../makeup/makeup.component';
 import { MakeupService } from './makeup.service';
 
 import { HttpModule } from '@angular/http';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryMakeupService } from './makeup';
 
 @NgModule({
   declarations: [
@@ -22,8 +20,7 @@ import { InMemoryMakeupService } from './makeup';
     MakeupRoutingModule,
     BrowserModule,
     HttpModule,
-    FormsModule,
-    InMemoryWebApiModule.forRoot(InMemoryMakeupService)
+    FormsModule
   ],
   bootstrap: [MakeupHomeComponent],
   providers: [MakeupService]
