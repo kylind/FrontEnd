@@ -1,0 +1,59 @@
+/**index.wxss**/
+.banner{
+  height:auto;
+  width:100%;
+}
+
+.banner-img{
+  height: 60px;
+  width:100%;
+}
+
+.searchbox{
+  width:100%;
+}
+
+.searchbox-input{
+  width:100%;
+  border:1px solid #cc0066;
+  box-sizing: border-box;
+  height: 20px;
+  padding-left:10px;
+}
+.searchbox-btn{
+  width:100%;
+
+  background-color: #cc0066;
+
+  height: 30px;
+  padding-left:10px;
+
+  margin-top:10px;
+
+  color:#fff;
+  line-height: 30px;
+  border-radius: 15px;
+}
+
+.category{
+  margin-top:20px;
+  width:100%;
+}
+
+.category-name{
+
+}
+.category-items{
+  display: flex;
+  justify-content: space-between;
+  width:100%;
+  
+}
+.categorybtn{
+  width:200px;
+
+  flex:1 1 48%;
+  
+}
+
+

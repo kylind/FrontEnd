@@ -1,0 +1,43 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="banner">
+    <image class="banner-img" mode="aspectFit" src="../images/banner.png"></image>
+  </view>
+
+  <view class="searchbox">
+    <input class="searchbox-input" type="search" placeholder="请输入产品名称"/>
+    <button class="searchbox-btn">查询</button>
+  </view>
+
+  <view class="category">
+
+    <text class="category-name">产品分类：</text>
+
+    <view class="category-items">
+      <view class="category>
+        <button class="categorybtn">奶粉</button>
+      </view><view>
+      <button class="categorybtn">母婴</button>
+      </view><view>
+      <button class="categorybtn">美妆</button>
+      </view><view>
+      <button class="categorybtn">药品</button>
+      </view>
+      
+    </view>
+
+
+  </view>
+
+
+
+
+  <view class="slogan">
+
+
+     <text class="slogan-text">加微信：HK2209了解更多！</text>
+
+  </view>
+
+
+</view>
