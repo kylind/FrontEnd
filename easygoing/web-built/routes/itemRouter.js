@@ -3,19 +3,27 @@ var ObjectID = require('mongodb').ObjectID;
 
 var Collection = require('../data_access/item.js').Collection
 
-var itemOperation;
+//var itemOperation;
 
 router = new Router();
 
-router.use(function*(next) {
+function getItemCollection(req) {
+
+    return new Collection(req.user.collection, req.user.productCollection);
+
+}
+
+router.use(function* (next) {
     if (this.isAuthenticated()) {
-        itemOperation = new Collection(this.req.user.collection);
+        //itemOperation = new Collection(this.req.user.collection);
     }
     yield next;
 
 })
 
-router.get('/purchaseItems', function*() {
+router.get('/purchaseItems', function* () {
+
+    let itemOperation = getItemCollection(this.req);
 
     var items = yield itemOperation.queryItems();
 
@@ -37,7 +45,9 @@ router.get('/purchaseItems', function*() {
 
 
 
-router.get('/purchaseItemsJson', function*() {
+router.get('/purchaseItemsJson', function* () {
+
+    let itemOperation = getItemCollection(this.req);
 
     var items = yield itemOperation.queryItems();
 
@@ -52,7 +62,8 @@ router.get('/purchaseItemsJson', function*() {
 
 });
 
-router.get('/purchaseMarkedItemsJson', function*() {
+router.get('/purchaseMarkedItemsJson', function* () {
+    let itemOperation = getItemCollection(this.req);
 
     var res = yield itemOperation.queryItemsByMark();
 
@@ -63,7 +74,7 @@ router.get('/purchaseMarkedItemsJson', function*() {
 
 });
 
-router.post('/item', function*() {
+router.post('/item', function* () {
 
     var purchaseDetail = this.request.body;
 
@@ -71,6 +82,8 @@ router.post('/item', function*() {
     var itemTag = purchaseDetail.itemTag;
 
     purchaseDetail.isDone = purchaseDetail.isDone == 'true' ? true : false;
+
+    let itemOperation = getItemCollection(this.req);
 
     var updatedRes = yield itemOperation.updateItemStatus(itemName, itemTag, purchaseDetail.isDone);
 
@@ -80,13 +93,15 @@ router.post('/item', function*() {
     this.status = 200;
 
 });
-router.post('/itemtag', function*() {
+router.post('/itemtag', function* () {
 
     var tagObj = this.request.body;
 
     var oldTag = tagObj.oldTag;
     var newTag = tagObj.newTag;
     var itemName = tagObj.itemName;
+
+    let itemOperation = getItemCollection(this.req);
 
 
     yield itemOperation.updateItemTag(itemName, oldTag, newTag);
@@ -97,12 +112,14 @@ router.post('/itemtag', function*() {
 
 });
 
-router.post('/subitem', function*() {
+router.post('/subitem', function* () {
 
     var subItem = this.request.body;
 
 
     subItem.isDone = subItem.isDone == 'true' ? true : false;
+
+    let itemOperation = getItemCollection(this.req);
 
     var updatedRes = yield itemOperation.updateSubItemStatus(subItem._id, subItem.name, subItem.isDone);
 
@@ -112,12 +129,14 @@ router.post('/subitem', function*() {
     this.status = 200;
 
 });
-router.get('/subitems', function*() {
+router.get('/subitems', function* () {
 
     var req = this.request.query;
 
     var itemName = req.itemName;
     var itemTag = req.itemTag;
+
+    let itemOperation = getItemCollection(this.req);
 
     var res = yield itemOperation.querySubItems(itemName, itemTag);
 
@@ -127,7 +146,7 @@ router.get('/subitems', function*() {
         weekday: "short"
     };
 
-    res.forEach(function(subItem) {
+    res.forEach(function (subItem) {
 
         subItem.createDate = subItem.createDate.toLocaleDateString("en-US", dateFormatting);
 

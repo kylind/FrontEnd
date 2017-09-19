@@ -556,6 +556,9 @@ define(['common'], function(util) {
                 })
 
                 if (changedOrders.length > 0) {
+                    changedOrders.forEach(order =>{
+                        order.____ko_mapping__=null;
+                    })
 
                     needRefresh = isSearchStatus ? true : false;
                     $.post('./orders', {

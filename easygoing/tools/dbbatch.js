@@ -168,7 +168,7 @@ class Order {
 
 async function synchronizing() {
 
-    var order = new Order(['zhuqin','xiangxiang','yangna','xumin','Mabing']);
+    var order = new Order(['zhuqin','xiangxiang','yangna','xumin','Mabing','liubei','gongjuanjuan','guoguo']);
 
     await order.synchronizeClients();
     await order.synchronizeProducts();

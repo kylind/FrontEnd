@@ -9,7 +9,7 @@ var OrderCollection = require('../data_access/order.js').Collection
 
 var router = new Router();
 
-var orderOperation, productOperation;
+//var orderOperation, productOperation;
 
 var dateFormatting = {
     month: "2-digit",
@@ -17,19 +17,29 @@ var dateFormatting = {
     weekday: "short"
 };
 
+function getProductCollection(req) {
 
-router.use(function*(next) {
+    return new ProductCollection(req.user.productCollection);
+
+}
+function getOrderCollection(req) {
+
+    return new OrderCollection(req.user.collection, req.user.productCollection);
+
+}
+
+router.use(function* (next) {
 
     if (this.isAuthenticated()) {
-        productOperation = new ProductCollection(this.req.user.productCollection);
-        orderOperation = new OrderCollection(this.req.user.collection, this.req.user.productCollection);
+        //productOperation = new ProductCollection(this.req.user.productCollection);
+        //orderOperation = new OrderCollection(this.req.user.collection, this.req.user.productCollection);
     }
 
     yield next
 
 })
 
-router.post('/products', function*() {
+router.post('/products', function* () {
 
     var req = this.request.body;
 
@@ -42,11 +52,13 @@ router.post('/products', function*() {
             util.processProduct(products[i]);
         }
 
+        let productOperation = getProductCollection(this.req);
+
         yield productOperation.save(products);
 
-        products.forEach(function(product) {
+        products.forEach(function (product) {
 
-            product.displayDate = product.modifiedDate ?  new Date(product.modifiedDate).toLocaleDateString("en-US", dateFormatting) : '';
+            product.displayDate = product.modifiedDate ? new Date(product.modifiedDate).toLocaleDateString("en-US", dateFormatting) : '';
         })
 
     }
@@ -56,11 +68,13 @@ router.post('/products', function*() {
 
 });
 
-router.get('/products', function*() {
+router.get('/products', function* () {
+
+    let orderOperation = getOrderCollection(this.req);
 
     var res = yield orderOperation.queryActiveProducts();
 
-    res.forEach(function(product) {
+    res.forEach(function (product) {
 
         product.displayDate = product.modifiedDate ? new Date(product.modifiedDate).toLocaleDateString("en-US", dateFormatting) : '';
 
@@ -80,11 +94,13 @@ router.get('/products', function*() {
 
 
 
-router.get('/productsJson', function*() {
+router.get('/productsJson', function* () {
+
+    let orderOperation = getOrderCollection(this.req);
 
     var res = yield orderOperation.queryActiveProducts();
 
-    res.forEach(function(product) {
+    res.forEach(function (product) {
 
         product.displayDate = product.modifiedDate ? new Date(product.modifiedDate).toLocaleDateString("en-US", dateFormatting) : '';
 
@@ -95,11 +111,13 @@ router.get('/productsJson', function*() {
 
 });
 
-router.get('/allProductsDropdownJson', function*() {
+router.get('/allProductsDropdownJson', function* () {
+
+    let productOperation = getProductCollection(this.req);
 
     var res = yield productOperation.queryProductsForDropdown();
 
-   // productNames = res.map(product => product.name);
+    // productNames = res.map(product => product.name);
 
 
     this.body = res;
@@ -107,7 +125,8 @@ router.get('/allProductsDropdownJson', function*() {
 
 });
 
-router.get('/allProductsJson', function*() {
+router.get('/allProductsJson', function* () {
+    let productOperation = getProductCollection(this.req);
 
     var res = yield productOperation.queryProducts();
 
@@ -119,15 +138,17 @@ router.get('/allProductsJson', function*() {
 
 });
 
-router.get('/activeClientsByProduct', function*() {
+router.get('/activeClientsByProduct', function* () {
 
     var req = this.request.query;
 
     var product = req.product;
 
+    let orderOperation = getOrderCollection(this.req);
+
     var res = yield orderOperation.queryClientsByProduct(product);
 
-    res.forEach(function(product) {
+    res.forEach(function (product) {
 
         product.displayDate = product.modifiedDate ? new Date(product.modifiedDate).toLocaleDateString("en-US", dateFormatting) : '';
 
@@ -138,15 +159,15 @@ router.get('/activeClientsByProduct', function*() {
 
 });
 
-router.get('/productsByKeywords', function*() {
+router.get('/productsByKeywords', function* () {
 
     var req = this.request.query;
 
     var keywords = req.keywords;
-
+    let productOperation = getProductCollection(this.req);
     var res = yield productOperation.queryProductsByKeywords(keywords);
 
-    res.forEach(function(product) {
+    res.forEach(function (product) {
 
         product.displayDate = product.modifiedDate ? new Date(product.modifiedDate).toLocaleDateString("en-US", dateFormatting) : '';
 
@@ -157,11 +178,13 @@ router.get('/productsByKeywords', function*() {
 
 });
 
-router.post('/updateClientPrice', function*() {
+router.post('/updateClientPrice', function* () {
 
     var req = this.request.body;
 
     var clientProducts = req.clientProducts;
+
+    let orderOperation = getOrderCollection(this.req);
 
     yield orderOperation.updateClientPrice(clientProducts);
 
@@ -174,16 +197,20 @@ router.post('/updateClientPrice', function*() {
 
 
 
-function* getActiveProducts() {
+function* getActiveProducts(req) {
+
+    let productOperation = getProductCollection(req);
 
     var allProducts = yield productOperation.queryProducts();
+
+    let orderOperation = getOrderCollection(req);
 
     var activeProducts = yield orderOperation.queryActiveProducts();
 
 
 
 
-    let Products = activeProducts.map(function(product) {
+    let Products = activeProducts.map(function (product) {
 
         let name = product.name.trim();
 
@@ -212,8 +239,10 @@ function* getActiveProducts() {
 
 
 
-router.delete('/product/:id', function*() {
+router.delete('/product/:id', function* () {
     var id = this.params.id;
+
+    let productOperation = getProductCollection(this.req);
 
     var res = yield productOperation.remove(id);
     this.body = res;

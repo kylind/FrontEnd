@@ -7,13 +7,23 @@ var OrderCollection = require('../data_access/order.js').Collection
 
 var router = new Router();
 
-var orderOperation, clientOperation;
+//var orderOperation, clientOperation;
 
+function getClientCollection(req){
+  
+    return new ClientCollection(req.user.clientCollection);
+
+}
+function getOrderCollection(req){
+  
+    return new OrderCollection(req.user.collection, req.user.productCollection);
+
+}
 router.use(function*(next) {
 
     if (this.isAuthenticated()) {
-        clientOperation = new ClientCollection(this.req.user.clientCollection);
-        orderOperation = new OrderCollection(this.req.user.collection, this.req.user.productCollection);
+       // clientOperation = new ClientCollection(this.req.user.clientCollection);
+        //orderOperation = new OrderCollection(this.req.user.collection, this.req.user.productCollection);
 
     }
 
@@ -72,6 +82,8 @@ router.post('/clients', function*() {
 
     });
 
+    let clientOperation=getClientCollection(this.req);
+
     yield clientOperation.saveClients(clients);
 
 
@@ -82,7 +94,7 @@ router.post('/clients', function*() {
 
 router.get('/clients', function*() {
 
-    var allClients = yield getClients();
+    var allClients = yield getClients(this.req);
 
     yield this.render('clients', {
 
@@ -99,7 +111,7 @@ router.get('/clients', function*() {
 
 router.get('/clientsJson', function*() {
 
-    var allClients = yield getClients();
+    var allClients = yield getClients(this.req);
 
     this.body = allClients;
     this.status = 200;
@@ -109,6 +121,7 @@ router.get('/clientsJson', function*() {
 
 router.get('/allClientNamesJson', function*() {
 
+    let clientOperation=getClientCollection(this.req);
     var res = yield clientOperation.queryClients();
 
     clientNames = res.map(client => client.name);
@@ -125,6 +138,8 @@ router.get('/clientsByKeywords', function*() {
 
     var keywords = req.keywords;
 
+    let clientOperation=getClientCollection(this.req);
+
     var searchedClients = yield clientOperation.queryClientsByKeywords(keywords);
 
     this.body = searchedClients;
@@ -137,8 +152,11 @@ router.get('/clientsByKeywords', function*() {
 
 
 
-function* getClients() {
+function* getClients(req) {
+    let clientOperation=getClientCollection(req);
     var allClients = yield clientOperation.queryClients()
+
+    let orderOperation = getOrderCollection(req);
 
     var receivedOrders = yield orderOperation.queryPrintedOrders();
 
@@ -186,6 +204,8 @@ function* getClients() {
 
 router.delete('/client/:id', function*() {
     var id = this.params.id;
+
+    let clientOperation=getClientCollection(this.req);
 
     var res = yield clientOperation.removeById(id);
     this.body = res;

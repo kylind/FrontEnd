@@ -83,7 +83,7 @@ var util = {
         order.isComplete = isSellComplete && isBuyComplete;
 
     },
-    processOrder: function(order) {
+    processOrder: function(order,rate) {
 
 
         if (!Array.isArray(order.items) || order.items.length == 0) {
@@ -151,7 +151,7 @@ var util = {
             delete order._id
 
             order.createDate = new Date();
-            order.rate = RATE;
+            order.rate = rate;
         }
 
         util.sumarizeOrder(order);

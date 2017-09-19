@@ -32,16 +32,22 @@ const EMPTY_ORDER = {
     status: RECEIVED
 }
 
-var orderOperation;
+//var orderOperation;
+
+function getOrderCollection(req){
+
+    return new Collection(req.user.collection, req.user.productCollection);
+
+}
 
 router = new Router();
 
 router.use(function*(next) {
 
     if (this.isAuthenticated()) {
-        orderOperation = new Collection(this.req.user.collection);
+        //orderOperation = new Collection(this.req.user.collection);
 
-        RATE = this.req.user.rate || 0.9;
+        //RATE = (+this.req.user.rate) || 0.9;
     }
 
     yield next
@@ -50,6 +56,8 @@ router.use(function*(next) {
 
 router.get('/order/:id', function*() {
     var res = null;
+
+    let orderOperation = getOrderCollection(this.req);
 
     if (ObjectID.isValid(this.params.id)) {
 
@@ -80,7 +88,11 @@ router.post('/order', function*() {
 
     var order = this.request.body;
 
-    util.processOrder(order);
+    let rate = (+this.req.user.rate) || 0.9;
+
+    util.processOrder(order,rate);
+
+    let orderOperation = getOrderCollection(this.req);
 
     yield orderOperation.save([order]);
 
@@ -104,10 +116,14 @@ router.post('/orders', function*() {
     }
 
     if (Array.isArray(orders) && orders.length > 0) {
+
+        let rate = (+this.req.user.rate) || 0.9;
         for (var i = 0; i < orders.length; i++) {
 
-            util.processOrder(orders[i]);
+            util.processOrder(orders[i],rate);
         }
+
+        let orderOperation = getOrderCollection(this.req);
 
         yield orderOperation.save(orders);
 
@@ -131,6 +147,8 @@ router.put('/orderStatus/:id', function*() {
     var orderStatus = this.request.body;
     var res;
 
+    let orderOperation = getOrderCollection(this.req);
+
     res = yield orderOperation.updateOrderStatus(this.params.id, orderStatus.status);
 
     this.body = res;
@@ -143,6 +161,8 @@ router.put('/packingStatus/:id', function*() {
     var packingStatus = this.request.body;
     var res;
 
+    let orderOperation = getOrderCollection(this.req);
+
     res = yield orderOperation.updatePackingStatus(this.params.id, packingStatus.packingStatus);
 
     this.body = res;
@@ -152,6 +172,8 @@ router.put('/packingStatus/:id', function*() {
 
 router.delete('/order/:id', function*() {
     var id = this.params.id;
+
+    let orderOperation = getOrderCollection(this.req);
 
     var res = yield orderOperation.remove(id);
     this.body = res;
@@ -177,6 +199,8 @@ router.get('/index', function*() {
         model.user = this.req.user;
         model._id = this.req.user._id;
         model.footer='common';
+
+        let orderOperation = getOrderCollection(this.req);
 
         var res = yield orderOperation.queryReceivedOrders();
         model.orders = res && res.length > 0 ? res : [];
@@ -205,6 +229,8 @@ router.get('/content', function*() {
         model.user = this.req.user;
         model._id = this.req.user._id;
 
+        let orderOperation = getOrderCollection(this.req);
+
         var res = yield orderOperation.queryReceivedOrders();
         model.orders = res && res.length > 0 ? res : [];
 
@@ -219,6 +245,8 @@ router.get('/content', function*() {
 });
 
 router.get('/loading', function*() {
+
+    let orderOperation = getOrderCollection(this.req);
 
 
     var res = yield orderOperation.queryReceivedOrders();
@@ -238,6 +266,8 @@ router.get('/loading', function*() {
 
 router.get('/receivedOrders', function*() {
 
+    let orderOperation = getOrderCollection(this.req);
+
 
     var res = yield orderOperation.queryReceivedOrders();
 
@@ -255,6 +285,7 @@ router.get('/receivedOrders', function*() {
 });
 router.get('/receivedOrdersJson', function*() {
 
+    let orderOperation = getOrderCollection(this.req);
 
     var res = yield orderOperation.queryReceivedOrders();
 
@@ -273,15 +304,18 @@ router.get('/ordersByName', function*() {
 
 
     var res = null;
+    let orderOperation = getOrderCollection(this.req);
 
     res = yield orderOperation.queryGlobalOrders(client,req.status);
 
     res = res && res.length > 0 ? res : [];
 
+    let rate = (+this.req.user.rate) || 0.9;
+
 
     res.forEach(function(order) {
 
-        order.rate = order.rate ? order.rate : RATE;
+        order.rate = order.rate ? order.rate : rate;
 
         //util.sumarizeOrder(order);
         order.displayDate = order.createDate ? new Date(order.createDate).toLocaleDateString("en-US", dateFormatting) : '';
@@ -306,7 +340,7 @@ router.get('/ordersByName', function*() {
 
 router.get('/reckoningOrders', function*() {
 
-    var res = yield getReckoningOrders();
+    var res = yield getReckoningOrders(this.req);
 
     yield this.render('reckoningOrders', {
         orders: res,
@@ -320,7 +354,7 @@ router.get('/reckoningOrders', function*() {
 });
 router.get('/reckoningOrdersJson', function*() {
 
-    var res = yield getReckoningOrders();
+    var res = yield getReckoningOrders(this.req);
 
     this.body = res;
     this.status = 200;
@@ -328,6 +362,8 @@ router.get('/reckoningOrdersJson', function*() {
 });
 
 router.get('/incomeList', function*() {
+
+    let orderOperation = getOrderCollection(this.req);
 
     var res = yield orderOperation.summarizeProfit();
     var formatting = {
@@ -358,6 +394,8 @@ router.get('/incomeList', function*() {
 });
 router.get('/incomeListJson', function*() {
 
+    let orderOperation = getOrderCollection(this.req);
+
     var res = yield orderOperation.summarizeProfit();
     var formatting = {
         month: "2-digit",
@@ -384,14 +422,18 @@ router.get('/incomeListJson', function*() {
 
 });
 
-function* getReckoningOrders() {
+function* getReckoningOrders(req) {
     var res = null;
+
+    let orderOperation = getOrderCollection(req);
     res = yield orderOperation.queryReckoningOrders();
     res = res && res.length > 0 ? res : [];
 
+    let rate = (+req.user.rate) || 0.9;
+
     res.forEach(function(order) {
 
-        order.rate = order.rate ? order.rate : RATE;
+        order.rate = order.rate ? order.rate : rate;
 
         order.displayDate = order.createDate ? new Date(order.createDate).toLocaleDateString("en-US", dateFormatting) : '';
 
@@ -418,6 +460,8 @@ router.get('/historictrades', function*() {
     var req = this.request.query;
 
     var itemName = req.itemName;
+
+    let orderOperation = getOrderCollection(this.req);
 
     var res = yield orderOperation.getHistoricTrades(itemName);
 

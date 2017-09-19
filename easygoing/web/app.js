@@ -12,7 +12,7 @@ app.keys = ['keys', 'keykeys'];
 app.use(session({
     store: new MongoStore({
         //host: "120.24.63.42",
-        host:"127.0.0.1",
+       host:"127.0.0.1",
         db: "orders",
         user: "website",
         password: "zombie.123"
@@ -66,7 +66,7 @@ app.use(function*(next) {
 
 var bodyParser = require('koa-bodyparser');
 var loginRouter = require('./routes/loginRouter.js').router;
-app.use(bodyParser());
+app.use(bodyParser({formLimit:'1mb'}));
 app.use(loginRouter.routes());
 
 /*app.use(function*(next) {
