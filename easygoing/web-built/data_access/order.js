@@ -361,7 +361,7 @@ var Collection = function(_name, _productCollection) {
 
                 }
 
-            ], { cursor: { batchSize: 1 } }).sort({ 'week': -1 }).toArray();
+            ], { cursor: { batchSize: 1 } }).sort({'year':-1,'week': -1 }).toArray();
 
             return res;
 

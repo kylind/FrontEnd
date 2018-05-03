@@ -141,7 +141,13 @@ var util = {
 
             order._id = new ObjectID(order._id);
 
-            order.createDate = new Date(order.createDate);
+            if(order.createDate){
+                order.createDate = new Date(order.createDate);
+            }else{
+                order.createDate = new Date();
+            }
+
+            
             order.rate = +order.rate;
 
 
