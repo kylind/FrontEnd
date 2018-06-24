@@ -11,7 +11,8 @@ router = new Router();
 router.get(/^\/(v5\.1)?$/, function*() {
 
 
-    this.redirect('/v5.1/index');
+   // this.redirect('/v5.1/index');
+    this.redirect('/index');
 
 });
 

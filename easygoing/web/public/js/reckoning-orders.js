@@ -1,4 +1,4 @@
-define(['common'], function(util) {
+define(['common'], function (util) {
 
     var $ = util.$;
     var ko = util.ko;
@@ -18,7 +18,7 @@ define(['common'], function(util) {
         return startDate;
     }
 
-    var Item = function(item) {
+    var Item = function (item) {
         var self = this;
 
 
@@ -58,14 +58,14 @@ define(['common'], function(util) {
         self.isLiveSearch = false;
 
 
-        self.bindLiveSearch = function(data, event) {
+        self.bindLiveSearch = function (data, event) {
 
             if (!self.isLiveSearch) {
                 self.isLiveSearch = true;
                 $(event.target).dropdown({
                     itemType: 'product',
                     trigger: true,
-                    afterChosen: function({ sellPrice = '', buyPrice = '' }) {
+                    afterChosen: function ({ sellPrice = '', buyPrice = '' }) {
 
                         if (self.isDoubtSellPrice() || self.sellPrice() == '') {
 
@@ -92,22 +92,22 @@ define(['common'], function(util) {
 
         self.isChanged = false;
 
-        self.name.subscribe(function(newValue) {
+        self.name.subscribe(function (newValue) {
             self.isChanged = true;
         })
-        self.quantity.subscribe(function(newValue) {
+        self.quantity.subscribe(function (newValue) {
             self.isChanged = true;
         })
-        self.buyPrice.subscribe(function(newVal) {
+        self.buyPrice.subscribe(function (newVal) {
             self.isChanged = true;
         })
-        self.sellPrice.subscribe(function(newVal) {
+        self.sellPrice.subscribe(function (newVal) {
             self.isChanged = true;
         })
 
     }
 
-    var OrderModel = function(order, swiper) {
+    var OrderModel = function (order, swiper) {
         var self = this;
 
         self._id = ko.observable(order ? order._id : '');
@@ -118,7 +118,7 @@ define(['common'], function(util) {
         var observableItems = [];
 
         if (order && $.isArray(order.items) && order.items.length > 0) {
-            order.items.forEach(function(item) {
+            order.items.forEach(function (item) {
                 observableItems.push(new Item(item));
             });
 
@@ -133,17 +133,17 @@ define(['common'], function(util) {
 
         self.items = ko.observableArray(observableItems);
 
-        self.items.subscribe(function(newValue) {
+        self.items.subscribe(function (newValue) {
             self.isChanged = true;
 
 
         })
-        self.client.subscribe(function(newValue) {
+        self.client.subscribe(function (newValue) {
 
             self.isChanged = true;
 
         })
-        self.postage.subscribe(function(newValue) {
+        self.postage.subscribe(function (newValue) {
             self.isChanged = true;
 
 
@@ -168,7 +168,7 @@ define(['common'], function(util) {
 
 
 
-        self.bindLiveSearch = function(data, event) {
+        self.bindLiveSearch = function (data, event) {
 
             if (!self.isLiveSearch) {
                 self.isLiveSearch = true;
@@ -179,7 +179,7 @@ define(['common'], function(util) {
         }
 
 
-        self.formatPrice = function(price) {
+        self.formatPrice = function (price) {
 
             if (!price) return '?';
 
@@ -192,7 +192,7 @@ define(['common'], function(util) {
         }
 
 
-        self.total = ko.pureComputed(function() {
+        self.total = ko.pureComputed(function () {
             var sellPrice = parseFloat(this.sellPrice());
             var postage = parseFloat(this.postage());
             if (isNaN(sellPrice) || isNaN(postage)) {
@@ -222,7 +222,7 @@ define(['common'], function(util) {
 
         self.packingStatus = order ? order.packingStatus : '1ISREADY';
 
-        self.orderStatus = ko.pureComputed(function() {
+        self.orderStatus = ko.pureComputed(function () {
             if (self.status() == '3DONE') {
                 return 'font-green';
             } else if (self.status() == '2SENT') {
@@ -232,7 +232,7 @@ define(['common'], function(util) {
             }
         });
 
-        self.getHistoricTrades = function(item, parent, event) {
+        self.getHistoricTrades = function (item, parent, event) {
 
             var itemData = ko.mapping.toJS(item);
 
@@ -248,12 +248,12 @@ define(['common'], function(util) {
 
                 $.getJSON('./historictrades', {
                     'itemName': itemData.name
-                }, function(res, status) {
+                }, function (res, status) {
 
                     status == 'success' ? item.historicTrades(res) : item.historicTrades([]);
 
 
-                    $historicTrades.slideDown('fast', function() {
+                    $historicTrades.slideDown('fast', function () {
                         item.isHistoricTradesOpen = true;
 
                         succeed();
@@ -263,33 +263,33 @@ define(['common'], function(util) {
 
             } else {
 
-                $historicTrades.slideUp('fast', function() {
+                $historicTrades.slideUp('fast', function () {
                     item.isHistoricTradesOpen = false;
                     swiper.update();
                 });
             }
         };
 
-        self.hasHistoricTrades = function(item) {
+        self.hasHistoricTrades = function (item) {
 
             return item.historicTrades().length > 0 ? true : false;
 
         };
 
-        self.addItem = function() {
+        self.addItem = function () {
 
             self.items.unshift(new Item());
             swiper.update();
         };
 
-        self.removeItem = function(item) {
+        self.removeItem = function (item) {
             self.items.remove(item);
             swiper.update();
         };
 
 
 
-        self.addClient = function(client) {
+        self.addClient = function (client) {
 
             self.clients.unshift({
                 _id: "",
@@ -302,7 +302,7 @@ define(['common'], function(util) {
 
         };
 
-        self.getClients = function(order) {
+        self.getClients = function (order) {
             arguments[3]();
             var succeed = arguments[4];
 
@@ -312,7 +312,7 @@ define(['common'], function(util) {
 
             $.getJSON('./clientsByClient', {
                 client: client
-            }, function(res, status) {
+            }, function (res, status) {
 
                 status == 'success' ? order.clients(res) : order.clients([]);
                 succeed();
@@ -324,7 +324,7 @@ define(['common'], function(util) {
 
         var removedClients = [];
 
-        self.removeClient = function(client) {
+        self.removeClient = function (client) {
 
             if (client._id != '') {
 
@@ -338,7 +338,7 @@ define(['common'], function(util) {
 
         };
 
-        self.submitClients = function(order) {
+        self.submitClients = function (order) {
             arguments[3]();
             var succeed = arguments[4];
 
@@ -346,14 +346,14 @@ define(['common'], function(util) {
 
 
             $.post('./clients', {
-                    "client": order.client,
-                    "clients": clientsData
-                }, function(clients, status) {
+                "client": order.client,
+                "clients": clientsData
+            }, function (clients, status) {
 
-                    order.clients(clients);
+                order.clients(clients);
 
-                    succeed();
-                },
+                succeed();
+            },
                 'json'
             );
 
@@ -362,25 +362,25 @@ define(['common'], function(util) {
         };
 
 
-        self.submitOrder = function(order) {
+        self.submitOrder = function (order) {
             arguments[3]();
             var succeed = arguments[4];
 
             var orderData = $.parseJSON(ko.toJSON(order));
 
-            $.post('./order', orderData, function(data, status) {
+            $.post('./order', orderData, function (data, status) {
 
-                    data.items.forEach(function(item) {
+                data.items.forEach(function (item) {
 
-                        item.historicTrades = [];
+                    item.historicTrades = [];
 
-                    });
+                });
 
-                    console.log('get post result');
-                    ko.mapping.fromJS(data, {}, order);
+                console.log('get post result');
+                ko.mapping.fromJS(data, {}, order);
 
 
-                },
+            },
                 'json'
             );
 
@@ -393,7 +393,7 @@ define(['common'], function(util) {
 
 
 
-    var OrdersModel = function(orders, swiper) {
+    var OrdersModel = function (orders, swiper) {
 
 
         var self = this;
@@ -401,15 +401,9 @@ define(['common'], function(util) {
         var startDate = getDoneOrderStartDate();
 
 
-        self.updateReservedOrders = function(orders) {
+        self.sortOrders = function (orders) {
 
-            reservedOrders = orders;
-
-        }
-
-        self.sortOrders = function(orders) {
-
-            orders.sort(function(orderA, orderB) {
+            orders.sort(function (orderA, orderB) {
 
                 var aStatus = orderA.status();
                 var bStatus = orderB.status()
@@ -426,10 +420,10 @@ define(['common'], function(util) {
 
         }
 
-        self.getObservableOrders = function(orders) {
+        self.init = function (orders) {
             var observableOrders = [];
 
-            orders.forEach(function(order) {
+            orders.forEach(function (order) {
 
                 observableOrders.push(new OrderModel(order, swiper));
 
@@ -438,11 +432,39 @@ define(['common'], function(util) {
 
         };
 
-        var observableOrders = self.getObservableOrders(orders);
+        self.orders = ko.observableArray(self.init(orders));
 
-        self.orders = ko.observableArray(observableOrders);
 
-        self.toggleClientView = function(data, parent, event) {
+        self.setOrders = function (appendingPrice) {
+
+            needRefresh = true;
+            self.searchOrders(null, null, appendingPrice);
+            updateSwiper();
+        };
+        self.refreshOrders = function () {
+
+            if (needRefresh) {
+
+                return new Promise((resolve, reject) => {
+                    $.getJSON('./reckoningOrdersJson', function (updatedOrders, status) {
+
+                        needRefresh = false;
+
+                        let updatedObservableOrders = self.init(updatedOrders);
+
+                        resolve(updatedObservableOrders);
+
+                    });
+                });
+
+            } else {
+                return Promise.resolve(reservedOrders ? reservedOrders : self.orders());
+            }
+
+
+        };
+
+        self.toggleClientView = function (data, parent, event) {
 
             $(event.target).toggleClass('icon-eyeslash');
 
@@ -461,10 +483,8 @@ define(['common'], function(util) {
 
         };
 
-        self.markDone = function(order) {
+        self.markDone = function (order) {
 
-
-            //if(order.status() == '1RECEIVED' && order.packingStatus != '3PACKED') return;
 
             arguments[3]();
             var succeed = arguments[4];
@@ -484,30 +504,22 @@ define(['common'], function(util) {
             }
 
             $.ajax('./orderStatus/' + id, {
-                success: function(data, status) {
+                success: function (data, status) {
 
                     order.status(newStatus)
 
-                    var orders = self.orders();
+                    if (newStatus == '3DONE' && order.createDate() < startDate) {
+                        self.removeDoneOrder(order)
 
-                    if ($('#search-reckoningOrders').val() == '') {
-
-                        if (newStatus == '3DONE' && order.createDate() < startDate) {
-                            self.removeDoneOrder(order)
-
-                        }
-
-                        self.sortOrders(orders);
-
-                        self.orders(orders);
-
-                        self.updateReservedOrders(orders);
-
-                    } else {
-                        needRefresh = true;
                     }
+                    var orders = self.orders();
+                    self.sortOrders(orders);
+                    self.orders(orders);
+
+                    needRefresh = true;
 
                     succeed();
+
 
                 },
                 data: {
@@ -521,7 +533,7 @@ define(['common'], function(util) {
         }
 
 
-        self.submitOrders = function() {
+        self.submitOrders = function () {
             arguments[3]();
             var succeed = arguments[4];
 
@@ -532,7 +544,7 @@ define(['common'], function(util) {
 
                 var changedIndexs = [];
 
-                var changedOrders = ordersData.filter(function(order, index) {
+                var changedOrders = ordersData.filter(function (order, index) {
 
                     var isChanged = false;
 
@@ -556,46 +568,43 @@ define(['common'], function(util) {
                 })
 
                 if (changedOrders.length > 0) {
-                    changedOrders.forEach(order =>{
-                        order.____ko_mapping__=null;
+                    changedOrders.forEach(order => {
+                        order.____ko_mapping__ = null;
                     })
 
-                    needRefresh = isSearchStatus ? true : false;
+                    //  needRefresh = isSearchStatus ? true : false;
                     $.post('./orders', {
-                            orders: changedOrders
-                        }, function(rs, status) {
+                        orders: changedOrders
+                    }, function (rs, status) {
 
-                            rs.forEach(function(newOrder, index) {
-                                var orderIndex = changedIndexs[index];
+                        rs.forEach(function (newOrder, index) {
+                            var orderIndex = changedIndexs[index];
 
-                                if ($.isArray(newOrder.items) && newOrder.items.length == 0) {
-                                    newOrder.items = [{}, {}, {}];
-                                }
+                            if ($.isArray(newOrder.items) && newOrder.items.length == 0) {
+                                newOrder.items = [{}, {}, {}];
+                            }
 
-                                newOrder.items.forEach(function(item) {
-                                    item.historicTrades = [];
-                                });
+                            newOrder.items.forEach(function (item) {
+                                item.historicTrades = [];
+                            });
 
-                                ko.mapping.fromJS(newOrder, {
-                                    items: {
-                                        create: function(option) {
-                                            return new Item(option.data);
+                            ko.mapping.fromJS(newOrder, {
+                                items: {
+                                    create: function (option) {
+                                        return new Item(option.data);
 
-                                        }
                                     }
-                                }, orders[orderIndex]);
+                                }
+                            }, orders[orderIndex]);
 
-                                orders[orderIndex].isChanged = false;
-                                // orders[orderIndex].items().forEach(function(item){
-                                //     item.isChanged=false;
+                            orders[orderIndex].isChanged = false;
+                        });
 
-                                // })
+                        needRefresh = true;
 
-                            })
+                        succeed();
 
-                            succeed();
-
-                        },
+                    },
                         'json'
                     );
                 } else {
@@ -611,12 +620,12 @@ define(['common'], function(util) {
         };
 
         function updateSwiper() {
-            setTimeout(function() {
+            setTimeout(function () {
                 swiper.update();
             }, 100);
         }
 
-        self.afterRender = function() {
+        self.afterRender = function () {
 
             updateSwiper();
 
@@ -628,8 +637,8 @@ define(['common'], function(util) {
                 scrolling: false,
                 close: '',
                 top: 0,
-                onComplete: function() {
-                    setInterval(function() {
+                onComplete: function () {
+                    setInterval(function () {
                         $.colorbox.resize();
                     }, 200)
                 }
@@ -637,7 +646,7 @@ define(['common'], function(util) {
 
         }
 
-        self.afterOrderRender = function() {
+        self.afterOrderRender = function () {
 
             if ($('#reckoningOrdersBody').children().length === self.orders().length) {
 
@@ -645,30 +654,24 @@ define(['common'], function(util) {
             }
         }
 
-        self.addOrder = function() {
+        self.addOrder = function () {
 
 
             var order = new OrderModel(null, swiper);
 
             self.orders.unshift(order);
 
-            self.updateReservedOrders(self.orders());
-
             swiper.update();
             $(window).scrollTop(0);
         };
 
-        self.addExistingOrder = function(order) {
 
-            self.orders.push(doneOrder);
-
-        };
-        self.removeDoneOrder = function(doneOrder) {
+        self.removeDoneOrder = function (doneOrder) {
 
             self.orders.remove(doneOrder);
 
         };
-        self.removeOrder = function(order) {
+        self.removeOrder = function (order) {
 
             arguments[3]();
             var succeed = arguments[4];
@@ -685,39 +688,31 @@ define(['common'], function(util) {
 
 
             $.ajax('./order/' + id, {
-                success: function(data, status) {
+                success: function (data, status) {
 
                     succeed();
-
-
                 },
                 dataType: 'json',
                 type: 'DELETE'
 
             });
 
-            self.updateReservedOrders(self.orders());
+            needRefresh = true;
+
+
 
             swiper.update();
 
         };
 
         var reservedOrders, needRefresh, isSearchStatus, newKeywords, isDoing, appending;
-        self.searchOrders = function(data, event) {
+        self.searchOrders = function (data, event, appendingPrice) {
 
-
-            var keywords = $(event.target).val();
-
+            var keywords = $('#search-reckoningOrders').val();
             var regex = /(\s*)([\u4E00-\u9FA5\uF900-\uFA2D\w ]*)([\/\uff0f][bgy])?/;
-            //[\u4E00-\u9FA5\uF900-\uFA2D\w]+
 
             var matchedRes = keywords.match(regex);
 
-            if (!reservedOrders) {
-
-                reservedOrders = self.orders();
-
-            }
 
             if (matchedRes != null) {
 
@@ -726,43 +721,36 @@ define(['common'], function(util) {
                 newKeywords = matchedRes[2];
                 appending = matchedRes[3] && matchedRes[3].substr(1);
 
-                if (/^\s?$/.test(keywords)) {
+                self.refreshOrders().then((updatedOrders) => {
+                    reservedOrders = updatedOrders;
 
-                    newKeywords = '';
-                    isSearchStatus = false;
-                    isDoing = false;
+                    if (/^\s?$/.test(keywords)) {
 
-                    if (needRefresh && !isDoing) {
-                        isDoing = true;
+                        newKeywords = '';
+                        isSearchStatus = false;
+                        isDoing = false;
 
-                        $.getJSON('./reckoningOrdersJson', function(orders, status) {
-                            needRefresh = false;
-                            isDoing = false;
+                        self.sortOrders(reservedOrders);
 
-                            var observableOrders = self.getObservableOrders(orders);
-                            self.orders(observableOrders);
-                            reservedOrders = observableOrders;
+                        if (appendingPrice) {
+                            reservedOrders = appendingPrice(reservedOrders);
+                        }
 
-                        });
 
+                        self.orders(reservedOrders);
+
+                    } else if (matchedRes[1] == "") {
+                        searchCurrentOrders(appendingPrice)
 
                     } else {
 
-                        self.sortOrders(reservedOrders);
-                        self.orders(reservedOrders);
+                        searchGlobalOrders(appendingPrice)
                     }
-                } else if (matchedRes[1] == "") {
-                    searchCurrentOrders()
-
-                } else {
-
-                    searchGlobalOrders()
-                }
-
+                });
             }
         }
 
-        function searchCurrentOrders() {
+        function searchCurrentOrders(appendingPrice) {
 
             let targetStatus = '';
 
@@ -776,7 +764,7 @@ define(['common'], function(util) {
             }
 
 
-            var searchedOrders = reservedOrders.filter(function(order) {
+            var searchedOrders = reservedOrders.filter(function (order) {
 
                 let includingKeywords = order.client().indexOf(newKeywords) >= 0;
 
@@ -789,15 +777,19 @@ define(['common'], function(util) {
 
             });
 
+            if (appendingPrice) {
+                appendingPrice(searchedOrders);
+            }
+
             self.orders(searchedOrders);
 
         }
 
         var timeoutIds = [];
 
-        function searchGlobalOrders() {
+        function searchGlobalOrders(appendingPrice) {
 
-            var id = setTimeout(function() {
+            var id = setTimeout(function () {
 
                 for (var i = 1; i < timeoutIds.length; i++) {
                     clearTimeout(timeoutIds[i]);
@@ -830,11 +822,22 @@ define(['common'], function(util) {
                     $.ajax('./ordersByName', {
                         data: condition,
                         type: 'GET',
-                        success: function(data, status) {
+                        success: function (data, status) {
 
                             if (!/^\s?$/.test(newKeywords)) {
 
-                                self.orders(self.getObservableOrders(data));
+                                // self.orders(self.getObservableOrders(data));
+
+                                var searchedOrders = self.init(data)
+
+                                if (appendingPrice) {
+                                    appendingPrice(searchedOrders);
+                                }
+
+
+                                self.orders(searchedOrders);
+
+
                             }
                         },
 

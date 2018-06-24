@@ -249,11 +249,11 @@ gulp.task('css', ['clean'], function(done) {
 
 
 gulp.task('copy', ['clean'], function(done) {
-    gulp.src(['../web/app.js', '../web/process.json', '../web/package.json', '../web/public/images/*.*','../web/views/*.html', '!../web/views/script.html', '../web/data_access/*.js', '../web/routes/*.js', '../web/public/fonts/*.*'], { base: '../web/' })
+    gulp.src(['../web/app.js', '../web/process.json', '../web/package.json', '../web/public/images/*.*','../web/views/*.html', '../web/data_access/*.js', '../web/routes/*.js', '../web/public/fonts/*.*'], { base: '../web/' })
         .pipe(gulp.dest('../web-built/'));
 
     // gulp.src(gnf(null,'../web/package.json'),{base:'../web/'}).pipe(gulp.dest('../web-built'));
-
+//, '!../web/views/script.html'
     done();
 
 });

@@ -1,11 +1,11 @@
-define(['common'], function(util) {
+define(['common'], function (util) {
 
     var $ = util.$;
 
     var ko = util.ko;
     ko.mapping = util.mapping;
 
-    var Item = function(item) {
+    var Item = function (item) {
         var self = this;
 
         self.name = ko.observable(item && item.name ? item.name : '');
@@ -20,13 +20,13 @@ define(['common'], function(util) {
         self.tag = item && item.tag ? item.tag : '';
 
 
-        self.isLiveSearch=false;
+        self.isLiveSearch = false;
 
-        self.bindLiveSearch=function(data, event){
+        self.bindLiveSearch = function (data, event) {
 
-            if(!self.isLiveSearch){
-                self.isLiveSearch=true;
-                $(event.target).dropdown({itemType:'product',trigger:true})
+            if (!self.isLiveSearch) {
+                self.isLiveSearch = true;
+                $(event.target).dropdown({ itemType: 'product', trigger: true })
 
             }
 
@@ -35,21 +35,21 @@ define(['common'], function(util) {
         self.isChanged = false;
 
 
-        self.name.subscribe(function(newValue) {
+        self.name.subscribe(function (newValue) {
             self.isChanged = true;
         })
-        self.quantity.subscribe(function(newValue) {
+        self.quantity.subscribe(function (newValue) {
             self.isChanged = true;
         })
 
-        self.note.subscribe(function(newValue) {
+        self.note.subscribe(function (newValue) {
             self.isChanged = true;
         })
 
     }
 
 
-    var OrderModel = function(order,swiper) {
+    var OrderModel = function (order, swiper) {
         var self = this;
         self._id = ko.observable(order && order._id ? order._id : '');
         self.client = ko.observable(order && order.client ? order.client : '');
@@ -63,15 +63,15 @@ define(['common'], function(util) {
         self.status = order && order.status ? order.status : '1RECEIVED';
         self.createDate = order && order.createDate ? order.createDate : '';
 
-        self.isLiveSearch=false;
+        self.isLiveSearch = false;
 
 
 
-        self.bindLiveSearch=function(data, event){
+        self.bindLiveSearch = function (data, event) {
 
-            if(!self.isLiveSearch){
-                self.isLiveSearch=true;
-                $(event.target).dropdown({itemType:'client',trigger:true})
+            if (!self.isLiveSearch) {
+                self.isLiveSearch = true;
+                $(event.target).dropdown({ itemType: 'client', trigger: true })
 
             }
 
@@ -89,7 +89,7 @@ define(['common'], function(util) {
         var observableItems = [];
 
         if (order && $.isArray(order.items) && order.items.length > 0) {
-            order.items.forEach(function(item) {
+            order.items.forEach(function (item) {
                 observableItems.push(new Item(item));
             });
 
@@ -104,26 +104,26 @@ define(['common'], function(util) {
         self.items = ko.observableArray(observableItems);
 
         self.isChanged = false;
-        self.client.subscribe(function(newValue) {
+        self.client.subscribe(function (newValue) {
             self.isChanged = true;
         });
-        self.items.subscribe(function(newValue) {
+        self.items.subscribe(function (newValue) {
             self.isChanged = true;
         })
 
-        self.addItem = function() {
+        self.addItem = function () {
 
             self.items.unshift(new Item());
             swiper.update();
         };
 
-        self.removeItem = function(item) {
+        self.removeItem = function (item) {
             self.items.remove(item);
             swiper.update();
         };
 
 
-        self.orderPackingStatus = ko.pureComputed(function() {
+        self.orderPackingStatus = ko.pureComputed(function () {
             if (self.packingStatus() == '3PACKED') {
                 return 'font-green';
             } else if (self.packingStatus() == '2NOTREADY') {
@@ -133,7 +133,7 @@ define(['common'], function(util) {
             }
         });
 
-        self.orderReadyStatus = ko.pureComputed(function() {
+        self.orderReadyStatus = ko.pureComputed(function () {
             if (self.packingStatus() == '2NOTREADY') {
                 return 'icon-thumbsdown font-yellow';
             } else {
@@ -144,24 +144,27 @@ define(['common'], function(util) {
 
     };
 
-    var OrdersModel = function(orders, mySwiper) {
+    var OrdersModel = function (orders, mySwiper) {
 
         var swiper = mySwiper;
+        var needRefresh = false;
+
+        var reservedOrders = null;
 
         function init(orders) {
 
             var observableOrders = [];
 
             if (Array.isArray(orders) && orders.length > 0) {
-                orders.forEach(function(order) {
+                orders.forEach(function (order) {
 
-                    observableOrders.push(new OrderModel(order,swiper));
+                    observableOrders.push(new OrderModel(order, swiper));
 
                 })
             } else {
 
                 for (var i = 0; i < 30; i++) {
-                    observableOrders.push(new OrderModel(null,swiper));
+                    observableOrders.push(new OrderModel(null, swiper));
 
                 }
 
@@ -172,7 +175,7 @@ define(['common'], function(util) {
 
         function sortOrders(orders) {
 
-            orders.sort(function(orderA, orderB) {
+            orders.sort(function (orderA, orderB) {
 
                 var aStatus = orderA.packingStatus();
                 var bStatus = orderB.packingStatus()
@@ -191,28 +194,30 @@ define(['common'], function(util) {
 
         var self = this;
 
-        self.setSwiper = function(mySwiper) {
+        self.setSwiper = function (mySwiper) {
 
             swiper = mySwiper;
             updateSwiper();
 
         }
 
-        var observableOrders = init(orders);
-
-        self.orders = ko.observableArray(observableOrders);
 
 
-        self.setOrders = function(orders, isInitial) {
+        self.orders = ko.observableArray(init(orders));
 
-            self.orders(init(orders));
+        self.setOrders = function (orders, isInitial) {
+
+            needRefresh=true;
+            self.searchOrders();
+        
             updateSwiper();
+            
 
         }
 
 
 
-        self.submitOrder = function(order) {
+        self.submitOrder = function (order) {
             arguments[3]();
             var succeed = arguments[4];
 
@@ -220,12 +225,12 @@ define(['common'], function(util) {
 
             var orderData = ko.mapping.toJS(order); //$.parseJSON(ko.toJSON(order));
 
-            $.post('./order', orderData, function(data, status) {
+            $.post('./order', orderData, function (data, status) {
 
-                    console.log('get post result');
-                    ko.mapping.fromJS(data, {}, order);
-                    succeed();
-                },
+                console.log('get post result');
+                ko.mapping.fromJS(data, {}, order);
+                succeed();
+            },
                 'json'
             );
 
@@ -233,7 +238,7 @@ define(['common'], function(util) {
 
         };
 
-        self.submitOrders = function() {
+        self.submitOrders = function () {
             arguments[3]();
             var succeed = arguments[4];
 
@@ -245,7 +250,7 @@ define(['common'], function(util) {
 
                 var changedIndexs = [];
 
-                var changedOrders = ordersData.filter(function(order, index) {
+                var changedOrders = ordersData.filter(function (order, index) {
 
                     var isChanged = false;
                     var isReal = order.client == '' ? false : true;
@@ -273,31 +278,34 @@ define(['common'], function(util) {
 
                 if (changedOrders.length > 0) {
 
-                    $.post('./orders', { orders: changedOrders }, function(rs, status) {
+                    $.post('./orders', { orders: changedOrders }, function (rs, status) {
 
 
-                            rs.forEach(function(newOrder, index) {
-                                var orderIndex = changedIndexs[index];
+                        rs.forEach(function (newOrder, index) {
+                            var orderIndex = changedIndexs[index];
 
-                                if ($.isArray(newOrder.items) && newOrder.items.length == 0) {
-                                    newOrder.items = [{}, {}, {}];
-                                }
+                            if ($.isArray(newOrder.items) && newOrder.items.length == 0) {
+                                newOrder.items = [{}, {}, {}];
+                            }
 
-                                ko.mapping.fromJS(newOrder, {
-                                    items: {
-                                        create: function(option) {
-                                            return new Item(option.data);
+                            ko.mapping.fromJS(newOrder, {
+                                items: {
+                                    create: function (option) {
+                                        return new Item(option.data);
 
-                                        }
                                     }
-                                }, orders[orderIndex]);
+                                }
+                            }, orders[orderIndex]);
 
-                                orders[orderIndex].isChanged = false;
+                            orders[orderIndex].isChanged = false;
 
-                            })
+                        });
 
-                            succeed();
-                        },
+
+                        needRefresh = true;
+
+                        succeed();
+                    },
                         'json'
                     );
                 } else {
@@ -309,22 +317,17 @@ define(['common'], function(util) {
 
         };
 
-        self.markPackingStatus = function(order) {
+        self.markPackingStatus = function (order) {
 
             var $target = $(arguments[2].target);
             var packingStatus = order.packingStatus();
 
-            if ($target.hasClass('icon-leaf') && packingStatus=='2NOTREADY') return;
+            if ($target.hasClass('icon-leaf') && packingStatus == '2NOTREADY') return;
 
             arguments[3]();
             var succeed = arguments[4];
             var parent = arguments[1];
             var id = order._id();
-
-
-
-
-
 
             var newStatus = '';
 
@@ -348,19 +351,18 @@ define(['common'], function(util) {
             }
 
             $.ajax('./packingStatus/' + id, {
-                success: function(data, status) {
+                success: function (data, status) {
 
                     order.packingStatus(newStatus)
 
-                    if ($('#search-receivedOrders').val() == '') {
 
-                        var orders = self.orders();
+                    var orders = self.orders();
 
-                        sortOrders(orders);
+                    sortOrders(orders);
 
-                        self.orders(orders);
+                    self.orders(orders);
 
-                    }
+                    needRefresh = true;
 
                     succeed();
 
@@ -375,23 +377,23 @@ define(['common'], function(util) {
 
         };
 
-        self.addOrder = function() {
+        self.addOrder = function () {
 
-            var order = new OrderModel(null,swiper);
+            var order = new OrderModel(null, swiper);
 
             self.orders.unshift(order);
+            reservedOrders.unshift(order);
             updateSwiper();
             $(window).scrollTop(0);
         };
 
-        self.removeOrder = function(order) {
+        self.removeOrder = function (order) {
 
             arguments[3]();
             var succeed = arguments[4];
 
             var id = order._id();
             self.orders.remove(order);
-
 
             if (id == '') {
                 succeed();
@@ -400,7 +402,9 @@ define(['common'], function(util) {
             }
 
             $.ajax('./order/' + id, {
-                success: function(data, status) {
+                success: function (data, status) {
+
+                    needRefresh = true;
 
                     succeed();
 
@@ -414,47 +418,73 @@ define(['common'], function(util) {
 
         };
 
-        var orders = null;
-        self.searchOrders = function(data, event) {
+        self.refreshOrders = function () {
 
-            var keywords = $(event.target).val();
-            if (orders == null) {
-                orders = self.orders();
-            }
+            if (needRefresh) {
 
-            if (keywords == '') {
+                return new Promise((resolve, reject) => {
+                    $.getJSON('./receivedOrdersJson', function (updatedOrders, status) {
 
-                sortOrders(orders);
+                        needRefresh = false;
 
-                var searchedOrders = orders;
+                        let updatedObservableOrders = init(updatedOrders);
+
+                        resolve(updatedObservableOrders);
+
+                    });
+                });
 
             } else {
-                var searchedOrders = orders.filter(function(order) {
 
-                    return order.client().indexOf(keywords) >= 0;
-                });
+                return Promise.resolve(reservedOrders ? reservedOrders : self.orders());
             }
-            self.orders(searchedOrders);
-            updateSwiper();
+
+
+        }
+
+
+
+
+
+        self.searchOrders = function (data, event) {
+
+            var keywords = $('#search-receivedOrders').val();// $(event.target).val();
+
+            self.refreshOrders().then((orders) => {
+
+                reservedOrders = orders;
+
+                var searchedOrders = reservedOrders;
+                if (keywords != '') {
+                    searchedOrders = reservedOrders.filter(function (order) {
+
+                        return order.client().indexOf(keywords) >= 0;
+                    });
+                }
+                sortOrders(searchedOrders);
+                self.orders(searchedOrders);
+                updateSwiper();
+            });
+
         };
 
         function updateSwiper() {
-            setTimeout(function() {
+            setTimeout(function () {
                 swiper.update();
             }, 100);
         }
-        self.afterRender = function() {
+        self.afterRender = function () {
             updateSwiper();
             $('.mask').removeClass('isShow');
 
 
         }
 
-        self.afterOrderRender = function() {
+        self.afterOrderRender = function () {
 
             if ($('#receivedOrdersBody').children().length === self.orders().length) {
 
-              // $('.livesearch--product').dropdown({itemType:'product'});
+                // $('.livesearch--product').dropdown({itemType:'product'});
 
                 updateSwiper();
             }

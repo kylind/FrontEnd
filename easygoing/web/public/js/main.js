@@ -1,4 +1,4 @@
-define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList', "ClientsModel", 'ProductsModel'], function(util, OrdersModel) {
+define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList', "ClientsModel", 'ProductsModel'], function (util, OrdersModel) {
 
     return run;
 
@@ -114,20 +114,22 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             if (id == 'receivedOrders') {
 
-                $.getJSON('./receivedOrdersJson', function(orders, status) {
+                $.getJSON('./receivedOrdersJson', function (orders, status) {
                     ordersModel.setOrders(orders, true);
                 });
             }
 
             if (id == 'reckoningOrders') {
 
-                $.getJSON('./reckoningOrdersJson', function(orders, status) {
+                //   $.getJSON('./reckoningOrdersJson', function (orders, status) {
 
-                    var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
 
-                    reckoningOrdersModel.orders(observableOrders);
+                reckoningOrdersModel.setOrders();
 
-                })
+
+
+
+                //  })
 
             }
 
@@ -139,16 +141,16 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
 
             if (id == 'incomeList' || id == 'reckoningOrders') {
-                $.getJSON('./receivedOrdersJson', function(orders, status) {
-                    ordersModel.setOrders(orders, true);
+                // $.getJSON('./receivedOrdersJson', function(orders, status) {
+                ordersModel.setOrders(orders, true);
 
-                });
+                //});
 
             }
 
             if (id == 'receivedOrders' || id == 'reckoningOrders') {
 
-                $.getJSON('./purchaseItemsJson', function(rs, status) {
+                $.getJSON('./purchaseItemsJson', function (rs, status) {
                     itemsModel.setItems(rs.items, true, true);
 
                 });
@@ -158,26 +160,26 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             if (id == 'receivedOrders' || id == 'incomeList') {
 
-                $.getJSON('./reckoningOrdersJson', function(orders, status) {
-
-                    var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
-                    reckoningOrdersModel.orders(observableOrders);
+                // $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
 
-                })
+                reckoningOrdersModel.setOrders();
+
+
+                //})
 
             }
 
             if (id == 'reckoningOrders') {
 
-                $.getJSON('./incomeListJson', function(incomeList, status) {
+                $.getJSON('./incomeListJson', function (incomeList, status) {
                     incomeListModel.setIncomeList(incomeList);
                 })
 
             }
             if (id == 'reckoningOrders') {
 
-                $.getJSON('./clientsJson', function(clients, status) {
+                $.getJSON('./clientsJson', function (clients, status) {
 
                     clientsModel.setClients(clients);
 
@@ -194,7 +196,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             simulateTouch: false,
             shortSwipes: false,
             longSwipes: false,
-            paginationBulletRender: function(index, className) {
+            paginationBulletRender: function (index, className) {
 
 
                 var bulletName = '';
@@ -252,9 +254,9 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
         ko.applyBindings(ordersModel, $('#receivedOrders')[0]);
 
         function getUserSetting() {
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
 
-                $.getJSON(`./user/${USER_ID}`, function(rs, status) {
+                $.getJSON(`./user/${USER_ID}`, function (rs, status) {
                     resolve(rs);
 
                 });
@@ -263,19 +265,19 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         var userPromise = getUserSetting();
 
-        userPromise.catch(function(reason) {
+        userPromise.catch(function (reason) {
 
         });
 
 
-        require(['common', 'ItemsModel', 'ReckoningOrders', 'IncomeList', 'ClientsModel', 'ProductsModel'], function(util, ItemsModel, OrdersModel, IncomeListModel, ClientsModel, ProductsModel) {
+        require(['common', 'ItemsModel', 'ReckoningOrders', 'IncomeList', 'ClientsModel', 'ProductsModel'], function (util, ItemsModel, OrdersModel, IncomeListModel, ClientsModel, ProductsModel) {
 
             var $ = util.$;
             var ko = util.ko;
 
-            var purchasePromise = new Promise(function(resolve, reject) {
+            var purchasePromise = new Promise(function (resolve, reject) {
 
-                $.getJSON('./purchaseItemsJson', function(rs, status) {
+                $.getJSON('./purchaseItemsJson', function (rs, status) {
 
                     itemsModel = new ItemsModel(rs.items, swiper);
 
@@ -304,7 +306,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                         if (oldTag == newTag) return;
 
                         if (Array.isArray(itemsModel.allItems) && itemsModel.allItems.length > 0) {
-                            var item = itemsModel.allItems.find(function(item) {
+                            var item = itemsModel.allItems.find(function (item) {
                                 return item._id == itemName;
                             });
 
@@ -314,7 +316,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                                 var tags = [];
 
-                                itemsModel.allItems.forEach(function(item) {
+                                itemsModel.allItems.forEach(function (item) {
 
                                     if (tags.indexOf(item.tag) < 0 && item.tag) {
                                         tags.push(item.tag);
@@ -328,17 +330,17 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                         }
 
                         $.post('./itemtag', {
-                                itemName: itemName,
-                                oldTag: oldTag,
-                                newTag: newTag
+                            itemName: itemName,
+                            oldTag: oldTag,
+                            newTag: newTag
 
-                            }, function(res, status) {
+                        }, function (res, status) {
 
-                                //updateAllData();
-                                setViewModelStatus(swiper.activeIndex);
+                            //updateAllData();
+                            setViewModelStatus(swiper.activeIndex);
 
 
-                            },
+                        },
                             'json'
                         );
 
@@ -356,7 +358,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             if (access.products) {
 
-                productPromise = new Promise(function(resolve, reject) {
+                productPromise = new Promise(function (resolve, reject) {
                     $.getJSON('./productsJson', (products, status) => {
 
                         resolve(products);
@@ -367,7 +369,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 });
             }
 
-            var reckoningPromise = new Promise(function(resolve, reject) {
+            var reckoningPromise = new Promise(function (resolve, reject) {
 
                 function applyReckoningBindings(orders) {
                     reckoningOrdersModel = new OrdersModel(orders, swiper);
@@ -376,7 +378,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                 }
 
-                $.getJSON('./reckoningOrdersJson', function(orders, status) {
+                $.getJSON('./reckoningOrdersJson', function (orders, status) {
 
                     if (access.products) {
 
@@ -399,14 +401,14 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             });
 
-            $.getJSON('./incomeListJson', function(incomeList, status) {
+            $.getJSON('./incomeListJson', function (incomeList, status) {
                 incomeListModel = new IncomeListModel(incomeList, swiper);
                 ko.applyBindings(incomeListModel, $('#incomeList')[0]);
 
             });
 
             if (access.clients) {
-                $.getJSON('./clientsJson', function(clients, status) {
+                $.getJSON('./clientsJson', function (clients, status) {
 
                     clientsModel = new ClientsModel(clients, swiper);
                     ko.applyBindings(clientsModel, $('#clients')[0]);
@@ -415,7 +417,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             }
 
-            var productNamePromise = new Promise(function(resolve, reject) {
+            var productNamePromise = new Promise(function (resolve, reject) {
                 $.getJSON('./allProductsDropdownJson', (products, status) => {
                     resolve(products);
                 });
@@ -432,7 +434,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
             })
 
-            var clientNamePromise = new Promise(function(resolve, reject) {
+            var clientNamePromise = new Promise(function (resolve, reject) {
                 $.getJSON('./allClientNamesJson', (clientNames, status) => {
                     resolve(clientNames);
                 });
@@ -442,7 +444,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 $.fn.dropdown.settings.clients = clientNames;
             });
 
-            $('.swiper-wrapper').on('keydown', function(event) {
+            $('.swiper-wrapper').on('keydown', function (event) {
 
                 if (event.keyCode == 13) {
 
@@ -452,7 +454,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                     if ($target.length > 0) {
                         $(document.activeElement).blur();
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $target.trigger('click')
                         }, 100);
                     }
@@ -463,7 +465,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
             });
 
 
-            swiper.params.onSlideChangeStart = function(swiper) {
+            swiper.params.onSlideChangeStart = function (swiper) {
 
 
                 var id = $('.swiper-slide')[swiper.activeIndex].id;
@@ -473,19 +475,19 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                         if (viewModelStatus['receivedOrders']) {
 
-                            $.getJSON('./receivedOrdersJson', function(orders, status) {
+                            //  $.getJSON('./receivedOrdersJson', function(orders, status) {
 
-                                ordersModel.setOrders(orders, true);
-                                viewModelStatus['receivedOrders'] = false;
+                            ordersModel.setOrders(orders, true);
+                            viewModelStatus['receivedOrders'] = false;
 
-                            });
+                            // });
                         }
 
                         break;
 
                     case 'purchaseItems':
                         if (viewModelStatus['purchaseItems']) {
-                            $.getJSON('./purchaseItemsJson', function(rs, status) {
+                            $.getJSON('./purchaseItemsJson', function (rs, status) {
                                 itemsModel.setItems(rs.items, true, true);
                                 viewModelStatus['purchaseItems'] = false;
 
@@ -496,33 +498,37 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                     case 'reckoningOrders':
                         if (viewModelStatus['reckoningOrders']) {
 
-                            $.getJSON('./reckoningOrdersJson', function(orders, status) {
+                            //   $.getJSON('./reckoningOrdersJson', function(orders, status) {
 
 
-                                if (access.products) {
+                            if (access.products) {
 
-                                    userPromise.then(function(user) {
+                                userPromise.then(function (user) {
 
-                                        let ordersWithPrice = applyProductPrice(productsModel.products, orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
-                                        var observableOrders = reckoningOrdersModel.getObservableOrders(ordersWithPrice);
-                                        reckoningOrdersModel.orders(observableOrders);
-                                    })
+                                    reckoningOrdersModel.setOrders(function (ordersWithoutPrice) {
 
-                                } else {
-                                    var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
-                                    reckoningOrdersModel.orders(observableOrders);
-                                }
+                                        return applyProductPrice(productsModel.products, ordersWithoutPrice, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
+                                       // reckoningOrdersModel.orders(ordersWithPrice);
 
-                                viewModelStatus['reckoningOrders'] = false;
+                                    });
 
-                            })
+                                });
+
+                            } else {
+                                var observableOrders = reckoningOrdersModel.getObservableOrders(orders);
+                                reckoningOrdersModel.orders(observableOrders);
+                            }
+
+                            viewModelStatus['reckoningOrders'] = false;
+
+                            //  })
                         }
 
                         break;
 
                     case 'incomeList':
                         if (viewModelStatus['incomeList']) {
-                            $.getJSON('./incomeListJson', function(incomeList, status) {
+                            $.getJSON('./incomeListJson', function (incomeList, status) {
                                 incomeListModel.setIncomeList(incomeList);
                                 viewModelStatus['incomeList'] = false;
 
@@ -531,7 +537,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                         break;
                     case 'clients':
                         if (viewModelStatus['clients']) {
-                            $.getJSON('./clientsJson', function(clients, status) {
+                            $.getJSON('./clientsJson', function (clients, status) {
 
                                 clientsModel.setClients(clients);
 
@@ -542,7 +548,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                         break;
                     case 'products':
                         if (viewModelStatus['products']) {
-                            $.getJSON('./productsJson', function(products, status) {
+                            $.getJSON('./productsJson', function (products, status) {
 
                                 productsModel.setProducts(products);
 
@@ -553,7 +559,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                         break;
                 }
 
-                setTimeout(function() {
+                setTimeout(function () {
                     swiper.update();
                     $(window).scrollTop(0);
                 }, 100);
@@ -562,7 +568,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         });
 
-        require(['angularApp'], function(angularApp) {
+        require(['angularApp'], function (angularApp) {
 
             var angular = angularApp();
 
@@ -575,12 +581,12 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 scrolling: false,
                 close: '',
                 top: 0,
-                onComplete: function() {
-                    setInterval(function() {
+                onComplete: function () {
+                    setInterval(function () {
                         $.colorbox.resize();
                     }, 200)
                 },
-                onClosed: function() {
+                onClosed: function () {
 
                     userPromise = getUserSetting();
 
@@ -588,20 +594,26 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
                     if (id == 'reckoningOrders' && access.products) {
 
-                        userPromise.then(function(user) {
+                        userPromise.then(function (user) {
 
                             $.fn.dropdown.settings.buyComputing = user.buyComputing;
                             $.fn.dropdown.settings.sellComputing = user.sellComputing;
 
-                            var ordersWithPrice = applyProductPrice(productsModel.products, reckoningOrdersModel.orders, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
-                            var observableOrders = reckoningOrdersModel.getObservableOrders(ordersWithPrice);
-                            reckoningOrdersModel.orders(observableOrders);
+
+                            reckoningOrdersModel.setOrders(function (ordersWithoutPrice) {
+
+                                return applyProductPrice(productsModel.products, ordersWithoutPrice, { buyComputing: user.buyComputing, sellComputing: user.sellComputing });
+                              //  reckoningOrdersModel.orders(ordersWithPrice);
+
+                            });
+
+
 
                         })
 
                     }
 
-                    userPromise.then(function(user) {
+                    userPromise.then(function (user) {
 
                         $.fn.tag.setTags(user.tags);
                     })
@@ -609,7 +621,7 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
                 }
             });
 
-            $(window).scroll(function() {
+            $(window).scroll(function () {
                 var top = $(window).scrollTop();
                 $(".searchbox").css("top", top);
 
@@ -617,24 +629,24 @@ define(['common', 'ReceivedOrders', 'ItemsModel', 'ReckoningOrders', 'IncomeList
 
         })
 
-        $('.icon-signout').bind('click', function() {
+        $('.icon-signout').bind('click', function () {
 
             $('.mask').addClass('isLoginShow');
-            $.get('./logout', function(res, status) {
-                    if (res.success) {
+            $.get('./logout', function (res, status) {
+                if (res.success) {
 
-                        swiper.destroy(true, true);
+                    swiper.destroy(true, true);
 
-                        $.get('./content', function(rs, status) {
+                    $.get('./content', function (rs, status) {
 
-                            setTimeout(function() {
-                                $('#container').html(rs);
-                                $('.mask').removeClass('isLoginShow');
-                            }, 1000);
+                        setTimeout(function () {
+                            $('#container').html(rs);
+                            $('.mask').removeClass('isLoginShow');
+                        }, 1000);
 
-                        }, 'html');
-                    }
-                },
+                    }, 'html');
+                }
+            },
                 'json'
             );
 
