@@ -1,0 +1,1276 @@
+{
+	"_id" : ObjectId("597a66c1e79eb85121275531"),
+	"client" : "龚娟娟",
+	"createDate" : ISODate("2017-07-28T06:18:41.532+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "近视眼镜+爷爷老花镜",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "卡西欧小红表",
+			"quantity" : 1,
+			"note" : "专柜货",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "官燕盏皂米+桃胶",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "楼上玫瑰花+胎菊",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "德国速愈素",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生快乐蛋鸡宝宝",
+			"quantity" : 2,
+			"note" : "粉色98",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳环钻石80",
+			"quantity" : 1,
+			"note" : "戴出一串的感觉",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳环一见倾心",
+			"quantity" : 1,
+			"note" : "95",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳环不对称翅膀",
+			"quantity" : 1,
+			"note" : "103",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生手镯磨砂开口心经",
+			"quantity" : 1,
+			"note" : "295",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "1ISREADY",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a695050e1a3507d129e72"),
+	"client" : "吕银婷",
+	"createDate" : ISODate("2017-07-28T06:29:36.185+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "正生耳环三合一",
+			"quantity" : 1,
+			"note" : "现原90",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "1ISREADY",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "1RECEIVED"
+},
+{
+	"_id" : ObjectId("597a6ad53547985137ba4717"),
+	"client" : "李玲",
+	"createDate" : ISODate("2017-07-28T06:36:05.881+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "蕉下洛荷",
+			"quantity" : 1,
+			"note" : "蓝色伞面",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳线珍珠72",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "后whoo拱辰享小样套装",
+			"quantity" : 1,
+			"note" : "158",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "1ISREADY",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "1RECEIVED"
+},
+{
+	"_id" : ObjectId("597a6b1863713052ed72a34d"),
+	"client" : "邓爱红",
+	"createDate" : ISODate("2017-07-28T06:37:12.228+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "正生手镯百福推拉275",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生手镯磨砂转运珠119",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a6bce3547985137ba4718"),
+	"client" : "张琳琪",
+	"createDate" : ISODate("2017-07-28T06:40:13.913+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "正生项链快乐蛋鸡宝宝",
+			"quantity" : 1,
+			"note" : "1花1草",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生潘多拉万字链紫色",
+			"quantity" : 1,
+			"note" : "113 16寸 寄中山",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生潘多拉万字链粉色",
+			"quantity" : 1,
+			"note" : "113 16寸",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a6c4363713052ed72a34e"),
+	"client" : "田雪",
+	"createDate" : ISODate("2017-07-28T06:42:11.203+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "日本洗菜粉",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "美国空气净化剂",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "楼上古田雪耳",
+			"quantity" : 2,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a6d5d3547985137ba4719"),
+	"client" : "王亚琨",
+	"createDate" : ISODate("2017-07-28T06:46:53.387+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "兰芝经典睡眠面膜",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "femfresh女性私处护理液",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "楼上古田雪耳",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "碧柔防晒霜",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生潘多拉海洋之星",
+			"quantity" : 1,
+			"note" : "粉色手链248手腕15cm",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a6db75e67d05330d9781f"),
+	"client" : "傲娇小仙女",
+	"createDate" : ISODate("2017-07-28T06:48:23.169+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "卡西欧小红表",
+			"quantity" : 1,
+			"note" : "专柜货",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "阿迪椰子鞋",
+			"quantity" : 1,
+			"note" : "37码（特价）",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "早安面膜清爽型",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "早安面膜保湿型",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "晚安面膜",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "1ISREADY",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "1RECEIVED"
+},
+{
+	"_id" : ObjectId("597a6eb95e67d05330d97820"),
+	"client" : "郑雪",
+	"createDate" : ISODate("2017-07-28T06:52:41.313+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "六福珠宝镂空爱心吊坠",
+			"quantity" : 1,
+			"note" : "金色400",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生项链天鹅97",
+			"quantity" : 1,
+			"note" : "16寸",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳环一见倾心",
+			"quantity" : 1,
+			"note" : "70",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a6f053547985137ba471a"),
+	"client" : "郭亚楠",
+	"createDate" : ISODate("2017-07-28T06:53:57.219+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "快乐蛋鸡宝宝",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "楼上古田雪耳",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生项链黑珍珠16寸",
+			"quantity" : 2,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a6f41064d1d52fae9825d"),
+	"client" : "杨华",
+	"createDate" : ISODate("2017-07-28T06:54:57.182+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "德国爱他美1+奶粉",
+			"quantity" : 6,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "安耐晒敏感肌肤防晒霜",
+			"quantity" : 1,
+			"note" : "浅金瓶90ml",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "1ISREADY",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "1RECEIVED"
+},
+{
+	"_id" : ObjectId("597a6f6063713052ed72a350"),
+	"client" : "龚婷婷",
+	"createDate" : ISODate("2017-07-28T06:55:28.208+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "vape驱蚊水",
+			"quantity" : 1,
+			"note" : "粉色老家有",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a6fa05e67d05330d97821"),
+	"client" : "李慧",
+	"createDate" : ISODate("2017-07-28T06:56:32.723+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "正生潘多拉万字链蓝色",
+			"quantity" : 1,
+			"note" : "113 16寸",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生潘多拉海洋之星",
+			"quantity" : 1,
+			"note" : "蓝色手镯190",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a7024064d1d52fae9825e"),
+	"client" : "廖秀娟",
+	"createDate" : ISODate("2017-07-28T06:58:44.580+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "楼上古田雪耳",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生手镯磨砂转运珠119",
+			"quantity" : 2,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "swisse泡腾片",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a707d3547985137ba471c"),
+	"client" : "廖琴",
+	"createDate" : ISODate("2017-07-28T07:00:13.605+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "黄春雨面膜",
+			"quantity" : 2,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "日本薏仁水500ml",
+			"quantity" : 1,
+			"note" : "先询价",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a70e0064d1d52fae9825f"),
+	"client" : "龚钰星",
+	"createDate" : ISODate("2017-07-28T07:01:52.056+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "正生妈妈佩戴粗一点的项链",
+			"quantity" : 1,
+			"note" : "链子18寸，只要链子",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生生肖狗",
+			"quantity" : 1,
+			"note" : "粉色90",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳钉范爷冰花",
+			"quantity" : 1,
+			"note" : "现原80",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a710663713052ed72a351"),
+	"client" : "刘沙沙",
+	"createDate" : ISODate("2017-07-28T07:02:30.080+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "正生小耳钉",
+			"quantity" : 2,
+			"note" : "大一点、小一点各1对",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597a71175e67d05330d97822"),
+	"client" : "龚小梅",
+	"createDate" : ISODate("2017-07-28T07:02:47.698+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "正生项链水滴珍珠",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597b0f025e20275b65af3aea"),
+	"client" : "陈思娴",
+	"createDate" : ISODate("2017-07-28T18:16:34.139+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "水宝宝防晒喷雾",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "femfresh女性私处护理液",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳钉刘涛同款气质",
+			"quantity" : 1,
+			"note" : "70",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597b0ff9a1db425ac43ce1ec"),
+	"client" : "刘苏",
+	"createDate" : ISODate("2017-07-28T18:20:41.115+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "日本出走包红白蓝",
+			"quantity" : 1,
+			"note" : "大号",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "蕉下琉璃",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "Bioisland孕妇DHA",
+			"quantity" : 2,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "日本出走包黑色",
+			"quantity" : 1,
+			"note" : "大号",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "1ISREADY",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "1RECEIVED"
+},
+{
+	"_id" : ObjectId("597b105d0104ae5bfe4885de"),
+	"client" : "唐婷",
+	"createDate" : ISODate("2017-07-28T18:22:21.556+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "关注男士长款钱包",
+			"quantity" : 1,
+			"note" : "1千内",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "1ISREADY",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "1RECEIVED"
+},
+{
+	"_id" : ObjectId("597b11265e20275b65af3aec"),
+	"client" : "代凌飞",
+	"createDate" : ISODate("2017-07-28T18:25:42.038+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "美源染发剂",
+			"quantity" : 2,
+			"note" : "天然黑色",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597b11513eac935b77a29078"),
+	"client" : "刘佳",
+	"createDate" : ISODate("2017-07-28T18:26:25.038+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "vape驱蚊水",
+			"quantity" : 1,
+			"note" : "绿色",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597b16430104ae5bfe4885e1"),
+	"client" : "玲利",
+	"createDate" : ISODate("2017-07-28T18:47:31.033+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "sw高浓度蔓越莓",
+			"quantity" : 1,
+			"note" : "30粒",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "bm月见草190粒",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597b195bc0d6965c9f17e56e"),
+	"client" : "吕浩波",
+	"createDate" : ISODate("2017-07-28T19:00:43.736+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "正生项链快乐蛋宝宝",
+			"quantity" : 1,
+			"note" : "98 草一个",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳环一见倾心",
+			"quantity" : 1,
+			"note" : "95",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生项链五星珍珠",
+			"quantity" : 1,
+			"note" : "87",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生潘多拉手链",
+			"quantity" : 1,
+			"note" : "98蛇口链带小粉晶",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳环蝴蝶结珍珠",
+			"quantity" : 2,
+			"note" : "89",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳针三花",
+			"quantity" : 1,
+			"note" : "95",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳钉八心八箭海星",
+			"quantity" : 1,
+			"note" : "78",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳环冰花",
+			"quantity" : 1,
+			"note" : "带钻88",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳环冰花",
+			"quantity" : 1,
+			"note" : "现95原85",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597b19ec93385e5d5c5d0c6b"),
+	"client" : "龚兰兰",
+	"createDate" : ISODate("2017-07-28T19:03:08.404+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "正生项链镂空心形",
+			"quantity" : 1,
+			"note" : "86",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生耳线波浪",
+			"quantity" : 1,
+			"note" : "78",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生项链龙猫",
+			"quantity" : 2,
+			"note" : "现103原90",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生生肖牛",
+			"quantity" : 1,
+			"note" : "粉色90",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "正生生肖兔",
+			"quantity" : 1,
+			"note" : "粉色90",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597bbac3885e016236a939fb"),
+	"client" : "李珺",
+	"createDate" : ISODate("2017-07-29T06:29:23.691+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "蕉下琉璃",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597bf7dad1ebc6630fd05a10"),
+	"client" : "张洪",
+	"createDate" : ISODate("2017-07-29T10:50:02.019+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "黄春雨面膜",
+			"quantity" : 2,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "白春雨面膜",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : true,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597d52e381ee22720647c0e0"),
+	"client" : "范平平",
+	"createDate" : ISODate("2017-07-30T11:30:42.911+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "粉晶手链140",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		},
+		{
+			"name" : "化妆棉",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597d52e381ee22720647c0e1"),
+	"client" : "wan",
+	"createDate" : ISODate("2017-07-30T11:30:42.911+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "男士特价鞋40码",
+			"quantity" : 1,
+			"note" : "299+20",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597d53038dffab72e19a9f3b"),
+	"client" : "张海霞",
+	"createDate" : ISODate("2017-07-30T11:31:14.969+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "正生脚链铜钱",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "3PACKED",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "3DONE"
+},
+{
+	"_id" : ObjectId("597d538381ee22720647c0e2"),
+	"client" : "李青",
+	"createDate" : ISODate("2017-07-30T11:33:23.609+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "关注coach包1千内",
+			"quantity" : 1,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "1ISREADY",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "1RECEIVED"
+},
+{
+	"_id" : ObjectId("597d53db81ee22720647c0e3"),
+	"client" : "娟子",
+	"createDate" : ISODate("2017-07-30T11:34:51.656+08:00"),
+	"isComplete" : false,
+	"items" : [
+		{
+			"name" : "兰蔻摇摇乐374号",
+			"quantity" : 3,
+			"note" : "",
+			"buyPrice" : null,
+			"sellPrice" : null,
+			"isDone" : false,
+			"tag" : "",
+			"profit" : "?"
+		}
+	],
+	"packingStatus" : "1ISREADY",
+	"postage" : "0",
+	"rate" : 0.9,
+	"status" : "1RECEIVED"
+},

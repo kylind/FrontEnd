@@ -278,7 +278,7 @@ define(['common'], function (util) {
 
         self.addItem = function () {
 
-            self.items.unshift(new Item());
+            self.items.push(new Item());
             swiper.update();
         };
 

@@ -61,7 +61,20 @@ define(['common'], function (util) {
         self.sellPrice = order && order.sellPrice ? order.sellPrice : '';
         self.profit = order && order.profit ? order.profit : '';
         self.status = order && order.status ? order.status : '1RECEIVED';
-        self.createDate = order && order.createDate ? order.createDate : '';
+      // self.createDate = order && order.createDate ? order.createDate : '';
+
+
+        self.createDate = ko.observable(order && order.createDate ? order.createDate : '');
+        self.displayDate = ko.observable(order && order.displayDate ? order.displayDate : '');
+
+        var dateFormatting = {
+            month: "2-digit",
+            day: "numeric",
+            weekday: "short"
+        };
+
+
+      //  self.displayDate = self.createDate ? new Date(self.createDate).toLocaleDateString("en-US", dateFormatting) : '';
 
         self.isLiveSearch = false;
 
@@ -77,14 +90,6 @@ define(['common'], function (util) {
 
         }
 
-        var dateFormatting = {
-            month: "2-digit",
-            day: "numeric",
-            weekday: "short"
-        };
-
-
-        self.displayDate = self.createDate ? new Date(self.createDate).toLocaleDateString("en-US", dateFormatting) : '';
 
         var observableItems = [];
 
@@ -113,7 +118,7 @@ define(['common'], function (util) {
 
         self.addItem = function () {
 
-            self.items.unshift(new Item());
+            self.items.push(new Item());
             swiper.update();
         };
 
@@ -182,7 +187,7 @@ define(['common'], function (util) {
 
                 if (aStatus == bStatus) {
 
-                    return orderA.createDate <= orderB.createDate ? 1 : -1;
+                    return orderA.createDate() <= orderB.createDate() ? 1 : -1;
 
                 } else {
                     return aStatus < bStatus ? -1 : 1;
@@ -382,7 +387,7 @@ define(['common'], function (util) {
             var order = new OrderModel(null, swiper);
 
             self.orders.unshift(order);
-            reservedOrders.unshift(order);
+
             updateSwiper();
             $(window).scrollTop(0);
         };
@@ -443,9 +448,6 @@ define(['common'], function (util) {
         }
 
 
-
-
-
         self.searchOrders = function (data, event) {
 
             var keywords = $('#search-receivedOrders').val();// $(event.target).val();
@@ -483,8 +485,6 @@ define(['common'], function (util) {
         self.afterOrderRender = function () {
 
             if ($('#receivedOrdersBody').children().length === self.orders().length) {
-
-                // $('.livesearch--product').dropdown({itemType:'product'});
 
                 updateSwiper();
             }

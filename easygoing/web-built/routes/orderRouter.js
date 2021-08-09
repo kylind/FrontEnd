@@ -34,7 +34,7 @@ const EMPTY_ORDER = {
 
 //var orderOperation;
 
-function getOrderCollection(req){
+function getOrderCollection(req) {
 
     return new Collection(req.user.collection, req.user.productCollection);
 
@@ -42,7 +42,7 @@ function getOrderCollection(req){
 
 router = new Router();
 
-router.use(function*(next) {
+router.use(function* (next) {
 
     if (this.isAuthenticated()) {
         //orderOperation = new Collection(this.req.user.collection);
@@ -54,7 +54,7 @@ router.use(function*(next) {
 
 })
 
-router.get('/order/:id', function*() {
+router.get('/order/:id', function* () {
     var res = null;
 
     let orderOperation = getOrderCollection(this.req);
@@ -84,13 +84,13 @@ router.get('/order/:id', function*() {
 
 
 
-router.post('/order', function*() {
+router.post('/order', function* () {
 
     var order = this.request.body;
 
     let rate = (+this.req.user.rate) || 0.9;
 
-    util.processOrder(order,rate);
+    util.processOrder(order, rate);
 
     let orderOperation = getOrderCollection(this.req);
 
@@ -103,13 +103,13 @@ router.post('/order', function*() {
 
 });
 
-router.post('/orders', function*() {
+router.post('/orders', function* () {
 
     var req = this.request.body;
 
     var orders = req.orders;
 
-    if(typeof orders =='object'){
+    if (typeof orders == 'object') {
 
         orders = Object.values(orders);
 
@@ -120,14 +120,14 @@ router.post('/orders', function*() {
         let rate = (+this.req.user.rate) || 0.9;
         for (var i = 0; i < orders.length; i++) {
 
-            util.processOrder(orders[i],rate);
+            util.processOrder(orders[i], rate);
         }
 
         let orderOperation = getOrderCollection(this.req);
 
         yield orderOperation.save(orders);
 
-        orders.forEach(function(order) {
+        orders.forEach(function (order) {
 
             order.displayDate = order.createDate ? order.createDate.toLocaleDateString("en-US", dateFormatting) : '';
         })
@@ -142,7 +142,7 @@ router.post('/orders', function*() {
 
 
 
-router.put('/orderStatus/:id', function*() {
+router.put('/orderStatus/:id', function* () {
 
     var orderStatus = this.request.body;
     var res;
@@ -156,7 +156,7 @@ router.put('/orderStatus/:id', function*() {
 
 });
 
-router.put('/packingStatus/:id', function*() {
+router.put('/packingStatus/:id', function* () {
 
     var packingStatus = this.request.body;
     var res;
@@ -170,7 +170,7 @@ router.put('/packingStatus/:id', function*() {
 
 });
 
-router.delete('/order/:id', function*() {
+router.delete('/order/:id', function* () {
     var id = this.params.id;
 
     let orderOperation = getOrderCollection(this.req);
@@ -182,7 +182,7 @@ router.delete('/order/:id', function*() {
 });
 
 
-router.get('/index', function*() {
+router.get('/index', function* () {
 
     var model = {
         name: 'index',
@@ -190,28 +190,25 @@ router.get('/index', function*() {
         header: 'specific',
         footer: 'login',
         _id: '',
-        user:null,
-        orders:[],
-        needMask:false
+        user: null,
+        orders: [],
+        needMask: false
     }
 
     if (this.isAuthenticated()) {
         model.user = this.req.user;
         model._id = this.req.user._id;
-        model.footer='common';
+        model.footer = 'common';
 
-        let orderOperation = getOrderCollection(this.req);
-
-        var res = yield orderOperation.queryReceivedOrders();
-        model.orders = res && res.length > 0 ? res : [];
-        model.needMask=true;
+        model.orders = yield getReceivedOrders(this.req)
+        model.needMask = true;
     }
     yield this.render('index', model);
 });
 
 
 
-router.get('/content', function*() {
+router.get('/content', function* () {
 
     var model = {
         name: 'login',
@@ -219,24 +216,22 @@ router.get('/content', function*() {
         header: 'specific',
         footer: '',
         _id: '',
-        user:null,
-        orders:[],
-        layout:'bare'
+        user: null,
+        orders: [],
+        layout: 'bare'
     }
 
     if (this.isAuthenticated()) {
-        model.name='content';
+        model.name = 'content';
         model.user = this.req.user;
         model._id = this.req.user._id;
 
-        let orderOperation = getOrderCollection(this.req);
 
-        var res = yield orderOperation.queryReceivedOrders();
-        model.orders = res && res.length > 0 ? res : [];
+        model.orders = yield getReceivedOrders(this.req)
 
         yield this.render('content', model);
 
-    }else{
+    } else {
 
         yield this.render('login', model);
 
@@ -244,7 +239,7 @@ router.get('/content', function*() {
 
 });
 
-router.get('/loading', function*() {
+router.get('/loading', function* () {
 
     let orderOperation = getOrderCollection(this.req);
 
@@ -258,20 +253,15 @@ router.get('/loading', function*() {
         name: 'loading',
         header: 'specific',
         footer: '',
-        layout:false
+        layout: false
 
     });
 
 });
 
-router.get('/receivedOrders', function*() {
+router.get('/receivedOrders', function* () {
 
-    let orderOperation = getOrderCollection(this.req);
-
-
-    var res = yield orderOperation.queryReceivedOrders();
-
-    res = res && res.length > 0 ? res : [];
+    var res = yield getReceivedOrders(this.req)
 
     yield this.render('receivedOrders', {
         orders: res,
@@ -283,20 +273,20 @@ router.get('/receivedOrders', function*() {
     });
 
 });
-router.get('/receivedOrdersJson', function*() {
+router.get('/receivedOrdersJson', function* () {
 
-    let orderOperation = getOrderCollection(this.req);
 
-    var res = yield orderOperation.queryReceivedOrders();
 
-    res = res && res.length > 0 ? res : [];
+    var res = yield getReceivedOrders(this.req)
+
+
 
     this.body = res;
     this.status = 200;
 
 });
 
-router.get('/ordersByName', function*() {
+router.get('/ordersByName', function* () {
 
     var req = this.request.query;
 
@@ -306,14 +296,14 @@ router.get('/ordersByName', function*() {
     var res = null;
     let orderOperation = getOrderCollection(this.req);
 
-    res = yield orderOperation.queryGlobalOrders(client,req.status);
+    res = yield orderOperation.queryGlobalOrders(client, req.status);
 
     res = res && res.length > 0 ? res : [];
 
     let rate = (+this.req.user.rate) || 0.9;
 
 
-    res.forEach(function(order) {
+    res.forEach(function (order) {
 
         order.rate = order.rate ? order.rate : rate;
 
@@ -338,7 +328,7 @@ router.get('/ordersByName', function*() {
 });
 
 
-router.get('/reckoningOrders', function*() {
+router.get('/reckoningOrders', function* () {
 
     var res = yield getReckoningOrders(this.req);
 
@@ -352,7 +342,7 @@ router.get('/reckoningOrders', function*() {
     });
 
 });
-router.get('/reckoningOrdersJson', function*() {
+router.get('/reckoningOrdersJson', function* () {
 
     var res = yield getReckoningOrders(this.req);
 
@@ -361,7 +351,7 @@ router.get('/reckoningOrdersJson', function*() {
 
 });
 
-router.get('/incomeList', function*() {
+router.get('/incomeList', function* () {
 
     let orderOperation = getOrderCollection(this.req);
 
@@ -372,7 +362,7 @@ router.get('/incomeList', function*() {
     };
     var total = { income: 0, revenue: 0, cost: 0, year: '', week: '', firstDate: '', lastDate: '' };
     if (Array.isArray(res)) {
-        res.forEach(function(item) {
+        res.forEach(function (item) {
             item.firstDate = item.firstDate ? new Date(item.firstDate).toLocaleDateString("en-US", formatting) : '';
             item.lastDate = item.lastDate ? new Date(item.lastDate).toLocaleDateString("en-US", formatting) : '';
             total.income += item.income;
@@ -392,7 +382,7 @@ router.get('/incomeList', function*() {
     });
 
 });
-router.get('/incomeListJson', function*() {
+router.get('/incomeListJson', function* () {
 
     let orderOperation = getOrderCollection(this.req);
 
@@ -404,7 +394,7 @@ router.get('/incomeListJson', function*() {
 
     var total = { income: 0, revenue: 0, cost: 0, year: '', week: '', firstDate: '', lastDate: '' };
     if (Array.isArray(res)) {
-        res.forEach(function(item) {
+        res.forEach(function (item) {
             item.firstDate = item.firstDate ? new Date(item.firstDate).toLocaleDateString("en-US", formatting) : '';
             item.lastDate = item.lastDate ? new Date(item.lastDate).toLocaleDateString("en-US", formatting) : '';
             total.income += item.income;
@@ -422,6 +412,29 @@ router.get('/incomeListJson', function*() {
 
 });
 
+function* getReceivedOrders(req) {
+    var res = null;
+
+    let rate = (+req.user.rate) || 0.9;
+
+    let orderOperation = getOrderCollection(req);
+
+    var res = yield orderOperation.queryReceivedOrders();
+
+    res = res && res.length > 0 ? res : [];
+
+    res.forEach(function (order) {
+
+        order.rate = order.rate ? order.rate : rate;
+
+        order.displayDate = order.createDate ? new Date(order.createDate).toLocaleDateString("en-US", dateFormatting) : '';
+
+
+    });
+
+    return res;
+}
+
 function* getReckoningOrders(req) {
     var res = null;
 
@@ -431,7 +444,7 @@ function* getReckoningOrders(req) {
 
     let rate = (+req.user.rate) || 0.9;
 
-    res.forEach(function(order) {
+    res.forEach(function (order) {
 
         order.rate = order.rate ? order.rate : rate;
 
@@ -455,7 +468,7 @@ function* getReckoningOrders(req) {
     return res;
 }
 
-router.get('/historictrades', function*() {
+router.get('/historictrades', function* () {
 
     var req = this.request.query;
 
@@ -467,7 +480,7 @@ router.get('/historictrades', function*() {
 
     var options = { year: "2-digit", month: "2-digit", day: "2-digit" };
 
-    res.forEach(function(item) {
+    res.forEach(function (item) {
         item.createDate = new Date(item.createDate).toLocaleDateString("en-US", options);
 
     });

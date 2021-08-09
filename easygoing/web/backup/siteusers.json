@@ -1,0 +1,219 @@
+{
+	"_id" : ObjectId("58692848485c0f1f3059ded9"),
+	"access" : {
+		"receivedOrders" : true,
+		"purchaseItems" : true,
+		"reckoningOrders" : true,
+		"incomeList" : true,
+		"clients" : true,
+		"products" : true
+	},
+	"buyComputing" : false,
+	"clientCollection" : "zhuqin_clients",
+	"collection" : "zhuqin_orders",
+	"name" : "zhuqin",
+	"password" : "08301202Abc",
+	"productCollection" : "zhuqin_products",
+	"rate" : "0.9",
+	"sellComputing" : false,
+	"status" : "ACTIVE",
+	"tags" : [
+		"库存",
+		"东城",
+		"朱朱",
+		"A上水"
+	]
+},
+{
+	"_id" : ObjectId("586b1230e3592f681dd7a691"),
+	"access" : {
+		"receivedOrders" : true,
+		"purchaseItems" : true,
+		"reckoningOrders" : true,
+		"incomeList" : true,
+		"clients" : false,
+		"products" : true
+	},
+	"buyComputing" : true,
+	"clientCollection" : "xiangxiang_clients",
+	"collection" : "xiangxiang_orders",
+	"name" : "xiangxiang",
+	"password" : "hexp841023",
+	"productCollection" : "xiangxiang_products",
+	"rate" : "0.88",
+	"sellComputing" : true,
+	"status" : "INACTIVE",
+	"tags" : [ ]
+},
+{
+	"_id" : ObjectId("586d17a08629111f1c1b7f4a"),
+	"access" : {
+		"receivedOrders" : true,
+		"purchaseItems" : true,
+		"reckoningOrders" : true,
+		"incomeList" : true,
+		"clients" : false,
+		"products" : true
+	},
+	"buyComputing" : true,
+	"clientCollection" : "yangna_clients",
+	"collection" : "yangna_orders",
+	"name" : "yangna",
+	"password" : "nandy820221",
+	"productCollection" : "yangna_products",
+	"rate" : "0.9",
+	"sellComputing" : true,
+	"status" : "INACTIVE",
+	"tags" : [
+		"韩美",
+		"上水",
+		"卓裕",
+		"优美",
+		"龙丰",
+		"美之屋",
+		"DFS"
+	]
+},
+{
+	"_id" : ObjectId("586d17e68629111f1c1b7f4b"),
+	"access" : {
+		"receivedOrders" : true,
+		"purchaseItems" : true,
+		"reckoningOrders" : true,
+		"incomeList" : true,
+		"clients" : false,
+		"products" : true
+	},
+	"buyComputing" : true,
+	"clientCollection" : "liubei_clients",
+	"collection" : "liubei_orders",
+	"name" : "liubei",
+	"password" : "zzh20111225",
+	"productCollection" : "liubei_products",
+	"rate" : "0.9",
+	"sellComputing" : true,
+	"status" : "ACTIVE",
+	"tags" : [
+		"5母婴",
+		"日货店",
+		"4杂货",
+		"1万宁",
+		"3韩妆店",
+		"2欧美日",
+		"1免税店",
+		"香港",
+		"库存"
+	]
+},
+{
+	"_id" : ObjectId("586d18238629111f1c1b7f4c"),
+	"access" : {
+		"receivedOrders" : true,
+		"purchaseItems" : true,
+		"reckoningOrders" : true,
+		"incomeList" : true,
+		"clients" : false,
+		"products" : true
+	},
+	"buyComputing" : true,
+	"clientCollection" : "xumin_clients",
+	"collection" : "xumin_orders",
+	"name" : "xumin",
+	"password" : "123456abc",
+	"productCollection" : "xumin_products",
+	"rate" : "0.85",
+	"sellComputing" : true,
+	"status" : "INACTIVE",
+	"tags" : [ ]
+},
+{
+	"_id" : ObjectId("586d18648629111f1c1b7f4d"),
+	"access" : {
+		"receivedOrders" : true,
+		"purchaseItems" : true,
+		"reckoningOrders" : true,
+		"incomeList" : true,
+		"clients" : false,
+		"products" : true
+	},
+	"buyComputing" : true,
+	"clientCollection" : "lanny_clients",
+	"collection" : "lanny_orders",
+	"name" : "lanny",
+	"password" : "123456abc",
+	"productCollection" : "lanny_products",
+	"rate" : 0.91,
+	"sellComputing" : true,
+	"status" : "INACTIVE",
+	"tags" : [ ]
+},
+{
+	"_id" : ObjectId("58778969b08d9d66c1640b30"),
+	"access" : {
+		"receivedOrders" : true,
+		"purchaseItems" : true,
+		"reckoningOrders" : true,
+		"incomeList" : true,
+		"clients" : false,
+		"products" : true
+	},
+	"buyComputing" : true,
+	"clientCollection" : "Mabing_clients",
+	"collection" : "Mabing_orders",
+	"name" : "Mabing",
+	"password" : "123456abc",
+	"productCollection" : "Mabing_products",
+	"rate" : "0.81",
+	"sellComputing" : false,
+	"status" : "INACTIVE",
+	"tags" : [ ]
+},
+{
+	"_id" : ObjectId("594ddc31d6051b5ac3a637c5"),
+	"access" : {
+		"receivedOrders" : true,
+		"purchaseItems" : true,
+		"reckoningOrders" : true,
+		"incomeList" : true,
+		"clients" : false,
+		"products" : true
+	},
+	"buyComputing" : true,
+	"clientCollection" : "gongjuanjuan_clients",
+	"collection" : "gongjuanjuan_orders",
+	"name" : "gongjuanjuan",
+	"password" : "123qweASD",
+	"productCollection" : "gongjuanjuan_products",
+	"rate" : 0.9,
+	"sellComputing" : true,
+	"status" : "INACTIVE"
+},
+{
+	"_id" : ObjectId("59930e8f499755105076a128"),
+	"access" : {
+		"receivedOrders" : true,
+		"purchaseItems" : true,
+		"reckoningOrders" : true,
+		"incomeList" : true,
+		"clients" : false,
+		"products" : true
+	},
+	"buyComputing" : true,
+	"clientCollection" : "guoguo_clients",
+	"collection" : "guoguo_orders",
+	"name" : "guoguo",
+	"password" : "123456abc",
+	"productCollection" : "guoguo_products",
+	"rate" : "0.9",
+	"sellComputing" : true,
+	"status" : "ACTIVE",
+	"tags" : [ ]
+},
+{
+	"_id" : ObjectId("5a1013caa736934700b800e6"),
+	"collection" : "xiaohongxia_orders",
+	"name" : "xiaohongxia",
+	"password" : "Qq120152426",
+	"rate" : 0.9,
+	"status" : "NEW"
+},
